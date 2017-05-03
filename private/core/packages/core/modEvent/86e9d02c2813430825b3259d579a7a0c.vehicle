@@ -1,0 +1,12 @@
+<?php return array (
+  'preserve_keys' => true,
+  'update_object' => true,
+  'vehicle_package' => 'transport',
+  'vehicle_class' => 'xPDOObjectVehicle',
+  'guid' => '49c0d10a8bd504808f8848cffe8708a8',
+  'package' => 'modx',
+  'class' => 'modEvent',
+  'signature' => '86e9d02c2813430825b3259d579a7a0c',
+  'native_key' => 'OnResourceToolbarLoad',
+  'object' => '{"name":"OnResourceToolbarLoad","service":1,"groupname":"Resources"}',
+);

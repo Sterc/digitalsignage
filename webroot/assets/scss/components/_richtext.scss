@@ -1,0 +1,149 @@
+.richtext {
+
+    ul,
+    ol,
+    li,
+    p,
+    strong,
+    em,
+    i,
+    u,
+    address,
+    blockquote,
+    pre,
+    table td {
+        color: $text-color;
+        font-size: em(14);
+    }
+
+    // Lists
+    ul {
+        display: block;
+        list-style-type: disc;
+        padding-left: 20px;
+    }
+
+    ol {
+        display: block;
+        list-style-type: decimal;
+        padding-left: 20px;
+    }
+
+    // Headings
+    h1 {
+        font-weight: 700;
+        color: $black;
+        font-size: em(30);
+        margin: 0 0 15px;
+    }
+
+    h2 {
+        font-weight: 700;
+        color: $black;
+        font-size: em(26);
+        margin: 0 0 15px;
+    }
+
+    h3 {
+        font-weight: 600;
+        color: $grey;
+        font-size: em(21);
+        margin: 0 0 5px;
+    }
+
+    h4 {
+        font-weight: 600;
+        color: $black;
+        font-size: em(24);
+        margin: 0 0 5px;
+    }
+
+    h5 {
+        font-weight: 600;
+        color: $black;
+        font-size: em(21);
+        margin: 0 0 5px;
+    }
+
+    h6 {
+        font-weight: 400;
+        color: $black;
+        font-size: em(14);
+        margin: 0;
+    }
+
+    // Paragraph and paragraph style
+    p {
+        font-weight: 400;
+        padding: 5px 0;
+    }
+
+    a {
+        color: $customer-color;
+        outline: none;
+
+        &:hover,
+        &:focus {
+            outline: none;
+        }
+
+    }
+
+    strong,
+    b {
+        font-weight: bold;
+    }
+
+    em,
+    i {
+        font-style: italic;
+    }
+
+    u {
+        text-decoration: underline;
+    }
+
+    address {
+        font-weight: 400;
+    }
+
+    // Blockquote
+    blockquote {
+        border-left: 5px solid $black;
+        margin: 40px 0;
+
+        p {
+            color: $text-color;
+            font-size: 20px;
+            font-style: italic;
+            line-height: 28px;
+        }
+
+        p::before {
+            content: '"';
+        }
+
+        p::after {
+            content: '"';
+        }
+
+    }
+
+    // Pre
+    pre {
+        font-family: monospace, monospace;
+    }
+
+    // Table
+    table {
+        width: 100%;
+
+        tr th,
+        tr:not(:last-of-type) td {
+            border-bottom: 1px solid $grey;
+            padding: 5px 0;
+        }
+
+    }
+
+}

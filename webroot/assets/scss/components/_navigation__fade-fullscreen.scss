@@ -1,0 +1,124 @@
+.navigation__fade-fullscreen .nav-toggle {
+    position: relative;
+    z-index: 1001;
+
+    .menu-toggle {
+        background-color: transparent;
+    }
+
+}
+
+.navigation__fade-fullscreen .menu-toggle {
+    display: none;
+    cursor: pointer;
+    float: left;
+    padding: 6px 7px 0;
+    margin: 0;
+    height: 50px;
+    width: 50px;
+    background-color: $white;
+
+    @include breakpoint(mobile) {
+        display: inline-block;
+    }
+
+    @include breakpoint(ptablet) {
+        display: inline-block;
+    }
+
+    .one,
+    .two,
+    .three {
+        @include transition(opacity .3s, transform .3s);
+        width: 30px;
+        height: 4px;
+        background: $customer-color;
+        margin: 6px auto;
+        backface-visibility: hidden;
+        border-radius: 5px;
+    }
+
+    .four {
+        display: none;
+    }
+
+}
+
+.navigation__fade-fullscreen.on .nav-toggle {
+
+    .one {
+        @include transform(rotate(45deg) translate(5px, 5px));
+    }
+
+    .two {
+        @include transform(translateX(-30px));
+        opacity: 0;
+    }
+
+    .three {
+        @include transform(rotate(-45deg) translate(9px, -9px));
+    }
+
+}
+
+.navigation__fade-fullscreen .main-navigation__header {
+
+    @include breakpoint(ptablet) {
+        @include transition(opacity .3s, visibility .3s);
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        width: 100%;
+        overflow-y: scroll;
+        background-color: $grey-transparent;
+        padding: 10px 0 40px;
+        margin: 0;
+        z-index: 1000;
+        visibility: hidden;
+        opacity: 0;
+
+        ul {
+            margin-top: 40px;
+        }
+
+    }
+
+    @include breakpoint(mobile) {
+        @include transition(opacity .3s, visibility .3s);
+        position: absolute;
+        top: -7px;
+        left: 0;
+        height: 100vh;
+        width: 100%;
+        overflow-y: scroll;
+        background-color: $grey-transparent;
+        padding: 10px 0 40px;
+        margin: 0;
+        z-index: 1000;
+        visibility: hidden;
+        opacity: 0;
+
+        ul {
+            margin-top: 40px;
+        }
+
+    }
+
+}
+
+.navigation__fade-fullscreen.on .main-navigation__header {
+
+    @include breakpoint(ptablet) {
+        @include transition(opacity .3s, visibility .3s);
+        visibility: visible;
+        opacity: 1;
+    }
+
+    @include breakpoint(mobile) {
+        @include transition(opacity .3s, visibility .3s);
+        visibility: visible;
+        opacity: 1;
+    }
+
+}

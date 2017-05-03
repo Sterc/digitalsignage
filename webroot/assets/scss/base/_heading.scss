@@ -1,0 +1,43 @@
+// Heading styling
+
+h1 {
+    font-weight: 700;
+    color: $black;
+    font-size: em(30);
+    margin: 0 0 15px;
+}
+
+h2 {
+    font-weight: 700;
+    color: $black;
+    font-size: em(26);
+    margin: 0 0 15px;
+}
+
+h3 {
+    font-weight: 600;
+    color: $grey;
+    font-size: em(21);
+    margin: 0 0 5px;
+}
+
+h4 {
+    font-weight: 600;
+    color: $black;
+    font-size: em(24);
+    margin: 0 0 5px;
+}
+
+h5 {
+    font-weight: 600;
+    color: $black;
+    font-size: em(21);
+    margin: 0 0 5px;
+}
+
+h6 {
+    font-weight: 400;
+    color: $black;
+    font-size: em(14);
+    margin: 0;
+}

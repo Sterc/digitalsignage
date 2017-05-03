@@ -1,0 +1,15 @@
+<?php  return array (
+  'facebook' => '',
+  'twitter' => '',
+  'linkedin' => '',
+  'street' => '',
+  'housenumber' => '',
+  'zipcode' => '',
+  'city' => '',
+  'phone' => '',
+  'fax' => '',
+  'email_client' => 'sytske@sterc.nl',
+  'kvk' => '',
+  'btw' => '',
+  'vcard_logo' => '',
+);

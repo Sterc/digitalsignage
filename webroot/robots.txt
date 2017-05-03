@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /assets/components/modx-minify/
+Allow: /assets/site/
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /assets/libs/
+Allow: /min/
+Allow: /minify/
+Disallow: /assets/components/
+Disallow: /connectors/
+Disallow: /core/
+Disallow: /manager/
+Disallow: /setup/
+Disallow: /install/
+
+# Sitemap: http://www.sterc.nl/sitemap.xml

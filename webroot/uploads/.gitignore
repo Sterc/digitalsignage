@@ -1,0 +1,8 @@
+# Ignore everything
+*
+
+# Except .gitignore
+!.gitignore
+!afbeeldingen/
+!bestanden/
+!website-test/

@@ -1,0 +1,31 @@
+#managerbuttons ul li:last-child{padding-right: 1%;}
+#sterc-logo img{
+  margin:15px 5px;
+}
+.vertical-tabs-panel{
+  background: url("../images/vtabs-bg.png") no-repeat left bottom #fbfbfb !important;
+}
+.vertical-tabs-panel .vertical-tabs-header{background:none !important;}
+
+
+/* Icons topnav*/
+@media screen and (max-width: 960px){
+  #modx-topnav #limenu-clientconfig>a:after {content: "\f013";}
+  #modx-topnav #limenu-versionx>a:after {content: "\f016";}
+  #modx-topnav #limenu-formsave>a:after {content: "\f075";}
+  #modx-topnav #limenu-statusoverrideips>a:after {content: "\f00c";}
+}
+
+#managerbuttons li{height:130px;}
+
+/* Migx */
+#tvFormname-tr label {
+	font-weight: bold;
+	display: block;
+	margin-bottom: 10px;
+	color: #555;
+}
+
+#tvFormname-tr .x-form-element {
+	padding: 0 !important;
+}

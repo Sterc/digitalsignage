@@ -1,0 +1,20 @@
+Changelog for TinyMCE Rich Text Editor.
+
+TinyMCE Rich Text Editor 1.1.1
+==============
+- Allow base path parsing in the external_config system setting
+- Add tel: prefix
+- Add modximage - left/right image positioning
+- Sync tinymce and textarea
+- Add modx skin (Credits goes to fourroses666)
+- Add skin system setting
+
+TinyMCE Rich Text Editor 1.1.0
+==============
+- Add autocomplete search for links
+- Add external config
+- Support for link classes
+
+TinyMCE Rich Text Editor 1.0.0
+==============
+- Initial release.

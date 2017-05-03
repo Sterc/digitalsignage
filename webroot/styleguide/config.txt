@@ -1,0 +1,22 @@
+{
+  "projectName": "Skeleton",
+  "projectUrl": "http://www.sterc.nl",
+  "projectLogo": "/assets/img/logo.png",
+  "jsResources": ["/assets/libs/jquery/dist/jquery.min.js", "/assets/js/sterc.js"],
+  "viewportWidths": [
+    320,
+    480,
+    768,
+    1024,
+    1200
+  ],
+  "serverPort": 8889,
+  "snippetTemplate": "styleguide/template.html",
+  "cssVariables": ["assets/scss/settings/_vars.scss"],
+  "maxSassIterations": 2000,
+  "database": "styleguide/db",
+  "categories": "styleguide/db/categories.txt",
+  "uniques": "styleguide/db/uniques.txt",
+  "sassData": "styleguide/db/sassdata.txt",
+  "extension": ".txt"
+}

@@ -1,0 +1,39 @@
+.x-cal-panel .ext-cal-evt .ext-evt-bd {
+	font-size: 13px;
+	line-height: 19px;
+	padding: 4px;
+}
+
+.x-cal-panel .x-panel-tbar {
+	padding: 0 0 10px;
+}
+
+.x-cal-panel .x-panel-tbar .ext-cal-toolbar {
+	padding: 0;
+}
+
+.x-cal-panel .x-panel-tbar .ext-cal-toolbar .x-toolbar-left .x-toolbar-cell {
+	padding: 0 3px 0 0;
+}
+
+.x-cal-panel .x-panel-tbar .ext-cal-toolbar .x-toolbar-right .x-toolbar-cell {
+	padding: 0 0 0 3px;
+}
+
+.x-cal-panel .ext-cal-hd-ct {
+	border: 0 !important;
+}
+
+.x-cal-combo {
+	display: inline;
+}
+
+.x-cal-combo .ext-cal-picker-icon {
+	display: block;
+	width: 14px;
+	height: 14px;
+	border: 1px solid #aca899;
+	-webkit-border-radius: 0;
+	   -moz-border-radius: 0;
+	   		border-radius: 0;
+}

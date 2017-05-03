@@ -1,0 +1,141 @@
+// Navigation slide right
+
+.navigation__slide-right.on .nav-toggle {
+    right: 0;
+}
+
+.navigation__slide-right .logo {
+
+    @include breakpoint(mobile) {
+        margin-left: 40px;
+    }
+
+    @include breakpoint(ptablet) {
+        margin-left: 40px;
+    }
+
+}
+
+.navigation__slide-right .menu-toggle {
+    display: none;
+    cursor: pointer;
+    float: left;
+    padding: 6px 7px 0;
+    margin: 0;
+    height: 50px;
+    width: 50px;
+    background-color: $white;
+
+    @include breakpoint(mobile) {
+        display: inline-block;
+    }
+
+    @include breakpoint(ptablet) {
+        display: inline-block;
+    }
+
+    .one,
+    .two,
+    .three {
+        @include transition(transform .4s, width .4s);
+        width: 30px;
+        height: 4px;
+        background: $customer-color;
+        margin: 6px auto;
+        backface-visibility: hidden;
+        border-radius: 5px;
+    }
+
+    .four {
+        display: none;
+    }
+
+}
+
+.navigation {
+    &__slide-right .nav-toggle {
+        @include transition(right .4s);
+        position: absolute;
+        top: 0;
+        right: -50px;
+        margin: 0;
+    }
+
+    &__slide-right .header &--header {
+
+        @include breakpoint(ptablet) {
+            width: 100%;
+        }
+
+        @include breakpoint(mobile) {
+            width: 100%;
+        }
+
+    }
+
+    &__slide-right .menu-toggle {
+        @include transition(transform .4s);
+    }
+
+    &__slide-right.on .menu-toggle {
+        @include transform(rotate(540deg));
+    }
+
+    &__slide-right.on .nav-toggle {
+        .one {
+            @include transform(rotate(45deg) translate(6px, -1px));
+            width: 17px;
+        }
+
+        .two {
+            margin-left: 2px;
+        }
+
+        .three {
+            @include transform(rotate(-45deg) translate(6px, 1px));
+            width: 17px;
+        }
+    }
+}
+
+.navigation__slide-right .main-navigation__header {
+
+    @include breakpoint(ptablet) {
+        @include transition(left .4s);
+        position: absolute;
+        top: 0;
+        left: -100%;
+        height: 100vh;
+        z-index: 1000;
+        background-color: $white;
+        padding: 10px 0 40px;
+        margin-top: 0;
+        width: 100%;
+    }
+
+    @include breakpoint(mobile) {
+        @include transition(left .4s);
+        position: absolute;
+        top: 0;
+        left: -100%;
+        height: 100vh;
+        z-index: 1000;
+        background-color: $white;
+        padding: 10px 0 40px;
+        margin-top: 0;
+        width: 100%;
+    }
+
+}
+
+.navigation__slide-right.on .main-navigation__header {
+
+    @include breakpoint(ptablet) {
+        left: 0;
+    }
+
+    @include breakpoint(mobile) {
+        left: 0;
+    }
+
+}

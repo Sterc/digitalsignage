@@ -1,0 +1,33 @@
+[2017-05-03 08:38:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/model/modx/modx.class.php : 991) `` is not a valid integer and may not be passed to makeUrl()
+[2017-05-03 08:39:11] (ERROR @ /var/www/vhosts/narrowcasting/private/core/model/modx/modx.class.php : 991) `` is not a valid integer and may not be passed to makeUrl()
+[2017-05-03 08:39:11] (ERROR @ /var/www/vhosts/narrowcasting/private/core/model/modx/modx.class.php : 991) `` is not a valid integer and may not be passed to makeUrl()
+[2017-05-03 08:39:11] (ERROR @ /var/www/vhosts/narrowcasting/private/core/model/modx/modx.class.php : 991) `` is not a valid integer and may not be passed to makeUrl()
+[2017-05-03 09:36:16] (ERROR @ /var/www/vhosts/narrowcasting/private/core/model/modx/modcachemanager.class.php : 344) Error caching lexicon topic lexicon/en/core/resource
+[2017-05-03 09:37:46] (ERROR @ /var/www/vhosts/narrowcasting/private/core/model/modx/modx.class.php : 1706) Processor /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/processors/mgr/broadcasts/getcalendars.php does not exist; Array
+(
+    [processors_path] => /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/processors/
+    [location] => 
+    [action] => mgr/broadcasts/getcalendars
+)
+
+[2017-05-03 09:39:10] (ERROR @ /var/www/vhosts/narrowcasting/private/core/model/modx/modx.class.php : 1706) Processor /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/processors/mgr/broadcasts/getcalendars.php does not exist; Array
+(
+    [processors_path] => /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/processors/
+    [location] => 
+    [action] => mgr/broadcasts/getcalendars
+)
+
+[2017-05-03 09:43:24] (ERROR @ /var/www/vhosts/narrowcasting/private/core/model/modx/modx.class.php : 1706) Processor /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/processors/mgr/broadcasts/getcalendars.php does not exist; Array
+(
+    [processors_path] => /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/processors/
+    [location] => 
+    [action] => mgr/broadcasts/getcalendars
+)
+
+[2017-05-03 09:49:24] (ERROR @ /var/www/vhosts/narrowcasting/private/core/model/modx/modx.class.php : 1706) Processor /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/processors/mgr/broadcasts/getcalendars.php does not exist; Array
+(
+    [processors_path] => /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/processors/
+    [location] => 
+    [action] => mgr/broadcasts/getcalendars
+)
+

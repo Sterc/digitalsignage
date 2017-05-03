@@ -1,0 +1,157 @@
+// Other styling
+
+html,
+body {
+    font-family: $text-font;
+    font-weight: 400;
+    font-size: em(13);
+    color: $text-color;
+    height: 100%;
+}
+
+.modal-open {
+    overflow: hidden;
+}
+
+iframe {
+    max-width: 100%;
+    display: block;
+    border: 0;
+}
+
+a {
+    color: $customer-color;
+    outline: none;
+
+    &:hover,
+    &:focus {
+        outline: none;
+    }
+
+}
+
+a[href^="tel"] {
+    color: inherit;
+    text-decoration: none;
+}
+
+p {
+    font-family: $text-font;
+    font-weight: 400;
+    font-size: em(14);
+    color: $text-color;
+    padding: 5px 0;
+}
+
+table {
+    width: 100%;
+
+    tr th,
+    tr:not(:last-of-type) td {
+        border-bottom: 1px solid $grey-light;
+        padding: 5px 0;
+    }
+
+}
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+}
+
+
+.logo {
+    width: 255px;
+    height: 80px;
+    display: block;
+    margin: 10px 0;
+    background: url($logo-img) no-repeat center top transparent;
+    background-size: contain;
+    text-indent: -9999px;
+    float: left;
+
+    @include breakpoint(ptablet) {
+        width: 170px;
+        height: 50px;
+        background-position: center bottom;
+        background-size: 100%;
+    }
+
+    @include breakpoint(mobile) {
+        width: 145px;
+        height: 45px;
+        background-position: center bottom;
+        background-size: 100%;
+    }
+
+}
+
+section {
+    padding: 10px 0;
+}
+
+
+.wrapper {
+    @extend .container;
+}
+
+.inside-wrapper {
+    display: block;
+    margin: 0 -15px;
+}
+
+.inner {
+    @include make-row();
+}
+
+.hidden-mobile {
+    @include breakpoint(mobile) {
+        display: none;
+    }
+}
+
+.visible-tablet {
+    display: none;
+
+    @include breakpoint(ptablet) {
+        display: block;
+    }
+
+}
+
+.visible-mobile {
+    display: none;
+
+    @include breakpoint(mobile) {
+        display: block;
+    }
+
+}
+
+.sisea-paging {
+    margin-bottom: 30px;
+}
+
+.pagination {
+    border-radius: 0;
+
+    li {
+        border-radius: 0;
+        display: inline;
+        border-color: $grey;
+
+        a {
+            display: block;
+            color: $grey;
+        }
+
+        &.active a,
+        &:hover a {
+            background-color: $customer-color;
+            color: $white;
+            border-color: $customer-color;
+        }
+
+    }
+
+}

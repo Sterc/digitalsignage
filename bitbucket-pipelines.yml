@@ -1,0 +1,30 @@
+image:
+  name: sterc/modx:development
+  username: $DOCKER_USERNAME
+  password: $DOCKER_PASSWORD
+  email: $DOCKER_EMAIL
+
+pipelines:
+  default:
+    - step:
+        script: 
+          - mkdir -p ~/.ssh
+          - echo $DOCKER_SSH_KEY > ~/.ssh/id_rsa.tmp
+          - base64 -d ~/.ssh/id_rsa.tmp > ~/.ssh/id_rsa
+          - chmod 600 ~/.ssh/id_rsa
+          - base64 ~/.ssh/id_rsa
+          - ssh-keyscan -t rsa bitbucket.org > ~/.ssh/known_hosts
+          - scss-lint --config .scss-lint.yml
+          - phplint --configuration=phplint.yml --no-cache --no-interaction -v
+          - image_optim -r webroot/assets/img/**/*
+          - git config --global user.email "info@sterc.nl"
+          - git config --global user.name "Sterc"
+          - git remote rm origin
+          - git remote add origin git@bitbucket.org:$BITBUCKET_REPO_OWNER/$BITBUCKET_REPO_SLUG.git
+          - git commit -am 'Optimize images by Pipelines [skip ci]' || echo 'Commit failed. There is probably nothing to commit.'
+          - git push origin $BITBUCKET_BRANCH || echo 'Push failed. There is probably nothing to push.'
+          - jslint webroot/assets/js/*.js
+          - jshint webroot/assets/js/
+          - phpcs --standard=Sterc private/core/config/
+          - phpcs --standard=Sterc private/core/components/site/
+          - phpcs --standard=Sterc webroot/assets/components/site/

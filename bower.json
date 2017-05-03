@@ -1,0 +1,25 @@
+{
+  "name": "Skeleton",
+  "description": "Skeleton packages",
+  "main": "",
+  "authors": [
+    "Sterc <info@sterc.nl>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "bootstrap-sass": "~3.3.5",
+    "nivo-lightbox": "~1.2.0",
+    "owl.carousel": "owl-carousel2#~2.0.0-beta.3"
+  }
+}

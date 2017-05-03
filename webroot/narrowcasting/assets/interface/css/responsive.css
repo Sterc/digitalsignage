@@ -1,0 +1,158 @@
+/* Stylesheet for Sterc (narrowcasting small). (c) Oetzie.nl. All rights reserved. */
+
+@media (max-width: 1500px) {
+	/* ----------------------------------------------------------------------------------------- */
+	/* ----- Stijlen: General ------------------------------------------------------------------ */
+	/* ----------------------------------------------------------------------------------------- */
+	
+	body {
+		font-size: 40px;
+		line-height: 56px;
+	}
+	
+	h1 {
+		font-size: 50px;
+		line-height: 60px;	
+	}
+	
+	/* Timer */
+	
+	.timer.timer-vertical {
+		bottom: 102px;
+		width: 20px;
+	}
+	
+	.timer.timer-horizontal {
+		height: 20px;
+	}
+	
+	/* Newsticker */
+
+	.ticker {
+		height: 102px;
+	}
+	
+	.ticker ul {
+		padding: 17px 0;	
+	}
+	
+	.ticker ul li {
+		font-size: 34px;
+		line-height: 68px;
+	}
+	
+	.ticker ul li .icon {
+		width: 76px;
+		height: 68px;
+	}
+	
+	.ticker ul li .icon.nunl {
+		background-position: 0 -90px;
+	}
+	
+	/* Clock */
+	
+	.clock {
+		width: 113px;
+		padding: 191px 0 0;
+		background-position: -148px 0;
+	}
+	
+	.clock .time {
+		font-size: 35px;
+		line-height: 45px;
+	}
+	
+	.clock .date {
+		font-size: 19px;
+		line-height: 29px;
+	}
+	
+	/* ----------------------------------------------------------------------------------------- */
+	/* ----- Default Slide --------------------------------------------------------------------- */
+	/* ----------------------------------------------------------------------------------------- */
+	
+	.slides .slide.slide-default .slide-inner .content .read-more {
+		font-size: 25px;
+	}
+	
+	.slides .slide.slide-default.vvopende .slide-inner .content .read-more {
+		font-size: 33px;
+		line-height: 43px;
+		padding: 12px 28px 18px;	
+	}
+	
+	/* ----------------------------------------------------------------------------------------- */
+	/* ----- Media Slide ----------------------------------------------------------------------- */
+	/* ----------------------------------------------------------------------------------------- */
+	
+	.slides .slide.slide-media .slide-inner h1 {
+		font-size: 33px;
+		line-height: 43px;
+		padding: 12px 28px 18px;	
+	}
+	
+	/* ----------------------------------------------------------------------------------------- */
+	/* ----- Buienradar Slide ------------------------------------------------------------------ */
+	/* ----------------------------------------------------------------------------------------- */
+
+	.slides .slide.slide-buienradar .slide-inner .weather-content .content {
+		font-size: 28px;
+		line-height: 50px;	
+	}
+	
+	.slides .slide.slide-buienradar .slide-inner .weather-content .content ul {
+		border-top-width: 2px;
+	}
+	
+	.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li {
+		padding: 15px 0;
+		border-bottom-width: 2px;
+	}
+	
+	.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode {
+		width: 50px;
+		height: 50px;	
+	}
+	
+	/* ----------------------------------------------------------------------------------------- */
+	/* ----- Social Media Slide ---------------------------------------------------------------- */
+	/* ----------------------------------------------------------------------------------------- */
+	
+	.slides .slide.slide-social-media .slide-inner .content ul {
+		margin: 0 -35px;
+	}
+	
+	.slides .slide.slide-social-media .slide-inner .content ul li {
+		padding: 35px 35px 0;
+		margin: 0 0 40px;
+	}
+	
+	.slides .slide.slide-social-media .slide-inner .content ul li .block {
+		position: relative;
+		background: #ffffff;
+		padding: 25px 25px 0;
+		border-bottom-width: 10px;
+	}
+	
+	.slides .slide.slide-social-media .slide-inner .content ul li .block .avatar {
+		width: 82px;
+		height: 82px;
+		margin: 0 25px 0 0;
+	}
+	
+	.slides .slide.slide-social-media .slide-inner .content ul li .block h1 {
+		font-size: 36px;
+		line-height: 46px;
+	}
+	
+	.slides .slide.slide-social-media .slide-inner .content ul li .block h2 {
+		font-size: 26px;
+		line-height: 36px;
+	}
+	
+	.slides .slide.slide-social-media .slide-inner .content ul li .block p {
+		font-size: 26px;
+		line-height: 36px;
+	}
+}

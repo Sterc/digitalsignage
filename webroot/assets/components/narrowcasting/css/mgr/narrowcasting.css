@@ -1,0 +1,19 @@
+#modx-action-buttons .x-btn-branding {
+	background: none !important;
+	box-shadow: none !important;
+	border: none !important;
+	color: #555555 !important;
+}
+
+.narrowcasting-window-padding .x-window-body {
+	padding: 15px !important;
+}
+
+.x-toolbar-cell .x-form-check-wrap .x-form-cb-label {
+	padding-left: 22px !important;
+	line-height: 12px;
+}
+
+.x-toolbar-cell .x-form-check-wrap .x-form-cb-label:before {
+	top: -3px;
+}

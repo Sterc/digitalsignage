@@ -1,0 +1,22 @@
+Changelog for debugParser.
+
+1.1.0 pl
+==============
+- Added support of pdoParser with Fenom syntax.
+
+1.0.1 pl
+==============
+- [#1] Fixed total values in report table.
+
+1.0.0 pl
+==============
+- Fixed some troubles with charset.
+
+1.0.0 rc1
+==============
+- Fixed total values.
+- Added support for 3rd party parsers.
+
+1.0.0 beta1
+==============
+- Initial release.

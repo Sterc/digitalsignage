@@ -1,0 +1,12 @@
+<?php return array (
+  'preserve_keys' => true,
+  'update_object' => false,
+  'vehicle_package' => 'transport',
+  'vehicle_class' => 'xPDOObjectVehicle',
+  'guid' => '959ad7eb1ea26356cb1b11e83dd42b38',
+  'package' => 'modx',
+  'class' => 'modSystemSetting',
+  'signature' => '1dfbde10a91e0559ae35119afb0a5df0',
+  'native_key' => 'phpthumb_zoomcrop',
+  'object' => '{"key":"phpthumb_zoomcrop","value":"0","xtype":"textfield","namespace":"core","area":"phpthumb","editedon":null}',
+);

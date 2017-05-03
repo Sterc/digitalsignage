@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="statusoverrideips" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM">
+    <object class="soIP" table="statusoverrideips_ips" extends="xPDOSimpleObject">
+        <field key="name" dbtype="varchar" precision="255" phptype="string" null="null" default=""/>
+        <field key="ip" dbtype="varchar" precision="46" phptype="string" null="false" default=""/>
+    </object>
+</model>

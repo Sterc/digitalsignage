@@ -1,0 +1,12 @@
+<?php return array (
+  'preserve_keys' => true,
+  'update_object' => false,
+  'vehicle_package' => 'transport',
+  'vehicle_class' => 'xPDOObjectVehicle',
+  'guid' => '55fe4d0688f48c301582a8ecf46bd8aa',
+  'package' => 'modx',
+  'class' => 'modSystemSetting',
+  'signature' => '74449b43f84dc4c898cbe4b304da85bc',
+  'native_key' => 'manager_js_cache_max_age',
+  'object' => '{"key":"manager_js_cache_max_age","value":3600,"xtype":"textfield","namespace":"core","area":"manager","editedon":null}',
+);
