@@ -1,1 +1,0 @@
-<?php if(time() > 1492159815){return null;} return '2015-10-02';
