@@ -1,0 +1,34 @@
+scss_files: 'webroot/assets/scss/**/*.scss'
+
+linters:
+  Indentation:
+    enabled: true
+    allow_non_nested_indentation: false
+    character: space
+    width: 4
+  QualifyingElement:
+    enabled: true
+    allow_element_with_attribute: true
+    allow_element_with_class: false
+    allow_element_with_id: false
+  PropertySortOrder:
+    enabled: false
+    ignore_unspecified: false
+    min_properties: 2
+    separate_groups: false
+  VendorPrefix:
+    enabled: false
+  PlaceholderInExtend:
+    enabled: false
+  NestingDepth:
+    enabled: true
+    max_depth: 4
+  SelectorDepth:
+    enabled: true
+    max_depth: 4
+  NameFormat:
+    enabled: false
+    convention: hyphenated_BEM # or 'BEM', or a regex pattern
+  SelectorFormat:
+    enabled: true
+    convention: '^[a-z]([-]?[a-z0-9]+)*(__[a-z0-9]([-]?[a-z0-9]+)*)?(_[a-z0-9]([-]?[a-z0-9]+)*){0,2}$'

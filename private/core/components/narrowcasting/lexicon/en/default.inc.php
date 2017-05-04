@@ -65,7 +65,7 @@
 	$_lang['narrowcasting.player_update']							= 'Update mediabox';
 	$_lang['narrowcasting.player_remove']							= 'Delete mediabox';
 	$_lang['narrowcasting.player_remove_confirm']					= 'Are you sure you want to delete this mediabox?';
-	$_lang['narrowcasting.player_view']								= 'Mediabox URL';
+	$_lang['narrowcasting.player_view']								= 'View mediabox';
 	$_lang['narrowcasting.player_schedule']							= 'Schedule mediabox';
 	$_lang['narrowcasting.player_schedule_create']					= 'Create new schedule';
 	$_lang['narrowcasting.player_schedule_update']					= 'Update schedule';
