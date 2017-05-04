@@ -1,8 +1,8 @@
 <?php
 return array (
-  'timestamp' => '2017-05-03 10:21:42',
+  'timestamp' => '2017-05-03 17:16:00',
   'level' => 'INFO',
-  'msg' => 'Clearing the Resource cache: Refresh successful!',
+  'msg' => '',
   'def' => '',
   'file' => '/connectors/index.php',
   'line' => '',

@@ -24,7 +24,7 @@
 		 * @access public.
 		 * @var String.
 		 */
-		public $classKey = 'NarrowcastingBroadcastsSchedules';
+		public $classKey = 'NarrowcastingPlayersSchedules';
 		
 		/**
 		 * @access public.
@@ -51,22 +51,6 @@
 		public function initialize() {
 			$this->narrowcasting = $this->modx->getService('narrowcasting', 'Narrowcasting', $this->modx->getOption('narrowcasting.core_path', null, $this->modx->getOption('core_path').'components/narrowcasting/').'model/narrowcasting/');
 
-			if (null !== ($type = $this->getProperty('type'))) {
-				if ('day' == $type) {
-					$this->setProperty('start_date', '0000-00-00');
-					$this->setProperty('end_date', '0000-00-00');
-				} else if ('date' == $type) {
-					$this->setProperty('end_date', $this->getEmptyDate($this->getProperty('end_date'), $this->getProperty('start_date')));
-					
-					$this->setProperty('day', 0);
-				}
-			}
-			
-			if (null !== $this->getProperty('entire_day')) {
-				$this->setProperty('start_time', '00:00:00');
-				$this->setProperty('end_time', '00:00:00');
-			}
-			
 			return parent::initialize();
 		}
 		
@@ -75,9 +59,62 @@
 		 * @return Mixed.
 		 */
 		public function beforeSave() {
-			// Moet nog, zie beforeSave functie in create.class.php
+			if ($this->object->is('day')) {
+				$start = array(
+					'date'	=> date('Y-m-d', strtotime('Next '.$this->object->getDayOfWeek())),
+					'time'	=> $this->getProperty('start_time')	
+				);
+				
+				$end = array(
+					'date'	=> date('Y-m-d', strtotime('Next '.$this->object->getDayOfWeek())),
+					'time'	=> $this->getProperty('end_time')
+				);
+
+				foreach ($this->getSchedules('day') as $schedule) {
+					if ($schedule->isScheduledFor($start, $end)) {
+						$this->addFieldError('type', $this->modx->lexicon('narrowcasting.error_broadcast_schedule_exists', array(
+							'schedule' => $schedule->toString()
+						)));
+						
+						break;
+					}
+				}
+			} else {
+				$start = array(
+					'date'	=> $this->getProperty('start_date'),
+					'time'	=> $this->getProperty('start_time')	
+				);
+				
+				$end = array(
+					'date'	=> $this->getProperty('end_date'),
+					'time'	=> $this->getProperty('end_time')
+				);
+
+				foreach ($this->getSchedules('date') as $schedule) {
+					if ($schedule->isScheduledFor($start, $end)) {
+						$this->addFieldError('type', $this->modx->lexicon('narrowcasting.error_broadcast_schedule_exists', array(
+							'schedule' => $schedule->toString()
+						)));
+						
+						break;
+					}
+				}
+			}
 			
-			return parent::beforeSave();	
+			return parent::beforeSave();
+		}
+		
+		/**
+		 * @access public.
+		 * @param String $value.
+		 * @return Array.
+		 */
+		public function getSchedules($type) {
+			return $this->modx->getCollection('NarrowcastingPlayersSchedules', array(
+				'id:!='		=> $this->object->id, 
+				'player_id'	=> $this->getProperty('player_id'),
+				'type' 		=> $type
+			));
 		}
 	}
 	

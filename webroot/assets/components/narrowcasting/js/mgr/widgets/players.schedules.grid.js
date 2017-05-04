@@ -30,9 +30,15 @@ Narrowcasting.grid.PlayerSchedules = function(config) {
         	}
         }
     }];
+    
+    expander = new Ext.grid.RowExpander({
+        tpl : new Ext.Template(
+            '<p class="desc">{description}</p>'
+        )
+    });
 
     columns = new Ext.grid.ColumnModel({
-        columns: [{
+        columns: [expander, {
             header		: _('narrowcasting.label_schedule_date'),
             dataIndex	: 'date_formatted',
             sortable	: true,
@@ -58,11 +64,12 @@ Narrowcasting.grid.PlayerSchedules = function(config) {
         	action		: 'mgr/players/schedules/getlist',
         	player_id 	: config.record.id
         },
-        fields		: ['id', 'player_id', 'broadcast_id', 'type', 'type_formatted', 'start_time', 'start_date', 'end_time', 'end_date', 'day', 'date_formatted', 'entire_day', 'broadcast'],
+        fields		: ['id', 'player_id', 'broadcast_id', 'description', 'type', 'type_formatted', 'start_time', 'start_date', 'end_time', 'end_date', 'day', 'date_formatted', 'entire_day', 'broadcast'],
         paging		: true,
         pageSize	: 7,
         showPerPage	: false,
-        sortBy		: 'id'
+        sortBy		: 'id',
+        plugins		: expander
     });
     
     Narrowcasting.grid.PlayerSchedules.superclass.constructor.call(this, config);
@@ -190,13 +197,22 @@ Narrowcasting.window.CreatePlayerSchedule = function(config) {
             html		: _('narrowcasting.label_schedule_broadcast_desc'),
             cls			: 'desc-under'
         }, {
+        	xtype		: 'textarea',
+        	fieldLabel	: _('narrowcasting.label_schedule_description'),
+        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_schedule_description_desc'),
+        	name		: 'description',
+        	anchor		: '100%'
+        }, {
+        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_schedule_description_desc'),
+            cls			: 'desc-under'
+        }, {
         	xtype		: 'narrowcasting-combo-schedules-type',
         	fieldLabel	: _('narrowcasting.label_schedule_type'),
         	description	: MODx.expandHelp ? '' : _('narrowcasting.label_schedule_type_desc'),
         	name		: 'type',
         	anchor		: '100%',
         	allowBlank	: false,
-        	value 		: 'day',
         	forId		: {
 	        	day			: 'narrowcasting-schedule-create-day',
 	        	date 		: 'narrowcasting-schedule-create-date'
@@ -376,6 +392,27 @@ Narrowcasting.window.UpdatePlayerSchedule = function(config) {
         }, {
             xtype		: 'hidden',
             name		: 'player_id'
+        }, {
+        	xtype		: 'narrowcasting-combo-broadcasts',
+        	fieldLabel	: _('narrowcasting.label_schedule_broadcast'),
+        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_schedule_broadcast_desc'),
+        	name		: 'broadcast_id',
+        	anchor		: '100%',
+        	allowBlank	: false
+        }, {
+        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_schedule_broadcast_desc'),
+            cls			: 'desc-under'
+        }, {
+        	xtype		: 'textarea',
+        	fieldLabel	: _('narrowcasting.label_schedule_description'),
+        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_schedule_description_desc'),
+        	name		: 'description',
+        	anchor		: '100%'
+        }, {
+        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_schedule_description_desc'),
+            cls			: 'desc-under'
         }, {
         	xtype		: 'narrowcasting-combo-schedules-type',
         	fieldLabel	: _('narrowcasting.label_schedule_type'),

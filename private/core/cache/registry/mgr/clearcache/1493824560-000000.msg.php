@@ -1,8 +1,8 @@
 <?php
 return array (
-  'timestamp' => '2017-05-03 10:21:42',
+  'timestamp' => '2017-05-03 17:16:00',
   'level' => 'INFO',
-  'msg' => 'Clearing the Action map cache: Refresh successful!',
+  'msg' => '[modxMinify] Cache files for group css cleared.',
   'def' => '',
   'file' => '/connectors/index.php',
   'line' => '',

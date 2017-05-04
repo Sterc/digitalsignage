@@ -66,6 +66,7 @@
 		public function beforeSave() {
 			$response = $this->modx->runProcessor('resource/create', array(
 				'pagetitle' 	=> $this->getProperty('name'),
+				'description'	=> $this->getProperty('description'),
 				'alias'			=> $this->getProperty('name'),
 				'context_key'	=> $this->modx->getOption('narrowcasting.context'),
 				'template'		=> $this->getProperty('template'),

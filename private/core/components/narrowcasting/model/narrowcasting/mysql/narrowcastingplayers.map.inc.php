@@ -25,12 +25,14 @@
 		'table' 	=> 'narrowcasting_players',
 		'extends' 	=> 'xPDOSimpleObject',
 		'fields' 	=> array(
-			'id'			=> null,
-			'key' 			=> null,
-			'name' 			=> null,
-			'last_online'	=> null,
+			'id'				=> null,
+			'key' 				=> null,
+			'name' 				=> null,
+			'description'		=> null,
+			'type'				=> null,
+			'last_online'		=> null,
 			'last_broadcast_id' => null,
-			'editedon' 		=> null
+			'editedon' 			=> null
 		),
 		'fieldMeta'	=> array(
 			'id' 		=> array(
@@ -50,6 +52,18 @@
 			'name' 		=> array(
 				'dbtype' 	=> 'varchar',
 				'precision' => '75',
+				'phptype' 	=> 'string',
+				'null' 		=> false
+			),
+			'description' => array(
+				'dbtype' 	=> 'varchar',
+				'precision' => '255',
+				'phptype' 	=> 'string',
+				'null' 		=> false
+			),
+			'type' 	=> array(
+				'dbtype' 	=> 'varchar',
+				'precision' => '255',
 				'phptype' 	=> 'string',
 				'null' 		=> false
 			),

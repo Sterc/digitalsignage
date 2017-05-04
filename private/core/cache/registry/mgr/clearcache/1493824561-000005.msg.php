@@ -1,8 +1,8 @@
 <?php
 return array (
-  'timestamp' => '2017-05-03 10:21:42',
+  'timestamp' => '2017-05-03 17:16:01',
   'level' => 'INFO',
-  'msg' => '-> nc: Refresh successful!',
+  'msg' => 'Processing automatic publishing dates',
   'def' => '',
   'file' => '/connectors/index.php',
   'line' => '',

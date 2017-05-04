@@ -28,6 +28,7 @@
 			'id'				=> null,
 			'player_id'			=> null,
 			'broadcast_id'		=> null,
+			'description'		=> null,
 			'type'				=> null,
 			'start_time'		=> null,
 			'start_date'		=> null,
@@ -54,6 +55,12 @@
 				'dbtype' 	=> 'int',
 				'precision' => '11',
 				'phptype' 	=> 'integer',
+				'null' 		=> false
+			),
+			'description' => array(
+				'dbtype' 	=> 'varchar',
+				'precision' => '255',
+				'phptype' 	=> 'string',
 				'null' 		=> false
 			),
 			'type' 	=> array(

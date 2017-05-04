@@ -66,6 +66,7 @@
 			$response = $this->modx->runProcessor('resource/update', array(
 				'id'			=> $this->getProperty('resource_id'),
 				'pagetitle' 	=> $this->getProperty('name'),
+				'description'	=> $this->getProperty('description'),
 				'alias'			=> $this->getProperty('name'),
 				'context_key'	=> $this->modx->getOption('narrowcasting.context'),
 				'template'		=> $this->getProperty('template'),

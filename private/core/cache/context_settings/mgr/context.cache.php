@@ -27,8 +27,8 @@
     ),
     'OnChunkFormPrerender' => 
     array (
-      18 => '18',
       12 => '12',
+      18 => '18',
       23 => '23',
     ),
     'OnChunkFormSave' => 
@@ -38,12 +38,12 @@
     ),
     'OnDocFormPrerender' => 
     array (
+      12 => '12',
       14 => '14',
       25 => '25',
-      12 => '12',
       23 => '23',
-      18 => '18',
       2 => '2',
+      18 => '18',
     ),
     'OnDocFormRender' => 
     array (
@@ -53,10 +53,10 @@
     'OnDocFormSave' => 
     array (
       19 => '19',
-      14 => '14',
       12 => '12',
-      23 => '23',
+      14 => '14',
       5 => '5',
+      23 => '23',
     ),
     'OnDocPublished' => 
     array (
@@ -92,8 +92,8 @@
     ),
     'OnHandleRequest' => 
     array (
-      32 => '32',
       6 => '6',
+      32 => '32',
       1 => '1',
       10 => '10',
       13 => '13',
@@ -149,8 +149,8 @@
     'OnResourceDuplicate' => 
     array (
       14 => '14',
-      19 => '19',
       5 => '5',
+      19 => '19',
     ),
     'OnResourceUndelete' => 
     array (

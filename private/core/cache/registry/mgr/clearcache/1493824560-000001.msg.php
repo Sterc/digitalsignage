@@ -1,8 +1,8 @@
 <?php
 return array (
-  'timestamp' => '2017-05-03 10:21:41',
+  'timestamp' => '2017-05-03 17:16:00',
   'level' => 'INFO',
-  'msg' => '',
+  'msg' => '[modxMinify] Cache files for group js cleared.',
   'def' => '',
   'file' => '/connectors/index.php',
   'line' => '',

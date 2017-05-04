@@ -86,55 +86,40 @@
 		
 		/**
 		 * @access public.
-		 * @param Array $timestamp.
-		 * @return Boolean.
+		 * @param String|Integer $timestamp.
+		 * @return String.
 		 */
-		public function isScheduled($timestamp, $type) {
-			if ($this->is('day')) {
-				$date = $timestamp = date('Y-m-d H:i:s', strtotime(date($timestamp['date'].' '.$timestamp['time'])));
+		public function getFirstDate($timestamp = null) {
+			if (null !== $timestamp) {
+				if (is_string($timestamp)) {
+					$timestamp = strtotime($timestamp);
+				}
 				
-				if ('end' == $type) {
-					if ($this->isEmpty(date('H:i:s', strtotime($timestamp)), 'time')) {
-						$timestamp = date('Y-m-d H:i:s', strtotime($timestamp) + (60 * 60 * 24));
-					}
-				}
-
-				if (date('w', strtotime($date)) == $this->day) {
-					if (strtotime($this->getFirstDate($date)) < strtotime($timestamp) && strtotime($this->getLastDate($date)) > strtotime($timestamp)) {
-						return true;	
-					}
-				}
+				return date('Y-m-d '.$this->start_time, $timestamp);
 			} else {
-				
+				return date($this->start_date.' '.$this->start_time);
 			}
-			
-			/*if (null === $timestamp) {
-				$timestamp = time();
-			} else if (is_string($timestamp)) {
-				$timestamp = strtotime($timestamp);
-			}
-			
-			if ($this->is('day')) {
-				if (date('w', $timestamp) == $this->day) {
-					if ($this->getStart($timestamp) <= $timestamp && $this->getEnd($timestamp) >= $timestamp) {
-						return true;	
-					}
-				}
-			} else {
-				if ($this->getStart() <= $timestamp && $this->getEnd() >= $timestamp) {
-					return true;	
-				}
-			}*/
-			
-			return false;
 		}
 		
-		public function getFirstDate($timestamp) {
-			return date('Y-m-d '.$this->start_time, strtotime($timestamp));
-		}
-		
-		public function getLastDate($timestamp) {
-			$timestamp = strtotime(date('Y-m-d '.$this->end_time, strtotime($timestamp)));
+		/**
+		 * @access public.
+		 * @param String|Integer $timestamp.
+		 * @return String.
+		 */
+		public function getLastDate($timestamp = null) {
+			if (null !== $timestamp) {
+				if (is_string($timestamp)) {
+					$timestamp = strtotime($timestamp);
+				}
+				
+				$timestamp = strtotime(date('Y-m-d '.$this->end_time, $timestamp));
+			} else {
+				if ($this->isEmpty($this->end_date, 'date')) {
+					$timestamp = strtotime(date($this->start_date.' '.$this->end_time));
+				} else {
+					$timestamp = strtotime(date($this->end_date.' '.$this->end_time));
+				}
+			}
 			
 			if ($this->isEmpty($this->end_time, 'time')) {
 				$timestamp += 60 * 60 * 24;
@@ -150,54 +135,63 @@
 		 * @return Boolean.
 		 */
 		public function isScheduledFor($start, $end) {
-			return $this->isScheduled($start, 'start') || $this->isScheduled($end, 'end');
+			$start = array(
+				'date'	=> $this->isEmpty($start['date'], 'date', '0000-00-00'),
+				'time'	=> $this->isEmpty($start['time'], 'time', '00:00:00'),
+				'stamp'	=> '',
+			);
+			
+			$end = array(
+				'date'	=> $this->isEmpty($end['date'], 'date', $start['date']),
+				'time'	=> $this->isEmpty($end['time'], 'time', '00:00:00'),
+				'stamp'	=> ''
+			);
+			
+			$start['stamp'] 	= strtotime(date('Y-m-d H:i:s', strtotime(date($start['date'].' '.$start['time']))));
+			$end['stamp'] 		= strtotime(date('Y-m-d H:i:s', strtotime(date($end['date'].' '.$end['time']))));
+			
+			if ($this->isEmpty($end['time'], 'time')) {
+				$end['stamp'] = strtotime(date('Y-m-d H:i:s', $end['stamp'] + (60 * 60 * 24)));
+			}
+				
+			if ($this->is('day')) {
+				if (date('w', $start['stamp']) == $this->day) { 
+					if (strtotime($this->getFirstDate($start['stamp'])) < $start['stamp'] && strtotime($this->getLastDate($start['stamp'])) > $start['stamp']) {
+						return true;	
+					}
+					
+					if (strtotime($this->getFirstDate($start['stamp'])) < $end['stamp'] && strtotime($this->getLastDate($start['stamp'])) > $end['stamp']) {
+						return true;	
+					}
+					
+					if ($start['stamp'] < strtotime($this->getFirstDate($start['stamp'])) && $end['stamp'] > strtotime($this->getFirstDate($start['stamp']))) {
+						return true;
+					}
+					
+					if ($start['stamp'] < strtotime($this->getLastDate($start['stamp'])) && $end['stamp'] > strtotime($this->getLastDate($start['stamp']))) {
+						return true;
+					}
+				}
+			} else {
+				if (strtotime($this->getFirstDate()) < $start['stamp'] && strtotime($this->getLastDate()) > $start['stamp']) {
+					return true;	
+				}
+				
+				if (strtotime($this->getFirstDate()) < $end['stamp'] && strtotime($this->getLastDate()) > $end['stamp']) {
+					return true;	
+				}
+				
+				if ($start['stamp'] < strtotime($this->getFirstDate()) && $end['stamp'] > strtotime($this->getFirstDate())) {
+					return true;
+				}
+				
+				if ($start['stamp'] < strtotime($this->getLastDate()) && $end['stamp'] > strtotime($this->getLastDate())) {
+					return true;
+				}
+			}
+			
+			return false;
 		}
-		
-		/**
-		 * @access public.
-		 * @param Integer $timestamp.
-		 * @return Integer.
-		 */
-		/*public function getStart($timestamp = null) {
-			if ($this->is('day')) {
-				if (null === $timestamp) {
-					$start = strtotime(date('Y-m-d '.$this->start_time));
-				} else {
-					$start = strtotime(date('Y-m-d '.$this->start_time, is_string($timestamp) ? strtotime($timestamp) : $timestamp));
-				}
-			} else {
-				$start = strtotime(date($this->start_date.' '.$this->start_time));
-			}
-			
-			return $start;
-		}*/
-		
-		/**
-		 * @access public.
-		 * @param Integer $timestamp.
-		 * @return Integer.
-		 */
-		/*public function getEnd($timestamp = null) {
-			if ($this->is('day')) {
-				if (null === $timestamp) {
-					$end = strtotime(date('Y-m-d '.$this->end_time));
-				} else {
-					$end = strtotime(date('Y-m-d '.$this->end_time, is_string($timestamp) ? strtotime($timestamp) : $timestamp));
-				}
-			} else {
-				if ($this->isEmpty($this->end_date, 'date')) {
-					$end = strtotime(date($this->start_date.' '.$this->end_time));
-				} else {
-					$end = strtotime(date($this->end_date.' '.$this->end_time));
-				}
-			}
-			
-			if ($this->isEmpty($this->end_time, 'time')) {
-				$end = $end + (60 * 60 * 24);
-			}
-			
-			return $end;
-		}*/
 
 		/**
 		 * @access public.

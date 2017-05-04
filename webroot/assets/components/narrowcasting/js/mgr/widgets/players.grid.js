@@ -53,7 +53,7 @@ Narrowcasting.grid.Players = function(config) {
     
     expander = new Ext.grid.RowExpander({
         tpl : new Ext.Template(
-            '<p class="desc">{connect_description}</p>'
+            '<p class="desc">{description}</p>'
         )
     });
 
@@ -97,7 +97,7 @@ Narrowcasting.grid.Players = function(config) {
         baseParams	: {
         	action		: 'mgr/players/getlist'
         },
-        fields		: ['id', 'key', 'name', 'online', 'last_online', 'last_broadcast_id', 'editedon', 'current_broadcast', 'connect_description'],
+        fields		: ['id', 'key', 'name', 'description', 'type', 'last_online', 'last_broadcast_id', 'editedon', 'online', 'current_broadcast', 'connect_description'],
         paging		: true,
         pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy		: 'id',
@@ -145,6 +145,10 @@ Ext.extend(Narrowcasting.grid.Players, MODx.grid.Grid, {
     },
     getMenu: function() {
         return [{
+	    	text 	: _('narrowcasting.player_view'),
+	    	handler : this.viewPlayer,
+	    	scope 	: this 
+	    }, '-', {
 	        text	: _('narrowcasting.player_update'),
 	        handler	: this.updatePlayer,
 	        scope	: this
@@ -300,6 +304,26 @@ Narrowcasting.window.CreatePlayer = function(config) {
         	xtype		: MODx.expandHelp ? 'label' : 'hidden',
             html		: _('narrowcasting.label_player_name_desc'),
             cls			: 'desc-under'
+        }, {
+        	xtype		: 'textarea',
+        	fieldLabel	: _('narrowcasting.label_player_description'),
+        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_player_description_desc'),
+        	name		: 'description',
+        	anchor		: '100%'
+        }, {
+        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_player_description_desc'),
+            cls			: 'desc-under'
+        }, {
+        	xtype		: 'textfield',
+        	fieldLabel	: _('narrowcasting.label_player_type'),
+        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_player_type_desc'),
+        	name		: 'type',
+        	anchor		: '100%'
+        }, {
+        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_player_type_desc'),
+            cls			: 'desc-under'
         }]
     });
     
@@ -333,6 +357,26 @@ Narrowcasting.window.UpdatePlayer = function(config) {
         }, {
         	xtype		: MODx.expandHelp ? 'label' : 'hidden',
             html		: _('narrowcasting.label_player_name_desc'),
+            cls			: 'desc-under'
+        }, {
+        	xtype		: 'textarea',
+        	fieldLabel	: _('narrowcasting.label_player_description'),
+        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_player_description_desc'),
+        	name		: 'description',
+        	anchor		: '100%'
+        }, {
+        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_player_description_desc'),
+            cls			: 'desc-under'
+        }, {
+        	xtype		: 'textfield',
+        	fieldLabel	: _('narrowcasting.label_player_type'),
+        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_player_type_desc'),
+        	name		: 'type',
+        	anchor		: '100%'
+        }, {
+        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_player_type_desc'),
             cls			: 'desc-under'
         }]
     });

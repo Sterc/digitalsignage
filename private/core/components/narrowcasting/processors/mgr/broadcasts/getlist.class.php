@@ -77,7 +77,7 @@
 		 */
 		public function prepareQueryBeforeCount(xPDOQuery $c) {
 			$c->select($this->modx->getSelectColumns('NarrowcastingBroadcasts', 'NarrowcastingBroadcasts'));
-			$c->select($this->modx->getSelectColumns('modResource', 'modResource', null, array('pagetitle', 'template')));
+			$c->select($this->modx->getSelectColumns('modResource', 'modResource', null, array('pagetitle', 'description', 'template')));
 			
 			$c->innerjoin('modResource', 'modResource', array('modResource.id = NarrowcastingBroadcasts.resource_id'));
 			

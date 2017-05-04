@@ -1,8 +1,8 @@
 <?php
 return array (
-  'timestamp' => '2017-05-03 10:21:41',
+  'timestamp' => '2017-05-03 17:16:02',
   'level' => 'INFO',
-  'msg' => '::  Skipping cache cleanup based on settings',
+  'msg' => 'Regenerating system settings cache: Refresh successful!',
   'def' => '',
   'file' => '/connectors/index.php',
   'line' => '',

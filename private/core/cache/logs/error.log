@@ -31,3 +31,333 @@
     [action] => mgr/broadcasts/getcalendars
 )
 
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'date'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'time'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'date'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'time'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'date'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'time'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'date'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'time'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'date'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'time'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'date'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'time'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'date'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'time'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'date'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'time'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'date'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'time'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'date'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'time'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'date'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'time'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'date'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'time'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'date'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'time'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'date'
+[2017-05-03 12:04:26] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 159) PHP warning: Illegal string offset 'time'
+[2017-05-03 13:58:25] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/xpdo.class.php : 644) Could not load class: NarrowcastingBroadcastsSchedules from mysql.narrowcastingbroadcastsschedules.
+[2017-05-03 13:58:25] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/xpdo.class.php : 1655) Could not load class NarrowcastingBroadcastsSchedules!
+[2017-05-03 13:58:25] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/xpdo.class.php : 644) Could not load class: NarrowcastingBroadcastsSchedules from mysql.narrowcastingbroadcastsschedules.
+[2017-05-03 13:58:25] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/xpdo.class.php : 762) NarrowcastingBroadcastsSchedules::load() is not a valid static method.
+[2017-05-03 14:00:38] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/xpdo.class.php : 644) Could not load class: NarrowcastingBroadcastsSchedules from mysql.narrowcastingbroadcastsschedules.
+[2017-05-03 14:00:38] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/xpdo.class.php : 1655) Could not load class NarrowcastingBroadcastsSchedules!
+[2017-05-03 14:00:38] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/xpdo.class.php : 644) Could not load class: NarrowcastingBroadcastsSchedules from mysql.narrowcastingbroadcastsschedules.
+[2017-05-03 14:00:38] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/xpdo.class.php : 762) NarrowcastingBroadcastsSchedules::load() is not a valid static method.
+[2017-05-03 14:14:19] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 134 and defined
+[2017-05-03 14:14:19] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 144 and defined
+[2017-05-03 14:14:19] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 134 and defined
+[2017-05-03 14:14:19] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 144 and defined
+[2017-05-03 14:16:25] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 134 and defined
+[2017-05-03 14:16:25] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 138 and defined
+[2017-05-03 14:16:25] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 134 and defined
+[2017-05-03 14:16:25] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 138 and defined
+[2017-05-03 14:17:21] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 134 and defined
+[2017-05-03 14:17:21] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 139 and defined
+[2017-05-03 14:17:21] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 134 and defined
+[2017-05-03 14:17:21] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 139 and defined
+[2017-05-03 14:17:39] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 136 and defined
+[2017-05-03 14:17:39] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 141 and defined
+[2017-05-03 14:17:39] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 136 and defined
+[2017-05-03 14:17:39] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 141 and defined
+[2017-05-03 14:18:28] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 141 and defined
+[2017-05-03 14:18:28] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 146 and defined
+[2017-05-03 14:18:28] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 141 and defined
+[2017-05-03 14:18:28] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 146 and defined
+[2017-05-03 14:20:05] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 144 and defined
+[2017-05-03 14:20:05] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 144 and defined
+[2017-05-03 14:20:05] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 148 and defined
+[2017-05-03 14:20:05] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 152 and defined
+[2017-05-03 14:20:05] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 156 and defined
+[2017-05-03 14:20:05] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 144 and defined
+[2017-05-03 14:20:05] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 144 and defined
+[2017-05-03 14:20:05] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 148 and defined
+[2017-05-03 14:20:05] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 152 and defined
+[2017-05-03 14:20:05] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 156 and defined
+[2017-05-03 14:20:05] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 144 and defined
+[2017-05-03 14:20:05] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 144 and defined
+[2017-05-03 14:20:05] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 148 and defined
+[2017-05-03 14:20:05] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 152 and defined
+[2017-05-03 14:20:05] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 156 and defined
+[2017-05-03 14:21:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 144 and defined
+[2017-05-03 14:21:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 144 and defined
+[2017-05-03 14:21:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 148 and defined
+[2017-05-03 14:21:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 152 and defined
+[2017-05-03 14:21:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 156 and defined
+[2017-05-03 14:21:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 144 and defined
+[2017-05-03 14:21:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 144 and defined
+[2017-05-03 14:21:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 148 and defined
+[2017-05-03 14:21:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 152 and defined
+[2017-05-03 14:21:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 156 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 146 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 148 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 151 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 151 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 157 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 159 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 162 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 166 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 170 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 146 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 148 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 151 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 151 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 157 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 159 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 162 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 166 and defined
+[2017-05-03 14:23:06] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 101) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 170 and defined
+[2017-05-03 14:24:58] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 150 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 105) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 152 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 155 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 161 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 105) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 163 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 166 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 170 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 170 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 105) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 174 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 150 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 105) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 152 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 155 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 161 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 105) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 163 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 166 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 170 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 170 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 105) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 174 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 150 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 105) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 152 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 155 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 161 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 105) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 163 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 166 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 170 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 92) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getFirstDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 170 and defined
+[2017-05-03 14:24:59] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 105) PHP warning: Missing argument 1 for NarrowcastingPlayersSchedules::getLastDate(), called in /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php on line 174 and defined
+[2017-05-03 14:52:41] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 14:52:41] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 14:52:41] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 14:52:41] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 14:52:41] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 14:52:41] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 14:53:10] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 129) PHP warning: Illegal string offset 'date'
+[2017-05-03 14:53:10] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 129) PHP warning: Illegal string offset 'date'
+[2017-05-03 14:53:10] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 129) PHP warning: Illegal string offset 'date'
+[2017-05-03 14:53:10] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 129) PHP warning: Illegal string offset 'date'
+[2017-05-03 14:53:10] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 129) PHP warning: Illegal string offset 'date'
+[2017-05-03 14:53:10] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 129) PHP warning: Illegal string offset 'date'
+[2017-05-03 14:53:10] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 129) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:16:32] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:16:32] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:16:32] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:16:32] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:16:32] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:16:32] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:16:32] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:16:32] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:17:02] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:17:02] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:17:02] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:17:02] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:17:02] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:17:02] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:17:02] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:17:02] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:17:02] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 127) PHP warning: Illegal string offset 'date'
+[2017-05-03 15:43:13] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 164) PHP warning: strtotime() expects parameter 1 to be string, array given
+[2017-05-03 15:43:13] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 168) PHP warning: strtotime() expects parameter 1 to be string, array given
+[2017-05-03 15:43:13] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 172) PHP warning: strtotime() expects parameter 1 to be string, array given
+[2017-05-03 15:43:13] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 172) PHP warning: strtotime() expects parameter 1 to be string, array given
+[2017-05-03 15:43:13] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 176) PHP warning: strtotime() expects parameter 1 to be string, array given
+[2017-05-03 15:43:13] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 176) PHP warning: strtotime() expects parameter 1 to be string, array given
+[2017-05-03 15:43:13] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 164) PHP warning: strtotime() expects parameter 1 to be string, array given
+[2017-05-03 15:43:13] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 168) PHP warning: strtotime() expects parameter 1 to be string, array given
+[2017-05-03 15:43:13] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 172) PHP warning: strtotime() expects parameter 1 to be string, array given
+[2017-05-03 15:43:13] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 172) PHP warning: strtotime() expects parameter 1 to be string, array given
+[2017-05-03 15:43:13] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 176) PHP warning: strtotime() expects parameter 1 to be string, array given
+[2017-05-03 15:43:13] (ERROR @ /var/www/vhosts/narrowcasting/private/core/components/narrowcasting/model/narrowcasting/narrowcastingplayersschedules.class.php : 176) PHP warning: strtotime() expects parameter 1 to be string, array given
+[2017-05-03 16:36:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:31] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:32] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:32] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:32] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:32] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:32] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:36:32] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 240) Error 42S22 executing statement: 
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'NarrowcastingPlayers.description' in 'field list'
+)
+
+[2017-05-03 16:41:58] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 1452) Error 23000 executing statement:
+INSERT INTO `modx_session` (`id`, `access`, `data`) VALUES ('r4p3u12hdeu27q62rt7b82g1l7', 1493822518, 'modx.user.0.resourceGroups|a:1:{s:3:\"web\";a:0:{}}modx.user.0.attributes|a:2:{s:3:\"mgr\";a:5:{s:16:\"modAccessContext\";a:3:{s:2:\"nc\";a:1:{i:0;a:3:{s:9:\"principal\";i:0;s:9:\"authority\";s:1:\"0\";s:6:\"policy\";a:1:{s:4:\"load\";b:1;}}}s:13:\"Nieuwsbrieven\";a:1:{i:0;a:3:{s:9:\"principal\";i:0;s:9:\"authority\";s:1:\"0\";s:6:\"policy\";a:1:{s:4:\"load\";b:1;}}}s:3:\"web\";a:1:{i:0;a:3:{s:9:\"principal\";i:0;s:9:\"authority\";s:1:\"0\";s:6:\"policy\";a:1:{s:4:\"load\";b:1;}}}}s:22:\"modAccessResourceGroup\";a:0:{}s:17:\"modAccessCategory\";a:0:{}s:28:\"sources.modAccessMediaSource\";a:0:{}s:18:\"modAccessNamespace\";a:0:{}}s:3:\"web\";a:5:{s:16:\"modAccessContext\";a:3:{s:2:\"nc\";a:1:{i:0;a:3:{s:9:\"principal\";i:0;s:9:\"authority\";s:1:\"0\";s:6:\"policy\";a:1:{s:4:\"load\";b:1;}}}s:13:\"Nieuwsbrieven\";a:1:{i:0;a:3:{s:9:\"principal\";i:0;s:9:\"authority\";s:1:\"0\";s:6:\"policy\";a:1:{s:4:\"load\";b:1;}}}s:3:\"web\";a:1:{i:0;a:3:{s:9:\"principal\";i:0;s:9:\"authority\";s:1:\"0\";s:6:\"policy\";a:1:{s:4:\"load\";b:1;}}}}s:22:\"modAccessResourceGroup\";a:0:{}s:17:\"modAccessCategory\";a:0:{}s:28:\"sources.modAccessMediaSource\";a:0:{}s:18:\"modAccessNamespace\";a:0:{}}}modx.user.contextTokens|a:1:{s:3:\"mgr\";i:70;}modx.user.0.userGroupNames|a:0:{}modx.mgr.user.token|s:53:\"modx560e46bf8365a6.51819041_70590052199d20a4.92515893\";modx.mgr.session.cookie.lifetime|i:0;modx.mgr.user.config|a:1:{s:16:\"manager_language\";s:2:\"en\";}modx.user.70.userGroupNames|a:1:{i:0;s:13:\"Administrator\";}')
+Array
+(
+    [0] => 23000
+    [1] => 1062
+    [2] => Duplicate entry 'r4p3u12hdeu27q62rt7b82g1l7' for key 'PRIMARY'
+)
+
+[2017-05-03 16:41:58] (ERROR @ /var/www/vhosts/narrowcasting/private/core/xpdo/om/xpdoobject.class.php : 1452) Error 23000 executing statement:
+INSERT INTO `modx_session` (`id`, `access`, `data`) VALUES ('r4p3u12hdeu27q62rt7b82g1l7', 1493822518, 'modx.user.0.resourceGroups|a:1:{s:3:\"web\";a:0:{}}modx.user.0.attributes|a:2:{s:3:\"mgr\";a:5:{s:16:\"modAccessContext\";a:3:{s:2:\"nc\";a:1:{i:0;a:3:{s:9:\"principal\";i:0;s:9:\"authority\";s:1:\"0\";s:6:\"policy\";a:1:{s:4:\"load\";b:1;}}}s:13:\"Nieuwsbrieven\";a:1:{i:0;a:3:{s:9:\"principal\";i:0;s:9:\"authority\";s:1:\"0\";s:6:\"policy\";a:1:{s:4:\"load\";b:1;}}}s:3:\"web\";a:1:{i:0;a:3:{s:9:\"principal\";i:0;s:9:\"authority\";s:1:\"0\";s:6:\"policy\";a:1:{s:4:\"load\";b:1;}}}}s:22:\"modAccessResourceGroup\";a:0:{}s:17:\"modAccessCategory\";a:0:{}s:28:\"sources.modAccessMediaSource\";a:0:{}s:18:\"modAccessNamespace\";a:0:{}}s:3:\"web\";a:5:{s:16:\"modAccessContext\";a:3:{s:2:\"nc\";a:1:{i:0;a:3:{s:9:\"principal\";i:0;s:9:\"authority\";s:1:\"0\";s:6:\"policy\";a:1:{s:4:\"load\";b:1;}}}s:13:\"Nieuwsbrieven\";a:1:{i:0;a:3:{s:9:\"principal\";i:0;s:9:\"authority\";s:1:\"0\";s:6:\"policy\";a:1:{s:4:\"load\";b:1;}}}s:3:\"web\";a:1:{i:0;a:3:{s:9:\"principal\";i:0;s:9:\"authority\";s:1:\"0\";s:6:\"policy\";a:1:{s:4:\"load\";b:1;}}}}s:22:\"modAccessResourceGroup\";a:0:{}s:17:\"modAccessCategory\";a:0:{}s:28:\"sources.modAccessMediaSource\";a:0:{}s:18:\"modAccessNamespace\";a:0:{}}}modx.user.contextTokens|a:1:{s:3:\"mgr\";i:70;}modx.user.0.userGroupNames|a:0:{}modx.mgr.user.token|s:53:\"modx560e46bf8365a6.51819041_70590052199d20a4.92515893\";modx.mgr.session.cookie.lifetime|i:0;modx.mgr.user.config|a:1:{s:16:\"manager_language\";s:2:\"en\";}modx.user.70.userGroupNames|a:1:{i:0;s:13:\"Administrator\";}')
+Array
+(
+    [0] => 23000
+    [1] => 1062
+    [2] => Duplicate entry 'r4p3u12hdeu27q62rt7b82g1l7' for key 'PRIMARY'
+)
+

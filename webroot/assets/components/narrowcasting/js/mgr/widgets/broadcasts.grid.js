@@ -73,7 +73,7 @@ Narrowcasting.grid.Broadcasts = function(config) {
         baseParams	: {
         	action		: 'mgr/broadcasts/getlist'
         },
-        fields		: ['id', 'resource_id', 'name', 'name_formatted', 'template', 'players', 'editedon'],
+        fields		: ['id', 'resource_id', 'name', 'name_formatted', 'description', 'template', 'players', 'editedon'],
         paging		: true,
         pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy		: 'id'
@@ -206,6 +206,16 @@ Narrowcasting.window.CreateBroadcast = function(config) {
             html		: _('narrowcasting.label_broadcast_name_desc'),
             cls			: 'desc-under'
         }, {
+        	xtype		: 'textarea',
+        	fieldLabel	: _('narrowcasting.label_broadcast_description'),
+        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_broadcast_description_desc'),
+        	name		: 'description',
+        	anchor		: '100%'
+        }, {
+        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_broadcast_description_desc'),
+            cls			: 'desc-under'
+        }, {
             xtype		: 'narrowcasting-combo-templates',
             fieldLabel	: _('narrowcasting.label_broadcast_template'),
             description	: MODx.expandHelp ? '' : _('narrowcasting.label_broadcast_template_desc'),
@@ -252,6 +262,16 @@ Narrowcasting.window.UpdateBroadcast = function(config) {
         }, {
         	xtype		: MODx.expandHelp ? 'label' : 'hidden',
             html		: _('narrowcasting.label_broadcast_name_desc'),
+            cls			: 'desc-under'
+        }, {
+        	xtype		: 'textarea',
+        	fieldLabel	: _('narrowcasting.label_broadcast_description'),
+        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_broadcast_description_desc'),
+        	name		: 'description',
+        	anchor		: '100%'
+        }, {
+        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_broadcast_description_desc'),
             cls			: 'desc-under'
         }, {
             xtype		: 'narrowcasting-combo-templates',

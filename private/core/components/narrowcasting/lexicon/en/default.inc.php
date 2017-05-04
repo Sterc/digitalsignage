@@ -45,6 +45,8 @@
 	
 	$_lang['narrowcasting.label_broadcast_name']					= 'Name';
 	$_lang['narrowcasting.label_broadcast_name_desc']				= 'The name of the broadcast.';
+	$_lang['narrowcasting.label_broadcast_description']				= 'Description';
+	$_lang['narrowcasting.label_broadcast_description_desc']		= 'A short description of the broadcast.';
 	$_lang['narrowcasting.label_broadcast_template']				= 'Template';
 	$_lang['narrowcasting.label_broadcast_template_desc']			= 'The template of the broadcast.';
 	$_lang['narrowcasting.label_broadcast_players']					= 'Mediaboxes';
@@ -63,6 +65,7 @@
 	$_lang['narrowcasting.player_update']							= 'Update mediabox';
 	$_lang['narrowcasting.player_remove']							= 'Delete mediabox';
 	$_lang['narrowcasting.player_remove_confirm']					= 'Are you sure you want to delete this mediabox?';
+	$_lang['narrowcasting.player_view']								= 'Mediabox URL';
 	$_lang['narrowcasting.player_schedule']							= 'Schedule mediabox';
 	$_lang['narrowcasting.player_schedule_create']					= 'Create new schedule';
 	$_lang['narrowcasting.player_schedule_update']					= 'Update schedule';
@@ -74,6 +77,10 @@
 	$_lang['narrowcasting.label_player_key_desc']					= 'The key of the mediabox.';
 	$_lang['narrowcasting.label_player_name']						= 'Name';
 	$_lang['narrowcasting.label_player_name_desc']					= 'The name of the mediabox.';
+	$_lang['narrowcasting.label_player_description']				= 'Description';
+	$_lang['narrowcasting.label_player_description_desc']			= 'A short description of the mediabox.';
+	$_lang['narrowcasting.label_player_type']						= 'Mediabox type';
+	$_lang['narrowcasting.label_player_type_desc']					= 'The type of the mediabox.';
 	$_lang['narrowcasting.label_player_online']						= 'Online';
 	$_lang['narrowcasting.label_player_online_desc']				= '';
 	$_lang['narrowcasting.label_player_current_broadcast']			= 'Current broadcast';
@@ -81,6 +88,8 @@
 	
 	$_lang['narrowcasting.label_schedule_broadcast']				= 'Broadcast';
 	$_lang['narrowcasting.label_schedule_broadcast_desc']			= 'The broadcast of the schedule.';
+	$_lang['narrowcasting.label_schedule_description']				= 'Description';
+	$_lang['narrowcasting.label_schedule_description_desc']			= 'A short description of the schedule.';
 	$_lang['narrowcasting.label_schedule_type']						= 'Schedule type';
 	$_lang['narrowcasting.label_schedule_type_desc']				= 'The schedule type of the schedule.';
 	$_lang['narrowcasting.label_schedule_day']						= 'Day';
