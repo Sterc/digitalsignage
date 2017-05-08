@@ -1,5 +1,5 @@
 <?php
-	
+
 	/**
 	 * Narrowcasting
 	 *
@@ -18,7 +18,7 @@
 	 * Narrowcasting; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
-	 
+
 	class NarrowcastingPlayersSchedules extends xPDOSimpleObject {
 		/**
 		 * @access public.
@@ -46,14 +46,14 @@
 					return $value;
 				}
 			}
-			
+
 			if (true !== $value) {
 				return $timestamp;
 			}
-			
+
 			return false;
 		}
-		
+
 		/**
 		 * @access public.
 		 * @param String $start.
@@ -64,10 +64,10 @@
 			if (null !== $start && $end !== null) {
 				return $this->isEmpty($start, 'time') && $this->isEmpty($end, 'time');
 			}
-			
+
 			return $this->isEmpty($this->start_time, 'time') && $this->isEmpty($this->end_time, 'time');
 		}
-		
+
 		/**
 		 * @access public.
 		 * @return Boolean.
@@ -75,7 +75,7 @@
 		public function isSingleDay() {
 			return $this->is('day') || $this->isEmpty($this->end_date, 'date') || $this->start_date == $this->end_date;
 		}
-		
+
 		/**
 		 * @access public.
 		 * @return String.
@@ -83,7 +83,7 @@
 		public function getDayOfWeek() {
 			return date('l', strtotime('Sunday +'.$this->day.' Days'));
 		}
-		
+
 		/**
 		 * @access public.
 		 * @param String|Integer $timestamp.
@@ -94,13 +94,13 @@
 				if (is_string($timestamp)) {
 					$timestamp = strtotime($timestamp);
 				}
-				
+
 				return date('Y-m-d '.$this->start_time, $timestamp);
 			} else {
 				return date($this->start_date.' '.$this->start_time);
 			}
 		}
-		
+
 		/**
 		 * @access public.
 		 * @param String|Integer $timestamp.
@@ -111,7 +111,7 @@
 				if (is_string($timestamp)) {
 					$timestamp = strtotime($timestamp);
 				}
-				
+
 				$timestamp = strtotime(date('Y-m-d '.$this->end_time, $timestamp));
 			} else {
 				if ($this->isEmpty($this->end_date, 'date')) {
@@ -120,14 +120,14 @@
 					$timestamp = strtotime(date($this->end_date.' '.$this->end_time));
 				}
 			}
-			
+
 			if ($this->isEmpty($this->end_time, 'time')) {
 				$timestamp += 60 * 60 * 24;
 			}
-			
+
 			return date('Y-m-d H:i:s', $timestamp);
 		}
-		
+
 		/**
 		 * @access public.
 		 * @param Array $start.
@@ -140,56 +140,56 @@
 				'time'	=> $this->isEmpty($start['time'], 'time', '00:00:00'),
 				'stamp'	=> '',
 			);
-			
+
 			$end = array(
 				'date'	=> $this->isEmpty($end['date'], 'date', $start['date']),
 				'time'	=> $this->isEmpty($end['time'], 'time', '00:00:00'),
 				'stamp'	=> ''
 			);
-			
+
 			$start['stamp'] 	= strtotime(date('Y-m-d H:i:s', strtotime(date($start['date'].' '.$start['time']))));
 			$end['stamp'] 		= strtotime(date('Y-m-d H:i:s', strtotime(date($end['date'].' '.$end['time']))));
-			
+
 			if ($this->isEmpty($end['time'], 'time')) {
 				$end['stamp'] = strtotime(date('Y-m-d H:i:s', $end['stamp'] + (60 * 60 * 24)));
 			}
-				
+
 			if ($this->is('day')) {
-				if (date('w', $start['stamp']) == $this->day) { 
+				if (date('w', $start['stamp']) == $this->day) {
 					if (strtotime($this->getFirstDate($start['stamp'])) < $start['stamp'] && strtotime($this->getLastDate($start['stamp'])) > $start['stamp']) {
-						return true;	
+						return true;
 					}
-					
+
 					if (strtotime($this->getFirstDate($start['stamp'])) < $end['stamp'] && strtotime($this->getLastDate($start['stamp'])) > $end['stamp']) {
-						return true;	
+						return true;
 					}
-					
+
 					if ($start['stamp'] < strtotime($this->getFirstDate($start['stamp'])) && $end['stamp'] > strtotime($this->getFirstDate($start['stamp']))) {
 						return true;
 					}
-					
+
 					if ($start['stamp'] < strtotime($this->getLastDate($start['stamp'])) && $end['stamp'] > strtotime($this->getLastDate($start['stamp']))) {
 						return true;
 					}
 				}
 			} else {
 				if (strtotime($this->getFirstDate()) < $start['stamp'] && strtotime($this->getLastDate()) > $start['stamp']) {
-					return true;	
+					return true;
 				}
-				
+
 				if (strtotime($this->getFirstDate()) < $end['stamp'] && strtotime($this->getLastDate()) > $end['stamp']) {
-					return true;	
+					return true;
 				}
-				
+
 				if ($start['stamp'] < strtotime($this->getFirstDate()) && $end['stamp'] > strtotime($this->getFirstDate())) {
 					return true;
 				}
-				
+
 				if ($start['stamp'] < strtotime($this->getLastDate()) && $end['stamp'] > strtotime($this->getLastDate())) {
 					return true;
 				}
 			}
-			
+
 			return false;
 		}
 
@@ -201,50 +201,50 @@
 		 */
 		public function getRange($start = array(), $end = array()) {
 			$dates = array();
-			
+
 			if ($this->is('day')) {
 				$end = array(
 					'date'	=> $end['date'],
-					'time'	=> $this->isEmpty($end['time'], 'time', '23:59:59')	
+					'time'	=> $this->isEmpty($end['time'], 'time', '23:59:59')
 				);
-				
+
 				$type 		= $this->getDayOfWeek();
-				
+
 				$startDate 	= strtotime(date('Y-m-d 00:00:00', strtotime($start['date'])));
 				$endDate	= strtotime(date('Y-m-d 00:00:00', strtotime($end['date'])));
-				
+
 				$nextDate	= $startDate;
-				
+
 				while ($nextDate <= $endDate) {
 					if ($nextDate <= $endDate && $this->day == date('w', $nextDate)) {
 						$startDay	= date('Y-m-d '.$start['time'], $nextDate);
 						$endDay		= date('Y-m-d '.$end['time'], $nextDate);
-						
+
 						$dates[] = array(
 							'format_start'	=> $startDay,
 							'format_end'	=> $endDay,
 							'entire_day'	=> $this->isEntireDay(date('H:i:s', strtotime($startDay)), date('H:i:s', strtotime($endDay)))
 						);
 					}
-					
+
 					$nextDate = strtotime(date('Y-m-d 00:00:00', strtotime('Next '.$type, $nextDate)));
 				}
 			} else {
 				$end = array(
 					'date'	=> $this->isEmpty($end['date'], 'date', $start['date']),
-					'time'	=> $this->isEmpty($end['time'], 'time', '23:59:59')	
+					'time'	=> $this->isEmpty($end['time'], 'time', '23:59:59')
 				);
 
 				$startDate 	= strtotime(date('Y-m-d 00:00:00', strtotime($start['date'])));
 				$endDate	= strtotime(date('Y-m-d 00:00:00', strtotime($end['date'])));
-				
+
 				$nextDate	= $startDate;
 
 				while ($nextDate <= $endDate) {
 					if ($nextDate <= $endDate) {
 						$startDay 	= date('Y-m-d 00:00:00', $nextDate);
 						$endDay		= date('Y-m-d 23:59:59', $nextDate);
-						
+
 						if ($nextDate == $startDate && $nextDate == $endDate) {
 							$startDay 	= date('Y-m-d '.$start['time'], $nextDate);
 							$endDay 	= date('Y-m-d '.$end['time'], $nextDate);
@@ -260,24 +260,24 @@
 							'entire_day'	=> $this->isEntireDay(date('H:i:s', strtotime($startDay)), date('H:i:s', strtotime($endDay)))
 						);
 					}
-					
+
 					$nextDate = strtotime('+1 day', $nextDate);
 				}
 			}
-			
+
 			return $dates;
 		}
-		
+
 		/**
 		 * @access public.
 		 * @return String.
 		 */
 		public function toString() {
 			$string = array();
-			
+
 			if ($this->is('day')) {
 				$string[] = $this->xpdo->lexicon(strtolower($this->getDayOfWeek()));
-				
+
 				if ($this->isEntireDay()) {
 					$string[] = $this->xpdo->lexicon('narrowcasting.schedule_time_format_entire_day');
 				} else {
@@ -289,7 +289,7 @@
 			} else {
 				if ($this->isSingleDay()) {
 					$string[] = date($this->xpdo->getOption('manager_date_format'), strtotime($this->start_date));
-					
+
 					if ($this->isEntireDay()) {
 						$string[] = $this->xpdo->lexicon('narrowcasting.schedule_time_format_entire_day');
 					} else {
@@ -304,7 +304,7 @@
 							'start_date' 	=> date($this->xpdo->getOption('manager_date_format'), strtotime($this->start_date)),
 							'end_date'		=> date($this->xpdo->getOption('manager_date_format'), strtotime($this->end_date))
 						));
-						
+
 						$string[] = $this->xpdo->lexicon('narrowcasting.schedule_time_format_entire_day');
 					} else {
 						$string[] = $this->xpdo->lexicon('narrowcasting.schedule_date_format_set_long', array(
@@ -320,5 +320,5 @@
 			return implode(' ', $string);
 		}
 	}
-	
+
 ?>
