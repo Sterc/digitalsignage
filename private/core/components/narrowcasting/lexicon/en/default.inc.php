@@ -42,6 +42,9 @@
 	$_lang['narrowcasting.broadcast_update']						= 'Update broadcast';
 	$_lang['narrowcasting.broadcast_remove']						= 'Delete broadcast';
 	$_lang['narrowcasting.broadcast_remove_confirm']				= 'Are you sure you want to delete this broadcast?';
+	$_lang['narrowcasting.broadcast_slide']							= 'View slides';
+	$_lang['narrowcasting.broadcast_slide_desc']					= 'Here you can manage all the slides of the broadcast. Drag & Drop slides from the "available slides" to "selected slide" to add slides.';
+	$_lang['narrowcasting.broadcast_slide_remove']					= 'Delete slide';
 	
 	$_lang['narrowcasting.label_broadcast_name']					= 'Name';
 	$_lang['narrowcasting.label_broadcast_name_desc']				= 'The name of the broadcast.';
@@ -49,15 +52,28 @@
 	$_lang['narrowcasting.label_broadcast_description_desc']		= 'A short description of the broadcast.';
 	$_lang['narrowcasting.label_broadcast_template']				= 'Template';
 	$_lang['narrowcasting.label_broadcast_template_desc']			= 'The template of the broadcast.';
+	$_lang['narrowcasting.label_broadcast_slides']					= 'Slides';
+	$_lang['narrowcasting.label_broadcast_slides_desc']				= 'The slides to broadcast the broadcast.';
 	$_lang['narrowcasting.label_broadcast_players']					= 'Mediaboxes';
 	$_lang['narrowcasting.label_broadcast_players_desc']			= 'The mediaboxes to broadcast the broadcast.';
-	$_lang['narrowcasting.label_broadcast_player']					= 'Mediabox';
-	$_lang['narrowcasting.label_broadcast_player_desc']				= 'The mediabox of the broadcast.';
 	
 	$_lang['narrowcasting.slide']									= 'Slide';
 	$_lang['narrowcasting.slides']									= 'Slides';
 	$_lang['narrowcasting.slides_desc']								= 'Here you can manage all the slides for your narrowcasting.';
+	$_lang['narrowcasting.slide_create']							= 'Create new slide';
+	$_lang['narrowcasting.slide_update']							= 'Update slide';
+	$_lang['narrowcasting.slide_remove']							= 'Delete slide';
+	$_lang['narrowcasting.slide_remove_confirm']					= 'Are you sure you want to delete this slide?';
 
+	$_lang['narrowcasting.label_slide_name']						= 'Name';
+	$_lang['narrowcasting.label_slide_name_desc']					= 'The name of the slide.';
+	$_lang['narrowcasting.label_slide_type']						= 'Type';
+	$_lang['narrowcasting.label_slide_type_desc']					= 'The type of the slide.';
+	$_lang['narrowcasting.label_slide_time']						= 'Duration';
+	$_lang['narrowcasting.label_slide_time_desc']					= 'The duration of the slide in seconds.';
+	$_lang['narrowcasting.label_slide_published']					= 'Published';
+	$_lang['narrowcasting.label_slide_published_desc']				= '';
+	
 	$_lang['narrowcasting.player']									= 'Mediabox';
 	$_lang['narrowcasting.players']									= 'Mediaboxes';
 	$_lang['narrowcasting.players_desc']							= 'Here you can manage all mediaboxes for your narrowcasting.';
@@ -66,6 +82,7 @@
 	$_lang['narrowcasting.player_remove']							= 'Delete mediabox';
 	$_lang['narrowcasting.player_remove_confirm']					= 'Are you sure you want to delete this mediabox?';
 	$_lang['narrowcasting.player_view']								= 'View mediabox';
+	$_lang['narrowcasting.player_view_desc']						= 'To connect this mediabox with the narrowcasting use the URL:';
 	$_lang['narrowcasting.player_schedule']							= 'Schedule mediabox';
 	$_lang['narrowcasting.player_schedule_create']					= 'Create new schedule';
 	$_lang['narrowcasting.player_schedule_update']					= 'Update schedule';
@@ -109,7 +126,9 @@
 	
 	$_lang['narrowcasting.auto_refresh_grid']						= 'Auto refresh';
 	$_lang['narrowcasting.filter_broadcast']						= 'Filter on broadcast';
-	$_lang['narrowcasting.connect']									= 'To connect this mediabox with the narrowcasting use the following URL: <strong>[[+url]]</strong>.';
+	$_lang['narrowcasting.broadcast_slides']						= 'Selected slides';
+	$_lang['narrowcasting.available_slides']						= 'Available slides';
+	$_lang['narrowcasting.slide_more_options']						= 'Select a slide type for more options.';
 	$_lang['narrowcasting.schedule_day']							= 'Day';
 	$_lang['narrowcasting.schedule_date']							= 'Date';
 	$_lang['narrowcasting.schedule_time_format_entire_day']			= '(entire day)';

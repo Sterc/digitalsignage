@@ -19,12 +19,12 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 	 
-	class NarrowcastingBroadcastsRemoveProcessor extends modObjectRemoveProcessor {
+	class NarrowcastingSlidesRemoveProcessor extends modObjectRemoveProcessor {
 		/**
 		 * @acces public.
 		 * @var String.
 		 */
-		public $classKey = 'NarrowcastingBroadcasts';
+		public $classKey = 'NarrowcastingBroadcastsSlides';
 		
 		/**
 		 * @acces public.
@@ -36,7 +36,7 @@
 		 * @acces public.
 		 * @var String.
 		 */
-		public $objectType = 'narrowcasting.broadcasts';
+		public $objectType = 'narrowcasting.slides';
 		
 		/**
 		 * @acces public.
@@ -53,36 +53,8 @@
 
 			return parent::initialize();
 		}
-		
-		/**
-		 * @acces public.
-		 * @return Mixed.
-		 */
-		public function beforeRemove() {
-			$response = $this->modx->runProcessor('resource/delete', array(
-				'id' => $this->object->resource_id
-			));
-
-			return parent::beforeRemove();
-		}
-		
-		/**
-		 * @acces public.
-		 * @return Mixed.
-		 */
-		public function afterRemove() {
-			$this->modx->removeCollection('NarrowcastingBroadcastsSlides', array(
-				'slide_id' => $this->getProperty('id')
-			));
-			
-			$this->modx->removeCollection('NarrowcastingPlayersSchedules', array(
-				'broadcast_id' => $this->getProperty('id')
-			));
-
-			return parent::afterRemove();
-		}
 	}
 	
-	return 'NarrowcastingBroadcastsRemoveProcessor';
+	return 'NarrowcastingSlidesRemoveProcessor';
 	
 ?>

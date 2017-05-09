@@ -19,15 +19,8 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 
-	$xpdo_meta_map = array(
-		'xPDOSimpleObject' => array(
-			0 => 'NarrowcastingBroadcasts',
-	    	1 => 'NarrowcastingBroadcastsSlides',
-	    	2 => 'NarrowcastingPlayers',
-	    	3 => 'NarrowcastingPlayersSchedules',
-	    	4 => 'NarrowcastingSlides',
-	    	5 => 'NarrowcastingSlidesTypes'
-	    )
-	);
+	require_once dirname(dirname(__FILE__)).'/narrowcastingplayersschedules.class.php';
+	
+	class NarrowcastingBroadcastsSlides_mysql extends NarrowcastingPlayersSchedules {}
 	
 ?>

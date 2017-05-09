@@ -43,11 +43,11 @@ Narrowcasting.panel.Home = function(config) {
 				items		: [{
 					html			: '<p>'+_('narrowcasting.slides_desc')+'</p>',
 					bodyCssClass	: 'panel-desc'
-				}/*, {
+				}, {
 					xtype			: 'narrowcasting-grid-slides',
 					cls				: 'main-wrapper',
 					preventRender	: true
-				}*/]
+				}]
 			}, {
 				layout		: 'form',
 				title		: _('narrowcasting.players'),

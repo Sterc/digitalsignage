@@ -1,5 +1,5 @@
 <?php
-
+	
 	/**
 	 * Narrowcasting
 	 *
@@ -18,71 +18,67 @@
 	 * Narrowcasting; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
-	 
-	class NarrowcastingBroadcastsRemoveProcessor extends modObjectRemoveProcessor {
+
+	class NarrowcastingSlidesCreateProcessor extends modObjectCreateProcessor {
 		/**
-		 * @acces public.
+		 * @access public.
 		 * @var String.
 		 */
-		public $classKey = 'NarrowcastingBroadcasts';
+		public $classKey = 'NarrowcastingSlides';
 		
 		/**
-		 * @acces public.
+		 * @access public.
 		 * @var Array.
 		 */
 		public $languageTopics = array('narrowcasting:default');
 		
 		/**
-		 * @acces public.
+		 * @access public.
 		 * @var String.
 		 */
-		public $objectType = 'narrowcasting.broadcasts';
+		public $objectType = 'narrowcasting.slides';
 		
 		/**
-		 * @acces public.
+		 * @access public.
 		 * @var Object.
 		 */
 		public $narrowcasting;
 		
 		/**
-		 * @acces public.
+		 * @access public.
 		 * @return Mixed.
 		 */
 		public function initialize() {
 			$this->narrowcasting = $this->modx->getService('narrowcasting', 'Narrowcasting', $this->modx->getOption('narrowcasting.core_path', null, $this->modx->getOption('core_path').'components/narrowcasting/').'model/narrowcasting/');
-
+			
+			if (null === $this->getProperty('published')) {
+				$this->setProperty('published', 0);
+			}
+			
 			return parent::initialize();
 		}
 		
 		/**
-		 * @acces public.
+		 * @access public.
 		 * @return Mixed.
 		 */
-		public function beforeRemove() {
-			$response = $this->modx->runProcessor('resource/delete', array(
-				'id' => $this->object->resource_id
-			));
-
-			return parent::beforeRemove();
-		}
-		
-		/**
-		 * @acces public.
-		 * @return Mixed.
-		 */
-		public function afterRemove() {
-			$this->modx->removeCollection('NarrowcastingBroadcastsSlides', array(
-				'slide_id' => $this->getProperty('id')
+		public function beforeSave() {
+			$data = array();
+			
+			foreach ($this->getProperties() as $key => $value) {
+				if (false !== strstr($key, 'data_')) {
+					$data[substr($key, 5, strlen($key))] = $value;
+				}
+			}
+			
+			$this->object->fromArray(array(
+				'data' => serialize($data)	
 			));
 			
-			$this->modx->removeCollection('NarrowcastingPlayersSchedules', array(
-				'broadcast_id' => $this->getProperty('id')
-			));
-
-			return parent::afterRemove();
+			return parent::beforeSave();
 		}
 	}
 	
-	return 'NarrowcastingBroadcastsRemoveProcessor';
+	return 'NarrowcastingSlidesCreateProcessor';
 	
 ?>

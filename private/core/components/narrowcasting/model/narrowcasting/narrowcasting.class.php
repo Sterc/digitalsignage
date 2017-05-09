@@ -46,7 +46,7 @@
 		
 			$this->config = array_merge(array(
 				'namespace'				=> $this->modx->getOption('namespace', $config, 'narrowcasting'),
-				'lexicons'				=> array('narrowcasting:default'),
+				'lexicons'				=> array('narrowcasting:default', 'narrowcasting:slides'),
 				'base_path'				=> $corePath,
 				'core_path' 			=> $corePath,
 				'model_path' 			=> $corePath.'model/',

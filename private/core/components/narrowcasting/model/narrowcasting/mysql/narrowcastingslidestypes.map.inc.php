@@ -19,49 +19,47 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 
-	$xpdo_meta_map['NarrowcastingBroadcasts']= array(
+	$xpdo_meta_map['NarrowcastingSlidesTypes']= array(
 		'package' 	=> 'narrowcasting',
 		'version' 	=> '1.0',
-		'table' 	=> 'narrowcasting_broadcasts',
-		'extends' 	=> 'xPDOSimpleObject',
+		'table' 	=> 'narrowcasting_slides_types',
+		'extends' 	=> 'xPDOObject',
 		'fields' 	=> array(
-			'id'			=> null,
-			'resource_id'	=> null,
-			'color'			=> null,
-			'hash'			=> null,
-			'editedon'		=> null
+			'key'			=> null,
+			'name'			=> null,
+			'description'	=> null,
+			'icon'			=> null,
+			'data'			=> null
 		),
 		'fieldMeta'	=> array(
-			'id' 		=> array(
-				'dbtype' 	=> 'int',
-				'precision' => '11',
-				'phptype' 	=> 'integer',
+			'key' 		=> array(
+				'dbtype' 	=> 'varchar',
+				'precision' => '75',
+				'phptype' 	=> 'string',
 				'null' 		=> false,
-				'index' 	=> 'pk',
-				'generated'	=> 'native'
+				'index' 	=> 'pk'
 			),
-			'resource_id' => array(
-				'dbtype' 	=> 'int',
-				'precision' => '11',
-				'phptype' 	=> 'integer',
+			'name' 		=> array(
+				'dbtype' 	=> 'varchar',
+				'precision' => '75',
+				'phptype' 	=> 'string',
 				'null' 		=> false
 			),
-			'color' 	=> array(
-				'dbtype' 	=> 'int',
-				'precision' => '1',
-				'phptype' 	=> 'integer',
-				'null' 		=> false
-			),
-			'hash' 	=> array(
+			'description' => array(
 				'dbtype' 	=> 'varchar',
 				'precision' => '255',
 				'phptype' 	=> 'string',
 				'null' 		=> false
 			),
-			'editedon' 	=> array(
-				'dbtype' 	=> 'timestamp',
-				'phptype' 	=> 'timestamp',
-				'attributes' => 'ON UPDATE CURRENT_TIMESTAMP',
+			'icon' 		=> array(
+				'dbtype' 	=> 'varchar',
+				'precision' => '75',
+				'phptype' 	=> 'string',
+				'null' 		=> false
+			),
+			'data' 		=> array(
+				'dbtype' 	=> 'text',
+				'phptype' 	=> 'string',
 				'null' 		=> false
 			)
 		),
@@ -71,7 +69,7 @@
 				'primary' 	=> true,
 				'unique' 	=> true,
 				'columns' 	=> array(
-					'id' 		=> array(
+					'key' 		=> array(
 						'collation' => 'A',
 						'null' 		=> false,
 					)
@@ -79,24 +77,10 @@
 			)
 		),
 		'aggregates' => array(
-			'modResource' => array(
-				'local'			=> 'resource_id',
-				'class' 		=> 'modResource',
-				'foreign' 		=> 'id',
-				'owner' 		=> 'foreign',
-				'cardinality' 	=> 'one'
-			),
 			'NarrowcastingSlides' => array(
-				'local' 		=> 'id',
-				'class' 		=> 'NarrowcastingBroadcastsSlides',
-				'foreign'		=> 'broadcast_id',
-				'owner' 		=> 'local',
-				'cardinality' 	=> 'many'
-			),
-			'NarrowcastingSchedules' => array(
-				'local' 		=> 'id',
-				'class' 		=> 'NarrowcastingPlayersSchedules',
-				'foreign'		=> 'broadcast_id',
+				'local' 		=> 'key',
+				'class' 		=> 'NarrowcastingSlides',
+				'foreign'		=> 'type',
 				'owner' 		=> 'local',
 				'cardinality' 	=> 'many'
 			)

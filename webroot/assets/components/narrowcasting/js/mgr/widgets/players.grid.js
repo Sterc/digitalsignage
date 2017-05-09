@@ -97,7 +97,7 @@ Narrowcasting.grid.Players = function(config) {
         baseParams	: {
         	action		: 'mgr/players/getlist'
         },
-        fields		: ['id', 'key', 'name', 'description', 'type', 'last_online', 'last_broadcast_id', 'editedon', 'online', 'current_broadcast', 'connect_description'],
+        fields		: ['id', 'key', 'name', 'description', 'type', 'last_online', 'last_broadcast_id', 'editedon', 'online', 'current_broadcast', 'url'],
         paging		: true,
         pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy		: 'id',
@@ -182,18 +182,13 @@ Ext.extend(Narrowcasting.grid.Players, MODx.grid.Grid, {
 	        listeners	: {
 		        'success'	: {
 		        	fn			: function(data) {
-			        	MODx.msg.alert('Warning!', _('narrowcasting.connect', {
-				        	'url': Narrowcasting.config.request_url + '?' + Narrowcasting.config.request_param_player + '=' + data.a.result.object.key
-			        	}));
-            			
-            			this.refreshGrids();
+			        	this.refreshGrids();
             			this.refresh();
             		},
 		        	scope		: this
 		        }
 	         }
-        });
-        
+        }); 
         
         this.createPlayerWindow.show(e.target);
     },
@@ -214,7 +209,7 @@ Ext.extend(Narrowcasting.grid.Players, MODx.grid.Grid, {
             		},
 		        	scope		: this
 		        }
-	         }
+	        }
         });
         
         this.updatePlayerWindow.setValues(this.menu.record);
@@ -239,6 +234,20 @@ Ext.extend(Narrowcasting.grid.Players, MODx.grid.Grid, {
             	}
             }
     	});
+    },
+    viewPlayer: function(btn, e) {
+        if (this.viewPlayerWindow) {
+	        this.viewPlayerWindow.destroy();
+        }
+        
+        this.viewPlayerWindow = MODx.load({
+	        xtype		: 'narrowcasting-window-player-view',
+	        record		: this.menu.record,
+	        closeAction	: 'close'
+        });
+        
+        this.viewPlayerWindow.setValues(this.menu.record);
+        this.viewPlayerWindow.show(e.target);
     },
     schedulePlayer: function(btn, e) {
         if (this.schedulePlayerWindow) {
@@ -388,14 +397,51 @@ Ext.extend(Narrowcasting.window.UpdatePlayer, MODx.Window);
 
 Ext.reg('narrowcasting-window-player-update', Narrowcasting.window.UpdatePlayer);
 
+Narrowcasting.window.ViewPlayer = function(config) {
+    config = config || {};
+
+    Ext.applyIf(config, {
+    	autoHeight	: true,
+        title 		: _('narrowcasting.player_view'),
+        cls			: 'narrowcasting-window-padding',
+        fields		: [{
+        	html		: '<p>' + _('narrowcasting.player_view_desc') + '</p>',
+            cls			: 'panel-desc'
+		}, {
+        	xtype		: 'statictextfield',
+        	name		: 'url',
+        	anchor		: '100%',
+        	hideLabel	: true
+        }],
+        buttons 	: [{
+            text		: _('ok'),
+            cls			: 'primary-button',
+            handler		: function() {
+	            if ('close' !== config.closeAction) {
+		        	this.hide();
+		        } else {
+			        this.close(); 
+			    }
+	        },
+            scope		: this
+        }]
+    });
+    
+    Narrowcasting.window.ViewPlayer.superclass.constructor.call(this, config);
+};
+
+Ext.extend(Narrowcasting.window.ViewPlayer, MODx.Window);
+
+Ext.reg('narrowcasting-window-player-view', Narrowcasting.window.ViewPlayer);
+
 Narrowcasting.window.SchedulePlayer = function(config) {
     config = config || {};
     
     Ext.applyIf(config, {
     	width		: 600,
     	autoHeight	: true,
-    	bodyStyle	: 'padding: 15px;',
         title 		: _('narrowcasting.player_schedule'),
+        cls			: 'narrowcasting-window-padding',
         items		: [{
             xtype		: 'narrowcasting-grid-player-schedules',
             record		: config.record,

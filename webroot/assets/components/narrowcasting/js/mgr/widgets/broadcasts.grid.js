@@ -56,6 +56,13 @@ Narrowcasting.grid.Broadcasts = function(config) {
             fixed 		: true,
             renderer	: this.renderPlayers
         }, {
+            header		: _('narrowcasting.label_broadcast_slides'),
+            dataIndex	: 'slides',
+            sortable	: true,
+            editable	: false,
+            width		: 100,
+            fixed 		: true
+        }, {
             header		: _('last_modified'),
             dataIndex	: 'editedon',
             sortable	: true,
@@ -73,7 +80,7 @@ Narrowcasting.grid.Broadcasts = function(config) {
         baseParams	: {
         	action		: 'mgr/broadcasts/getlist'
         },
-        fields		: ['id', 'resource_id', 'name', 'name_formatted', 'description', 'template', 'players', 'editedon'],
+        fields		: ['id', 'resource_id', 'name', 'name_formatted', 'description', 'template', 'editedon', 'slides', 'players'],
         paging		: true,
         pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy		: 'id'
@@ -97,6 +104,10 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
     },
     getMenu: function() {
         return [{
+	    	text 	: _('narrowcasting.broadcast_slide'),
+	    	handler : this.viewSlides,
+	    	scope 	: this 
+	    }, '-', {
 	        text	: _('narrowcasting.broadcast_update'),
 	        handler	: this.updateBroadcast,
 	        scope	: this
@@ -151,8 +162,7 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
         	url			: Narrowcasting.config.connector_url,
         	params		: {
             	action		: 'mgr/broadcasts/remove',
-            	id			: this.menu.record.id,
-            	resource_id : this.menu.record.resource_id
+            	id			: this.menu.record.id
             },
             listeners	: {
             	'success'	: {
@@ -161,6 +171,27 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
             	}
             }
     	});
+    },
+    viewSlides: function(btn, e) {
+        if (this.viewSlidesWindow) {
+	        this.viewSlidesWindow.destroy();
+        }
+        
+        this.viewSlidesWindow = MODx.load({
+	        modal 		: true,
+	        xtype		: 'narrowcasting-window-broadcast-slides',
+	        record		: this.menu.record,
+	        closeAction	: 'close',
+            listeners	: {
+            	'close'		: {
+            		fn			: this.refresh,
+		        	scope		: this
+            	}
+            }
+        });
+        
+        this.viewSlidesWindow.setValues(this.menu.record);
+        this.viewSlidesWindow.show(e.target);
     },
     renderPlayers: function(d, c, e) {
 	    var players = new Array();
@@ -293,6 +324,64 @@ Narrowcasting.window.UpdateBroadcast = function(config) {
 Ext.extend(Narrowcasting.window.UpdateBroadcast, MODx.Window);
 
 Ext.reg('narrowcasting-window-broadcast-update', Narrowcasting.window.UpdateBroadcast);
+
+Narrowcasting.window.Slides = function(config) {
+    config = config || {};
+    
+    Ext.applyIf(config, {
+    	width		: 600,
+    	height 		: 500,
+        title 		: _('narrowcasting.broadcast_slide'),
+        cls			: 'narrowcasting-window-padding',
+        items		: [{
+	    	html 		: '<p>' + _('narrowcasting.broadcast_slide_desc') + '</p>',
+	    	cls			: 'panel-desc'
+	    }, {
+        	layout		: 'column',
+        	border		: false,
+            defaults	: {
+                layout		: 'form',
+                labelSeparator : ''
+            },
+        	items		: [{
+	        	columnWidth	: .5,
+				items : [{
+		            xtype		: 'narrowcasting-tree-broadcast-slides',
+		            broadcast 	: config.record.id,
+		            enableDD	: true
+		        }]
+	        }, {
+		        columnWidth	: .5,
+		        style		: 'margin-right: 0;',
+				items : [{
+		            xtype		: 'narrowcasting-tree-available-slides',
+		            broadcast 	: config.record.id,
+		            enableDD	: true
+		        }]
+			}]
+        }],
+        buttons 	: [{
+            text		: _('ok'),
+            cls			: 'primary-button',
+            handler		: function() {
+	            this.fireEvent('sucesss');
+	            
+	            if ('close' !== config.closeAction) {
+		        	this.hide();
+		        } else {
+			        this.close(); 
+			    }
+	        },
+            scope		: this
+        }]
+    });
+    
+    Narrowcasting.window.Slides.superclass.constructor.call(this, config);
+};
+
+Ext.extend(Narrowcasting.window.Slides, MODx.Window);
+
+Ext.reg('narrowcasting-window-broadcast-slides', Narrowcasting.window.Slides);
 
 Narrowcasting.combo.Broadcasts = function(config) {
     config = config || {};

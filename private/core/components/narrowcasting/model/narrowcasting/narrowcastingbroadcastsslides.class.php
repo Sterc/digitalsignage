@@ -1,5 +1,5 @@
 <?php
-
+	
 	/**
 	 * Narrowcasting
 	 *
@@ -18,16 +18,7 @@
 	 * Narrowcasting; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
-
-	$xpdo_meta_map = array(
-		'xPDOSimpleObject' => array(
-			0 => 'NarrowcastingBroadcasts',
-	    	1 => 'NarrowcastingBroadcastsSlides',
-	    	2 => 'NarrowcastingPlayers',
-	    	3 => 'NarrowcastingPlayersSchedules',
-	    	4 => 'NarrowcastingSlides',
-	    	5 => 'NarrowcastingSlidesTypes'
-	    )
-	);
+	 
+	class NarrowcastingBroadcastsSlides extends xPDOSimpleObject {}
 	
 ?>

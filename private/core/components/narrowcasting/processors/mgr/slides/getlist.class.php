@@ -19,12 +19,12 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 	 
-	class NarrowcastingPlayersGetListProcessor extends modObjectGetListProcessor {
+	class NarrowcastingSlidesGetListProcessor extends modObjectGetListProcessor {
 		/**
 		 * @access public.
 		 * @var String.
 		 */
-		public $classKey = 'NarrowcastingPlayers';
+		public $classKey = 'NarrowcastingSlides';
 		
 		/**
 		 * @access public.
@@ -48,7 +48,7 @@
 		 * @access public.
 		 * @var String.
 		 */
-		public $objectType = 'narrowcasting.players';
+		public $objectType = 'narrowcasting.slides';
 		
 		/**
 		 * @access public.
@@ -80,8 +80,7 @@
 			
 			if (!empty($query)) {
 				$c->where(array(
-					'key:LIKE' 			=> '%'.$query.'%',
-					'OR:name:LIKE' 		=> '%'.$query.'%'
+					'name:LIKE' => '%'.$query.'%'
 				));
 			}
 			
@@ -95,17 +94,12 @@
 		 */
 		public function prepareRow(xPDOObject $object) {
 			$array = array_merge($object->toArray(), array(
-				'online' 			=> $object->isOnline(), 
-				'current_broadcast' => '',
-				'url' 				=> $this->narrowcasting->config['request_url'].'?'.$this->narrowcasting->config['request_param_player'].'='.$object->key
+				'data'				=>  unserialize($object->data),
+				'type_formatted' 	=> $object->type
 			));
 			
-			if ($object->isOnline()) {
-				if (null !== ($broadcast = $object->getCurrentBroadcast())) {
-					if ($resource = $broadcast->getResource()) {
-						$array['current_broadcast'] = $resource->pagetitle;
-					}
-				}
+			if (null !== ($type = $object->getOne('NarrowcastingSlidesTypes'))) {
+				$array['type_formatted'] = $this->modx->lexicon($type->name);
 			}
 			
 			if (in_array($array['editedon'], array('-001-11-30 00:00:00', '-1-11-30 00:00:00', '0000-00-00 00:00:00', null))) {
@@ -118,6 +112,6 @@
 		}
 	}
 
-	return 'NarrowcastingPlayersGetListProcessor';
+	return 'NarrowcastingSlidesGetListProcessor';
 	
 ?>

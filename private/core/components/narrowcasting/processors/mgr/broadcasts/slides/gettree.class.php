@@ -19,12 +19,12 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 	 
-	class NarrowcastingPlayersGetListProcessor extends modObjectGetListProcessor {
+	class NarrowcastingSlidesGetTreeProcessor extends modObjectGetListProcessor {
 		/**
 		 * @access public.
 		 * @var String.
 		 */
-		public $classKey = 'NarrowcastingPlayers';
+		public $classKey = 'NarrowcastingSlides';
 		
 		/**
 		 * @access public.
@@ -36,19 +36,19 @@
 		 * @access public.
 		 * @var String.
 		 */
-		public $defaultSortField = 'id';
+		public $defaultSortField = 'sortindex';
 		
 		/**
 		 * @access public.
 		 * @var String.
 		 */
-		public $defaultSortDirection = 'DESC';
+		public $defaultSortDirection = 'ASC';
 		
 		/**
 		 * @access public.
 		 * @var String.
 		 */
-		public $objectType = 'narrowcasting.players';
+		public $objectType = 'narrowcasting.slides';
 		
 		/**
 		 * @access public.
@@ -63,10 +63,6 @@
 		public function initialize() {
 			$this->narrowcasting = $this->modx->getService('narrowcasting', 'Narrowcasting', $this->modx->getOption('narrowcasting.core_path', null, $this->modx->getOption('core_path').'components/narrowcasting/').'model/narrowcasting/');
 			
-			$this->setDefaultProperties(array(
-				'dateFormat' 	=> $this->modx->getOption('manager_date_format') .', '. $this->modx->getOption('manager_time_format')
-			));
-			
 			return parent::initialize();
 		}
 		
@@ -76,15 +72,19 @@
 		 * @return Object.
 		 */
 		public function prepareQueryBeforeCount(xPDOQuery $c) {
-			$query = $this->getProperty('query');
+			$c->select($this->modx->getSelectColumns('NarrowcastingSlides', 'NarrowcastingSlides'));
+			$c->select($this->modx->getSelectColumns('NarrowcastingBroadcastsSlides', 'NarrowcastingBroadcastsSlides', 'c_', array('id')));
 			
-			if (!empty($query)) {
+			$c->innerjoin('NarrowcastingBroadcastsSlides', 'NarrowcastingBroadcastsSlides', array('NarrowcastingSlides.id = NarrowcastingBroadcastsSlides.slide_id'));
+			
+			$broadcast = $this->getProperty('broadcast_id');
+			
+			if (!empty($broadcast)) {
 				$c->where(array(
-					'key:LIKE' 			=> '%'.$query.'%',
-					'OR:name:LIKE' 		=> '%'.$query.'%'
+					'NarrowcastingBroadcastsSlides.broadcast_id' => $broadcast
 				));
 			}
-			
+
 			return $c;
 		}
 		
@@ -94,30 +94,44 @@
 		 * @return Array.
 		 */
 		public function prepareRow(xPDOObject $object) {
-			$array = array_merge($object->toArray(), array(
-				'online' 			=> $object->isOnline(), 
-				'current_broadcast' => '',
-				'url' 				=> $this->narrowcasting->config['request_url'].'?'.$this->narrowcasting->config['request_param_player'].'='.$object->key
-			));
+			$class 	= array();
+			$icon 	= '';
 			
-			if ($object->isOnline()) {
-				if (null !== ($broadcast = $object->getCurrentBroadcast())) {
-					if ($resource = $broadcast->getResource()) {
-						$array['current_broadcast'] = $resource->pagetitle;
-					}
+			if (0 == $object->published) {
+				$class[] = 'unpublished';
+			}
+			
+			if (null !== ($type = $object->getOne('NarrowcastingSlidesTypes'))) {
+				if (!empty($type->icon)) {
+					$icon = 'icon-'.$type->icon;
 				}
 			}
 			
-			if (in_array($array['editedon'], array('-001-11-30 00:00:00', '-1-11-30 00:00:00', '0000-00-00 00:00:00', null))) {
-				$array['editedon'] = '';
-			} else {
-				$array['editedon'] = date($this->getProperty('dateFormat'), strtotime($array['editedon']));
-			}
-			
-			return $array;	
+			return array(
+				'id' 		=> 'n_slide:'.$object->id.'_id:'.$object->c_id,
+	            'text' 		=> $object->name,
+	            'cls' 		=> implode(' ', $class),
+	            'iconCls' 	=> empty($icon) ? 'icon-file' : $icon,
+	            'loaded'	=> true,
+	            'leaf'		=> true,
+	            'data' 		=> array_merge($object->toArray(), array(
+	            	'c_id'		=> $object->c_id
+	            )),
+	            'pk'		=> $this->getProperty('broadcast_id')
+	        );
 		}
+		
+		/**
+		 * @access public.
+		 * @param Array $array.
+		 * @param Boolean $count.
+		 * @return String.
+		 */
+		public function outputArray($array) {
+        	return $this->modx->toJSON($array);
+    	}
 	}
 
-	return 'NarrowcastingPlayersGetListProcessor';
+	return 'NarrowcastingSlidesGetTreeProcessor';
 	
 ?>

@@ -74,6 +74,22 @@
 		
 		/**
 		 * @access public.
+		 * @return Array.
+		 */
+		public function getSlides() {
+			$slides = array();
+			
+			//foreach ($this->getMany('getSlides') as $slide) {
+				/*if (1 == $slide->published) {
+					$slides[] = $slide;
+				}*/
+			//}
+			
+			return $slides;
+		}
+		
+		/**
+		 * @access public.
 		 * @param String $value.
 		 * @return Array.
 		 */

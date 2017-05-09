@@ -28,14 +28,15 @@
 			$this->addCss($this->narrowcasting->config['assets_url'].'libs/extensible/css/extensible-all.css');
 			$this->addCss($this->narrowcasting->config['assets_url'].'libs/extensible/css/extensible-default.css');
 			
-			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/home.panel.js');
-			$this->addJavascript($this->narrowcasting->config['assets_url'].'libs/extensible/js/extensible-all.js');
-			
+			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/home.panel.js');			
 			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/broadcasts.grid.js');
-			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/broadcasts.players.grid.js');
-			
+			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/slides.grid.js');
+			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/slides.types.grid.js');
 			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/players.grid.js');
 			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/players.schedules.grid.js');
+			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/slides.tree.js');
+			
+			$this->addJavascript($this->narrowcasting->config['assets_url'].'libs/extensible/js/extensible-all.js');
 			
 			$this->addLastJavascript($this->narrowcasting->config['js_url'].'mgr/sections/home.js');
 		}

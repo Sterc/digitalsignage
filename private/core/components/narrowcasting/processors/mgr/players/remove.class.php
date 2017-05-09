@@ -59,7 +59,7 @@
 		 * @return Mixed.
 		 */
 		public function afterRemove() {
-			$this->modx->removeCollection('NarrowcastingBroadcastsPlayers', array(
+			$this->modx->removeCollection('NarrowcastingPlayersSchedules', array(
 				'player_id' => $this->getProperty('id')
 			));
 

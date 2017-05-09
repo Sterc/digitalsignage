@@ -19,16 +19,18 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 
-	$xpdo_meta_map['NarrowcastingBroadcasts']= array(
+	$xpdo_meta_map['NarrowcastingSlides']= array(
 		'package' 	=> 'narrowcasting',
 		'version' 	=> '1.0',
-		'table' 	=> 'narrowcasting_broadcasts',
+		'table' 	=> 'narrowcasting_slides',
 		'extends' 	=> 'xPDOSimpleObject',
 		'fields' 	=> array(
 			'id'			=> null,
-			'resource_id'	=> null,
-			'color'			=> null,
-			'hash'			=> null,
+			'type'			=> null,
+			'name'			=> null,
+			'time'			=> null,
+			'data'			=> null,
+			'published'		=> null,
 			'editedon'		=> null
 		),
 		'fieldMeta'	=> array(
@@ -40,23 +42,35 @@
 				'index' 	=> 'pk',
 				'generated'	=> 'native'
 			),
-			'resource_id' => array(
+			'type' 		=> array(
+				'dbtype' 	=> 'varchar',
+				'precision' => '75',
+				'phptype' 	=> 'string',
+				'null' 		=> false
+			),
+			'name' 		=> array(
+				'dbtype' 	=> 'varchar',
+				'precision' => '75',
+				'phptype' 	=> 'string',
+				'null' 		=> false
+			),
+			'time' 		=> array(
 				'dbtype' 	=> 'int',
-				'precision' => '11',
+				'precision' => '3',
 				'phptype' 	=> 'integer',
 				'null' 		=> false
 			),
-			'color' 	=> array(
+			'data' 		=> array(
+				'dbtype' 	=> 'text',
+				'phptype' 	=> 'string',
+				'null' 		=> false
+			),
+			'published'	=> array(
 				'dbtype' 	=> 'int',
 				'precision' => '1',
 				'phptype' 	=> 'integer',
-				'null' 		=> false
-			),
-			'hash' 	=> array(
-				'dbtype' 	=> 'varchar',
-				'precision' => '255',
-				'phptype' 	=> 'string',
-				'null' 		=> false
+				'null' 		=> false,
+				'default'	=> 1
 			),
 			'editedon' 	=> array(
 				'dbtype' 	=> 'timestamp',
@@ -79,24 +93,17 @@
 			)
 		),
 		'aggregates' => array(
-			'modResource' => array(
-				'local'			=> 'resource_id',
-				'class' 		=> 'modResource',
-				'foreign' 		=> 'id',
-				'owner' 		=> 'foreign',
+			'NarrowcastingSlidesTypes' => array(
+				'local' 		=> 'type',
+				'class' 		=> 'NarrowcastingSlidesTypes',
+				'foreign'		=> 'key',
+				'owner' 		=> 'local',
 				'cardinality' 	=> 'one'
 			),
-			'NarrowcastingSlides' => array(
+			'NarrowcastingBroadcasts' => array(
 				'local' 		=> 'id',
 				'class' 		=> 'NarrowcastingBroadcastsSlides',
-				'foreign'		=> 'broadcast_id',
-				'owner' 		=> 'local',
-				'cardinality' 	=> 'many'
-			),
-			'NarrowcastingSchedules' => array(
-				'local' 		=> 'id',
-				'class' 		=> 'NarrowcastingPlayersSchedules',
-				'foreign'		=> 'broadcast_id',
+				'foreign'		=> 'slide_id',
 				'owner' 		=> 'local',
 				'cardinality' 	=> 'many'
 			)

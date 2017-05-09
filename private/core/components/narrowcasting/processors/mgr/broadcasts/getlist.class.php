@@ -101,6 +101,7 @@
 			$array = array_merge($object->toArray(), array(
 				'name'				=> $object->pagetitle,
 				'name_formatted'	=> $object->pagetitle.($this->modx->hasPermission('tree_show_resource_ids') ? ' ('.$object->resource_id.')' : ''),
+				'slides'			=> count($object->getSlides()),
 				'players' 			=> array()
 			));
 			
