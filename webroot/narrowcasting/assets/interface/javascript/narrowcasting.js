@@ -17,7 +17,8 @@ $(document).ready(function() {
                 'feedType'	: 'JSON'
             }
         },
-        'feed'		: '/narrowcasting/content.php'
+        'feed' : '/narrowcasting/content.php',
+        'connectorUrl' : narrowcastingConnectorUrl
     });
 });
 
@@ -93,6 +94,8 @@ $(document).ready(function() {
          */
         this.$slides = [];
 
+        this.$parameters = [];
+
         this.initialize();
     }
 
@@ -133,6 +136,8 @@ $(document).ready(function() {
      * @protected.
      */
     Narrowcasting.prototype.initialize = function() {
+        this.setUrlParameters(window.location.href);
+
         if (null === this.settings.feed) {
             this.setError('Narrowcasting feed is niet ingesteld.');
         } else {
@@ -156,6 +161,57 @@ $(document).ready(function() {
                 $(this.settings.ticker.element).Newsticker(this.settings.ticker.settings, this);
             }
         }
+
+        this.checkSchedule();
+    };
+
+    /**
+     * Set url parameters.
+     *
+     * @param url
+     */
+    Narrowcasting.prototype.setUrlParameters = function(url) {
+        url = url.split('+').join(' ');
+
+        var tokens,
+            re = /[?&]?([^=]+)=([^&]*)/g;
+
+        while (tokens = re.exec(url)) {
+            this.$parameters[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+        }
+    };
+
+    /**
+     * Check if a new schedule is available.
+     */
+    Narrowcasting.prototype.checkSchedule = function () {
+        var self = this,
+            player = /pl=([^&]+)/.exec(window.location.href)[1],
+            broadcast = parseInt(/bc=([^&]+)/.exec(window.location.href)[1]);
+
+        setTimeout($.proxy(function () {
+            $.ajax({
+                url : self.settings.connectorUrl,
+                method : 'post',
+                data : {
+                    action : 'web/player',
+                    method : 'checkSchedule',
+                    player : player,
+                    r : Math.random()
+                }
+            }).success(function(response) {
+                if (response.results.status === 200) {
+                    console.log(response.results.data.bc);
+                    console.log(broadcast);
+                    if (typeof response.results !== 'undefined' && parseInt(response.results.data.bc) !== broadcast) {
+                        window.location.href = response.results.data.url.replace(/&amp;/g, '&');
+                        return true;
+                    }
+                }
+
+                self.checkSchedule();
+            });
+        }, self), 2000);
     };
 
     /**

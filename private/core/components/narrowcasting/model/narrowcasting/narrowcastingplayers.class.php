@@ -1,5 +1,5 @@
 <?php
-	
+
 	/**
 	 * Narrowcasting
 	 *
@@ -18,7 +18,7 @@
 	 * Narrowcasting; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
-	 
+
 	class NarrowcastingPlayers extends xPDOSimpleObject {
 		/**
 		 * @access public.
@@ -27,7 +27,7 @@
 		 */
 		public function getSchedules($type = null) {
 			$schedules = array();
-			
+
 			if (null === $type || in_array($type, array('day', 'date'))) {
 				foreach ($this->getMany('NarrowcastingSchedules') as $schedule) {
 					if (null === $type || $type == $schedule->type) {
@@ -35,17 +35,17 @@
 					}
 				}
 			}
-			
+
 			return $schedules;
 		}
-		
+
 		/**
 		 * @access public.
 		 * @return Array.
 		 */
 		public function getBroadcasts() {
 			$broadcasts = array();
-			
+
 			foreach ($this->getSchedules() as $schedule) {
 				if (null !== ($broadcast = $schedule->getOne('NarrowcastingBroadcasts'))) {
 					if (!isset($broadcasts[$broadcast->id])) {
@@ -55,10 +55,10 @@
 					}
 				}
 			}
-			
+
 			return $broadcasts;
 		}
-		
+
 		/**
 		 * @access public.
 		 * @return Null|Object.
@@ -71,10 +71,10 @@
 					}
 				}
 			}
-			
+
 			return null;
 		}
-		
+
 		/**
 		 * @access public.
 		 * @param Integer $broadcast.
@@ -82,13 +82,26 @@
 		 */
 		public function isOnline($broadcast = null) {
 			$online = strtotime($this->last_online) > time() - (5 * 60);
-			
+
 			if (null !== $broadcast) {
 				$online = $online && $broadcast == $this->last_broadcast_id;
 			}
-			
+
 			return $online;
 		}
+
+        /**
+         * Update player.
+         *
+         * @param array $data
+         */
+        public function update($data)
+        {
+            foreach ($data as $key => $value) {
+                $this->$key = $value;
+            }
+
+            $this->save();
+        }
+
 	}
-	
-?>
