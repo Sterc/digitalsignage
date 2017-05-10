@@ -6,7 +6,18 @@ Narrowcasting.grid.Broadcasts = function(config) {
         cls			:'primary-button',
         handler		: this.createBroadcast,
         scope		: this
-    }, '->', {
+    }, {
+		xtype		: 'checkbox',
+		name		: 'narrowcasting-refresh-broadcasts',
+        id			: 'narrowcasting-refresh-broadcasts',
+		boxLabel	: _('narrowcasting.auto_refresh_grid'),
+		listeners	: {
+			'check'		: {
+				fn 			: this.autoRefresh,
+				scope 		: this	
+			}
+		}
+	}, '->', {
         xtype		: 'textfield',
         name 		: 'narrowcasting-filter-search-broadcasts',
         id			: 'narrowcasting-filter-search-broadcasts',
@@ -83,13 +94,35 @@ Narrowcasting.grid.Broadcasts = function(config) {
         fields		: ['id', 'resource_id', 'name', 'name_formatted', 'description', 'template', 'editedon', 'slides', 'players'],
         paging		: true,
         pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
-        sortBy		: 'id'
+        sortBy		: 'id',
+        refresher	: {
+	        timer 		: null,
+	        duration	: 30,
+	        count 		: 0
+        }
     });
     
     Narrowcasting.grid.Broadcasts.superclass.constructor.call(this, config);
 };
 
 Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
+	autoRefresh: function(tf, nv) {
+		if (nv) {
+			this.config.refresher.timer = setInterval((function() {
+				tf.setBoxLabel(_('narrowcasting.auto_refresh_grid') + ' (' + (this.config.refresher.duration - this.config.refresher.count) + ')');
+				
+				if (0 == (this.config.refresher.duration - this.config.refresher.count)) {
+					this.config.refresher.count = 0;
+					
+					this.refresh();
+				} else {
+					this.config.refresher.count++;
+				}
+			}).bind(this), 1000);
+		} else {
+			clearInterval(this.config.refresher.timer);
+		}
+	},
     filterSearch: function(tf, nv, ov) {
         this.getStore().baseParams.query = tf.getValue();
         

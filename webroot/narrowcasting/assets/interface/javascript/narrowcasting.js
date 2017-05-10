@@ -17,7 +17,9 @@ $(document).ready(function() {
                 'feedType'	: 'JSON'
             }
         },
-        'feed' : '/narrowcasting/content.php'
+        'callback'	: '',
+        'feed' 		: 'export.json',
+        'domain'	: 'http://narrowcasting.oetzie'
     });
 });
 
@@ -62,6 +64,12 @@ $(document).ready(function() {
          * @protected.
          */
         this.$errors = [];
+        
+        /**
+	     * The broadcast.
+	     * @protected.
+	     */
+	    this.broadcast = {};
 
         /**
          * The data.
@@ -92,9 +100,7 @@ $(document).ready(function() {
          * @protected.
          */
         this.$slides = [];
-
-        this.$parameters = [];
-
+        
         this.initialize();
     }
 
@@ -114,10 +120,15 @@ $(document).ready(function() {
         'animation': 'fade',
         'animationTime': 1,
 
+		'callback': null,
+		'callbackType': 'JSON',
+		'callbackInterval': 300,
+		
         'feed': null,
         'feedType': 'JSON',
-
-        'loadInterval': 900
+		'feedInterval': 900,
+		
+		'domain': ''
     };
 
     /**
@@ -135,82 +146,109 @@ $(document).ready(function() {
      * @protected.
      */
     Narrowcasting.prototype.initialize = function() {
-        this.setUrlParameters(window.location.href);
-
-        if (null === this.settings.feed) {
-            this.setError('Narrowcasting feed is niet ingesteld.');
-        } else {
-            this.loadData();
-
-            if (0 < this.settings.loadInterval) {
-                setInterval($.proxy(function(event) {
-                    this.loadData();
-                }, this), this.settings.loadInterval * 1000);
-            }
-        }
-
-        if (null !== this.settings.clock) {
-            if (this.settings.clock.element) {
-                $(this.settings.clock.element).Clock(this.settings.clock.settings, this);
-            }
-        }
-
-        if (null !== this.settings.ticker) {
-            if (this.settings.ticker.element) {
-                $(this.settings.ticker.element).Newsticker(this.settings.ticker.settings, this);
-            }
-        }
-
-        this.checkSchedule();
+	    if (this.getRequirements()) {
+		    this.broadcast = {
+			    'player'	: $('#broadcast-player').val(),
+			    'broadcast'	: $('#broadcast-broadcast').val()
+		    };
+		    
+			this.loadCallback();
+			
+			if (0 < this.settings.callbackInterval) {
+	            setInterval($.proxy(function(event) {
+	                this.loadCallback();
+	            }, this), this.settings.callbackInterval * 1000);
+	        }
+	
+	        this.loadData();
+	
+	        if (0 < this.settings.feedInterval) {
+	            setInterval($.proxy(function(event) {
+	                this.loadData();
+	            }, this), this.settings.feedInterval * 1000);
+	        }
+	
+	        if (null !== this.settings.clock) {
+	            if (this.settings.clock.element) {
+	                $(this.settings.clock.element).Clock(this.settings.clock.settings, this);
+	            }
+	        }
+	
+	        if (null !== this.settings.ticker) {
+	            if (this.settings.ticker.element) {
+	                $(this.settings.ticker.element).Newsticker(this.settings.ticker.settings, this);
+	            }
+	        }
+	    }
     };
-
+    
     /**
-     * Set url parameters.
-     *
-     * @param url
+     * Checks the the Narrowcasting.
+     * @protected.
      */
-    Narrowcasting.prototype.setUrlParameters = function(url) {
-        url = url.split('+').join(' ');
-
-        var tokens,
-            re = /[?&]?([^=]+)=([^&]*)/g;
-
-        while (tokens = re.exec(url)) {
-            this.$parameters[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
-        }
+    Narrowcasting.prototype.getRequirements = function() {
+		if ('' === $('#broadcast-player').val()) {
+		    return this.setError('Narrowcasting player is niet gedefineerd.', true);
+	    }
+	    
+	    if (undefined === $('#broadcast-player').val()) {
+		    return this.setError('Narrowcasting player is niet gedefineerd.', true);
+	    }
+	    
+	    if ('' === $('#broadcast-broadcast').val()) {
+		    return this.setError('Narrowcasting broadcast is niet gedefineerd.', true);
+	    }
+	    
+	    if (undefined === $('#broadcast-broadcast').val()) {
+		    return this.setError('Narrowcasting broadcast is niet gedefineerd.', true);
+	    }
+	    
+	    if (null === this.settings.callback) {
+		    return this.setError('Narrowcasting callback is niet gedefineerd.', true);
+		}
+	    
+	    if (null === this.settings.feed) {
+		    return this.setError('Narrowcasting feed is niet gedefineerd.', true);
+		}
+		
+		return true;
     };
-
+    
     /**
-     * Check if a new schedule is available.
+     * Loads the callback data for the Narrowcasting.
+     * @protected.
      */
-    Narrowcasting.prototype.checkSchedule = function () {
-        var self = this,
-            player = /pl=([^&]+)/.exec(window.location.href)[1],
-            broadcast = parseInt(/bc=([^&]+)/.exec(window.location.href)[1]);
+    Narrowcasting.prototype.loadCallback = function() {
+	    $.ajax({
+            'url'		: this.settings.callback + '?pl=' + this.broadcast.player + '&bc=' + this.broadcast.broadcast + '&data=true',
+            'dataType'	: this.settings.callbackType.toUpperCase(),
+            'complete'	: $.proxy(function(result) {
+	        	if (200 == result.status) {
+		        	switch (this.settings.callbackType.toUpperCase()) {
+                        case 'JSON':
+                        	if (result.responseJSON) {
+	                        	var currentLocation = window.location.href.replace(this.settings.domain, '');
+                                var redirectLocation = result.responseJSON.redirect.replace(this.settings.domain, '');
+                                
+                                if (currentLocation != redirectLocation) {
+	                                window.location.href = redirectLocation;
+                                }
+                            } else {
+                                this.setError('Narrowcasting callback kon niet gelezen worden (Formaat: ' + this.settings.callbackType.toUpperCase() + ').');
+                            }
+                            
+                        	break;
+                        default:
+                            this.setError('Narrowcasting callback kon niet gelezen worden omdat het formaat niet ondersteund word (Formaat: ' + this.settings.callbackType.toUpperCase() + ').');
 
-        setTimeout($.proxy(function () {
-            $.ajax({
-                url : self.settings.connectorUrl,
-                method : 'post',
-                data : {
-                    action : 'web/player',
-                    method : 'checkSchedule',
-                    player : player,
-                    r : Math.random()
-                }
-            }).success(function(response) {
-                if (response.results.status === 200) {
-                    console.log(response.results.data.bc);
-                    console.log(broadcast);
-                    if (typeof response.results !== 'undefined' && parseInt(response.results.data.bc) !== broadcast) {
-                        window.location.href = response.results.data.url.replace(/&amp;/g, '&');
-                        return true;
+                            break;
                     }
+                        	
+		        } else {
+                    this.setError('Narrowcasting callback kon niet geladen worden (HTTP status: ' + result.status + ').');
                 }
-
-                self.checkSchedule();
-            });
-        }, self), 2000);
+            }, this)
+        });
     };
 
     /**
@@ -219,7 +257,7 @@ $(document).ready(function() {
      */
     Narrowcasting.prototype.loadData = function() {
         $.ajax({
-            'url'		: this.settings.feed,
+            'url'		: this.settings.feed + '?pl=' + this.broadcast.player + '&bc=' + this.broadcast.broadcast + '&data=true',
             'dataType'	: this.settings.feedType.toUpperCase(),
             'complete'	: $.proxy(function(result) {
                 if (200 == result.status) {
@@ -258,10 +296,9 @@ $(document).ready(function() {
      * Display an error.
      * @public.
      * @param {Message} String - The error to display.
+     * @param {Fatal} Boolean - If the error is fatal or not.
      */
-    Narrowcasting.prototype.setError = function(message) {
-        console.warn(message);
-
+    Narrowcasting.prototype.setError = function(message, fatal) {
         if ($error = this.getTemplate('error', this.$specialTemplates)) {
             if (typeof message !== 'object') {
                 message = {
@@ -274,12 +311,16 @@ $(document).ready(function() {
 
             this.$errors.push($error);
 
-            setTimeout($.proxy(function(event) {
-                if ($error = this.$errors.shift()) {
-                    $error.remove();
-                }
-            }, this), 5000);
+			if (!fatal) {
+	            setTimeout($.proxy(function(event) {
+	                if ($error = this.$errors.shift()) {
+	                    $error.remove();
+	                }
+	            }, this), 5000);
+	        }
         }
+        
+        return false;
     };
 
     /**

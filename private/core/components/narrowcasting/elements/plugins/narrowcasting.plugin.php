@@ -3,7 +3,7 @@
 	/**
 	 * Narrowcasting
 	 *
-	 * Copyright 2016 by Oene Tjeerd de Bruin <oenetjeerd@sterc.nl>
+	 * Copyright 2017 by Oene Tjeerd de Bruin <oenetjeerd@sterc.nl>
 	 *
 	 * Narrowcasting is free software; you can redistribute it and/or modify it under
 	 * the terms of the GNU General Public License as published by the Free Software
@@ -20,12 +20,13 @@
 	 */
 
 	switch($modx->event->name) {
+	    case 'OnLoadWebDocument':
 		case 'OnWebPagePrerender':
 			if ($modx->loadClass('Narrowcasting', $modx->getOption('narrowcasting.core_path', null, $modx->getOption('core_path').'components/narrowcasting/').'model/narrowcasting/', true, true)) {
                 $narrowcasting = new Narrowcasting($modx);
 
         	    if ($narrowcasting instanceOf Narrowcasting) {
-        	        $narrowcasting->initializePlayer();
+        	        $narrowcasting->initializePlayer($scriptProperties);
         	    }
 			}
 	        

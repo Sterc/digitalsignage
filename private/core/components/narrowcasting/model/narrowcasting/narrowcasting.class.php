@@ -112,17 +112,16 @@
 	
 	    /**
 	     * @access public.
+	     * @param Array $scriptProperties.
 	     */
-	    public function initializePlayer() {
+	    public function initializePlayer($scriptProperties = array()) {
 	        if (in_array($this->modx->resource->template, $this->config['templates'])) {
 		        $parameters = $this->modx->request->getParameters();
 		        
-	            /*$this->modx->setPlaceholders(array(
-	                'id'		=> $parameters[$this->config['request_param_broadcast']],
-	                'player'	=> $parameters[$this->config['request_param_player']]
-	            ), 'broadcast.');*/
-	            
-	            //$this->modx->regClientStartupHTMLBlock('<script type="text/javascript">var narrowcastingConnectorUrl = "' . $this->config['connector_url'] . '";</script>');
+	            $this->modx->setPlaceholders(array(
+	                'player'	=> $parameters[$this->config['request_param_player']],
+	                'broadcast'	=> $parameters[$this->config['request_param_broadcast']]
+	            ), 'narrowcasting.');
 	        }
 	
 	        if ($this->modx->resource->id == $this->config['request_id']) {
@@ -130,36 +129,49 @@
 		        
 		        if (isset($parameters[$this->config['request_param_player']])) {
 			        if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
-				        $schedule	= null;
-				        $broadcast 	= null;
+				        $schedules = array();
 				        
 				        foreach ($player->getBroadcasts() as $broadcast) {
 					    	if (false !== ($schedule = $broadcast->isScheduled($player->id))) {
 					    		if (null !== ($broadcast = $schedule->getBroadcast())) {
-									break;
+									$schedules[] = array_merge($schedule->toArray(), array(
+										'broadcast'	=> $broadcast->toArray()
+									));
 					    		}
 					    	}
 				        }
 				        
-				        if ($broadcast) {
-					        $player->setOnline($broadcast->id);
+				        // Sort the available schedules by type (dates overules day)
+				        $sort = array();
+			
+						foreach ($schedules as $key => $value) {
+						    $sort[$key] = $value['type'];
+						}
+						
+						array_multisort($sort, SORT_ASC, $schedules);
 
-					        if (isset($parameters['data'])) {
-						        $this->modx->sendRedirect($this->modx->makeUrl($currentBroadcast->resource_id, null, array(
+				        if (0 < count($schedules)) {
+					        // Get the first available schedule
+							$schedule = array_shift($schedules);
+						
+					        $player->setOnline($schedule['broadcast']['id']);
+
+					        if (!isset($parameters['data'])) {
+						        $this->modx->sendRedirect($this->modx->makeUrl($schedule['broadcast']['resource_id'], null, array(
 						        	$this->config['request_param_player']		=> $player->key,
-						        	$this->config['request_param_broadcast']	=> $broadcast->id
+						        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
 					        	), 'full'));
 					        }
 					        
 					        $status = array(
 					        	'status'	=> 200,
 					        	'player'	=> $player->toArray(),
-					        	'schedule'	=> $schedule->toArray(),
-					        	'broadcast'	=> $broadcast->toArray(),
-					        	'redirect'	=> $this->modx->makeUrl($broadcast->resource_id, null, array(
+					        	'schedule'	=> $schedule,
+					        	'broadcast'	=> $schedule['broadcast'],
+					        	'redirect'	=> str_replace('&amp;', '&', $this->modx->makeUrl($schedule['broadcast']['resource_id'], null, array(
 						        	$this->config['request_param_player']		=> $player->key,
-						        	$this->config['request_param_broadcast']	=> $broadcast->id
-					        	), 'full')
+						        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
+					        	), 'full'))
 					        );
 					    } else {
 						    $status = array(
@@ -183,6 +195,54 @@
 		        $this->modx->resource->_output = $this->modx->toJSON($status);
 	        }
 	    }
+	    
+	    /**
+	     * @access public.
+	     * @param Array $scriptProperties.
+	     */
+	    public function initializeBroadcast($scriptProperties = array()) {
+		    $slides = array();
+		    
+		    $slides[] = array(
+			    'time'			=> 10,
+			    'slide'			=> 'default',
+			    'title'			=> 'Lorem ipsum dolor 1',
+			    'content'		=> 'Lorem ipsum dolor sit amet 1 en nog wat tekst...',
+			    'description'	=> 'Lorem ipsum dolor sit amet 1',
+			    'image'			=> null
+		    );
+		    
+		    $slides[] = array(
+			    'time'			=> 10,
+			    'slide'			=> 'default',
+			    'title'			=> 'Lorem ipsum dolor 2',
+			    'content'		=> 'Lorem ipsum dolor sit amet 2 en nog wat tekst...',
+			    'description'	=> 'Lorem ipsum dolor sit amet 2',
+			    'image'			=> null
+		    );
+		    
+		    $slides[] = array(
+			    'time'			=> 10,
+			    'slide'			=> 'default',
+			    'title'			=> 'Lorem ipsum dolor 3',
+			    'content'		=> 'Lorem ipsum dolor sit amet 3 en nog wat tekst...',
+			    'description'	=> 'Lorem ipsum dolor sit amet 3',
+			    'image'			=> null
+		    );
+		    
+		    $slides[] = array(
+			    'time'			=> 10,
+			    'slide'			=> 'default',
+			    'title'			=> 'Lorem ipsum dolor 4',
+			    'content'		=> 'Lorem ipsum dolor sit amet 4 en nog wat tekst...',
+			    'description'	=> 'Lorem ipsum dolor sit amet 4',
+			    'image'			=> null
+		    );
+		    
+		    return $this->modx->toJSON(array(
+		    	'slides' => $slides
+		    ));
+		}
 	}
 	
 ?>

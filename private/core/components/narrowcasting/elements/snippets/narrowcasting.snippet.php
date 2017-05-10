@@ -1,9 +1,9 @@
 <?php
 
-	/**
+    /**
 	 * Narrowcasting
 	 *
-	 * Copyright 2016 by Oene Tjeerd de Bruin <oenetjeerd@sterc.nl>
+	 * Copyright 2017 by Oene Tjeerd de Bruin <oenetjeerd@sterc.nl>
 	 *
 	 * Narrowcasting is free software; you can redistribute it and/or modify it under
 	 * the terms of the GNU General Public License as published by the Free Software
@@ -19,15 +19,12 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 
-	$xpdo_meta_map = array(
-		'xPDOSimpleObject' => array(
-			0 => 'NarrowcastingBroadcasts',
-	    	1 => 'NarrowcastingBroadcastsSlides',
-	    	2 => 'NarrowcastingPlayers',
-	    	3 => 'NarrowcastingPlayersSchedules',
-	    	4 => 'NarrowcastingSlides',
-	    	5 => 'NarrowcastingSlidesTypes'
-	    )
-	);
+	if ($modx->loadClass('Narrowcasting', $modx->getOption('narrowcasting.core_path', null, $modx->getOption('core_path').'components/narrowcasting/').'model/narrowcasting/', true, true)) {
+        $narrowcasting = new Narrowcasting($modx);
+
+	    if ($narrowcasting instanceOf Narrowcasting) {
+	        return $narrowcasting->initializeBroadcast($scriptProperties);
+	    }
+	}
 	
 ?>
