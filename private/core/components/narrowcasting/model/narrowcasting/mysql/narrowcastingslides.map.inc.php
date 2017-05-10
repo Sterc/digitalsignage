@@ -93,14 +93,14 @@
 			)
 		),
 		'aggregates' => array(
-			'NarrowcastingSlidesTypes' => array(
+			'getSlideType' => array(
 				'local' 		=> 'type',
 				'class' 		=> 'NarrowcastingSlidesTypes',
-				'foreign'		=> 'key',
-				'owner' 		=> 'local',
+				'foreign' 		=> 'key',
+				'owner' 		=> 'foreign',
 				'cardinality' 	=> 'one'
 			),
-			'NarrowcastingBroadcasts' => array(
+			'getBroadcasts' => array(
 				'local' 		=> 'id',
 				'class' 		=> 'NarrowcastingBroadcastsSlides',
 				'foreign'		=> 'slide_id',

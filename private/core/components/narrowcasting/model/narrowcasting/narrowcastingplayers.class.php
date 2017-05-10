@@ -29,7 +29,7 @@
 			$schedules = array();
 
 			if (null === $type || in_array($type, array('day', 'date'))) {
-				foreach ($this->getMany('NarrowcastingSchedules') as $schedule) {
+				foreach ($this->getMany('getSchedules') as $schedule) {
 					if (null === $type || $type == $schedule->type) {
 						$schedules[] = $schedule;
 					}
@@ -47,7 +47,7 @@
 			$broadcasts = array();
 
 			foreach ($this->getSchedules() as $schedule) {
-				if (null !== ($broadcast = $schedule->getOne('NarrowcastingBroadcasts'))) {
+				if (null !== ($broadcast = $schedule->getOne('getBroadcast'))) {
 					if (!isset($broadcasts[$broadcast->id])) {
 						if ($broadcast->hasResource()) {
 							$broadcasts[$broadcast->id] = $broadcast;
@@ -65,7 +65,7 @@
 		 */
 		public function getCurrentBroadcast() {
 			if ($this->isOnline()) {
-				if (null !== ($broadcast = $this->getOne('NarrowcastingLastBroadcast'))) {
+				if (null !== ($broadcast = $this->getOne('getCurrentBroadcast'))) {
 					if ($broadcast->hasResource()) {
 						return $broadcast;
 					}
@@ -91,17 +91,18 @@
 		}
 
         /**
-         * Update player.
-         *
-         * @param array $data
+         * @access public.
+         * @param Integer $broadcast.
+         * @return Boolean.
          */
-        public function update($data)
-        {
-            foreach ($data as $key => $value) {
-                $this->$key = $value;
-            }
-
-            $this->save();
+        public function setOnline($broadcast) {
+        	$this->fromArray(array(
+	        	'last_online'		=> date('Y-m-d H:i:s'),
+	        	'last_broadcast_id'	=> $broadcast
+        	));
+        	
+            return $this->save();
         }
-
 	}
+	
+?>

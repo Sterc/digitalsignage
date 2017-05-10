@@ -38,7 +38,7 @@
 	     * @param Object $modx.
 	     * @param Array $config.
 	     */
-	    function __construct(modX &$modx, array $config = array()) {
+	    public function __construct(modX &$modx, array $config = array()) {
 	        $this->modx =& $modx;
 	
 	        $corePath 		= $this->modx->getOption('narrowcasting.core_path', $config, $this->modx->getOption('core_path').'components/narrowcasting/');
@@ -47,7 +47,7 @@
 	
 	        $this->config = array_merge(array(
 	            'namespace'				=> $this->modx->getOption('namespace', $config, 'narrowcasting'),
-	            'lexicons'				=> array('narrowcasting:default'),
+	            'lexicons'				=> array('narrowcasting:default', 'narrowcasting:slides'),
 	            'base_path'				=> $corePath,
 	            'core_path' 			=> $corePath,
 	            'model_path' 			=> $corePath.'model/',
@@ -111,82 +111,77 @@
 	    }
 	
 	    /**
-	     * Initialize player.
-	     *
-	     * @return string|void
+	     * @access public.
 	     */
 	    public function initializePlayer() {
 	        if (in_array($this->modx->resource->template, $this->config['templates'])) {
+		        $parameters = $this->modx->request->getParameters();
+		        
 	            /*$this->modx->setPlaceholders(array(
-	                'id'		=> $parameters[$this->modx->getOption('narrowcasting.request_param_broadcast')],
-	                'player'	=> $parameters[$this->modx->getOption('narrowcasting.request_param_player')]
+	                'id'		=> $parameters[$this->config['request_param_broadcast']],
+	                'player'	=> $parameters[$this->config['request_param_player']]
 	            ), 'broadcast.');*/
-	
-	            $this->modx->regClientStartupHTMLBlock('<script type="text/javascript">var narrowcastingConnectorUrl = "' . $this->config['connector_url'] . '";</script>');
+	            
+	            //$this->modx->regClientStartupHTMLBlock('<script type="text/javascript">var narrowcastingConnectorUrl = "' . $this->config['connector_url'] . '";</script>');
 	        }
 	
 	        if ($this->modx->resource->id == $this->config['request_id']) {
-	            $schedule = $this->checkSchedule($_REQUEST[$this->config['request_param_player']]);
-	
-	            if ($schedule['status'] === 200) {
-	                $this->modx->sendRedirect($schedule['data']['url']);
-	                exit;
-	            }
-	
-	            echo $schedule['message'];
-	            exit;
+		        $parameters = $this->modx->request->getParameters();
+		        
+		        if (isset($parameters[$this->config['request_param_player']])) {
+			        if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
+				        $schedule	= null;
+				        $broadcast 	= null;
+				        
+				        foreach ($player->getBroadcasts() as $broadcast) {
+					    	if (false !== ($schedule = $broadcast->isScheduled($player->id))) {
+					    		if (null !== ($broadcast = $schedule->getBroadcast())) {
+									break;
+					    		}
+					    	}
+				        }
+				        
+				        if ($broadcast) {
+					        $player->setOnline($broadcast->id);
+
+					        if (isset($parameters['data'])) {
+						        $this->modx->sendRedirect($this->modx->makeUrl($currentBroadcast->resource_id, null, array(
+						        	$this->config['request_param_player']		=> $player->key,
+						        	$this->config['request_param_broadcast']	=> $broadcast->id
+					        	), 'full'));
+					        }
+					        
+					        $status = array(
+					        	'status'	=> 200,
+					        	'player'	=> $player->toArray(),
+					        	'schedule'	=> $schedule->toArray(),
+					        	'broadcast'	=> $broadcast->toArray(),
+					        	'redirect'	=> $this->modx->makeUrl($broadcast->resource_id, null, array(
+						        	$this->config['request_param_player']		=> $player->key,
+						        	$this->config['request_param_broadcast']	=> $broadcast->id
+					        	), 'full')
+					        );
+					    } else {
+						    $status = array(
+							    'status'	=> 400,
+							    'message'	=> 'Geen uitzending voor de player gevonden.'
+						    );
+					    }
+			        } else {
+				        $status = array(
+					    	'status'	=> 400,
+					    	'message'	=> 'Player niet gevonden.' 
+				        );
+			        }
+		        } else {
+			        $status = array(
+				    	'status'	=> 400,
+				    	'message'	=> 'Player niet gedefineerd.' 
+			        );
+		        }
+		        
+		        $this->modx->resource->_output = $this->modx->toJSON($status);
 	        }
-	    }
-	
-	    /**
-	     * Check schedule.
-	     *
-	     * @param string $player
-	     *
-	     * @return array
-	     */
-	    public function checkSchedule($player) {
-	        $player = urldecode($player);
-	        $player = $this->getPlayer($player);
-	
-	        if ($player === null) {
-	            return array(
-	                'status' => 400,
-	                'message' => 'Player not found.'
-	            );
-	        }
-	
-	        foreach ($player->getBroadcasts() as $broadcast) {
-	            $schedule = $broadcast->isScheduled($player->get('id'));
-	
-	            if ($schedule === false) {
-	                continue;
-	            }
-	
-	            $player->update([
-	                'last_broadcast_id' => $broadcast->id,
-	                'last_online'       => time()
-	            ]);
-	
-	            $args = array(
-	                $this->config['request_param_player'] => $player->key,
-	                $this->config['request_param_broadcast'] => $broadcast->id
-	            );
-	            $url = $this->modx->makeUrl($broadcast->resource_id, null, $args, 'full');
-	
-	            return array(
-	                'status' => 200,
-	                'data' => array(
-	                    'url' => $url,
-	                    $this->config['request_param_broadcast'] => $broadcast->id
-	                )
-	            );
-	        }
-	
-	        return array(
-	            'status' => 400,
-	            'message' => 'No broadcast available.'
-	        );
 	    }
 	}
 	

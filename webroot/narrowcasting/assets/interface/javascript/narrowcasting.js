@@ -17,8 +17,7 @@ $(document).ready(function() {
                 'feedType'	: 'JSON'
             }
         },
-        'feed' : '/narrowcasting/content.php',
-        'connectorUrl' : narrowcastingConnectorUrl
+        'feed' : '/narrowcasting/content.php'
     });
 });
 

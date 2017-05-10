@@ -77,7 +77,7 @@
 			)
 		),
 		'aggregates' => array(
-			'NarrowcastingSlides' => array(
+			'getSlides' => array(
 				'local' 		=> 'key',
 				'class' 		=> 'NarrowcastingSlides',
 				'foreign'		=> 'type',

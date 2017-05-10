@@ -114,14 +114,14 @@
 			)
 		),
 		'aggregates' => array(
-			'NarrowcastingPlayers' => array(
+			'getPlayer' => array(
 				'local' 		=> 'player_id',
 				'class' 		=> 'NarrowcastingPlayers',
 				'foreign' 		=> 'id',
 				'owner' 		=> 'foreign',
 				'cardinality' 	=> 'one'
 			),
-			'NarrowcastingBroadcasts' => array(
+			'getBroadcast' => array(
 				'local' 		=> 'broadcast_id',
 				'class' 		=> 'NarrowcastingBroadcasts',
 				'foreign' 		=> 'id',

@@ -86,14 +86,14 @@
 				'owner' 		=> 'foreign',
 				'cardinality' 	=> 'one'
 			),
-			'NarrowcastingSlides' => array(
+			'getSlides' => array(
 				'local' 		=> 'id',
 				'class' 		=> 'NarrowcastingBroadcastsSlides',
 				'foreign'		=> 'broadcast_id',
 				'owner' 		=> 'local',
 				'cardinality' 	=> 'many'
 			),
-			'NarrowcastingSchedules' => array(
+			'getSchedules' => array(
 				'local' 		=> 'id',
 				'class' 		=> 'NarrowcastingPlayersSchedules',
 				'foreign'		=> 'broadcast_id',

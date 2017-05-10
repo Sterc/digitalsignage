@@ -95,12 +95,6 @@
 				'calendar'			=> $object->color
 			));
 
-			if (in_array($array['editedon'], array('-001-11-30 00:00:00', '-1-11-30 00:00:00', '0000-00-00 00:00:00', null))) {
-				$array['editedon'] = '';
-			} else {
-				$array['editedon'] = date($this->getProperty('dateFormat'), strtotime($array['editedon']));
-			}
-			
 			return $array;
 		}
 	}

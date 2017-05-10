@@ -64,7 +64,7 @@
 			$this->narrowcasting = $this->modx->getService('narrowcasting', 'Narrowcasting', $this->modx->getOption('narrowcasting.core_path', null, $this->modx->getOption('core_path').'components/narrowcasting/').'model/narrowcasting/');
 			
 			$this->setDefaultProperties(array(
-				'dateFormat' 	=> $this->modx->getOption('manager_date_format') .', '. $this->modx->getOption('manager_time_format')
+				'dateFormat' => $this->modx->getOption('manager_date_format') .', '. $this->modx->getOption('manager_time_format')
 			));
 			
 			return parent::initialize();
@@ -98,7 +98,7 @@
 				'type_formatted' 	=> $object->type
 			));
 			
-			if (null !== ($type = $object->getOne('NarrowcastingSlidesTypes'))) {
+			if (null !== ($type = $object->getOne('getSlideType'))) {
 				$array['type_formatted'] = $this->modx->lexicon($type->name);
 			}
 			

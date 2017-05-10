@@ -101,7 +101,7 @@
 				$class[] = 'unpublished';
 			}
 			
-			if (null !== ($type = $object->getOne('NarrowcastingSlidesTypes'))) {
+			if (null !== ($type = $object->getOne('getSlideType'))) {
 				if (!empty($type->icon)) {
 					$icon = 'icon-'.$type->icon;
 				}

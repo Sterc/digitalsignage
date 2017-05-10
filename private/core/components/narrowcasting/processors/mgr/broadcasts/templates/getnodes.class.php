@@ -19,7 +19,7 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 	 
-	class NarrowcastingBroadcastsTemplatesGetListProcessor extends modObjectGetListProcessor {
+	class NarrowcastingBroadcastsTemplatesGetNodesProcessor extends modObjectGetListProcessor {
 		/**
 		 * @access public.
 		 * @var String.
@@ -80,6 +80,6 @@
 		}
 	}
 
-	return 'NarrowcastingBroadcastsTemplatesGetListProcessor';
+	return 'NarrowcastingBroadcastsTemplatesGetNodesProcessor';
 	
 ?>

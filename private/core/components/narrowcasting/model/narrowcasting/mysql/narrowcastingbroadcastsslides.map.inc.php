@@ -72,16 +72,16 @@
 			)
 		),
 		'aggregates' => array(
-			'NarrowcastingBroadcasts' => array(
-				'local' 		=> 'broadcast_id',
-				'class' 		=> 'NarrowcastingBroadcasts',
+			'getSlide' => array(
+				'local' 		=> 'slide_id',
+				'class' 		=> 'NarrowcastingSlides',
 				'foreign' 		=> 'id',
 				'owner' 		=> 'foreign',
 				'cardinality' 	=> 'one'
 			),
-			'NarrowcastingSlides' => array(
-				'local' 		=> 'slide_id',
-				'class' 		=> 'NarrowcastingSlides',
+			'getBroadcast' => array(
+				'local' 		=> 'broadcast_id',
+				'class' 		=> 'NarrowcastingBroadcasts',
 				'foreign' 		=> 'id',
 				'owner' 		=> 'foreign',
 				'cardinality' 	=> 'one'

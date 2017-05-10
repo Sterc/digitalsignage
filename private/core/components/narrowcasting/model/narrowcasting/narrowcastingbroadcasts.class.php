@@ -47,80 +47,54 @@
         }
 
         /**
-         * Check if schedule is scheduled.
-         *
-         * @access public
-         * @param int $player
-         *
-         * @return array|bool
+         * @access public.
+         * @param Null|Integer $player.
+         * @return Array|Boolean.
          */
         public function isScheduled($player = null) {
             foreach ($this->getSchedules('date', $player) as $schedule) {
-                $start = [
-                    'date' => date('Y-m-d', strtotime($schedule->getFirstDate())),
-                    'time' => date('H:i:s', strtotime($schedule->getFirstDate()))
-                ];
-
-                $end = [
-                    'date' => date('Y-m-d', strtotime($schedule->getLastDate())),
-                    'time' => date('H:i:s', strtotime($schedule->getLastDate()))
-                ];
-
-                if ($schedule->isScheduledFor($start, $end)) {
-                    return array(
-                        'start' => date('Y-m-d H:i:s', $schedule->getFirstDate()),
-                        'end'   => date('Y-m-d H:i:s', $schedule->getLastDate())
-                    );
-                }
+	            $timestamp = array(
+		        	'date'	=> date('Y-m-d'),
+		        	'time'	=> date('H:i:s')
+	            );
+	            
+	            if ($schedule->isScheduledFor($timestamp, $timestamp)) {
+		            return $schedule;
+	            }
             }
 
             foreach ($this->getSchedules('day', $player) as $schedule) {
-                if ($schedule->get('day') !== (int) date('N')) {
-                    continue;
-                }
-
-                return array(
-                    'start' => date('Y-m-d H:i:s', $schedule->getFirstDate()),
-                    'end'   => date('Y-m-d H:i:s', $schedule->getLastDate())
-                );
+	            $timestamp = array(
+		        	'date'	=> date('Y-m-d'),
+		        	'time'	=> date('H:i:s')
+	            );
+	            
+	            if ($schedule->isScheduledFor($timestamp, $timestamp)) {
+		            return $schedule;
+	            }
             }
 
             return false;
         }
 
         /**
-         * Get broadcast schedules.
-         *
-         * @access public
-         * @param string $type
-         * @param int $player
-         *
-         * @return array
+         * @access public.
+         * @param Null|String $type.
+         * @param Null|Integer $player.
+         * @return Array.
          */
         public function getSchedules($type = null, $player = null) {
             $schedules = array();
 
             if (null === $type || in_array($type, array('day', 'date'))) {
-                foreach ($this->getMany('NarrowcastingSchedules') as $schedule) {
-                    if (
-                        ($type === null || $type === $schedule->type) &&
-                        ($player === null || $player === $schedule->player_id)
-                    ) {
+                foreach ($this->getMany('getSchedules') as $schedule) {
+                    if ((null == $type || $type === $schedule->type) && (null === $player || $player === $schedule->player_id)) {
                         $schedules[] = $schedule;
                     }
                 }
             }
-		                 
-			foreach ($this->getSchedules('day') as $schedule) {
-				if ($schedule->isScheduled()) {
-					return array(
-						'start'		=> date('Y-m-d H:i:s', $schedule->getStart()),
-						'end'		=> date('Y-m-d H:i:s', $schedule->getEnd())	
-					);
-				}
-			}
-
-			return false;
+            
+			return $schedules;
 		}
 		
 		/**
@@ -130,32 +104,15 @@
 		public function getSlides() {
 			$slides = array();
 			
-			//foreach ($this->getMany('getSlides') as $slide) {
-				/*if (1 == $slide->published) {
-					$slides[] = $slide;
-				}*/
-			//}
-			
-			return $slides;
-		}
-		
-		/**
-		 * @access public.
-		 * @param String $value.
-		 * @return Array.
-		 */
-		public function getSchedules($type = null) {
-			$schedules = array();
-			
-			if (null === $type || in_array($type, array('day', 'date'))) {
-				foreach ($this->getMany('NarrowcastingSchedules') as $schedule) {
-					if (null === $type || $type == $schedule->type) {
-						$schedules[] = $schedule;
+			foreach ($this->getMany('getSlides') as $slide) {
+				if (null !== ($slide = $slide->getOne('getSlide'))) {
+					if (1 == $slide->published) {
+						$slides[] = $slide;
 					}
 				}
 			}
 			
-			return $schedules;
+			return $slides;
 		}
 		
 		/**
@@ -164,14 +121,14 @@
          */
         public function getPlayers() {
             $players = array();
-
-            foreach ($this->getSchedules() as $schedule) {
-                if (null !== ($player = $schedule->getOne('NarrowcastingPlayers'))) {
-                    if (!isset($players[$player->id])) {
-                        $players[$player->id] = $player;
-                    }
-                }
-            }
+            
+            foreach ($this->getMany('getSchedules') as $schedule) {
+	            if (null !== ($player = $schedule->getOne('getPlayer'))) {
+		            if (!isset($players[$player->id])) {
+			            $players[$player->id] = $player;
+			        }
+		        }
+	        }
 
             return $players;
         }

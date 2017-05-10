@@ -99,14 +99,14 @@
 			)
 		),
 		'aggregates' => array(
-			'NarrowcastingSchedules' => array(
+			'getSchedules' => array(
 				'local' 		=> 'id',
 				'class' 		=> 'NarrowcastingPlayersSchedules',
 				'foreign'		=> 'player_id',
 				'owner' 		=> 'local',
 				'cardinality' 	=> 'many'
 			),
-			'NarrowcastingLastBroadcast' => array(
+			'getCurrentBroadcast' => array(
 				'local' 		=> 'last_broadcast_id',
 				'class' 		=> 'NarrowcastingBroadcasts',
 				'foreign'		=> 'id',

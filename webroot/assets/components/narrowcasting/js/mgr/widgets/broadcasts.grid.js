@@ -418,7 +418,7 @@ Narrowcasting.combo.Templates = function(config) {
     Ext.applyIf(config, {
         url			: Narrowcasting.config.connector_url,
         baseParams 	: {
-            action		: 'mgr/broadcasts/gettemplates'
+            action		: 'mgr/broadcasts/templates/getnodes'
         },
         fields		: ['id', 'templatename', 'description', 'category_name'],
         hiddenName	: 'template',

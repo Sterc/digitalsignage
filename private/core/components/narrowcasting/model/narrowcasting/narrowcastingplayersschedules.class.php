@@ -22,6 +22,20 @@
 	class NarrowcastingPlayersSchedules extends xPDOSimpleObject {
 		/**
 		 * @access public.
+		 * @return Boolean|Object.
+		 */
+		public function getBroadcast() {
+			if (null !== ($broadcast = $this->getOne('getBroadcast'))) {
+				if ($broadcast->hasResource()) {
+					return $broadcast;	
+				}
+			} 
+			
+			return false;
+		}
+		
+		/**
+		 * @access public.
 		 * @param String $type.
 		 * @return Boolean.
 		 */
@@ -153,7 +167,7 @@
 			if ($this->isEmpty($end['time'], 'time')) {
 				$end['stamp'] = strtotime(date('Y-m-d H:i:s', $end['stamp'] + (60 * 60 * 24)));
 			}
-
+			
 			if ($this->is('day')) {
 				if (date('w', $start['stamp']) == $this->day) {
 					if (strtotime($this->getFirstDate($start['stamp'])) < $start['stamp'] && strtotime($this->getLastDate($start['stamp'])) > $start['stamp']) {

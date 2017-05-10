@@ -59,9 +59,9 @@
 		 * @return Mixed.
 		 */
 		public function afterRemove() {
-			$this->modx->removeCollection('NarrowcastingBroadcastsSlides', array(
-				'slide_id' => $this->getProperty('id')
-			));
+			foreach ($this->object->getMany('getBroadcasts') as $broadcast) {
+				$broadcast->remove();
+			}
 
 			return parent::afterRemove();
 		}

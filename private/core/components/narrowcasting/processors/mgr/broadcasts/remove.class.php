@@ -71,13 +71,13 @@
 		 * @return Mixed.
 		 */
 		public function afterRemove() {
-			$this->modx->removeCollection('NarrowcastingBroadcastsSlides', array(
-				'slide_id' => $this->getProperty('id')
-			));
+			foreach ($this->object->getMany('getSlides') as $slide) {
+				$slide->remove();
+			}
 			
-			$this->modx->removeCollection('NarrowcastingPlayersSchedules', array(
-				'broadcast_id' => $this->getProperty('id')
-			));
+			foreach ($this->object->getMany('getSchedules') as $schedulde) {
+				$schedulde->remove();
+			}
 
 			return parent::afterRemove();
 		}

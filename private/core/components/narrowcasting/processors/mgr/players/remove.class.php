@@ -59,9 +59,9 @@
 		 * @return Mixed.
 		 */
 		public function afterRemove() {
-			$this->modx->removeCollection('NarrowcastingPlayersSchedules', array(
-				'player_id' => $this->getProperty('id')
-			));
+			foreach ($this->object->getMany('getSchedules') as $schedule) {
+				$schedule->remove();
+			}
 
 			return parent::afterRemove();
 		}
