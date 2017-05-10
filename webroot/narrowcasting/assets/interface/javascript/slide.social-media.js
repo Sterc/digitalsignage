@@ -19,25 +19,25 @@
 		 * @public.
 		 */
 		this.core = core;
-		
+
 		/**
 		 * Current settings for the Social Media Slide.
 		 * @public.
 		 */
 		this.settings = $.extend({}, SlideSocialMedia.Defaults, options);
-		
+
 		/**
 		 * Plugin element.
 		 * @public.
 		 */
 		this.$element = $(element);
-		
+
 		/**
 		 * Currently suppressed events to prevent them from beeing retriggered.
 		 * @protected.
 		 */
 		this._supress = {};
-		
+
 		/**
 		 * The data.
 		 * @protected.
@@ -53,13 +53,13 @@
 	 */
 	SlideSocialMedia.Defaults = {
 		'time': 15,
-		
+
 		'feed': null,
 		'feedType': 'JSON',
-		
+
 		'count': 6
 	};
-	
+
 	/**
 	 * Enumeration for types.
 	 * @public.
@@ -76,33 +76,33 @@
 	 */
 	SlideSocialMedia.prototype.initialize = function() {
 		if (null === this.settings.feed) {
-			this.core.setError('Buienradar feed is niet ingesteld.');
+			this.core.setError('Social media feed is niet ingesteld.');
 		} else {
-			this.setData();	
+			this.setData();
 		}
-			
+
 		this.core.setPlaceholders(this.$element, this.settings);
-		
+
 		//this.core.setTimer(this.settings.time);
 	};
-	
+
 	/**
 	 * Sets the data of the Social Media Slide.
 	 * @protected.
 	 */
 	SlideSocialMedia.prototype.setData = function() {
 		var $placeholder = this.core.getPlaceholder('social-media', this.$element);
-		
+
 		if ($placeholder) {
 			var $templates = this.core.getTemplates($placeholder);
-			
+
 			$.ajax({
 				'url'		: this.settings.feed,
 				'dataType'	: this.settings.feedType.toUpperCase(),
 				'complete'	: $.proxy(function(result) {
 					if (200 == result.status) {
 						var data = [];
-						
+
 						switch (this.settings.feedType.toUpperCase()) {
 							case 'JSON':
 								if (result.responseJSON) {
@@ -114,7 +114,7 @@
 								} else {
 									this.core.setError('Social media feed kon niet gelezen worden (Formaat: ' + this.settings.feedType.toUpperCase() + ').');
 								}
-							
+
 								break;
 							case 'XML':
 								if (result.responseXML) {
@@ -132,23 +132,23 @@
 								} else {
 									this.core.setError('Social media feed kon niet gelezen worden (Formaat: ' + this.settings.feedType.toUpperCase() + ').');
 								}
-								
+
 								break;
 							default:
 								this.core.setError('Social media feed kon niet gelezen worden omdat het formaat niet ondersteund word (Formaat: ' + this.settings.feedType.toUpperCase() + ').');
-								
+
 								break;
 						}
 
 						for (var i = 0; i < data.length; i++) {
 							if (data[i].source) {
 								var $template = this.core.getTemplate(data[i].source, $templates);
-								
+
 								if ($template) {
 									if (data[i].content) {
 										data[i].content = this.autoHtml(data[i].content);
 									}
-									
+
 									this.core.setPlaceholders($template, data[i]).appendTo($placeholder);
 								}
 							}
@@ -156,7 +156,7 @@
 					} else {
 						this.core.setError('Social media feed kon niet geladen worden (HTTP status: ' + result.status + ').');
 					}
-					
+
 					if (this.startAnimation()) {
 						return this.core.setTimer(this.settings.time);
 					}
@@ -164,7 +164,7 @@
 			});
 		}
 	};
-	
+
 	/**
 	 * Replaces hastags and accounts for HTML tag.
 	 * @public.
@@ -174,17 +174,17 @@
 		content = content.replace(/#(\w+)/g, '<strong>#$1</strong>');
 		content = content.replace(/@(\w+)/g, '<strong>@$1</strong>');
 		content = content.replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/i, '<strong>$1</strong>');
-		
+
 		return content;
 	};
-	
+
 	/**
 	 * Sets the animation.
 	 * @public.
 	 */
 	SlideSocialMedia.prototype.startAnimation = function() {
 		var $placeholder = this.core.getPlaceholder('social-media', this.$element);
-		
+
 		if ($placeholder) {
 			var $wrapper = $('<div>').css({
 				'position' 	: 'absolute',
@@ -193,7 +193,7 @@
 				'width'		: '100%',
 				'overflow'	: 'hidden'
 			}).insertAfter($placeholder);
-			
+
 			var $content = $('<div>').css({
 				'position'	: 'relative',
 			}).append($placeholder).appendTo($wrapper);
@@ -205,14 +205,14 @@
 					'easing' 	: 'linear',
 					'duration' 	: 40000 * ($content.outerHeight(true) / 2100)
 				});
-				
+
 				this.settings.time = (40000 * ($content.outerHeight(true) / 2100)) / 1000;
 			}
 		}
-		
+
 		return true;
 	};
-	
+
 	/*startAnimation: function() {
 			var _ = this;
 
@@ -231,7 +231,7 @@
 					})
 				)
 			);
-			
+
 			_.data['feed'].wrapper.appendTo(content);
 
 			if (content.outerHeight(true) > wrapper.outerHeight(true)) {
@@ -243,13 +243,13 @@
 					easing 		: 'linear',
 					duration 	: _.settings.ticker.time * (content.outerHeight(true) / _.settings.ticker.height)
 				})
-				
+
 				_.core.setTimer((_.settings.ticker.time * (content.outerHeight(true) / _.settings.ticker.height)) / 1000);
 			} else {
 				_.core.setTimer(_.settings.data.time);
 			}
 		}*/
-		
+
 	/**
 	 * Registers an event or state.
 	 * @public.
@@ -263,15 +263,15 @@
 
 			if (!$.event.special[object.name].narrowcasting) {
 				var _default = $.event.special[object.name]._default;
-				
+
 				$.event.special[object.name]._default = function(e) {
 					if (_default && _default.apply && (!e.namespace || -1 === e.namespace.indexOf('narrowcasting'))) {
 						return _default.apply(this, arguments);
 					}
-					
+
 					return e.namespace && e.namespace.indexOf('narrowcasting') > -1;
 				};
-				
+
 				$.event.special[object.name].narrowcasting = true;
 			}
 		}
@@ -312,19 +312,19 @@
 
 			if (!data) {
 				data = new SlideSocialMedia(this, typeof option == 'object' && option, core);
-				
+
 				$this.data('narrowcasting.social-media', data);
-				
+
 				$.each([
-					
+
 				], function(i, event) {
 					data.register({ type: SlideSocialMedia.Type.Event, name: event });
 					data.$element.on(event + '.narrowcasting.social-media.core', $.proxy(function(e) {
 						if (e.namespace && this !== e.relatedTarget) {
 							this.suppress([event]);
-							
+
 							data[event].apply(this, [].slice.call(arguments, 1));
-							
+
 							this.release([event]);
 						}
 					}, data));
