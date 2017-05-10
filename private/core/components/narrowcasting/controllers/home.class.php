@@ -30,6 +30,7 @@
 			
 			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/home.panel.js');			
 			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/broadcasts.grid.js');
+			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/broadcasts.feeds.grid.js');
 			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/slides.grid.js');
 			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/slides.types.grid.js');
 			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/players.grid.js');

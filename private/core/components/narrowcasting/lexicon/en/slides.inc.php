@@ -36,4 +36,9 @@
 	$_lang['narrowcasting.slide_socialmedia_query']					= 'Query';
 	$_lang['narrowcasting.slide_socialmedia_query_desc']			= 'The query of the social media message, example #hastag.';
 	
+	$_lang['narrowcasting.feed_nu']									= 'Nu.nl';
+	$_lang['narrowcasting.feed_nu_desc']							= 'The default RSS feed of Nu.nl.';
+	$_lang['narrowcasting.feed_nos']								= 'NOS';
+	$_lang['narrowcasting.feed_nos_desc']							= 'The default RSS feed of NOS.';
+	
 ?>

@@ -116,6 +116,22 @@
 		}
 		
 		/**
+		 * @access public.
+		 * @return Array.
+		 */
+		public function getFeeds() {
+			$feeds = array();
+			
+			foreach ($this->getMany('getFeeds') as $feed) {
+				if (1 == $feed->published) {
+					$feeds[] = $feed;
+				}
+			}
+			
+			return $feeds;
+		}
+		
+		/**
          * @access public.
          * @return Array.
          */

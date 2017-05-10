@@ -9,7 +9,7 @@ Narrowcasting.tree.BroadcastSlides = function(config) {
 		    broadcast_id : config.broadcast || null
 	    },
         root_id		: 'n_root',
-        root_name	: _('narrowcasting.broadcast_slides'),
+        root_name	: _('narrowcasting.selected_slides'),
         rootVisible	: true,
         expandFirst	: true,
         enableDD	: false,

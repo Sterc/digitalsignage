@@ -19,18 +19,18 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 	 
-	class NarrowcastingBroadcastsGetListProcessor extends modObjectGetListProcessor {
+	class NarrowcastingBroadcastsFeedsGetListProcessor extends modObjectGetListProcessor {
 		/**
 		 * @access public.
 		 * @var String.
 		 */
-		public $classKey = 'NarrowcastingBroadcasts';
+		public $classKey = 'NarrowcastingBroadcastsFeeds';
 		
 		/**
 		 * @access public.
 		 * @var Array.
 		 */
-		public $languageTopics = array('narrowcasting:default');
+		public $languageTopics = array('narrowcasting:default', 'narrowcasting:slides');
 		
 		/**
 		 * @access public.
@@ -63,10 +63,6 @@
 		public function initialize() {
 			$this->narrowcasting = $this->modx->getService('narrowcasting', 'Narrowcasting', $this->modx->getOption('narrowcasting.core_path', null, $this->modx->getOption('core_path').'components/narrowcasting/').'model/narrowcasting/');
 			
-			$this->setDefaultProperties(array(
-				'dateFormat' 	=> $this->modx->getOption('manager_date_format') .', '. $this->modx->getOption('manager_time_format')
-			));
-			
 			return parent::initialize();
 		}
 		
@@ -76,43 +72,27 @@
 		 * @return Object.
 		 */
 		public function prepareQueryBeforeCount(xPDOQuery $c) {
-			$c->select($this->modx->getSelectColumns('NarrowcastingBroadcasts', 'NarrowcastingBroadcasts'));
-			$c->select($this->modx->getSelectColumns('modResource', 'modResource', null, array('pagetitle', 'description', 'template')));
+			$broadcast = $this->getProperty('broadcast_id');
 			
-			$c->innerjoin('modResource', 'modResource', array('modResource.id = NarrowcastingBroadcasts.resource_id'));
-			
-			$query = $this->getProperty('query');
-			
-			if (!empty($query)) {
+			if (!empty($broadcast)) {
 				$c->where(array(
-					'modResource.pagetitle:LIKE' => '%'.$query.'%'
+					'broadcast_id' => $broadcast
 				));
 			}
-			
+
 			return $c;
 		}
 		
 		/**
 		 * @access public.
-		 * @param Object $query.
+		 * @param Object $object.
 		 * @return Array.
 		 */
 		public function prepareRow(xPDOObject $object) {
 			$array = array_merge($object->toArray(), array(
-				'name'				=> $object->pagetitle,
-				'name_formatted'	=> $object->pagetitle.($this->modx->hasPermission('tree_show_resource_ids') ? ' ('.$object->resource_id.')' : ''),
-				'slides'			=> count($object->getSlides()),
-				'feeds'				=> count($object->getFeeds()),
-				'players' 			=> array()
+				'name'			=> $this->modx->lexicon('narrowcasting.feed_'.$object->key),
+				'description'	=> $this->modx->lexicon('narrowcasting.feed_'.$object->key.'_desc')
 			));
-			
-			foreach ($object->getPlayers() as $player) {
-				$array['players'][] = array(
-					'key'		=> $player->key,
-					'name'		=> $player->name,
-					'online' 	=> $player->isOnline($object->id)
-				);
-			}
 			
 			if (in_array($array['editedon'], array('-001-11-30 00:00:00', '-1-11-30 00:00:00', '0000-00-00 00:00:00', null))) {
 				$array['editedon'] = '';
@@ -124,6 +104,6 @@
 		}
 	}
 
-	return 'NarrowcastingBroadcastsGetListProcessor';
+	return 'NarrowcastingBroadcastsFeedsGetListProcessor';
 	
 ?>

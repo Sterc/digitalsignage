@@ -63,12 +63,19 @@ Narrowcasting.grid.Broadcasts = function(config) {
             dataIndex	: null,
             sortable	: true,
             editable	: false,
-            width		: 350,
+            width		: 250,
             fixed 		: true,
             renderer	: this.renderPlayers
         }, {
             header		: _('narrowcasting.label_broadcast_slides'),
             dataIndex	: 'slides',
+            sortable	: true,
+            editable	: false,
+            width		: 100,
+            fixed 		: true
+        }, {
+            header		: _('narrowcasting.label_broadcast_feeds'),
+            dataIndex	: 'feeds',
             sortable	: true,
             editable	: false,
             width		: 100,
@@ -91,7 +98,7 @@ Narrowcasting.grid.Broadcasts = function(config) {
         baseParams	: {
         	action		: 'mgr/broadcasts/getlist'
         },
-        fields		: ['id', 'resource_id', 'name', 'name_formatted', 'description', 'template', 'editedon', 'slides', 'players'],
+        fields		: ['id', 'resource_id', 'name', 'name_formatted', 'description', 'template', 'editedon', 'slides', 'feeds', 'players'],
         paging		: true,
         pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy		: 'id',
@@ -137,8 +144,12 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
     },
     getMenu: function() {
         return [{
-	    	text 	: _('narrowcasting.broadcast_slide'),
+	    	text 	: _('narrowcasting.broadcast_slides'),
 	    	handler : this.viewSlides,
+	    	scope 	: this 
+	    }, {
+	    	text 	: _('narrowcasting.broadcast_feeds'),
+	    	handler : this.viewFeeds,
 	    	scope 	: this 
 	    }, '-', {
 	        text	: _('narrowcasting.broadcast_update'),
@@ -225,6 +236,27 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
         
         this.viewSlidesWindow.setValues(this.menu.record);
         this.viewSlidesWindow.show(e.target);
+    },
+    viewFeeds: function(btn, e) {
+        if (this.viewFeedsWindow) {
+	        this.viewFeedsWindow.destroy();
+        }
+        
+        this.viewFeedsWindow = MODx.load({
+	        modal 		: true,
+	        xtype		: 'narrowcasting-window-broadcast-feeds',
+	        record		: this.menu.record,
+	        closeAction	: 'close',
+            listeners	: {
+            	'close'		: {
+            		fn			: this.refresh,
+		        	scope		: this
+            	}
+            }
+        });
+        
+        this.viewFeedsWindow.setValues(this.menu.record);
+        this.viewFeedsWindow.show(e.target);
     },
     renderPlayers: function(d, c, e) {
 	    var players = new Array();
@@ -364,10 +396,10 @@ Narrowcasting.window.Slides = function(config) {
     Ext.applyIf(config, {
     	width		: 600,
     	height 		: 500,
-        title 		: _('narrowcasting.broadcast_slide'),
+        title 		: _('narrowcasting.broadcast_slides'),
         cls			: 'narrowcasting-window-padding',
         items		: [{
-	    	html 		: '<p>' + _('narrowcasting.broadcast_slide_desc') + '</p>',
+	    	html 		: '<p>' + _('narrowcasting.broadcast_slides_desc') + '</p>',
 	    	cls			: 'panel-desc'
 	    }, {
         	layout		: 'column',
@@ -378,7 +410,7 @@ Narrowcasting.window.Slides = function(config) {
             },
         	items		: [{
 	        	columnWidth	: .5,
-				items : [{
+				items 		: [{
 		            xtype		: 'narrowcasting-tree-broadcast-slides',
 		            broadcast 	: config.record.id,
 		            enableDD	: true
@@ -386,7 +418,7 @@ Narrowcasting.window.Slides = function(config) {
 	        }, {
 		        columnWidth	: .5,
 		        style		: 'margin-right: 0;',
-				items : [{
+				items 		: [{
 		            xtype		: 'narrowcasting-tree-available-slides',
 		            broadcast 	: config.record.id,
 		            enableDD	: true
@@ -415,6 +447,45 @@ Narrowcasting.window.Slides = function(config) {
 Ext.extend(Narrowcasting.window.Slides, MODx.Window);
 
 Ext.reg('narrowcasting-window-broadcast-slides', Narrowcasting.window.Slides);
+
+Narrowcasting.window.Feeds = function(config) {
+    config = config || {};
+    
+    Ext.applyIf(config, {
+    	width		: 600,
+    	autoHeight	: true,
+        title 		: _('narrowcasting.broadcast_feeds'),
+        cls			: 'narrowcasting-window-padding',
+        items		: [{
+	    	html 		: '<p>' + _('narrowcasting.broadcast_feeds_desc') + '</p>',
+	    	cls			: 'panel-desc'
+	    }, {
+            xtype		: 'narrowcasting-grid-broadcast-feeds',
+            record		: config.record,
+            preventRender	: true
+        }],
+        buttons 	: [{
+            text		: _('ok'),
+            cls			: 'primary-button',
+            handler		: function() {
+	            this.fireEvent('sucesss');
+	            
+	            if ('close' !== config.closeAction) {
+		        	this.hide();
+		        } else {
+			        this.close(); 
+			    }
+	        },
+            scope		: this
+        }]
+    });
+    
+    Narrowcasting.window.Slides.superclass.constructor.call(this, config);
+};
+
+Ext.extend(Narrowcasting.window.Feeds, MODx.Window);
+
+Ext.reg('narrowcasting-window-broadcast-feeds', Narrowcasting.window.Feeds);
 
 Narrowcasting.combo.Broadcasts = function(config) {
     config = config || {};

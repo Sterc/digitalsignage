@@ -19,17 +19,20 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 
-	$xpdo_meta_map['NarrowcastingBroadcasts']= array(
+	$xpdo_meta_map['NarrowcastingBroadcastsFeeds']= array(
 		'package' 	=> 'narrowcasting',
 		'version' 	=> '1.0',
-		'table' 	=> 'narrowcasting_broadcasts',
+		'table' 	=> 'narrowcasting_broadcasts_feeds',
 		'extends' 	=> 'xPDOSimpleObject',
 		'fields' 	=> array(
-			'id'			=> null,
-			'resource_id'	=> null,
-			'color'			=> null,
-			'hash'			=> null,
-			'editedon'		=> null
+			'id'				=> null,
+			'broadcast_id'		=> null,
+			'key'				=> null,
+			'url'				=> null,
+			'limit'				=> null,
+			'frequency'			=> null,
+			'published'			=> null,
+			'editedon'			=> null
 		),
 		'fieldMeta'	=> array(
 			'id' 		=> array(
@@ -40,23 +43,42 @@
 				'index' 	=> 'pk',
 				'generated'	=> 'native'
 			),
-			'resource_id' => array(
+			'broadcast_id' => array(
 				'dbtype' 	=> 'int',
 				'precision' => '11',
 				'phptype' 	=> 'integer',
 				'null' 		=> false
 			),
-			'color' 	=> array(
-				'dbtype' 	=> 'int',
-				'precision' => '1',
-				'phptype' 	=> 'integer',
+			'key' 		=> array(
+				'dbtype' 	=> 'varchar',
+				'precision' => '75',
+				'phptype' 	=> 'string',
 				'null' 		=> false
 			),
-			'hash' 	=> array(
+			'url' 		=> array(
 				'dbtype' 	=> 'varchar',
 				'precision' => '255',
 				'phptype' 	=> 'string',
 				'null' 		=> false
+			),
+			'limit' 	=> array(
+				'dbtype' 	=> 'int',
+				'precision' => '3',
+				'phptype' 	=> 'integer',
+				'null' 		=> false
+			),
+			'frequency' => array(
+				'dbtype' 	=> 'int',
+				'precision' => '3',
+				'phptype' 	=> 'integer',
+				'null' 		=> false
+			),
+			'published' => array(
+				'dbtype' 	=> 'int',
+				'precision' => '3',
+				'phptype' 	=> 'integer',
+				'null' 		=> false,
+				'default'	=> 1
 			),
 			'editedon' 	=> array(
 				'dbtype' 	=> 'timestamp',
@@ -79,33 +101,12 @@
 			)
 		),
 		'aggregates' => array(
-			'modResource' => array(
-				'local'			=> 'resource_id',
-				'class' 		=> 'modResource',
+			'getBroadcast' => array(
+				'local' 		=> 'broadcast_id',
+				'class' 		=> 'NarrowcastingBroadcasts',
 				'foreign' 		=> 'id',
 				'owner' 		=> 'foreign',
 				'cardinality' 	=> 'one'
-			),
-			'getSlides' => array(
-				'local' 		=> 'id',
-				'class' 		=> 'NarrowcastingBroadcastsSlides',
-				'foreign'		=> 'broadcast_id',
-				'owner' 		=> 'local',
-				'cardinality' 	=> 'many'
-			),
-			'getFeeds' => array(
-				'local' 		=> 'id',
-				'class' 		=> 'NarrowcastingBroadcastsFeeds',
-				'foreign'		=> 'broadcast_id',
-				'owner' 		=> 'local',
-				'cardinality' 	=> 'many'
-			),
-			'getSchedules' => array(
-				'local' 		=> 'id',
-				'class' 		=> 'NarrowcastingPlayersSchedules',
-				'foreign'		=> 'broadcast_id',
-				'owner' 		=> 'local',
-				'cardinality' 	=> 'many'
 			)
 		)
 	);

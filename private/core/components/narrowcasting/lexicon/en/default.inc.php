@@ -42,9 +42,15 @@
 	$_lang['narrowcasting.broadcast_update']						= 'Update broadcast';
 	$_lang['narrowcasting.broadcast_remove']						= 'Delete broadcast';
 	$_lang['narrowcasting.broadcast_remove_confirm']				= 'Are you sure you want to delete this broadcast?';
-	$_lang['narrowcasting.broadcast_slide']							= 'View slides';
-	$_lang['narrowcasting.broadcast_slide_desc']					= 'Here you can manage all the slides of the broadcast. Drag & Drop slides from the "available slides" to "selected slide" to add slides.';
+	$_lang['narrowcasting.broadcast_slides']						= 'Slides';
+	$_lang['narrowcasting.broadcast_slides_desc']					= 'Here you can manage all the internal slides of the broadcast. Drag & Drop slides from the "available slides" to "selected slide" to add slides.';
 	$_lang['narrowcasting.broadcast_slide_remove']					= 'Delete slide';
+	$_lang['narrowcasting.broadcast_feeds']							= 'Feeds';
+	$_lang['narrowcasting.broadcast_feeds_desc']					= 'Here you can manage all the external slides of the broadcast.';
+	$_lang['narrowcasting.broadcast_feed_create']					= 'Create new feed';
+	$_lang['narrowcasting.broadcast_feed_update']					= 'Update feed';
+	$_lang['narrowcasting.broadcast_feed_remove']					= 'Delete feed';
+	$_lang['narrowcasting.broadcast_feed_remove_confirm']			= 'Are you sure you want to delete this feed?';
 	
 	$_lang['narrowcasting.label_broadcast_name']					= 'Name';
 	$_lang['narrowcasting.label_broadcast_name_desc']				= 'The name of the broadcast.';
@@ -54,8 +60,23 @@
 	$_lang['narrowcasting.label_broadcast_template_desc']			= 'The template of the broadcast.';
 	$_lang['narrowcasting.label_broadcast_slides']					= 'Slides';
 	$_lang['narrowcasting.label_broadcast_slides_desc']				= 'The slides to broadcast the broadcast.';
+	$_lang['narrowcasting.label_broadcast_feeds']					= 'Feeds';
+	$_lang['narrowcasting.label_broadcast_feeds_desc']				= 'The feeds to broadcast the broadcast.';
 	$_lang['narrowcasting.label_broadcast_players']					= 'Mediaboxes';
 	$_lang['narrowcasting.label_broadcast_players_desc']			= 'The mediaboxes to broadcast the broadcast.';
+	
+	$_lang['narrowcasting.label_feed_key']							= 'Key';
+	$_lang['narrowcasting.label_feed_key_desc']						= 'The key of the feed.';
+	$_lang['narrowcasting.label_feed_name']							= 'Name';
+	$_lang['narrowcasting.label_feed_name_desc']					= 'The name of the feed.';
+	$_lang['narrowcasting.label_feed_url']							= 'URL';
+	$_lang['narrowcasting.label_feed_url_desc']						= 'The URL of the feed.';
+	$_lang['narrowcasting.label_feed_limit']						= 'Limit';
+	$_lang['narrowcasting.label_feed_limit_desc']					= 'The limit of slides of the feed.';
+	$_lang['narrowcasting.label_feed_frequency']					= 'Frequency';
+	$_lang['narrowcasting.label_feed_frequency_desc']				= 'The frequency of slides of the feed.';
+	$_lang['narrowcasting.label_feed_published']					= 'Published';
+	$_lang['narrowcasting.label_feed_published_desc']				= '';
 	
 	$_lang['narrowcasting.slide']									= 'Slide';
 	$_lang['narrowcasting.slides']									= 'Slides';
@@ -126,7 +147,7 @@
 	
 	$_lang['narrowcasting.auto_refresh_grid']						= 'Auto refresh';
 	$_lang['narrowcasting.filter_broadcast']						= 'Filter on broadcast';
-	$_lang['narrowcasting.broadcast_slides']						= 'Selected slides';
+	$_lang['narrowcasting.selected_slides']							= 'Selected slides';
 	$_lang['narrowcasting.available_slides']						= 'Available slides';
 	$_lang['narrowcasting.slide_more_options']						= 'Select a slide type for more options.';
 	$_lang['narrowcasting.schedule_day']							= 'Day';
