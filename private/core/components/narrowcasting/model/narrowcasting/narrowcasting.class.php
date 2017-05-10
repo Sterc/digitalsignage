@@ -203,42 +203,48 @@
 	    public function initializeBroadcast($scriptProperties = array()) {
 		    $slides = array();
 		    
-		    $slides[] = array(
-			    'time'			=> 10,
-			    'slide'			=> 'default',
-			    'title'			=> 'Lorem ipsum dolor 1',
-			    'content'		=> 'Lorem ipsum dolor sit amet 1 en nog wat tekst...',
-			    'description'	=> 'Lorem ipsum dolor sit amet 1',
-			    'image'			=> null
-		    );
+		    $parameters = $this->modx->request->getParameters();
 		    
-		    $slides[] = array(
-			    'time'			=> 10,
-			    'slide'			=> 'default',
-			    'title'			=> 'Lorem ipsum dolor 2',
-			    'content'		=> 'Lorem ipsum dolor sit amet 2 en nog wat tekst...',
-			    'description'	=> 'Lorem ipsum dolor sit amet 2',
-			    'image'			=> null
-		    );
-		    
-		    $slides[] = array(
-			    'time'			=> 10,
-			    'slide'			=> 'default',
-			    'title'			=> 'Lorem ipsum dolor 3',
-			    'content'		=> 'Lorem ipsum dolor sit amet 3 en nog wat tekst...',
-			    'description'	=> 'Lorem ipsum dolor sit amet 3',
-			    'image'			=> null
-		    );
-		    
-		    $slides[] = array(
-			    'time'			=> 10,
-			    'slide'			=> 'default',
-			    'title'			=> 'Lorem ipsum dolor 4',
-			    'content'		=> 'Lorem ipsum dolor sit amet 4 en nog wat tekst...',
-			    'description'	=> 'Lorem ipsum dolor sit amet 4',
-			    'image'			=> null
-		    );
-		    
+		    if (isset($parameters[$this->config['request_param_player']])) {
+			    if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
+					$slides[] = array(
+					    'time'			=> 10,
+					    'slide'			=> 'default',
+					    'title'			=> 'Lorem ipsum dolor 1',
+					    'content'		=> 'Lorem ipsum dolor sit amet 1 en nog wat tekst...',
+					    'description'	=> 'Lorem ipsum dolor sit amet 1',
+					    'image'			=> null
+				    );
+				    
+				    $slides[] = array(
+					    'time'			=> 10,
+					    'slide'			=> 'default',
+					    'title'			=> 'Lorem ipsum dolor 2',
+					    'content'		=> 'Lorem ipsum dolor sit amet 2 en nog wat tekst...',
+					    'description'	=> 'Lorem ipsum dolor sit amet 2',
+					    'image'			=> null
+				    );
+				    
+				    $slides[] = array(
+					    'time'			=> 10,
+					    'slide'			=> 'default',
+					    'title'			=> 'Lorem ipsum dolor 3',
+					    'content'		=> 'Lorem ipsum dolor sit amet 3 en nog wat tekst...',
+					    'description'	=> 'Lorem ipsum dolor sit amet 3',
+					    'image'			=> null
+				    );
+				    
+				    $slides[] = array(
+					    'time'			=> 10,
+					    'slide'			=> 'default',
+					    'title'			=> 'Lorem ipsum dolor 4',
+					    'content'		=> 'Lorem ipsum dolor sit amet 4 en nog wat tekst...',
+					    'description'	=> 'Lorem ipsum dolor sit amet 4',
+					    'image'			=> null
+				    );
+				}
+			}
+
 		    return $this->modx->toJSON(array(
 		    	'slides' => $slides
 		    ));
