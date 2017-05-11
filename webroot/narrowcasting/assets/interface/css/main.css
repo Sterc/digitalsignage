@@ -144,22 +144,22 @@
 body {
 	font-family: 'Open Sans', Arial, Verdana, sans-serif;
 	color: #333333;
-	font-size: 54px;
-	line-height: 70px;
+	font-size: 5vh;
+	line-height: 8vh;
 	font-weight: 400;
 }
 
 h1 {
 	color: #333333;
-	font-size: 60px;
-	line-height: 70px;
+	font-size: 7vh;
+	line-height: 10vh;
 	font-weight: 600px;
-	margin: 0 0 45px;
+	margin: 0 0 4vh;
 	text-transform: uppercase;
 }
 
 p, ul {
-	margin: 0 0 45px;
+	margin: 0 0 4vh;
 }
 
 /* Broadcast */
@@ -246,13 +246,13 @@ p, ul {
 }
 
 .timer.timer-vertical {
-	bottom: 136px;
-	width: 28px;
+	width: 1.5%;
+	height: 87.4%;
 }
 
 .timer.timer-horizontal {
-	right: 0;
 	width: 100%;
+	height: 1.8%;	
 }
 
 .timer span {
@@ -277,8 +277,7 @@ p, ul {
 	position: absolute;
 	bottom: 0;
 	width: 100%;
-	height: 136px;
-	padding: 0 0 0 26px;
+	height: 12.60%;
 	background: #e4005b;
 	overflow: hidden;
 	z-index: 1000 !important;
@@ -286,7 +285,6 @@ p, ul {
 
 .ticker .ticker-inner {
 	position: absolute;
-	top: 0;
 	left: 0;
 	width: 10000000px;
 }
@@ -297,53 +295,53 @@ p, ul {
 	overflow: hidden;
 	list-style-type: none;
 	margin: 0;
-	padding: 22px 0;
 }
 
 .ticker ul li {
 	float: left;
 	color: #ffffff;
-	font-size: 45px;
-	line-height: 90px;
+    font-size: 6vh;
+    line-height: 12.5vh;
 	padding: 0 20px;
 }
 
-.ticker ul li .icon {
+.ticker ul li .icons {
 	float: left;
-	display: block;
-	width: 100px;
-	height: 90px;
 	margin: 0 10px 0 0;
-	background: url('../images/ticker-news-icons.svg') no-repeat -100px 0;
+	overflow: hidden;
 }
 
-.ticker ul li .icon.nunl {
-	background-position: 0 0;
+.ticker ul li .icons img {
+	height: 13vh;
 }
 
 /* Clock */
 
 .clock {
 	position: absolute;
-	top: 45px;
-	left: 72px;
-	width: 148px;
-	padding: 244px 0 0;
+	top: 4.2%;
+	left: 3.6%;
+	width: 7.8%;
 	color: #e4005b;
 	text-align: center;
-	background: url('../images/sterc-logo.svg') no-repeat 0 0;
 	z-index: 100;
+}
+
+.clock .logo {
+	height: auto;
+	max-width: 100%;
+	margin: 0 0 20px;
 }
 
 .clock .time {
 	font-weight: 600;
-	font-size: 46px;
-	line-height: 56px;
+	font-size: 5.5vh;
+    line-height: 5.5vh;
 }
 
 .clock .date {
-	font-size: 26px;
-	line-height: 36px;
+	font-size: 2.5vh;
+    line-height: 3.5vh;
 }
 
 /* ----------------------------------------------------------------------------------------- */
@@ -388,16 +386,16 @@ p, ul {
 
 .slides .slide.slide-default .slide-inner .content {
 	position: absolute;
-	top: 10%;
-	left: 17.5%;
+	top: 8%;
+	left: 17%;
 	right: 8%;
-	bottom: 19.5%;
+	bottom: 19%;
 	overflow: hidden;
 }
 
 .slides .slide.slide-default .slide-inner .content .read-more {
-	font-size: 34px;
-	margin: 0;
+	font-size: 4vh;
+	line-height: 7vh;
 }
 
 .slides .slide.slide-default .image {

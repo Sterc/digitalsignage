@@ -72,6 +72,18 @@
 		
 		/**
 		 * @access public.
+		 * @return Mixed.
+		 */
+		public function beforeSave() {
+			if (!preg_match('/^(\d+)x(\d+)$/', $this->getProperty('resolution'))) {
+				$this->addFieldError('resolution', $this->modx->lexicon('narrowcasting.error_player_resolution'));
+			}
+			
+			return parent::beforeSave();
+		}
+		
+		/**
+		 * @access public.
 		 * @return String.
 		 */
 		public function generatePlayerKey() {

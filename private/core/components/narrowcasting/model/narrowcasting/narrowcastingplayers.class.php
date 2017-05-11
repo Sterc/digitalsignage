@@ -22,6 +22,16 @@
 	class NarrowcastingPlayers extends xPDOSimpleObject {
 		/**
 		 * @access public.
+		 * @return String.
+		 */
+		public function getMode() {
+			list($width, $height) = explode('x', $this->resolution);
+			
+			return $width > $height ? 'landscape' : 'portrait';
+		}
+		
+		/**
+		 * @access public.
 		 * @param String $value.
 		 * @return Array.
 		 */

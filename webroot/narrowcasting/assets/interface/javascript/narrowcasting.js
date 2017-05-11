@@ -421,7 +421,7 @@ $(document).ready(function() {
                     name 	= $placeholder.attr('data-placeholder-class'),
                     value 	= this.getPlaceholderValue(name, data);
 
-                $placeholder.addClass(value.replace('-', '_'));
+                $placeholder.addClass(value);
             }
         }
 

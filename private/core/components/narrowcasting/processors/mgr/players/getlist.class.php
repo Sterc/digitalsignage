@@ -95,7 +95,9 @@
 		 */
 		public function prepareRow(xPDOObject $object) {
 			$array = array_merge($object->toArray(), array(
-				'online' 			=> $object->isOnline(), 
+				'mode'				=> $object->getMode(),
+				'mode_formatted'	=> $this->modx->lexicon('narrowcasting.'.$this->modx->lexicon($object->getMode())),
+				'online' 			=> $object->isOnline(),
 				'current_broadcast' => '',
 				'url' 				=> $this->narrowcasting->config['request_url'].'?'.$this->narrowcasting->config['request_param_player'].'='.$object->key
 			));

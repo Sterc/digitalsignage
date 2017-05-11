@@ -77,8 +77,15 @@ Narrowcasting.grid.Players = function(config) {
             dataIndex	: 'current_broadcast',
             sortable	: true,
             editable	: false,
-            width		: 250,
+            width		: 200,
             fixed 		: true
+        }, {
+	        header		: _('narrowcasting.label_player_mode'),
+            dataIndex	: 'mode_formatted',
+            sortable	: true,
+            editable	: false,
+            width		: 100,
+            fixed		: true
         }, {
             header		: _('last_modified'),
             dataIndex	: 'editedon',
@@ -97,7 +104,7 @@ Narrowcasting.grid.Players = function(config) {
         baseParams	: {
         	action		: 'mgr/players/getlist'
         },
-        fields		: ['id', 'key', 'name', 'description', 'type', 'last_online', 'last_broadcast_id', 'editedon', 'online', 'current_broadcast', 'url'],
+        fields		: ['id', 'key', 'name', 'description', 'type', 'resolution', 'last_online', 'last_broadcast_id', 'editedon', 'mode', 'mode_formatted', 'online', 'current_broadcast', 'url'],
         paging		: true,
         pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy		: 'id',
@@ -276,6 +283,9 @@ Ext.extend(Narrowcasting.grid.Players, MODx.grid.Grid, {
     renderKey: function(d, c, e) {
     	return String.format('<span class="icon icon-circle {0}"></span> {1}', 1 == parseInt(e.data.online) || e.data.online ? 'green' : 'red', d);
     },
+    renderMode: function(d, c, e) {
+    	return String.format('<span class="icon icon-large icon-arrows-{0} icon-player-mode"></span>', 'landscape' == e.data.mode ? 'h' : 'v');
+    },
     renderOnline: function(d, c, e) {
     	c.css = 1 == parseInt(d) || d ? 'green' : 'red';
 
@@ -322,6 +332,16 @@ Narrowcasting.window.CreatePlayer = function(config) {
         }, {
         	xtype		: MODx.expandHelp ? 'label' : 'hidden',
             html		: _('narrowcasting.label_player_description_desc'),
+            cls			: 'desc-under'
+        }, {
+        	xtype		: 'textfield',
+        	fieldLabel	: _('narrowcasting.label_player_resolution'),
+        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_player_resolution_desc'),
+        	name		: 'resolution',
+        	anchor		: '100%'
+        }, {
+        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_player_resolution_desc'),
             cls			: 'desc-under'
         }, {
         	xtype		: 'textfield',
@@ -379,6 +399,16 @@ Narrowcasting.window.UpdatePlayer = function(config) {
             cls			: 'desc-under'
         }, {
         	xtype		: 'textfield',
+        	fieldLabel	: _('narrowcasting.label_player_resolution'),
+        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_player_resolution_desc'),
+        	name		: 'resolution',
+        	anchor		: '100%'
+        }, {
+        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_player_resolution_desc'),
+            cls			: 'desc-under'
+        }, {
+        	xtype		: 'textfield',
         	fieldLabel	: _('narrowcasting.label_player_type'),
         	description	: MODx.expandHelp ? '' : _('narrowcasting.label_player_type_desc'),
         	name		: 'type',
@@ -408,7 +438,7 @@ Narrowcasting.window.ViewPlayer = function(config) {
         	html		: '<p>' + _('narrowcasting.player_view_desc') + '</p>',
             cls			: 'panel-desc'
 		}, {
-        	xtype		: 'statictextfield',
+        	xtype		: 'textfield',
         	name		: 'url',
         	anchor		: '100%',
         	hideLabel	: true

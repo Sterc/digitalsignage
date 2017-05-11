@@ -30,6 +30,7 @@
 			'name' 				=> null,
 			'description'		=> null,
 			'type'				=> null,
+			'resolution'		=> null,
 			'last_online'		=> null,
 			'last_broadcast_id' => null,
 			'editedon' 			=> null
@@ -64,6 +65,12 @@
 			'type' 	=> array(
 				'dbtype' 	=> 'varchar',
 				'precision' => '255',
+				'phptype' 	=> 'string',
+				'null' 		=> false
+			),
+			'resolution' => array(
+				'dbtype' 	=> 'varchar',
+				'precision' => '15',
 				'phptype' 	=> 'string',
 				'null' 		=> false
 			),

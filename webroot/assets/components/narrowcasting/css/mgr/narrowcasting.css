@@ -18,6 +18,13 @@
 	top: -3px;
 }
 
+.icon-player-mode {
+	display: block;
+	width: 100%;
+	text-align: center;
+	color: #69696D;
+}
+
 .narrowcasting-slide-options .icon-cog {
 	display: block;
 	text-align: center;

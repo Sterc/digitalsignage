@@ -42,10 +42,10 @@
 	$_lang['narrowcasting.broadcast_update']						= 'Update broadcast';
 	$_lang['narrowcasting.broadcast_remove']						= 'Delete broadcast';
 	$_lang['narrowcasting.broadcast_remove_confirm']				= 'Are you sure you want to delete this broadcast?';
-	$_lang['narrowcasting.broadcast_slides']						= 'Slides';
+	$_lang['narrowcasting.broadcast_slides']						= 'Slides (internal slides)';
 	$_lang['narrowcasting.broadcast_slides_desc']					= 'Here you can manage all the internal slides of the broadcast. Drag & Drop slides from the "available slides" to "selected slide" to add slides.';
 	$_lang['narrowcasting.broadcast_slide_remove']					= 'Delete slide';
-	$_lang['narrowcasting.broadcast_feeds']							= 'Feeds';
+	$_lang['narrowcasting.broadcast_feeds']							= 'Feeds (external slides)';
 	$_lang['narrowcasting.broadcast_feeds_desc']					= 'Here you can manage all the external slides of the broadcast.';
 	$_lang['narrowcasting.broadcast_feed_create']					= 'Create new feed';
 	$_lang['narrowcasting.broadcast_feed_update']					= 'Update feed';
@@ -95,16 +95,16 @@
 	$_lang['narrowcasting.label_slide_published']					= 'Published';
 	$_lang['narrowcasting.label_slide_published_desc']				= '';
 	
-	$_lang['narrowcasting.player']									= 'Mediabox';
-	$_lang['narrowcasting.players']									= 'Mediaboxes';
-	$_lang['narrowcasting.players_desc']							= 'Here you can manage all mediaboxes for your narrowcasting.';
-	$_lang['narrowcasting.player_create']							= 'Create new mediabox';
-	$_lang['narrowcasting.player_update']							= 'Update mediabox';
-	$_lang['narrowcasting.player_remove']							= 'Delete mediabox';
-	$_lang['narrowcasting.player_remove_confirm']					= 'Are you sure you want to delete this mediabox?';
-	$_lang['narrowcasting.player_view']								= 'View mediabox';
-	$_lang['narrowcasting.player_view_desc']						= 'To connect this mediabox with the narrowcasting use the URL:';
-	$_lang['narrowcasting.player_schedule']							= 'Schedule mediabox';
+	$_lang['narrowcasting.player']									= 'Player';
+	$_lang['narrowcasting.players']									= 'Players';
+	$_lang['narrowcasting.players_desc']							= 'Here you can manage all players for your narrowcasting.';
+	$_lang['narrowcasting.player_create']							= 'Create new player';
+	$_lang['narrowcasting.player_update']							= 'Update player';
+	$_lang['narrowcasting.player_remove']							= 'Delete player';
+	$_lang['narrowcasting.player_remove_confirm']					= 'Are you sure you want to delete this player?';
+	$_lang['narrowcasting.player_view']								= 'View player';
+	$_lang['narrowcasting.player_view_desc']						= 'To connect this player with the narrowcasting use the URL:';
+	$_lang['narrowcasting.player_schedule']							= 'Schedule player';
 	$_lang['narrowcasting.player_schedule_create']					= 'Create new schedule';
 	$_lang['narrowcasting.player_schedule_update']					= 'Update schedule';
 	$_lang['narrowcasting.player_schedule_remove']					= 'Delete schedule';
@@ -112,17 +112,21 @@
 	$_lang['narrowcasting.player_calendar']							= 'Calendar';
 	
 	$_lang['narrowcasting.label_player_key']						= 'Key';
-	$_lang['narrowcasting.label_player_key_desc']					= 'The key of the mediabox.';
+	$_lang['narrowcasting.label_player_key_desc']					= 'The key of the player.';
 	$_lang['narrowcasting.label_player_name']						= 'Name';
-	$_lang['narrowcasting.label_player_name_desc']					= 'The name of the mediabox.';
+	$_lang['narrowcasting.label_player_name_desc']					= 'The name of the player.';
 	$_lang['narrowcasting.label_player_description']				= 'Description';
-	$_lang['narrowcasting.label_player_description_desc']			= 'A short description of the mediabox.';
-	$_lang['narrowcasting.label_player_type']						= 'Mediabox type';
-	$_lang['narrowcasting.label_player_type_desc']					= 'The type of the mediabox.';
+	$_lang['narrowcasting.label_player_description_desc']			= 'A short description of the player.';
+	$_lang['narrowcasting.label_player_resolution']					= 'Resolution';
+	$_lang['narrowcasting.label_player_resolution_desc']			= 'The resolution of the player (width x height (without spaces)).';
+	$_lang['narrowcasting.label_player_mode']						= 'Mode';
+	$_lang['narrowcasting.label_player_mode_desc']					= 'The mode of the player (landscape or portrait).';
+	$_lang['narrowcasting.label_player_type']						= 'Type';
+	$_lang['narrowcasting.label_player_type_desc']					= 'The type of the player.';
 	$_lang['narrowcasting.label_player_online']						= 'Online';
 	$_lang['narrowcasting.label_player_online_desc']				= '';
 	$_lang['narrowcasting.label_player_current_broadcast']			= 'Current broadcast';
-	$_lang['narrowcasting.label_player_current_broadcast_desc']		= 'The current broadcast of the mediabox.';
+	$_lang['narrowcasting.label_player_current_broadcast_desc']		= 'The current broadcast of the player.';
 	
 	$_lang['narrowcasting.label_schedule_broadcast']				= 'Broadcast';
 	$_lang['narrowcasting.label_schedule_broadcast_desc']			= 'The broadcast of the schedule.';
@@ -150,6 +154,8 @@
 	$_lang['narrowcasting.selected_slides']							= 'Selected slides';
 	$_lang['narrowcasting.available_slides']						= 'Available slides';
 	$_lang['narrowcasting.slide_more_options']						= 'Select a slide type for more options.';
+	$_lang['narrowcasting.portrait']								= 'Portrait';
+	$_lang['narrowcasting.landscape']								= 'Landscape';
 	$_lang['narrowcasting.schedule_day']							= 'Day';
 	$_lang['narrowcasting.schedule_date']							= 'Date';
 	$_lang['narrowcasting.schedule_time_format_entire_day']			= '(entire day)';
@@ -158,5 +164,6 @@
 	$_lang['narrowcasting.schedule_date_format_set_long']			= '[[+start_date]] (van [[+start_time]]) tot [[+end_date]] (tot [[+end_time]])';
 	$_lang['narrowcasting.error_broadcast_player_exists']			= 'This mediabox is already connected to this broadcast. Specify another mediabox.';
 	$_lang['narrowcasting.error_broadcast_schedule_exists']			= 'There is already a schedule for this day: [[+schedule]]. Specify another schedule.';
+	$_lang['narrowcasting.error_player_resolution']					= 'Not a valid resolution (width x height (without spaces)).';
 	
 ?>

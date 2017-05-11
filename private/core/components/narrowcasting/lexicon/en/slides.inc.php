@@ -23,6 +23,8 @@
 	$_lang['narrowcasting.slide_default_desc'] 						= 'A default slide with content and a image.';
 	$_lang['narrowcasting.slide_default_content']					= 'Content';
 	$_lang['narrowcasting.slide_default_content_desc']				= 'The main content of the slide.';
+	$_lang['narrowcasting.slide_default_image']						= 'Image';
+	$_lang['narrowcasting.slide_default_image_desc']				= 'The image of the slide.';
 	
 	$_lang['narrowcasting.slide_buienradar'] 						= 'Buienradar';
 	$_lang['narrowcasting.slide_buienradar_desc'] 					= 'A slide with the weather forecast of Buienradar.';

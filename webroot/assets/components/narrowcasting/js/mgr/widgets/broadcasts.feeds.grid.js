@@ -28,7 +28,6 @@ Narrowcasting.grid.BroadcastFeeds = function(config) {
             sortable	: true,
             editable	: false,
             width		: 250,
-            //fixed 		: true,
             renderer	: this.renderUrl
         }, {
             header		: _('narrowcasting.label_feed_published'),
