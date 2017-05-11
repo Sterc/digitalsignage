@@ -18,21 +18,21 @@
 	 * Narrowcasting; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
-	
+
 	class Narrowcasting {
-	
+
 	    /**
 	     * @access public.
 	     * @var Object.
 	     */
 	    public $modx;
-	
+
 	    /**
 	     * @access public.
 	     * @var Array.
 	     */
 	    public $config = array();
-	
+
 	    /**
 	     * @access public.
 	     * @param Object $modx.
@@ -40,11 +40,11 @@
 	     */
 	    public function __construct(modX &$modx, array $config = array()) {
 	        $this->modx =& $modx;
-	
+
 	        $corePath 		= $this->modx->getOption('narrowcasting.core_path', $config, $this->modx->getOption('core_path').'components/narrowcasting/');
 	        $assetsUrl 		= $this->modx->getOption('narrowcasting.assets_url', $config, $this->modx->getOption('assets_url').'components/narrowcasting/');
 	        $assetsPath 	= $this->modx->getOption('narrowcasting.assets_path', $config, $this->modx->getOption('assets_path').'components/narrowcasting/');
-	
+
 	        $this->config = array_merge(array(
 	            'namespace'				=> $this->modx->getOption('namespace', $config, 'narrowcasting'),
 	            'lexicons'				=> array('narrowcasting:default', 'narrowcasting:slides'),
@@ -73,9 +73,9 @@
 	            'request_param_broadcast' => $this->modx->getOption('narrowcasting.request_param_broadcast', null, 'bc'),
 	            'templates'				=> explode(',', $this->modx->getOption('narrowcasting.templates'))
 	        ), $config);
-	
+
 	        $this->modx->addPackage('narrowcasting', $this->config['model_path']);
-	
+
 	        if (is_array($this->config['lexicons'])) {
 	            foreach ($this->config['lexicons'] as $lexicon) {
 	                $this->modx->lexicon->load($lexicon);
@@ -84,7 +84,7 @@
 	            $this->modx->lexicon->load($this->config['lexicons']);
 	        }
 	    }
-	
+
 	    /**
 	     * @access public.
 	     * @return String.
@@ -92,7 +92,7 @@
 	    public function getHelpUrl() {
 	        return $this->config['branding_help_url'].'?v='.$this->config['version'];
 	    }
-	
+
 	    /**
 	     * @access public.
 	     * @param String $key.
@@ -102,14 +102,14 @@
 	        $criterea = array(
 	            'key' => $key
 	        );
-	
+
 	        if (null !== ($player = $this->modx->getObject('NarrowcastingPlayers', $criterea))) {
 	            return $player;
 	        }
-	
+
 	        return null;
 	    }
-	
+
 	    /**
 	     * @access public.
 	     * @param Array $scriptProperties.
@@ -117,20 +117,20 @@
 	    public function initializePlayer($scriptProperties = array()) {
 	        if (in_array($this->modx->resource->template, $this->config['templates'])) {
 		        $parameters = $this->modx->request->getParameters();
-		        
+
 	            $this->modx->setPlaceholders(array(
 	                'player'	=> $parameters[$this->config['request_param_player']],
 	                'broadcast'	=> $parameters[$this->config['request_param_broadcast']]
 	            ), 'narrowcasting.');
 	        }
-	
+
 	        if ($this->modx->resource->id == $this->config['request_id']) {
 		        $parameters = $this->modx->request->getParameters();
-		        
+
 		        if (isset($parameters[$this->config['request_param_player']])) {
 			        if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
 				        $schedules = array();
-				        
+
 				        foreach ($player->getBroadcasts() as $broadcast) {
 					    	if (false !== ($schedule = $broadcast->isScheduled($player->id))) {
 					    		if (null !== ($broadcast = $schedule->getBroadcast())) {
@@ -140,20 +140,20 @@
 					    		}
 					    	}
 				        }
-				        
+
 				        // Sort the available schedules by type (dates overules day)
 				        $sort = array();
-			
+
 						foreach ($schedules as $key => $value) {
 						    $sort[$key] = $value['type'];
 						}
-						
+
 						array_multisort($sort, SORT_ASC, $schedules);
 
 				        if (0 < count($schedules)) {
 					        // Get the first available schedule
 							$schedule = array_shift($schedules);
-						
+
 					        $player->setOnline($schedule['broadcast']['id']);
 
 					        if (!isset($parameters['data'])) {
@@ -162,7 +162,7 @@
 						        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
 					        	), 'full'));
 					        }
-					        
+
 					        $status = array(
 					        	'status'	=> 200,
 					        	'player'	=> $player->toArray(),
@@ -182,66 +182,53 @@
 			        } else {
 				        $status = array(
 					    	'status'	=> 400,
-					    	'message'	=> 'Player niet gevonden.' 
+					    	'message'	=> 'Player niet gevonden.'
 				        );
 			        }
 		        } else {
 			        $status = array(
 				    	'status'	=> 400,
-				    	'message'	=> 'Player niet gedefineerd.' 
+				    	'message'	=> 'Player niet gedefineerd.'
 			        );
 		        }
-		        
+
 		        $this->modx->resource->_output = $this->modx->toJSON($status);
 	        }
 	    }
-	    
+
 	    /**
-	     * @access public.
-	     * @param Array $scriptProperties.
+		 * Initialize broadcast
+		 *
+	     * @access public
+	     * @param array $scriptProperties
+		 *
+		 * @return array
 	     */
 	    public function initializeBroadcast($scriptProperties = array()) {
 		    $slides = array();
-		    
 		    $parameters = $this->modx->request->getParameters();
-		    
-		    if (isset($parameters[$this->config['request_param_player']])) {
-			    if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
-					$slides[] = array(
-					    'time'			=> 10,
-					    'slide'			=> 'default',
-					    'title'			=> 'Lorem ipsum dolor 1',
-					    'content'		=> 'Lorem ipsum dolor sit amet 1 en nog wat tekst...',
-					    'description'	=> 'Lorem ipsum dolor sit amet 1',
-					    'image'			=> null
-				    );
-				    
-				    $slides[] = array(
-					    'time'			=> 10,
-					    'slide'			=> 'default',
-					    'title'			=> 'Lorem ipsum dolor 2',
-					    'content'		=> 'Lorem ipsum dolor sit amet 2 en nog wat tekst...',
-					    'description'	=> 'Lorem ipsum dolor sit amet 2',
-					    'image'			=> null
-				    );
-				    
-				    $slides[] = array(
-					    'time'			=> 10,
-					    'slide'			=> 'default',
-					    'title'			=> 'Lorem ipsum dolor 3',
-					    'content'		=> 'Lorem ipsum dolor sit amet 3 en nog wat tekst...',
-					    'description'	=> 'Lorem ipsum dolor sit amet 3',
-					    'image'			=> null
-				    );
-				    
-				    $slides[] = array(
-					    'time'			=> 10,
-					    'slide'			=> 'default',
-					    'title'			=> 'Lorem ipsum dolor 4',
-					    'content'		=> 'Lorem ipsum dolor sit amet 4 en nog wat tekst...',
-					    'description'	=> 'Lorem ipsum dolor sit amet 4',
-					    'image'			=> null
-				    );
+
+            if (isset($parameters[$this->config['request_param_player']])) {
+                $player = $this->getPlayer($parameters[$this->config['request_param_player']]);
+
+                if ($player !== null) {
+                    $broadcast = $player->getCurrentBroadcast();
+
+                    if ($broadcast !== null) {
+                        $broadcastSlides = $broadcast->getSlides();
+
+                        foreach ($broadcastSlides as $broadcastSlide) {
+                            $slides[] = array_merge(
+                                [
+                                    'time'  => $broadcastSlide->get('time'),
+                                    'slide' => $broadcastSlide->get('type'),
+                                    'title' => $broadcastSlide->get('name'),
+                                    'image' => null
+                                ],
+                                unserialize($broadcastSlide->get('data'))
+                            );
+                        }
+                    }
 				}
 			}
 
@@ -250,5 +237,5 @@
 		    ));
 		}
 	}
-	
+
 ?>

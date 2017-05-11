@@ -19,25 +19,25 @@
 		 * @public.
 		 */
 		this.core = core;
-		
+
 		/**
 		 * Current settings for the Buienradar Slide.
 		 * @public.
 		 */
 		this.settings = $.extend({}, SlideBuienradar.Defaults, options);
-		
+
 		/**
 		 * Plugin element.
 		 * @public.
 		 */
 		this.$element = $(element);
-		
+
 		/**
 		 * Currently suppressed events to prevent them from beeing retriggered.
 		 * @protected.
 		 */
 		this._supress = {};
-		
+
 		/**
 		 * The data.
 		 * @protected.
@@ -55,14 +55,14 @@
 		'time': 15,
 		'lat': null,
 		'lng': null,
-		
+
 		'radar': '//api.buienradar.nl/image/1.0/radarmapnl',
-		
+
 		'forecastFeed': '//api.buienradar.nl/data/forecast/1.1/daily/',
 		'forecastCount': 3,
 		'forecastText': ['Vandaag', 'Morgen', 'Overmorgen'],
 		'forecastLabelText': ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
-		
+
 		'precipitationFeed': '//graphdata.buienradar.nl/forecast/json/',
 		'precipitationText': [
 			'Er is geen neerslag verwacht.',
@@ -71,7 +71,7 @@
 		],
 		'precipitationLabelText': ['lichte', 'matige', 'zware']
 	};
-	
+
 	/**
 	 * Enumeration for types.
 	 * @public.
@@ -90,12 +90,12 @@
 		this.setRadar();
 		this.setForecast();
 		this.setPrecipitation();
-				
+
 		this.core.setPlaceholders(this.$element, this.settings);
-		
+
 		this.core.setTimer(this.settings.time);
 	};
-	
+
 	/**
 	 * Sets the radar of the Buienradar Slide.
 	 * @protected.
@@ -113,14 +113,14 @@
 			$radar.attr('src', '').hide();
 		}
 	};
-	
+
 	/**
 	 * Sets the forecast of the Buienradar Slide.
 	 * @protected.
 	 */
 	SlideBuienradar.prototype.setForecast = function() {
 		var $placeholder = this.core.getPlaceholder('forecast', this.$element);
-		
+
 		if ($placeholder) {
 			var $templates = this.core.getTemplates($placeholder);
 
@@ -130,8 +130,8 @@
 					'dataType'	: 'JSON',
 					'complete'	: $.proxy(function(result) {
 						if (200 == result.status) {
-							var data = [];	
-							
+							var data = [];
+
 							if (result.responseJSON) {
 								for (var i = 0; i < result.responseJSON.days.length; i++) {
 									if (i < this.settings.forecastCount || null == this.settings.forecastCount) {
@@ -144,20 +144,20 @@
 
 							for (var i = 0; i < data.length; i++) {
 								var $template = this.core.getTemplate('forecast', $templates);
-								
+
 								if ($template) {
 									if (data[i]['date']) {
 										var dateNow 	= new Date(),
 											dateNext 	= new Date(data[i]['date']),
 											dates		= Math.abs(Math.floor((dateNext.setHours(0, 0, 0, 0) - dateNow.setHours(0, 0, 0, 0)) / (1000 * 60 * 60 * 24)));
-									
+
 										if (this.settings.forecastText[dates]) {
 											data[i]['date'] = this.settings.forecastText[dates];
 										} else if (this.settings.forecastLabelText[dateNext.getDay()]) {
 											data[i]['date'] = this.settings.forecastLabelText[dateNext.getDay()];
 										}
 									}
-									
+
 									this.core.setPlaceholders($template, data[i]).appendTo($placeholder);
 								}
 							}
@@ -169,14 +169,14 @@
 			}
 		}
 	};
-	
+
 	/**
 	 * Sets the precipitation of the Buienradar Slide.
 	 * @protected.
 	 */
 	SlideBuienradar.prototype.setPrecipitation = function() {
 		var $placeholder = this.core.getPlaceholder('precipitation', this.$element);
-		
+
 		if ($placeholder) {
 			if (this.settings.precipitationFeed) {
 				$.ajax({
@@ -186,18 +186,18 @@
 						if (200 == result.status) {
 							var start 	= null,
 								end		= null;
-								
+
 							if (result.responseJSON) {
 								var borders = result.responseJSON.borders;
-	
+
 								for (var i = 0; i < result.responseJSON.forecasts.length; i++) {
 									if (null == start || null == end) {
 										var time = new Date(result.responseJSON.forecasts[i].datetime);
-	
+
 										if (null == start) {
 											if (0 < result.responseJSON.forecasts[i].value) {
 												var label = '';
-												
+
 												for (var ii = 0; ii < borders.length; ii++) {
 													if (result.responseJSON.forecasts[i].value >= borders[ii].lower && result.responseJSON.forecasts[i].value <= borders[ii].upper) {
 														if (this.settings.precipitationLabelText[ii]) {
@@ -205,13 +205,13 @@
 														}
 													}
 												}
-												
+
 												start = {
 													'time'	: this.getZero(time.getHours()) + ':' + this.getZero(time.getMinutes()),
 													'value'	: result.responseJSON.forecasts[i].value,
 													'label'	: label
 												};
-											}	
+											}
 										} else {
 											if (0 == result.responseJSON.forecasts[i].value) {
 												end = {
@@ -227,7 +227,7 @@
 							} else {
 								this.core.setError('Buienradar neerslag feed kon niet gelezen worden (Formaat: JSON).');
 							}
-							
+
 							if (null == start && null == end) {
 								var result = this.settings.precipitationText[0];
 							} else if (null != start && null != end) {
@@ -235,16 +235,16 @@
 							} else {
 								var result = this.settings.precipitationText[2];
 							}
-							
+
 							if (null !== start) {
 								result = result.replace('%label', start.label);
 								result = result.replace('%start', start.time);
 							}
-							
+
 							if (null !== end) {
 								result = result.replace('%end', end.time);
 							}
-							
+
 							$placeholder.html(result);
 						} else {
 							this.core.setError('Buienradar neerslag feed kon niet geladen worden (HTTP status: ' + result.status + ').');
@@ -254,7 +254,7 @@
 			}
 		}
 	};
-	
+
 	/**
 	 * Gets the leading zero.
 	 * @protected.
@@ -263,10 +263,10 @@
 		if (format < 10) {
 			return '0' + format;
 		}
-		
+
 		return format;
 	};
-		
+
 	/**
 	 * Registers an event or state.
 	 * @public.
@@ -280,15 +280,15 @@
 
 			if (!$.event.special[object.name].narrowcasting) {
 				var _default = $.event.special[object.name]._default;
-				
+
 				$.event.special[object.name]._default = function(e) {
 					if (_default && _default.apply && (!e.namespace || -1 === e.namespace.indexOf('narrowcasting'))) {
 						return _default.apply(this, arguments);
 					}
-					
+
 					return e.namespace && e.namespace.indexOf('narrowcasting') > -1;
 				};
-				
+
 				$.event.special[object.name].narrowcasting = true;
 			}
 		}
@@ -329,19 +329,19 @@
 
 			if (!data) {
 				data = new SlideBuienradar(this, typeof option == 'object' && option, core);
-				
+
 				$this.data('narrowcasting.buienradar', data);
-				
+
 				$.each([
-					
+
 				], function(i, event) {
 					data.register({ type: SlideBuienradar.Type.Event, name: event });
 					data.$element.on(event + '.narrowcasting.buienradar.core', $.proxy(function(e) {
 						if (e.namespace && this !== e.relatedTarget) {
 							this.suppress([event]);
-							
+
 							data[event].apply(this, [].slice.call(arguments, 1));
-							
+
 							this.release([event]);
 						}
 					}, data));

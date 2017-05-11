@@ -19,7 +19,7 @@ $(document).ready(function() {
         },
         'callback'	: '',
         'feed' 		: 'export.json',
-        'domain'	: 'http://narrowcasting.oetzie'
+        'domain'	: document.location.origin
     });
 });
 
@@ -64,7 +64,7 @@ $(document).ready(function() {
          * @protected.
          */
         this.$errors = [];
-        
+
         /**
 	     * The broadcast.
 	     * @protected.
@@ -100,7 +100,7 @@ $(document).ready(function() {
          * @protected.
          */
         this.$slides = [];
-        
+
         this.initialize();
     }
 
@@ -123,11 +123,11 @@ $(document).ready(function() {
 		'callback': null,
 		'callbackType': 'JSON',
 		'callbackInterval': 300,
-		
+
         'feed': null,
         'feedType': 'JSON',
 		'feedInterval': 900,
-		
+
 		'domain': ''
     };
 
@@ -151,29 +151,29 @@ $(document).ready(function() {
 			    'player'	: $('#broadcast-player').val(),
 			    'broadcast'	: $('#broadcast-broadcast').val()
 		    };
-		    
+
 			this.loadCallback();
-			
+
 			if (0 < this.settings.callbackInterval) {
 	            setInterval($.proxy(function(event) {
 	                this.loadCallback();
 	            }, this), this.settings.callbackInterval * 1000);
 	        }
-	
+
 	        this.loadData();
-	
+
 	        if (0 < this.settings.feedInterval) {
 	            setInterval($.proxy(function(event) {
 	                this.loadData();
 	            }, this), this.settings.feedInterval * 1000);
 	        }
-	
+
 	        if (null !== this.settings.clock) {
 	            if (this.settings.clock.element) {
 	                $(this.settings.clock.element).Clock(this.settings.clock.settings, this);
 	            }
 	        }
-	
+
 	        if (null !== this.settings.ticker) {
 	            if (this.settings.ticker.element) {
 	                $(this.settings.ticker.element).Newsticker(this.settings.ticker.settings, this);
@@ -181,7 +181,7 @@ $(document).ready(function() {
 	        }
 	    }
     };
-    
+
     /**
      * Checks the the Narrowcasting.
      * @protected.
@@ -190,30 +190,30 @@ $(document).ready(function() {
 		if ('' === $('#broadcast-player').val()) {
 		    return this.setError('Narrowcasting player is niet gedefineerd.', true);
 	    }
-	    
+
 	    if (undefined === $('#broadcast-player').val()) {
 		    return this.setError('Narrowcasting player is niet gedefineerd.', true);
 	    }
-	    
+
 	    if ('' === $('#broadcast-broadcast').val()) {
 		    return this.setError('Narrowcasting broadcast is niet gedefineerd.', true);
 	    }
-	    
+
 	    if (undefined === $('#broadcast-broadcast').val()) {
 		    return this.setError('Narrowcasting broadcast is niet gedefineerd.', true);
 	    }
-	    
+
 	    if (null === this.settings.callback) {
 		    return this.setError('Narrowcasting callback is niet gedefineerd.', true);
 		}
-	    
+
 	    if (null === this.settings.feed) {
 		    return this.setError('Narrowcasting feed is niet gedefineerd.', true);
 		}
-		
+
 		return true;
     };
-    
+
     /**
      * Loads the callback data for the Narrowcasting.
      * @protected.
@@ -229,21 +229,21 @@ $(document).ready(function() {
                         	if (result.responseJSON) {
 	                        	var currentLocation = window.location.href.replace(this.settings.domain, '');
                                 var redirectLocation = result.responseJSON.redirect.replace(this.settings.domain, '');
-                                
+
                                 if (currentLocation != redirectLocation) {
 	                                window.location.href = redirectLocation;
                                 }
                             } else {
                                 this.setError('Narrowcasting callback kon niet gelezen worden (Formaat: ' + this.settings.callbackType.toUpperCase() + ').');
                             }
-                            
+
                         	break;
                         default:
                             this.setError('Narrowcasting callback kon niet gelezen worden omdat het formaat niet ondersteund word (Formaat: ' + this.settings.callbackType.toUpperCase() + ').');
 
                             break;
                     }
-                        	
+
 		        } else {
                     this.setError('Narrowcasting callback kon niet geladen worden (HTTP status: ' + result.status + ').');
                 }
@@ -319,7 +319,7 @@ $(document).ready(function() {
 	            }, this), 5000);
 	        }
         }
-        
+
         return false;
     };
 
