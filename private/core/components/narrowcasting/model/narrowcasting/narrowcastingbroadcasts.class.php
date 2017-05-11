@@ -57,7 +57,7 @@
 		        	'date'	=> date('Y-m-d'),
 		        	'time'	=> date('H:i:s')
 	            );
-	            
+
 	            if ($schedule->isScheduledFor($timestamp, $timestamp)) {
 		            return $schedule;
 	            }
@@ -68,7 +68,7 @@
 		        	'date'	=> date('Y-m-d'),
 		        	'time'	=> date('H:i:s')
 	            );
-	            
+
 	            if ($schedule->isScheduledFor($timestamp, $timestamp)) {
 		            return $schedule;
 	            }
@@ -93,51 +93,55 @@
                     }
                 }
             }
-            
+
 			return $schedules;
 		}
-		
+
 		/**
 		 * @access public.
 		 * @return Array.
 		 */
 		public function getSlides() {
 			$slides = array();
-			
+
 			foreach ($this->getMany('getSlides') as $slide) {
+			    $sortOrder = $slide->get('sortindex');
+
 				if (null !== ($slide = $slide->getOne('getSlide'))) {
 					if (1 == $slide->published) {
-						$slides[] = $slide;
+						$slides[$sortOrder] = $slide;
 					}
 				}
 			}
-			
+
+			ksort($slides);
+
 			return $slides;
 		}
-		
+
 		/**
 		 * @access public.
 		 * @return Array.
 		 */
 		public function getFeeds() {
 			$feeds = array();
-			
+
 			foreach ($this->getMany('getFeeds') as $feed) {
 				if (1 == $feed->published) {
 					$feeds[] = $feed;
 				}
 			}
-			
+
 			return $feeds;
 		}
-		
+
 		/**
          * @access public.
          * @return Array.
          */
         public function getPlayers() {
             $players = array();
-            
+
             foreach ($this->getMany('getSchedules') as $schedule) {
 	            if (null !== ($player = $schedule->getOne('getPlayer'))) {
 		            if (!isset($players[$player->id])) {
@@ -149,5 +153,5 @@
             return $players;
         }
 	}
-	
+
 ?>
