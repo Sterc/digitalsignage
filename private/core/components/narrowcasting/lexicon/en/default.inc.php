@@ -42,6 +42,8 @@
 	$_lang['narrowcasting.broadcast_update']						= 'Update broadcast';
 	$_lang['narrowcasting.broadcast_remove']						= 'Delete broadcast';
 	$_lang['narrowcasting.broadcast_remove_confirm']				= 'Are you sure you want to delete this broadcast?';
+	$_lang['narrowcasting.broadcast_sync']							= 'Sync broadcast';
+	$_lang['narrowcasting.broadcast_sync_confirm']					= 'Are you sure you want to sync this broadcast?';
 	$_lang['narrowcasting.broadcast_slides']						= 'Slides (internal slides)';
 	$_lang['narrowcasting.broadcast_slides_desc']					= 'Here you can manage all the internal slides of the broadcast. Drag & Drop slides from the "available slides" to "selected slide" to add slides.';
 	$_lang['narrowcasting.broadcast_slide_remove']					= 'Delete slide';
