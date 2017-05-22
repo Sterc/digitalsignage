@@ -208,15 +208,23 @@
             if (isset($parameters[$this->config['request_param_player']])) {
                 if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
                     if (null !== ($broadcast = $player->getCurrentBroadcast())) {
-                        foreach ($broadcast->getSlides() as $key => $slide) {
-                            $slides[] = array_merge(array(
-                                'time'  	=> $slide->time,
-                                'slide' 	=> $slide->type,
-                                'source'	=> 'intern',
-                                'title' 	=> $slide->name,
-                                'image' 	=> null
-                            ), unserialize($slide->data));
-                        }
+	                    $slides = $broadcast->fromExport();
+
+	                    if (0 >= count($slides)) {
+	                        foreach ($broadcast->getSlides() as $key => $slide) {
+	                            $slides[] = array_merge(array(
+	                                'time'  	=> $slide->time,
+	                                'slide' 	=> $slide->type,
+	                                'source'	=> 'intern',
+	                                'title' 	=> $slide->name,
+	                                'image' 	=> null
+	                            ), unserialize($slide->data));
+	                        }
+	                        
+	                        if ((bool) $this->modx->getOption('narrowcasting.auto_create_sync', null, false)) {
+	                        	$broadcast->toExport($slides);
+	                        }
+	                    }
                         
                         $total = count($slides);
 

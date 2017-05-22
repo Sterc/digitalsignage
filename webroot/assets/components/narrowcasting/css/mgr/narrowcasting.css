@@ -9,6 +9,10 @@
 	padding: 15px !important;
 }
 
+.narrowcasting-window-no-padding .x-window-body {
+	padding: 0 !important;
+}
+
 .x-toolbar-cell .x-form-check-wrap .x-form-cb-label {
 	padding-left: 22px !important;
 	line-height: 12px;

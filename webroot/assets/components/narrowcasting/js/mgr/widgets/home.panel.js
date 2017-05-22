@@ -46,7 +46,8 @@ Narrowcasting.panel.Home = function(config) {
 				}, {
 					xtype			: 'narrowcasting-grid-slides',
 					cls				: 'main-wrapper',
-					preventRender	: true
+					preventRender	: true,
+					refreshGrid		: ['narrowcasting-grid-broadcasts']
 				}]
 			}, {
 				layout		: 'form',

@@ -81,13 +81,13 @@ Narrowcasting.grid.Broadcasts = function(config) {
             width		: 100,
             fixed 		: true
         }, {
-            header		: _('last_modified'),
-            dataIndex	: 'editedon',
+            header		: _('narrowcasting.label_broacast_last_sync'),
+            dataIndex	: 'sync',
             sortable	: true,
             editable	: false,
             fixed		: true,
 			width		: 200,
-			renderer	: this.renderDate
+			renderer	: this.renderSync
         }]
     });
     
@@ -98,7 +98,7 @@ Narrowcasting.grid.Broadcasts = function(config) {
         baseParams	: {
         	action		: 'mgr/broadcasts/getlist'
         },
-        fields		: ['id', 'resource_id', 'name', 'name_formatted', 'description', 'template', 'editedon', 'slides', 'feeds', 'players'],
+        fields		: ['id', 'resource_id', 'name', 'name_formatted', 'description', 'template', 'editedon', 'url', 'slides', 'feeds', 'players', 'sync'],
         paging		: true,
         pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy		: 'id',
@@ -144,6 +144,14 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
     },
     getMenu: function() {
         return [{
+	        text	: _('narrowcasting.broadcast_preview'),
+	        handler	: this.previewBroadcast,
+	        scope	: this
+	    }, '-', {
+	        text	: '<i class="icon icon-refresh"></i> ' + _('narrowcasting.broadcast_sync'),
+	        handler	: this.syncBroadcast,
+	        scope	: this
+	    }, '-', {
 	    	text 	: _('narrowcasting.broadcast_slides'),
 	    	handler : this.viewSlides,
 	    	scope 	: this 
@@ -216,6 +224,43 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
             }
     	});
     },
+    previewBroadcast: function(btn, e) {
+        if (this.previewBroadcastWindow) {
+	        this.previewBroadcastWindow.destroy();
+        }
+        
+        this.previewBroadcastWindow = MODx.load({
+	        xtype		: 'narrowcasting-window-broadcast-preview',
+	        record		: this.menu.record,
+	        closeAction	: 'close',
+	        listeners	: {
+            	'success'	: {
+            		fn			: this.refresh,
+		        	scope		: this
+            	}
+            }
+        });
+        
+        this.previewBroadcastWindow.setValues(this.menu.record);
+        this.previewBroadcastWindow.show(e.target);
+    },
+    syncBroadcast: function() {
+    	MODx.msg.confirm({
+        	title 		: _('narrowcasting.broadcast_sync'),
+        	text		: _('narrowcasting.broadcast_sync_confirm'),
+        	url			: Narrowcasting.config.connector_url,
+        	params		: {
+            	action		: 'mgr/broadcasts/sync',
+            	id			: this.menu.record.id
+            },
+            listeners	: {
+            	'success'	: {
+            		fn			: this.refresh,
+		        	scope		: this
+            	}
+            }
+    	});
+    },
     viewSlides: function(btn, e) {
         if (this.viewSlidesWindow) {
 	        this.viewSlidesWindow.destroy();
@@ -268,6 +313,17 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
 	    }
 
     	return players.join(', ');
+    },
+    renderSync: function(a) {
+	    if (!a.valid) {
+		    if (Ext.isEmpty(a.timestamp)) {
+				return _('narrowcasting.sync_never');
+			}
+			
+			return '<i  class="icon icon-exclamation-triangle red"></i> ' + a.timestamp;
+		}
+		
+		return a.timestamp;  
     },
     renderDate: function(a) {
         if (Ext.isEmpty(a)) {
@@ -389,6 +445,110 @@ Narrowcasting.window.UpdateBroadcast = function(config) {
 Ext.extend(Narrowcasting.window.UpdateBroadcast, MODx.Window);
 
 Ext.reg('narrowcasting-window-broadcast-update', Narrowcasting.window.UpdateBroadcast);
+
+Narrowcasting.window.PreviewBroadcast = function(config) {
+    config = config || {};
+    
+    Ext.applyIf(config, {
+    	autoHeight	: true,
+        title 		: _('narrowcasting.broadcast_preview'),
+        url			: Narrowcasting.config.connector_url,
+        baseParams	: {
+            action		: 'mgr/broadcasts/preview'
+        },
+        fields		: [{
+            xtype		: 'hidden',
+            name		: 'id'
+        }, {
+            xtype		: 'narrowcasting-combo-players',
+            fieldLabel	: _('narrowcasting.label_broacast_preview_player'),
+            description	: MODx.expandHelp ? '' : _('narrowcasting.label_broacast_preview_player_esc'),
+            name		: 'player',
+            anchor		: '100%',
+            allowBlank	: false
+        }, {
+        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_broacast_preview_player_desc'),
+            cls			: 'desc-under'
+        }]
+    });
+    
+    Narrowcasting.window.PreviewBroadcast.superclass.constructor.call(this, config);
+};
+
+Ext.extend(Narrowcasting.window.PreviewBroadcast, MODx.Window);
+
+Ext.reg('narrowcasting-window-broadcast-preview', Narrowcasting.window.PreviewBroadcast);
+
+Narrowcasting.window.PreviewBroadcast1 = function(config) {
+    config = config || {};
+    
+    Ext.applyIf(config, {
+		maximized	: true,
+        title 		: _('narrowcasting.broadcast_preview'),
+        cls			: 'narrowcasting-window-no-padding',
+        items		: [{
+        	xtype		: 'container',
+			layout		: {
+            	type		: 'vbox',
+				align		: 'stretch'
+			},
+			width		: '100%',
+			height		: '100%',
+			items		:[{
+				autoEl 		: {
+	                tag 		: 'iframe',
+	                src			: config.record.url,
+	                width		: '100%',
+					height		: '100%',
+					frameBorder	: 0,
+					
+				},
+				listeners	: {
+					'afterrender' : {
+						fn 			: this.setResolutionSize,
+						scope 		: this
+					}
+				}
+			}]
+		}],
+        buttons 	: [{
+            text		: _('ok'),
+            cls			: 'primary-button',
+            handler		: function() {
+	            if ('close' !== config.closeAction) {
+		        	this.hide();
+		        } else {
+			        this.close(); 
+			    }
+	        },
+            scope		: this
+        }]
+    });
+    
+    Narrowcasting.window.PreviewBroadcast1.superclass.constructor.call(this, config);
+};
+
+Ext.extend(Narrowcasting.window.PreviewBroadcast1, MODx.Window, {
+	setResolutionSize: function(elem) {
+		console.log(this.config.record);
+		console.log('setResolutionSize');
+		
+		var panelHeight = parseInt(this.el.select('.x-window-body').first().getHeight());
+		
+		/*var panelPaddingTop = parseInt(this.el.select('.x-window-body').first().getStyle('padding-top').slice(0, -2));
+		var panelPaddingBot = parseInt(this.el.select('.x-window-body').first().getStyle('padding-bottom').slice(0, -2));
+		
+		var panelDescHeight	= parseInt(this.el.select('.panel-desc').first().getHeight());
+		var panelDescMargin	= parseInt(this.el.select('.panel-desc').first().getStyle('margin-bottom').slice(0, -2));
+		
+		var elementMargin	=  parseInt(this.el.select('.x-form-item').first().getStyle('margin-bottom').slice(0, -2)) - panelPaddingBot;
+		
+		elem.el.setHeight(panelHeight - (panelPaddingTop + panelPaddingBot) - (panelDescHeight + panelDescMargin) - elementMargin);*/
+	}
+});
+
+Ext.reg('narrowcasting-window-broadcast-preview1', Narrowcasting.window.PreviewBroadcast1);
 
 Narrowcasting.window.Slides = function(config) {
     config = config || {};

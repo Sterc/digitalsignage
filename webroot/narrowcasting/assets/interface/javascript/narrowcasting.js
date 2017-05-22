@@ -497,7 +497,10 @@ $(document).ready(function() {
 				    		var ellipsis = render[1] ? render[1] : 100;
 
 				    		if (value.length > ellipsis) {
-					    		value = value.substring(0, ellipsis) + '...';
+					    		var firstPart 	= value.substring(0, ellipsis);
+					    		var secondPart	= value.substring(ellipsis + 1);
+					    		
+					    		value = firstPart + (secondPart.substr(0, secondPart.indexOf(' '))) + '...';
 				    		}
 				    		
 				    		break;
