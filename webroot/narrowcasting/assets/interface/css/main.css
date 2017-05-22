@@ -283,7 +283,8 @@ p, ul {
 	float: right;
 	font-size: 4vh;
     line-height: 6.4vh;
-    margin: 0 2vw 0 0; 
+    margin: 0 2vw 0 0;
+	text-transform: lowercase;
 }
 
 /* ----------------------------------------------------------------------------------------- */
