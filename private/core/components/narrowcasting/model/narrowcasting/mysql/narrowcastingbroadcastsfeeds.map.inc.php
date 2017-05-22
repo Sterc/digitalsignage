@@ -29,7 +29,7 @@
 			'broadcast_id'		=> null,
 			'key'				=> null,
 			'url'				=> null,
-			'limit'				=> null,
+			'time'				=> null,
 			'frequency'			=> null,
 			'published'			=> null,
 			'editedon'			=> null
@@ -61,7 +61,7 @@
 				'phptype' 	=> 'string',
 				'null' 		=> false
 			),
-			'limit' 	=> array(
+			'time' 		=> array(
 				'dbtype' 	=> 'int',
 				'precision' => '3',
 				'phptype' 	=> 'integer',

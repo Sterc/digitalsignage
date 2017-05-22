@@ -73,8 +73,8 @@
 	$_lang['narrowcasting.label_feed_name_desc']					= 'The name of the feed.';
 	$_lang['narrowcasting.label_feed_url']							= 'URL';
 	$_lang['narrowcasting.label_feed_url_desc']						= 'The URL of the feed.';
-	$_lang['narrowcasting.label_feed_limit']						= 'Limit';
-	$_lang['narrowcasting.label_feed_limit_desc']					= 'The limit of slides of the feed.';
+	$_lang['narrowcasting.label_feed_time']							= 'Duration';
+	$_lang['narrowcasting.label_feed_time_desc']					= 'The duration of the slide in seconds.';
 	$_lang['narrowcasting.label_feed_frequency']					= 'Frequency';
 	$_lang['narrowcasting.label_feed_frequency_desc']				= 'The frequency of slides of the feed.';
 	$_lang['narrowcasting.label_feed_published']					= 'Published';

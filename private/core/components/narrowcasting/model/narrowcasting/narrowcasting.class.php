@@ -197,41 +197,54 @@
 	    }
 
 	    /**
-		 * Initialize broadcast
-		 *
-	     * @access public
-	     * @param array $scriptProperties
-		 *
-		 * @return array
+	     * @access public.
+	     * @param Array $scriptProperties.
+	     * @return Array.
 	     */
 	    public function initializeBroadcast($scriptProperties = array()) {
 		    $slides = array();
 		    $parameters = $this->modx->request->getParameters();
 
             if (isset($parameters[$this->config['request_param_player']])) {
-                $player = $this->getPlayer($parameters[$this->config['request_param_player']]);
+                if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
+                    if (null !== ($broadcast = $player->getCurrentBroadcast())) {
+                        foreach ($broadcast->getSlides() as $key => $slide) {
+                            $slides[] = array_merge(array(
+                                'time'  	=> $slide->time,
+                                'slide' 	=> $slide->type,
+                                'source'	=> 'intern',
+                                'title' 	=> $slide->name,
+                                'image' 	=> null
+                            ), unserialize($slide->data));
+                        }
+                        
+                        $total = count($slides);
 
-                if ($player !== null) {
-                    $broadcast = $player->getCurrentBroadcast();
-
-                    if ($broadcast !== null) {
-                        $broadcastSlides = $broadcast->getSlides();
-
-                        foreach ($broadcastSlides as $broadcastSlide) {
-                            $slides[] = array_merge(
-                                [
-                                    'time'  => $broadcastSlide->get('time'),
-                                    'slide' => $broadcastSlide->get('type'),
-                                    'title' => $broadcastSlide->get('name'),
-                                    'image' => null
-                                ],
-                                unserialize($broadcastSlide->get('data'))
-                            );
+                        foreach ($broadcast->getFeeds() as $key => $feed) {
+	                        foreach ($feed->getSlides() as $key2 => $slide) {
+		                        // TODO: test this
+		                        if ($key2 < ceil($total / $feed->frequency)) {
+			                        $value = array(
+				                        'time'		=> $feed->time,
+				                        'slide'		=> 'default',
+				                        'source'	=> $feed->key,
+				                        'title'		=> (string) $slide->title,
+				                        'image'		=> null,
+				                        'content'	=> (string) $slide->description
+			                        );
+			                        
+			                        if (isset($slide->enclosure->attributes()->url)) {
+				                    	$value['image'] = (string) $slide->enclosure->attributes()->url;
+				                    }
+			                        
+		                        	array_splice($slides, (($key2 + 1) * $feed->frequency) + $key + $key2, 0, array($value));
+		                        }
+	                        }
                         }
                     }
 				}
 			}
-
+		
 		    return $this->modx->toJSON(array(
 		    	'slides' => $slides
 		    ));

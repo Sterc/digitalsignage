@@ -3,9 +3,9 @@
 	header('Content-Type: application/json');
 	
 	$feeds = array(
-		'nunl'		=> array(
-			'name'		=> 'NU.nl',
-			'feed'		=> 'http://www.nu.nl/rss'
+		'omrop-fyrslan'	=> array(
+			'name'			=> 'Omrop Fryslân',
+			'feed'			=> 'http://www.omropfryslan.nl/rss'
 		)	
 	);
 	

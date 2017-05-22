@@ -19,6 +19,26 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 	 
-	class NarrowcastingBroadcastsFeeds extends xPDOSimpleObject {}
+	class NarrowcastingBroadcastsFeeds extends xPDOSimpleObject {
+		/**
+		 * @access public.
+		 * @return Array.
+		 */
+		public function getSlides() {
+			$slides = array();
+			
+			if (false !== ($data = file_get_contents($this->url))) {
+                if (null !== ($data = simplexml_load_string($data))) {
+                    if (isset($data->channel->item)) {
+                        foreach ($data->channel->item as $value) {
+	                        $slides[] = $value;
+                        }
+                    }
+                }
+            }
+            
+            return $slides;
+		}
+	}
 	
 ?>

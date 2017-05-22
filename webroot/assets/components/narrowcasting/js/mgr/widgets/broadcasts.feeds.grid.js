@@ -48,7 +48,7 @@ Narrowcasting.grid.BroadcastFeeds = function(config) {
         	action		: 'mgr/broadcasts/feeds/getlist',
         	broadcast_id : config.record.id
         },
-        fields		: ['id', 'broadcast_id', 'key', 'url', 'limit', 'frequency', 'published', 'editedon', 'name', 'description'],
+        fields		: ['id', 'broadcast_id', 'key', 'url', 'time', 'frequency', 'published', 'editedon', 'name', 'description'],
         paging		: true,
         pageSize	: 7,
         showPerPage	: false,
@@ -219,14 +219,14 @@ Narrowcasting.window.CreateBroadcastFeed = function(config) {
 	        	columnWidth	: .5,
 				items 		: [{
 		        	xtype		: 'numberfield',
-		        	fieldLabel	: _('narrowcasting.label_feed_limit'),
-		        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_feed_limit_desc'),
-		        	name		: 'limit',
+		        	fieldLabel	: _('narrowcasting.label_feed_time'),
+		        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_feed_time_desc'),
+		        	name		: 'time',
 		        	anchor		: '100%',
 		        	allowBlank	: false
 		        }, {
 		        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
-		            html		: _('narrowcasting.label_feed_limit_desc'),
+		            html		: _('narrowcasting.label_feed_time_desc'),
 		            cls			: 'desc-under'
 		        }]
 	        }, {
@@ -330,14 +330,14 @@ Narrowcasting.window.UpdateBroadcastFeed = function(config) {
 	        	columnWidth	: .5,
 				items 		: [{
 		        	xtype		: 'numberfield',
-		        	fieldLabel	: _('narrowcasting.label_feed_limit'),
-		        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_feed_limit_desc'),
-		        	name		: 'limit',
+		        	fieldLabel	: _('narrowcasting.label_feed_time'),
+		        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_feed_time_desc'),
+		        	name		: 'time',
 		        	anchor		: '100%',
 		        	allowBlank	: false
 		        }, {
 		        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
-		            html		: _('narrowcasting.label_feed_limit_desc'),
+		            html		: _('narrowcasting.label_feed_time_desc'),
 		            cls			: 'desc-under'
 		        }]
 	        }, {

@@ -146,6 +146,8 @@ $(document).ready(function() {
      * @protected.
      */
     Narrowcasting.prototype.initialize = function() {
+	    console.log('initialize');
+	    
 	    if (this.getRequirements()) {
 		    this.broadcast = {
 			    'player'	: $('#broadcast-player').val(),
@@ -187,6 +189,8 @@ $(document).ready(function() {
      * @protected.
      */
     Narrowcasting.prototype.getRequirements = function() {
+	    console.log('getRequirements');
+	    
 		if ('' === $('#broadcast-player').val()) {
 		    return this.setError('Narrowcasting player is niet gedefineerd.', true);
 	    }
@@ -219,6 +223,8 @@ $(document).ready(function() {
      * @protected.
      */
     Narrowcasting.prototype.loadCallback = function() {
+	    console.log('loadCallback');
+	    
 	    $.ajax({
             'url'		: this.settings.callback + '?pl=' + this.broadcast.player + '&bc=' + this.broadcast.broadcast + '&data=true',
             'dataType'	: this.settings.callbackType.toUpperCase(),
@@ -256,6 +262,8 @@ $(document).ready(function() {
      * @protected.
      */
     Narrowcasting.prototype.loadData = function() {
+	    console.log('loadData');
+	    
         $.ajax({
             'url'		: this.settings.feed + '?pl=' + this.broadcast.player + '&bc=' + this.broadcast.broadcast + '&data=true',
             'dataType'	: this.settings.feedType.toUpperCase(),
@@ -299,6 +307,8 @@ $(document).ready(function() {
      * @param {Fatal} Boolean - If the error is fatal or not.
      */
     Narrowcasting.prototype.setError = function(message, fatal) {
+	    console.log('setError: (message: ' + message + ', fatal: ' + fatal + ')');
+	    
         if ($error = this.getTemplate('error', this.$specialTemplates)) {
             if (typeof message !== 'object') {
                 message = {
@@ -389,26 +399,39 @@ $(document).ready(function() {
             if ($placeholder = $(placeholders[i])) {
                 var type 	= $placeholder.prop('tagName'),
                     name 	= $placeholder.attr('data-placeholder'),
-                    value 	= this.getPlaceholderValue(name, data);
+                    wrapper = $placeholder.attr('data-placeholder-wrapper'),
+                    renders	= $placeholder.attr('data-placeholder-renders'),
+                    value 	= this.getPlaceholderValue(name, data, renders),
+                    isEmpty	= null === value || '' === value;
 
                 switch (type) {
                     case 'IMG':
                     case 'IFRAME':
-                        if (null !== value && '' !== value) {
-                            $placeholder.attr('src', value).show();
-                        } else {
+                        if (isEmpty) {
                             $placeholder.attr('src', '').hide();
+                        } else {
+	                        $placeholder.attr('src', value).show();
                         }
 
                         break;
                     default:
-                        if (null !== value && '' !== value) {
-                            $placeholder.html(value).show();
-                        } else {
+                        if (isEmpty) {
                             $placeholder.html('').hide();
+                        } else {
+	                        $placeholder.html(value).show();
                         }
 
                         break;
+                }
+                
+                if (wrapper) {
+	                if ($placeholder.parents('.' + wrapper)) {
+		                if (isEmpty) {
+	                		$placeholder.parents('.' + wrapper).addClass('is-empty');
+	                	} else {
+		                	$placeholder.parents('.' + wrapper).removeClass('is-empty');
+	                	}
+	                }
                 }
             }
         }
@@ -433,8 +456,9 @@ $(document).ready(function() {
      * @public.
      * @param {Name} string|object - The name of the placeholder.
      * @param {Data} object - The data of the placeholder.
+     * @param {Renders} string|array - The renders of the placeholder.
      */
-    Narrowcasting.prototype.getPlaceholderValue = function(name, data) {
+    Narrowcasting.prototype.getPlaceholderValue = function(name, data, renders) {
         if (typeof name == 'string') {
             name = name.split('.');
         }
@@ -445,7 +469,47 @@ $(document).ready(function() {
             }
         }
 
-        return value;
+        return this.getPlaceholderValueRenders(value, renders);
+    };
+    
+    /**
+     * Gets the placeholder value.
+     * @public.
+     * @param {Value} string|null - The value of the placeholder.
+     * @param {Renders} string|array - The renders of the placeholder.
+     */
+    Narrowcasting.prototype.getPlaceholderValueRenders = function(value, renders) {
+	    if (renders) {
+		    if (typeof renders == 'string') {
+	            renders = renders.split(',');
+	        }
+
+	        if (typeof value == 'string') {
+		    	for (var i = 0; i < renders.length; i++) {
+			    	var render = renders[i].split(':');
+
+			    	switch (render[0]) {
+				    	case 'striptags':
+				    		value = value.replace(/<\/?[^>]+>/gi, '');
+				    		
+				    		break;
+				    	case 'ellipsis':
+				    		var ellipsis = render[1] ? render[1] : 100;
+
+				    		if (value.length > ellipsis) {
+					    		value = value.substring(0, ellipsis) + '...';
+				    		}
+				    		
+				    		break;
+			    	}
+		    	}
+		    	
+		    	value = value.replace(/<\s*(\w+).*?>/gi, '<\$1>');
+				value = value.replace(/<\/?(span|a)[^>]*>/gi, '');
+		    }
+		}
+	    
+	    return value;
     };
 
     /**
@@ -474,6 +538,8 @@ $(document).ready(function() {
      * @param {Time} integer - The time of the slide.
      */
     Narrowcasting.prototype.setTimer = function(time) {
+	    console.log('setTimer: (time: ' + time + ')');
+	    
         if ($timer = this.getTimer('progress')) {
             if ('vertical' == this.settings.timerType) {
                 var startPosition 	= {'height': '0px'};
@@ -514,11 +580,15 @@ $(document).ready(function() {
      * @param {current} integer - The slide to initialize.
      */
     Narrowcasting.prototype.getSlide = function(current) {
+	    console.log('getSlide: (current: ' + current + ')');
+	    
         if (this.data[current]) {
             var data = $.extend({}, {
                 'slide' : 'default'
             }, this.data[current]);
-
+            
+            console.log('getSlide: (current: ' + current + ', title: ' + data.title + ')');
+            
             if ($slide = this.getTemplate(data.slide, this.$templates)) {
                 $slide.prependTo($('.slides', this.$element));
 
@@ -527,7 +597,7 @@ $(document).ready(function() {
                 } else {
                     this.$element.removeClass('slide-fullscreen');
                 }
-
+                
                 if (plugin = this.getSlidePlugin(data.slide)) {
                     if ($.fn[plugin]) {
                         $slide[plugin](data, this);
@@ -545,17 +615,31 @@ $(document).ready(function() {
                 }
 
                 return $slide;
+            } else {
+	            this.skipSlide();
             }
         }
 
         return null;
     };
 
+	/**
+     * Skips the current slide and animate next slide.
+     * @public.
+     */
+    Narrowcasting.prototype.skipSlide = function() {
+	    console.log('skipSlide');
+	    
+	    this.nextSlide();
+	};
+	
     /**
      * Sets the next slide and animate current en next slide.
      * @public.
      */
     Narrowcasting.prototype.nextSlide = function() {
+	    console.log('nextSlide');
+	    
         if ($slide = this.getSlide(this.getCurrent())) {
             $slide.hide().fadeIn(this.settings.animationTime * 1000);
 

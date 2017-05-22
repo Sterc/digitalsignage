@@ -42,5 +42,7 @@
 	$_lang['narrowcasting.feed_nu_desc']							= 'The default RSS feed of Nu.nl.';
 	$_lang['narrowcasting.feed_nos']								= 'NOS';
 	$_lang['narrowcasting.feed_nos_desc']							= 'The default RSS feed of NOS.';
+	$_lang['narrowcasting.feed_omrop_fryslan']						= 'Omrop Fryslân';
+	$_lang['narrowcasting.feed_omrop_fryslan_desc']					= 'The default RSS feed of Omrop Fryslân.';
 	
 ?>
