@@ -53,16 +53,19 @@
 				</ul>
 			</div>
 		</div>
-		
-		<!-- Logo -->
-		<div class="logo">
-		    <img src="/narrowcasting/assets/interface/images/logo.svg" />
-		</div>
-		
-		<!-- Clock -->
-		<div class="clock">
-			<div class="time" data-placeholder="time"></div>
-			<div class="date" data-placeholder="date"></div>
+
+
+		<div class="header">
+			<!-- Logo -->
+			<div class="logo">
+				<img src="/narrowcasting/assets/interface/images/logo-text.svg" />
+			</div>
+
+			<!-- Clock -->
+			<div class="clock">
+				<div class="time" data-placeholder="time"></div>
+				<div class="date" data-placeholder="date"></div>
+			</div>
 		</div>
 		
 		<!-- Splides -->
@@ -80,7 +83,7 @@
     				</div>
     			</div>
             </div>
-            <div data-template="media">
+            <!--div data-template="media">
                 <div class="slide slide-media">
     				<div class="slide-inner">
     					<h1 data-placeholder="title"></h1>
@@ -164,7 +167,7 @@
     					</div>
     				</div>
     			</div>
-    		</div>
+    		</div-->
     	</div>
 	</div>
 	
