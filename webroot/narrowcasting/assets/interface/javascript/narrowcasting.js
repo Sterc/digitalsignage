@@ -977,7 +977,7 @@ $(document).ready(function() {
      */
     Clock.Defaults = {
         'formatTime': '%H:%I',
-        'formatDate': '%D %d %M',
+        'formatDate': '%l %d %F',
 
         'dateText': ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
         'monthText': ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december']

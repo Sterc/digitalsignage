@@ -241,14 +241,24 @@ p, ul {
 	position: absolute;
 	top: 1.5vh;
 	left: 3.5vw;
-	width: 7vw;
 	z-index: 100;
 }
 
 .logo img {
-	height: auto;
-	width: 100%;
-	max-width: 100%;
+	height: 11vh;
+	width: auto;
+}
+
+/* Header */
+
+.header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 13vh;
+	width: 100vw;
+	border-bottom: 1vh solid #b21181;
+	z-index: 1;
 }
 
 /* Clock */
@@ -273,7 +283,8 @@ p, ul {
 	float: right;
 	font-size: 4vh;
     line-height: 6.4vh;
-    margin: 0 2vw 0 0; 
+    margin: 0 2vw 0 0;
+	text-transform: lowercase;
 }
 
 /* ----------------------------------------------------------------------------------------- */
@@ -347,6 +358,15 @@ p, ul {
 
 .slides .slide.slide-default .slide-inner .image.is-empty {
 	display: none !important;
+}
+
+.slides .slide.slide-default-no-image .slide-inner .content {
+	position: absolute;
+	top: 19.5vh;
+	left: 3.5vw;
+	right: 14vw;
+	bottom: 13.5vh;
+	overflow: hidden;
 }
 
 /* ----------------------------------------------------------------------------------------- */
