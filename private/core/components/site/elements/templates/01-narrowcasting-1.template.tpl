@@ -83,6 +83,16 @@
     				</div>
     			</div>
             </div>
+			<div data-template="default">
+				<div class="slide slide-default slide-default-no-image" data-placeholder-class="source">
+					<div class="slide-inner">
+						<div class="content">
+							<h1 data-placeholder="title" data-placeholder-renders="striptags,ellipsis:150"></h1>
+							<div data-placeholder="content" data-placeholder-renders="striptags,ellipsis:400"></div>
+						</div>
+					</div>
+				</div>
+			</div>
             <!--div data-template="media">
                 <div class="slide slide-media">
     				<div class="slide-inner">
