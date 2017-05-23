@@ -482,6 +482,18 @@ Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
 				container.removeAll();
 
 				Ext.iterate(record.data.data, function(name, value) {
+                    if (value.xtype === 'textarea') {
+                        value.listeners = {
+                            'afterrender': {
+                                fn: function(data) {
+                                    if (typeof TinyMCERTE.Tiny !== 'undefined') {
+                                        MODx.loadRTE(data.id);
+                                    }
+                                }
+                            }
+                        };
+                    }
+
 					container.add(Ext.applyIf(value, {
 						xtype 		: 'textarea',
 						fieldLabel	: _('narrowcasting.slide_' + type + '_' + name),
