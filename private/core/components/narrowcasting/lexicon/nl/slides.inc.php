@@ -19,28 +19,28 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 
-	$_lang['narrowcasting.slide_default'] 							= 'Default';
-	$_lang['narrowcasting.slide_default_desc'] 						= 'A default slide with content and a image.';
+	$_lang['narrowcasting.slide_default'] 							= 'Standaard';
+	$_lang['narrowcasting.slide_default_desc'] 						= 'Een standaard slide met tekst en een afbeelding.';
 	$_lang['narrowcasting.slide_default_content']					= 'Content';
-	$_lang['narrowcasting.slide_default_content_desc']				= 'The main content of the slide.';
-	$_lang['narrowcasting.slide_default_image']						= 'Image';
-	$_lang['narrowcasting.slide_default_image_desc']				= 'The image of the slide.';
+	$_lang['narrowcasting.slide_default_content_desc']				= 'De hoofd tekst van de slide.';
+	$_lang['narrowcasting.slide_default_image']						= 'Afbeelding';
+	$_lang['narrowcasting.slide_default_image_desc']				= 'De afbeelding van de slide.';
 
 	$_lang['narrowcasting.slide_buienradar'] 						= 'Buienradar';
-	$_lang['narrowcasting.slide_buienradar_desc'] 					= 'A slide with the weather forecast of Buienradar.';
+	$_lang['narrowcasting.slide_buienradar_desc'] 					= 'Een slide met de weersvoorspelling van Buienradar.';
 	$_lang['narrowcasting.slide_buienradar_lat']					= 'Lat';
-	$_lang['narrowcasting.slide_buienradar_lat_desc']				= 'The latitude position of the location.';
+	$_lang['narrowcasting.slide_buienradar_lat_desc']				= 'De latitude van de locatie.';
 	$_lang['narrowcasting.slide_buienradar_lng']					= 'Lng';
-	$_lang['narrowcasting.slide_buienradar_lng_desc']				= 'The longitude position of the location.';
+	$_lang['narrowcasting.slide_buienradar_lng_desc']				= 'De longitude van de locatie.';
 
 	$_lang['narrowcasting.slide_socialmedia'] 						= 'Social Media';
-	$_lang['narrowcasting.slide_socialmedia_desc'] 					= 'A slide with social media messages.';
-	$_lang['narrowcasting.slide_socialmedia_query']					= 'Query';
-	$_lang['narrowcasting.slide_socialmedia_query_desc']			= 'The query of the social media message, example #hastag.';
+	$_lang['narrowcasting.slide_socialmedia_desc'] 					= 'Een slide met social media berichten.';
+	$_lang['narrowcasting.slide_socialmedia_query']					= 'Zoekopdracht';
+	$_lang['narrowcasting.slide_socialmedia_query_desc']			= 'De zoekopdracht van social media berichten, voorbeeld #hastag.';
 
 	$_lang['narrowcasting.feed_nu']									= 'Nu.nl';
-	$_lang['narrowcasting.feed_nu_desc']							= 'The default RSS feed of Nu.nl.';
+	$_lang['narrowcasting.feed_nu_desc']							= 'RSS feed van Nu.nl.';
 	$_lang['narrowcasting.feed_nos']								= 'NOS';
-	$_lang['narrowcasting.feed_nos_desc']							= 'The default RSS feed of NOS.';
+	$_lang['narrowcasting.feed_nos_desc']							= 'RSS feed van NOS.';
 	$_lang['narrowcasting.feed_omrop_fryslan']						= 'Omrop Fryslân';
-	$_lang['narrowcasting.feed_omrop_fryslan_desc']					= 'The default RSS feed of Omrop Fryslân.';
+	$_lang['narrowcasting.feed_omrop_fryslan_desc']					= 'RSS feed van Omrop Fryslân.';
