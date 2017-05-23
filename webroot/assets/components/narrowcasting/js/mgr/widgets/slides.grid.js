@@ -39,7 +39,7 @@ Narrowcasting.grid.Slides = function(config) {
         	}
         }
     }];
-    
+
     columns = new Ext.grid.ColumnModel({
         columns: [{
             header		: _('narrowcasting.label_slide_name'),
@@ -72,7 +72,7 @@ Narrowcasting.grid.Slides = function(config) {
 			renderer	: this.renderDate
         }]
     });
-    
+
     Ext.applyIf(config, {
     	cm			: columns,
         id			: 'narrowcasting-grid-slides',
@@ -85,21 +85,21 @@ Narrowcasting.grid.Slides = function(config) {
         pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy		: 'id'
     });
-    
+
     Narrowcasting.grid.Slides.superclass.constructor.call(this, config);
 };
 
 Ext.extend(Narrowcasting.grid.Slides, MODx.grid.Grid, {
     filterSearch: function(tf, nv, ov) {
         this.getStore().baseParams.query = tf.getValue();
-        
+
         this.getBottomToolbar().changePage(1);
     },
     clearFilter: function() {
 	    this.getStore().baseParams.query = '';
-	    
+
 	    Ext.getCmp('narrowcasting-filter-search-slides').reset();
-	    
+
         this.getBottomToolbar().changePage(1);
     },
     getMenu: function() {
@@ -117,7 +117,7 @@ Ext.extend(Narrowcasting.grid.Slides, MODx.grid.Grid, {
         if (this.createSlideWindow) {
 	        this.createSlideWindow.destroy();
         }
-        
+
         this.createSlideWindow = MODx.load({
 	        xtype		: 'narrowcasting-window-slide-create',
 	        closeAction	: 'close',
@@ -128,14 +128,14 @@ Ext.extend(Narrowcasting.grid.Slides, MODx.grid.Grid, {
 		        }
 	         }
         });
-        
+
         this.createSlideWindow.show(e.target);
     },
     updateSlide: function(btn, e) {
         if (this.updateSlideWindow) {
 	        this.updateSlideWindow.destroy();
         }
-        
+
         this.updateSlideWindow = MODx.load({
 	        xtype		: 'narrowcasting-window-slide-update',
 	        record		: this.menu.record,
@@ -147,7 +147,7 @@ Ext.extend(Narrowcasting.grid.Slides, MODx.grid.Grid, {
 		        }
 	        }
         });
-        
+
         this.updateSlideWindow.setValues(this.menu.record);
         this.updateSlideWindow.show(e.target);
     },
@@ -170,7 +170,7 @@ Ext.extend(Narrowcasting.grid.Slides, MODx.grid.Grid, {
     },
     renderBoolean: function(d, c) {
     	c.css = 1 == parseInt(d) || d ? 'green' : 'red';
-    	
+
     	return 1 == parseInt(d) || d ? _('yes') : _('no');
 	},
     renderDate: function(a) {
@@ -186,7 +186,7 @@ Ext.reg('narrowcasting-grid-slides', Narrowcasting.grid.Slides);
 
 Narrowcasting.window.CreateSlide = function(config) {
     config = config || {};
-    
+
     Ext.applyIf(config, {
 	    width		: 600,
     	autoHeight	: true,
@@ -205,13 +205,13 @@ Narrowcasting.window.CreateSlide = function(config) {
         	items		: [{
 	        	columnWidth	: .5,
 				items : [{
-			    	xtype		: 'narrowcasting-combo-slides-types', 
+			    	xtype		: 'narrowcasting-combo-slides-types',
 			    	fieldLabel	: _('narrowcasting.label_slide_type'),
 		        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_type_desc'),
 		        	name		: 'type',
 		        	anchor		: '100%',
 		        	allowBlank	: false,
-		        	listeners	: {	        	
+		        	listeners	: {
 			        	'change'	: {
 				        	fn 			: this.getTypeFields,
 				        	scope 		: this
@@ -292,19 +292,31 @@ Narrowcasting.window.CreateSlide = function(config) {
 			}]
         }]
     });
-    
+
     Narrowcasting.window.CreateSlide.superclass.constructor.call(this, config);
 };
 
 Ext.extend(Narrowcasting.window.CreateSlide, MODx.Window, {
 	getTypeFields: function(tf, nv, ov) {
 		var type = tf.getValue();
-		
+
 		if (undefined != (record = tf.findRecord(tf.valueField, type))) {
 			if (undefined != (container = Ext.getCmp('narrowcasting-window-slide-create-fields'))) {
 				container.removeAll();
-					
+
 				Ext.iterate(record.data.data, function(name, value) {
+					if (value.xtype === 'textarea') {
+						value.listeners = {
+                            'afterrender': {
+								fn: function(data) {
+									if (typeof TinyMCERTE.Tiny !== 'undefined') {
+										MODx.loadRTE(data.id);
+									}
+								}
+							}
+						};
+					}
+
 					container.add(Ext.applyIf(value, {
 						xtype 		: 'textarea',
 						fieldLabel	: _('narrowcasting.slide_' + type + '_' + name),
@@ -313,14 +325,14 @@ Ext.extend(Narrowcasting.window.CreateSlide, MODx.Window, {
 						anchor		: '100%',
 						allowBlank	: true
 					}));
-					
+
 					container.add({
 			        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
 			            html		:  _('narrowcasting.slide_' + type + '_' + name + '_desc'),
 			            cls			: 'desc-under'
 			        });
 				}, this);
-				
+
 				this.doLayout();
 			}
 		}
@@ -331,7 +343,7 @@ Ext.reg('narrowcasting-window-slide-create', Narrowcasting.window.CreateSlide);
 
 Narrowcasting.window.UpdateSlide = function(config) {
     config = config || {};
-    
+
     Ext.applyIf(config, {
 	    width		: 600,
     	autoHeight	: true,
@@ -359,7 +371,7 @@ Narrowcasting.window.UpdateSlide = function(config) {
 		        	name		: 'type',
 		        	anchor		: '100%',
 		        	allowBlank	: false,
-		        	listeners	: {	        	
+		        	listeners	: {
 			        	'change'	: {
 				        	fn 			: this.getTypeFields,
 				        	scope 		: this
@@ -438,18 +450,18 @@ Narrowcasting.window.UpdateSlide = function(config) {
 			}]
         }]
     });
-    
+
     Narrowcasting.window.UpdateSlide.superclass.constructor.call(this, config);
 };
 
 Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
 	getTypeFields: function(tf, nv, ov) {
 		var type = tf.getValue();
-		
+
 		if (undefined != (record = tf.findRecord(tf.valueField, type))) {
 			if (undefined != (container = Ext.getCmp('narrowcasting-window-slide-update-fields'))) {
 				container.removeAll();
-					
+
 				Ext.iterate(record.data.data, function(name, value) {
 					container.add(Ext.applyIf(value, {
 						xtype 		: 'textarea',
@@ -460,14 +472,14 @@ Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
 						allowBlank	: true,
 						value 		: this.config.record.data[name]
 					}));
-					
+
 					container.add({
 			        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
 			            html		:  _('narrowcasting.slide_' + type + '_' + name + '_desc'),
 			            cls			: 'desc-under'
 			        });
 				}, this);
-				
+
 				this.doLayout();
 			}
 		}
