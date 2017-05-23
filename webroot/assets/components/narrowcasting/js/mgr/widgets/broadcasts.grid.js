@@ -235,7 +235,9 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
 	        closeAction	: 'close',
 	        listeners	: {
             	'success'	: {
-            		fn			: this.refresh,
+            		fn			: function(data) {
+	            		this.showPreviewBroadcast(data.a.result.object);
+					},
 		        	scope		: this
             	}
             }
@@ -243,6 +245,20 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
         
         this.previewBroadcastWindow.setValues(this.menu.record);
         this.previewBroadcastWindow.show(e.target);
+    },
+    showPreviewBroadcast: function(record) {
+	     if (this.showPreviewBroadcastWindow) {
+	        this.showPreviewBroadcastWindow.destroy();
+        }
+        
+        this.showPreviewBroadcastWindow = MODx.load({
+	        modal 		: true,
+	        xtype		: 'narrowcasting-window-broadcast-preview-show',
+	        record		: record,
+	        closeAction	: 'close'
+        });
+        
+        this.showPreviewBroadcastWindow.show();
     },
     syncBroadcast: function() {
     	MODx.msg.confirm({
@@ -480,13 +496,13 @@ Ext.extend(Narrowcasting.window.PreviewBroadcast, MODx.Window);
 
 Ext.reg('narrowcasting-window-broadcast-preview', Narrowcasting.window.PreviewBroadcast);
 
-Narrowcasting.window.PreviewBroadcast1 = function(config) {
+Narrowcasting.window.ShowPreviewBroadcast = function(config) {
     config = config || {};
     
     Ext.applyIf(config, {
 		maximized	: true,
         title 		: _('narrowcasting.broadcast_preview'),
-        cls			: 'narrowcasting-window-no-padding',
+        cls			: 'narrowcasting-window-preview',
         items		: [{
         	xtype		: 'container',
 			layout		: {
@@ -502,13 +518,6 @@ Narrowcasting.window.PreviewBroadcast1 = function(config) {
 	                width		: '100%',
 					height		: '100%',
 					frameBorder	: 0,
-					
-				},
-				listeners	: {
-					'afterrender' : {
-						fn 			: this.setResolutionSize,
-						scope 		: this
-					}
 				}
 			}]
 		}],
@@ -523,32 +532,35 @@ Narrowcasting.window.PreviewBroadcast1 = function(config) {
 			    }
 	        },
             scope		: this
-        }]
+        }],
+        listeners	: {
+			'bodyresize' : {
+				fn 			: this.setResolutionSize,
+				scope 		: this
+			}
+		}
     });
     
-    Narrowcasting.window.PreviewBroadcast1.superclass.constructor.call(this, config);
+    Narrowcasting.window.ShowPreviewBroadcast.superclass.constructor.call(this, config);
 };
 
-Ext.extend(Narrowcasting.window.PreviewBroadcast1, MODx.Window, {
-	setResolutionSize: function(elem) {
-		console.log(this.config.record);
-		console.log('setResolutionSize');
+Ext.extend(Narrowcasting.window.ShowPreviewBroadcast, MODx.Window, {
+	setResolutionSize: function() {
+		var width 		= this.config.record.width,
+			height 		= this.config.record.height,
+			maxWidth	= parseInt(this.getEl().select('.x-window-body').first().getWidth()),
+			maxHeight 	= parseInt(this.getEl().select('.x-window-body').first().getHeight());
+
+		var ratio 		= maxHeight / (height / 100),
+			newWidth 	= (width / 100) * ratio,
+			newHeight 	= maxHeight;
 		
-		var panelHeight = parseInt(this.el.select('.x-window-body').first().getHeight());
-		
-		/*var panelPaddingTop = parseInt(this.el.select('.x-window-body').first().getStyle('padding-top').slice(0, -2));
-		var panelPaddingBot = parseInt(this.el.select('.x-window-body').first().getStyle('padding-bottom').slice(0, -2));
-		
-		var panelDescHeight	= parseInt(this.el.select('.panel-desc').first().getHeight());
-		var panelDescMargin	= parseInt(this.el.select('.panel-desc').first().getStyle('margin-bottom').slice(0, -2));
-		
-		var elementMargin	=  parseInt(this.el.select('.x-form-item').first().getStyle('margin-bottom').slice(0, -2)) - panelPaddingBot;
-		
-		elem.el.setHeight(panelHeight - (panelPaddingTop + panelPaddingBot) - (panelDescHeight + panelDescMargin) - elementMargin);*/
+		this.getEl().select('iframe').setWidth(newWidth);
+		this.getEl().select('iframe').setHeight(newHeight);
 	}
 });
 
-Ext.reg('narrowcasting-window-broadcast-preview1', Narrowcasting.window.PreviewBroadcast1);
+Ext.reg('narrowcasting-window-broadcast-preview-show', Narrowcasting.window.ShowPreviewBroadcast);
 
 Narrowcasting.window.Slides = function(config) {
     config = config || {};
