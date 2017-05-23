@@ -497,7 +497,10 @@ $(document).ready(function() {
 				    		var ellipsis = render[1] ? render[1] : 100;
 
 				    		if (value.length > ellipsis) {
-					    		value = value.substring(0, ellipsis) + '...';
+					    		var firstPart 	= value.substring(0, ellipsis);
+					    		var secondPart	= value.substring(ellipsis + 1);
+					    		
+					    		value = firstPart + (secondPart.substr(0, secondPart.indexOf(' '))) + '...';
 				    		}
 				    		
 				    		break;
@@ -974,7 +977,7 @@ $(document).ready(function() {
      */
     Clock.Defaults = {
         'formatTime': '%H:%I',
-        'formatDate': '%D %d %M',
+        'formatDate': '%l %d %F',
 
         'dateText': ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
         'monthText': ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december']

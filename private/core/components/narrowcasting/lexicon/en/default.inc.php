@@ -42,7 +42,8 @@
 	$_lang['narrowcasting.broadcast_update']						= 'Update broadcast';
 	$_lang['narrowcasting.broadcast_remove']						= 'Delete broadcast';
 	$_lang['narrowcasting.broadcast_remove_confirm']				= 'Are you sure you want to delete this broadcast?';
-	$_lang['narrowcasting.broadcast_sync']							= 'Sync broadcast';
+	$_lang['narrowcasting.broadcast_preview']						= 'Preview broadcast';
+	$_lang['narrowcasting.broadcast_sync']							= 'Synchronize broadcast';
 	$_lang['narrowcasting.broadcast_sync_confirm']					= 'Are you sure you want to sync this broadcast?';
 	$_lang['narrowcasting.broadcast_slides']						= 'Slides (internal slides)';
 	$_lang['narrowcasting.broadcast_slides_desc']					= 'Here you can manage all the internal slides of the broadcast. Drag & Drop slides from the "available slides" to "selected slide" to add slides.';
@@ -66,6 +67,10 @@
 	$_lang['narrowcasting.label_broadcast_feeds_desc']				= 'The feeds to broadcast the broadcast.';
 	$_lang['narrowcasting.label_broadcast_players']					= 'Mediaboxes';
 	$_lang['narrowcasting.label_broadcast_players_desc']			= 'The mediaboxes to broadcast the broadcast.';
+	$_lang['narrowcasting.label_broacast_last_sync']				= 'Last synchronized';
+	$_lang['narrowcasting.label_broacast_last_sync_desc']			= '';
+	$_lang['narrowcasting.label_broacast_preview_player']			= 'Player';
+	$_lang['narrowcasting.label_broacast_preview_player_desc']		= 'Select the player to show the broadcast preview.';
 	
 	$_lang['narrowcasting.label_feed_key']							= 'Key';
 	$_lang['narrowcasting.label_feed_key_desc']						= 'The key of the feed.';
@@ -153,6 +158,7 @@
 	
 	$_lang['narrowcasting.auto_refresh_grid']						= 'Auto refresh';
 	$_lang['narrowcasting.filter_broadcast']						= 'Filter on broadcast';
+	$_lang['narrowcasting.sync_never']								= 'Never';
 	$_lang['narrowcasting.selected_slides']							= 'Selected slides';
 	$_lang['narrowcasting.available_slides']						= 'Available slides';
 	$_lang['narrowcasting.slide_more_options']						= 'Select a slide type for more options.';
@@ -164,6 +170,7 @@
 	$_lang['narrowcasting.schedule_time_format_set']				= '(from [[+start_time]] till [[+end_time]])';	
 	$_lang['narrowcasting.schedule_date_format_set']				= '[[+start_date]] till [[+end_date]]';					
 	$_lang['narrowcasting.schedule_date_format_set_long']			= '[[+start_date]] (van [[+start_time]]) tot [[+end_date]] (tot [[+end_time]])';
+	$_lang['narrowcasting.error_broadcast_sync']					= 'An error has occurred during synchronizing the broadcast.'; 
 	$_lang['narrowcasting.error_broadcast_player_exists']			= 'This mediabox is already connected to this broadcast. Specify another mediabox.';
 	$_lang['narrowcasting.error_broadcast_schedule_exists']			= 'There is already a schedule for this day: [[+schedule]]. Specify another schedule.';
 	$_lang['narrowcasting.error_player_resolution']					= 'Not a valid resolution (width x height (without spaces)).';

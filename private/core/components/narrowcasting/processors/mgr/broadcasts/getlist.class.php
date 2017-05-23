@@ -103,7 +103,11 @@
 				'name_formatted'	=> $object->pagetitle.($this->modx->hasPermission('tree_show_resource_ids') ? ' ('.$object->resource_id.')' : ''),
 				'slides'			=> count($object->getSlides()),
 				'feeds'				=> count($object->getFeeds()),
-				'players' 			=> array()
+				'players' 			=> array(),
+				'sync'				=> array(
+					'valid'				=> !$object->needSync(),
+					'timestamp'			=> $object->getLastSync()
+				)
 			));
 			
 			foreach ($object->getPlayers() as $player) {
@@ -112,6 +116,12 @@
 					'name'		=> $player->name,
 					'online' 	=> $player->isOnline($object->id)
 				);
+			}
+			
+			if (in_array($array['sync']['timestamp'], array('-001-11-30 00:00:00', '-1-11-30 00:00:00', '0000-00-00 00:00:00', null))) {
+				$array['sync']['timestamp'] = '';
+			} else {
+				$array['sync']['timestamp'] = date($this->getProperty('dateFormat'), strtotime($array['sync']['timestamp']));
 			}
 			
 			if (in_array($array['editedon'], array('-001-11-30 00:00:00', '-1-11-30 00:00:00', '0000-00-00 00:00:00', null))) {

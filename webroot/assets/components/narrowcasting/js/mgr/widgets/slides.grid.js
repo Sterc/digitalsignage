@@ -83,7 +83,8 @@ Narrowcasting.grid.Slides = function(config) {
         fields		: ['id', 'type', 'name', 'time', 'data', 'published', 'editedon', 'type_formatted'],
         paging		: true,
         pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
-        sortBy		: 'id'
+        sortBy		: 'id',
+        refreshGrid : []
     });
 
     Narrowcasting.grid.Slides.superclass.constructor.call(this, config);
@@ -113,6 +114,15 @@ Ext.extend(Narrowcasting.grid.Slides, MODx.grid.Grid, {
 		    scope	: this
 		}];
     },
+    refreshGrids: function() {
+	    if ('string' == typeof this.config.refreshGrid) {
+		    Ext.getCmp(this.config.refreshGrid).refresh();
+	    } else {
+		    for (var i = 0; i < this.config.refreshGrid.length; i++) {
+			    Ext.getCmp(this.config.refreshGrid[i]).refresh();
+		    }
+		}
+    },
     createSlide: function(btn, e) {
         if (this.createSlideWindow) {
 	        this.createSlideWindow.destroy();
@@ -123,7 +133,10 @@ Ext.extend(Narrowcasting.grid.Slides, MODx.grid.Grid, {
 	        closeAction	: 'close',
 	        listeners	: {
 		        'success'	: {
-		        	fn			: this.refresh,
+		        	fn			: function(data) {
+			        	this.refreshGrids();
+            			this.refresh();
+            		},
 		        	scope		: this
 		        }
 	         }
@@ -142,7 +155,10 @@ Ext.extend(Narrowcasting.grid.Slides, MODx.grid.Grid, {
 	        closeAction	: 'close',
 	        listeners	: {
 		        'success'	: {
-		        	fn			: this.refresh,
+		        	fn			: function(data) {
+			        	this.refreshGrids();
+            			this.refresh();
+            		},
 		        	scope		: this
 		        }
 	        }
@@ -162,7 +178,10 @@ Ext.extend(Narrowcasting.grid.Slides, MODx.grid.Grid, {
             },
             listeners	: {
             	'success'	: {
-            		fn			: this.refresh,
+            		fn			: function(data) {
+			        	this.refreshGrids();
+            			this.refresh();
+            		},
 		        	scope		: this
             	}
             }

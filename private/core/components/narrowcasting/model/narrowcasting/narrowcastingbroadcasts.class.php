@@ -152,6 +152,111 @@
 
             return $players;
         }
+        
+		/**
+		 * @access public.
+		 * @return Boolean.
+		 */
+        public function needSync() {
+	        if (false !== ($export = $this->getLastSync())) {
+		        $timestamp = strtotime($export);
+		       
+		        if (strtotime($this->editedon) <= $timestamp) {
+					foreach ($this->getSlides() as $slide) {
+						if (strtotime($slide->editedon) >= $timestamp) {
+							return true;
+						}
+					}
+					
+					return false;
+				}
+	        }
+		    
+		    return true;
+        }
+        
+        /**
+	     * @access public.
+	     * @return Boolean|String.
+	     */
+        public function getLastSync() {
+	        if ($this->getExportPath()) {
+		        if (file_exists($this->getExportFile())) {
+			        return date('Y-m-d H:i:s', filemtime($this->getExportFile()));
+			    }
+		    }
+		    
+		    return false;
+        }
+        
+        /**
+	     * @access public.
+	     * @param Array $slides.
+	     * @return Boolean.
+	     */
+        public function toExport($slides = array()) {
+	        if ($this->getExportPath()) {
+		        if ($handle = fopen($this->getExportFile(), 'w')) {
+			        fwrite($handle, $this->xpdo->toJSON(array(
+			        	'slides' => $slides
+			        )));
+
+					fclose($handle);
+					
+					return true;
+				}
+			}
+			
+			return false;
+        }
+        
+        /**
+	     * @access public.
+	     * @return Array.
+	     */
+        public function fromExport() {
+	        $export = array();
+	        
+	        if ($this->getExportPath()) {
+		        if (file_exists($this->getExportFile())) {
+			        if ($handle = fopen($this->getExportFile(), 'r')) {
+				    	$slides = fread($handle, filesize($this->getExportFile()));
+				    	
+				    	if (null !== ($data = $this->xpdo->fromJSON($slides))) {
+					    	if (isset($data['slides'])) {
+						    	$export = $data['slides'];
+					    	}
+				    	}
+				    	
+				    	fclose($handle);
+				    }
+				}
+		    }
+		    
+		    return $export;
+        }
+        
+        /**
+	     * @access public.
+	     * @return Boolean|String.
+	     */
+        public function getExportPath() {
+	        $path = dirname(dirname(dirname(__FILE__))).'/export/';
+
+	        if (!is_dir($path) || !is_writable($path)) {
+		        return false;
+		    }
+		    
+		    return $path;
+        }
+        
+        /**
+	     * @access public.
+	     * @return String.
+	     */
+        public function getExportFile() {
+	        return $this->getExportPath().'broadcast-'.$this->id.'.export';
+        }
 	}
 
 ?>
