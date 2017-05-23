@@ -25,16 +25,16 @@
 		 * @var Object.
 		 */
 		public $narrowcasting;
-		
+
 		/**
 		 * @access public.
 		 * @return Mixed.
 		 */
 		public function initialize() {
 			$this->narrowcasting = $this->modx->getService('narrowcasting', 'Narrowcasting', $this->modx->getOption('narrowcasting.core_path', null, $this->modx->getOption('core_path').'components/narrowcasting/').'model/narrowcasting/');
-			
+
 			$this->addJavascript($this->narrowcasting->config['js_url'].'mgr/narrowcasting.js');
-			
+
 			$this->addHtml('<script type="text/javascript">
 				Ext.onReady(function() {
 					MODx.config.help_url = "'.$this->narrowcasting->getHelpUrl().'";
@@ -42,10 +42,10 @@
 					Narrowcasting.config = '.$this->modx->toJSON($this->narrowcasting->config).';
 				});
 			</script>');
-			
+
 			return parent::initialize();
 		}
-		
+
 		/**
 		 * @acces public.
 		 * @return Array.
@@ -53,16 +53,17 @@
 		public function getLanguageTopics() {
 			return $this->narrowcasting->config['lexicons'];
 		}
-		
+
 		/**
 		 * @acces public.
 		 * @returns Boolean.
-		 */	    
+		 */
 		public function checkPermissions() {
 			return true;
 		}
+
 	}
-		
+
 	class IndexManagerController extends NarrowcastingManagerController {
 		/**
 		 * @acces public.
