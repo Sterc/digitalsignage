@@ -235,6 +235,18 @@ p, ul {
 	height: 9vh;
 }
 
+/* Header */
+
+.header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 15vh;
+	width: 100vw;
+	border-bottom: 1vh solid #b21181;
+	z-index: 100;
+}
+
 /* Logo */
 
 .logo {
@@ -249,23 +261,11 @@ p, ul {
 	width: auto;
 }
 
-/* Header */
-
-.header {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 13vh;
-	width: 100vw;
-	border-bottom: 1vh solid #b21181;
-	z-index: 1;
-}
-
 /* Clock */
 
 .clock {
 	position: absolute;
-	top: 2.4vh;
+	top: 3.8vh;
 	right: 2.7vw;
 	color: #b21181;
 	text-align: center;

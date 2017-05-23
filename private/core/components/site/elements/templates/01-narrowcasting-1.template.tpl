@@ -17,21 +17,6 @@
 
 <body>
 	<div class="window">
-	    <!--
-            Broadcast debug
-            
-            - An input#broadcast-player with the player key
-            - An input#broadcast-broadcast with the player ID
-	    -->
-	    <div class="broadcast-info">
-            <div class="broadcast-info-inner">
-                <label for="broadcast-id">Mediabox</label>
-                <input type="text" name="broadcast-player" id="broadcast-player" disabled="disabled" value="[[!+narrowcasting.player]]" />
-                <label for="broadcast-id">Broadcast</label>
-                <input type="text" name="broadcast-broadcast" id="broadcast-broadcast" disabled="disabled" value="[[!+narrowcasting.broadcast]]" />
-            </div>
-        </div>
-        
         <!-- Error message -->
         <div class="broadcast-error-message" data-template="error">
             <div class="broadcast-error-message-inner">
@@ -53,7 +38,6 @@
 				</ul>
 			</div>
 		</div>
-
 
 		<div class="header">
 			<!-- Logo -->
@@ -83,7 +67,7 @@
     				</div>
     			</div>
             </div>
-			<div data-template="default">
+			<!--<div data-template="default">
 				<div class="slide slide-default slide-default-no-image" data-placeholder-class="source">
 					<div class="slide-inner">
 						<div class="content">
@@ -93,7 +77,7 @@
 					</div>
 				</div>
 			</div>
-            <!--div data-template="media">
+            div data-template="media">
                 <div class="slide slide-media">
     				<div class="slide-inner">
     					<h1 data-placeholder="title"></h1>
@@ -180,6 +164,12 @@
     		</div-->
     	</div>
 	</div>
+	
+	<script type="text/javascript">
+	    var player    = '[[!+narrowcasting.player]]',
+	        broadcast = '[[!+narrowcasting.broadcast]]',
+	        preview   = [[!+narrowcasting.preview]];
+	</script>
 	
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 	<script type="text/javascript" src="/narrowcasting/assets/interface/javascript/modenizer.js"></script>

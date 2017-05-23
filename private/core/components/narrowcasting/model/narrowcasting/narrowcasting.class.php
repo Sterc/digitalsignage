@@ -99,15 +99,20 @@
 	     * @return Null|Object.
 	     */
 	    public function getPlayer($key) {
-	        $criterea = array(
+	        return $this->modx->getObject('NarrowcastingPlayers', array(
 	            'key' => $key
-	        );
-
-	        if (null !== ($player = $this->modx->getObject('NarrowcastingPlayers', $criterea))) {
-	            return $player;
-	        }
-
-	        return null;
+	        ));
+	    }
+	    
+	    /**
+	     * @access public.
+	     * @param String $id.
+	     * @return Null|Object.
+	     */
+	    public function getBroadcast($id) {
+		    return $this->modx->getObject('NarrowcastingBroadcasts', array(
+	            'id' => $id
+	        ));
 	    }
 
 	    /**
@@ -120,77 +125,84 @@
 
 	            $this->modx->setPlaceholders(array(
 	                'player'	=> $parameters[$this->config['request_param_player']],
-	                'broadcast'	=> $parameters[$this->config['request_param_broadcast']]
+	                'broadcast'	=> $parameters[$this->config['request_param_broadcast']],
+	                'preview'	=> isset($parameters['preview']) ? 1 : 0
 	            ), 'narrowcasting.');
 	        }
 
 	        if ($this->modx->resource->id == $this->config['request_id']) {
 		        $parameters = $this->modx->request->getParameters();
 
-		        if (isset($parameters[$this->config['request_param_player']])) {
-			        if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
-				        $schedules = array();
-
-				        foreach ($player->getBroadcasts() as $broadcast) {
-					    	if (false !== ($schedule = $broadcast->isScheduled($player->id))) {
-					    		if (null !== ($broadcast = $schedule->getBroadcast())) {
-									$schedules[] = array_merge($schedule->toArray(), array(
-										'broadcast'	=> $broadcast->toArray()
-									));
-					    		}
-					    	}
-				        }
-
-				        // Sort the available schedules by type (dates overules day)
-				        $sort = array();
-
-						foreach ($schedules as $key => $value) {
-						    $sort[$key] = $value['type'];
-						}
-
-						array_multisort($sort, SORT_ASC, $schedules);
-
-				        if (0 < count($schedules)) {
-					        // Get the first available schedule
-							$schedule = array_shift($schedules);
-
-					        $player->setOnline($schedule['broadcast']['id']);
-
-					        if (!isset($parameters['data'])) {
-						        $this->modx->sendRedirect($this->modx->makeUrl($schedule['broadcast']['resource_id'], null, array(
-						        	$this->config['request_param_player']		=> $player->key,
-						        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
-					        	), 'full'));
+				if (!isset($parameters['preview'])) {
+			        if (isset($parameters[$this->config['request_param_player']])) {
+				        if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
+					        $schedules = array();
+	
+					        foreach ($player->getBroadcasts() as $broadcast) {
+						    	if (false !== ($schedule = $broadcast->isScheduled($player->id))) {
+						    		if (null !== ($broadcast = $schedule->getBroadcast())) {
+										$schedules[] = array_merge($schedule->toArray(), array(
+											'broadcast'	=> $broadcast->toArray()
+										));
+						    		}
+						    	}
 					        }
-
+	
+					        // Sort the available schedules by type (dates overules day)
+					        $sort = array();
+	
+							foreach ($schedules as $key => $value) {
+							    $sort[$key] = $value['type'];
+							}
+	
+							array_multisort($sort, SORT_ASC, $schedules);
+	
+					        if (0 < count($schedules)) {
+						        // Get the first available schedule
+								$schedule = array_shift($schedules);
+	
+						        $player->setOnline($schedule['broadcast']['id']);
+	
+						        if (!isset($parameters['data'])) {
+							        $this->modx->sendRedirect($this->modx->makeUrl($schedule['broadcast']['resource_id'], null, array(
+							        	$this->config['request_param_player']		=> $player->key,
+							        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
+						        	), 'full'));
+						        }
+	
+						        $status = array(
+						        	'status'	=> 200,
+						        	'player'	=> $player->toArray(),
+						        	'schedule'	=> $schedule,
+						        	'broadcast'	=> $schedule['broadcast'],
+						        	'redirect'	=> str_replace('&amp;', '&', $this->modx->makeUrl($schedule['broadcast']['resource_id'], null, array(
+							        	$this->config['request_param_player']		=> $player->key,
+							        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
+						        	), 'full'))
+						        );
+						    } else {
+							    $status = array(
+								    'status'	=> 400,
+								    'message'	=> 'Geen uitzending voor de player gevonden.'
+							    );
+						    }
+				        } else {
 					        $status = array(
-					        	'status'	=> 200,
-					        	'player'	=> $player->toArray(),
-					        	'schedule'	=> $schedule,
-					        	'broadcast'	=> $schedule['broadcast'],
-					        	'redirect'	=> str_replace('&amp;', '&', $this->modx->makeUrl($schedule['broadcast']['resource_id'], null, array(
-						        	$this->config['request_param_player']		=> $player->key,
-						        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
-					        	), 'full'))
+						    	'status'	=> 400,
+						    	'message'	=> 'Player niet gevonden.'
 					        );
-					    } else {
-						    $status = array(
-							    'status'	=> 400,
-							    'message'	=> 'Geen uitzending voor de player gevonden.'
-						    );
-					    }
+				        }
 			        } else {
 				        $status = array(
 					    	'status'	=> 400,
-					    	'message'	=> 'Player niet gevonden.'
+					    	'message'	=> 'Player niet gedefineerd.'
 				        );
 			        }
-		        } else {
-			        $status = array(
-				    	'status'	=> 400,
-				    	'message'	=> 'Player niet gedefineerd.'
-			        );
-		        }
+			    } else {
+				    $status = array(
+					    'status'	=> 200,
+					);
+			    }
 
 		        $this->modx->resource->_output = $this->modx->toJSON($status);
 	        }
@@ -203,55 +215,64 @@
 	     */
 	    public function initializeBroadcast($scriptProperties = array()) {
 		    $slides = array();
+		    $broadcast = null;
 		    $parameters = $this->modx->request->getParameters();
 
-            if (isset($parameters[$this->config['request_param_player']])) {
-                if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
-                    if (null !== ($broadcast = $player->getCurrentBroadcast())) {
-	                    $slides = $broadcast->fromExport();
-
-	                    if (0 >= count($slides)) {
-	                        foreach ($broadcast->getSlides() as $key => $slide) {
-	                            $slides[] = array_merge(array(
-	                                'time'  	=> $slide->time,
-	                                'slide' 	=> $slide->type,
-	                                'source'	=> 'intern',
-	                                'title' 	=> $slide->name,
-	                                'image' 	=> null
-	                            ), unserialize($slide->data));
-	                        }
-	                        
-	                        if ((bool) $this->modx->getOption('narrowcasting.auto_create_sync', null, false)) {
-	                        	$broadcast->toExport($slides);
-	                        }
-	                    }
-                        
-                        $total = count($slides);
-
-                        foreach ($broadcast->getFeeds() as $key => $feed) {
-	                        foreach ($feed->getSlides() as $key2 => $slide) {
-		                        // TODO: test this
-		                        if ($key2 < ceil($total / $feed->frequency)) {
-			                        $value = array(
-				                        'time'		=> $feed->time,
-				                        'slide'		=> 'default',
-				                        'source'	=> $feed->key,
-				                        'title'		=> (string) $slide->title,
-				                        'image'		=> null,
-				                        'content'	=> (string) $slide->description
-			                        );
-			                        
-			                        if (isset($slide->enclosure->attributes()->url)) {
-				                    	$value['image'] = (string) $slide->enclosure->attributes()->url;
-				                    }
-			                        
-		                        	array_splice($slides, (($key2 + 1) * $feed->frequency) + $key + $key2, 0, array($value));
-		                        }
-	                        }
-                        }
-                    }
+			if (isset($parameters['preview'])) {
+				if (isset($parameters[$this->config['request_param_broadcast']])) {
+					$broadcast = $this->getBroadcast($parameters[$this->config['request_param_broadcast']]);
+				}
+			} else if (isset($parameters[$this->config['request_param_player']])) {
+				if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
+					$broadcast = $player->getCurrentBroadcast();
 				}
 			}
+					
+			if (null !== $broadcast) {
+				if (!isset($parameters['preview'])) {
+                	$slides = $broadcast->fromExport();
+                }
+
+                if (0 >= count($slides)) {
+                    foreach ($broadcast->getSlides() as $key => $slide) {
+                        $slides[] = array_merge(array(
+                            'time'  	=> $slide->time,
+                            'slide' 	=> $slide->type,
+                            'source'	=> 'intern',
+                            'title' 	=> $slide->name,
+                            'image' 	=> null
+                        ), unserialize($slide->data));
+                    }
+                    
+                    if ((bool) $this->modx->getOption('narrowcasting.auto_create_sync', null, false)) {
+                    	$broadcast->toExport($slides);
+                    }
+                }
+                
+                $total = count($slides);
+
+                foreach ($broadcast->getFeeds() as $key => $feed) {
+                    foreach ($feed->getSlides() as $key2 => $slide) {
+                        // TODO: test this
+                        if ($key2 < ceil($total / $feed->frequency)) {
+	                        $value = array(
+		                        'time'		=> $feed->time,
+		                        'slide'		=> 'default',
+		                        'source'	=> $feed->key,
+		                        'title'		=> (string) $slide->title,
+		                        'image'		=> null,
+		                        'content'	=> (string) $slide->description
+	                        );
+	                        
+	                        if (isset($slide->enclosure->attributes()->url)) {
+		                    	$value['image'] = (string) $slide->enclosure->attributes()->url;
+		                    }
+	                        
+                        	array_splice($slides, (($key2 + 1) * $feed->frequency) + $key + $key2, 0, array($value));
+                        }
+                    }
+                }
+            }
 		
 		    return $this->modx->toJSON(array(
 		    	'slides' => $slides

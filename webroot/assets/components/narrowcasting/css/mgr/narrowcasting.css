@@ -9,8 +9,16 @@
 	padding: 15px !important;
 }
 
-.narrowcasting-window-no-padding .x-window-body {
+.narrowcasting-window-preview .x-window-body {
 	padding: 0 !important;
+	background: #000000 !important;
+}
+
+.narrowcasting-window-preview .x-window-body iframe {
+	position: relative !important;
+	display: block !important;
+	margin: auto !important;
+	background: #ffffff !important;
 }
 
 .x-toolbar-cell .x-form-check-wrap .x-form-cb-label {

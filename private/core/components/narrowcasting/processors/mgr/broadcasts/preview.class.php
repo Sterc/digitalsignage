@@ -66,9 +66,10 @@
 			if (null !== ($player = $this->modx->getObject('NarrowcastingPlayers', $criterea))) {
 				list($width, $height) = explode('x', $player->resolution);
 				
-				return $this->outputArray(array(
+				return $this->success(null, array(
 					'url' => $this->modx->makeUrl($this->object->resource_id, null, array(
-						'preview' => true
+						'bc'		=> $this->object->id,
+						'preview' 	=> true
 					), 'full'),
 					'width'		=> $width,
 					'height'	=> $height

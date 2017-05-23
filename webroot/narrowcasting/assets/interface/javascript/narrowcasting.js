@@ -6,7 +6,6 @@
 
 $(document).ready(function() {
     $('.window').Narrowcasting({
-        'debug'		: true,
         'clock'		: {
             'element'	: '.clock'
         },
@@ -17,8 +16,17 @@ $(document).ready(function() {
                 'feedType'	: 'JSON'
             }
         },
+        
         'callback'	: '',
+        
         'feed' 		: 'export.json',
+        
+        'vars'		: {
+	    	'player'	: player,
+	    	'broadcast' : broadcast,
+	    	'preview'	: preview
+        },
+        
         'domain'	: document.location.origin
     });
 });
@@ -64,13 +72,7 @@ $(document).ready(function() {
          * @protected.
          */
         this.$errors = [];
-
-        /**
-	     * The broadcast.
-	     * @protected.
-	     */
-	    this.broadcast = {};
-
+        
         /**
          * The data.
          * @protected.
@@ -109,7 +111,6 @@ $(document).ready(function() {
      * @public.
      */
     Narrowcasting.Defaults = {
-        'debug': false,
         'clock': null,
         'ticker': null,
 
@@ -127,6 +128,12 @@ $(document).ready(function() {
         'feed': null,
         'feedType': 'JSON',
 		'feedInterval': 900,
+		
+		'vars': {
+			'player': null,
+			'broadcast': null,
+			'preview': false
+		},
 
 		'domain': ''
     };
@@ -149,11 +156,6 @@ $(document).ready(function() {
 	    console.log('initialize');
 	    
 	    if (this.getRequirements()) {
-		    this.broadcast = {
-			    'player'	: $('#broadcast-player').val(),
-			    'broadcast'	: $('#broadcast-broadcast').val()
-		    };
-
 			this.loadCallback();
 
 			if (0 < this.settings.callbackInterval) {
@@ -190,22 +192,20 @@ $(document).ready(function() {
      */
     Narrowcasting.prototype.getRequirements = function() {
 	    console.log('getRequirements');
-	    
-		if ('' === $('#broadcast-player').val()) {
-		    return this.setError('Narrowcasting player is niet gedefineerd.', true);
-	    }
 
-	    if (undefined === $('#broadcast-player').val()) {
-		    return this.setError('Narrowcasting player is niet gedefineerd.', true);
-	    }
-
-	    if ('' === $('#broadcast-broadcast').val()) {
-		    return this.setError('Narrowcasting broadcast is niet gedefineerd.', true);
-	    }
-
-	    if (undefined === $('#broadcast-broadcast').val()) {
-		    return this.setError('Narrowcasting broadcast is niet gedefineerd.', true);
-	    }
+		if (0 == (preview = parseInt(this.settings.vars.preview))) {
+			if (-1 !== ['', null, undefined].indexOf(this.settings.vars.player)) {
+			    return this.setError('Narrowcasting player is niet gedefineerd.', true);
+		    }
+	
+		    if (-1 !== ['', null, undefined].indexOf(this.settings.vars.broadcast)) {
+			    return this.setError('Narrowcasting broadcast is niet gedefineerd.', true);
+		    }
+		    
+		    this.settings.vars.preview = false;
+		} else {
+			this.settings.vars.preview = true;
+		}
 
 	    if (null === this.settings.callback) {
 		    return this.setError('Narrowcasting callback is niet gedefineerd.', true);
@@ -226,19 +226,21 @@ $(document).ready(function() {
 	    console.log('loadCallback');
 	    
 	    $.ajax({
-            'url'		: this.settings.callback + '?pl=' + this.broadcast.player + '&bc=' + this.broadcast.broadcast + '&data=true',
+            'url'		: this.settings.callback + this.getUrlParameters(),
             'dataType'	: this.settings.callbackType.toUpperCase(),
             'complete'	: $.proxy(function(result) {
 	        	if (200 == result.status) {
 		        	switch (this.settings.callbackType.toUpperCase()) {
                         case 'JSON':
                         	if (result.responseJSON) {
-	                        	var currentLocation = window.location.href.replace(this.settings.domain, '');
-                                var redirectLocation = result.responseJSON.redirect.replace(this.settings.domain, '');
-
-                                if (currentLocation != redirectLocation) {
-	                                window.location.href = redirectLocation;
-                                }
+	                        	if (result.responseJSON.redirect) {
+		                        	var currentLocation = window.location.href.replace(this.settings.domain, '');
+	                                var redirectLocation = result.responseJSON.redirect.replace(this.settings.domain, '');
+	
+	                                if (currentLocation != redirectLocation) {
+		                                window.location.href = redirectLocation;
+	                                }
+	                            }
                             } else {
                                 this.setError('Narrowcasting callback kon niet gelezen worden (Formaat: ' + this.settings.callbackType.toUpperCase() + ').');
                             }
@@ -263,9 +265,9 @@ $(document).ready(function() {
      */
     Narrowcasting.prototype.loadData = function() {
 	    console.log('loadData');
-	    
+
         $.ajax({
-            'url'		: this.settings.feed + '?pl=' + this.broadcast.player + '&bc=' + this.broadcast.broadcast + '&data=true',
+            'url'		: this.settings.feed + this.getUrlParameters(),
             'dataType'	: this.settings.feedType.toUpperCase(),
             'complete'	: $.proxy(function(result) {
                 if (200 == result.status) {
@@ -298,6 +300,39 @@ $(document).ready(function() {
                 this.dataRefresh++;
             }, this)
         });
+    };
+    
+    /**
+     * Returns all the URL parameters.
+     * @public.
+     */
+    Narrowcasting.prototype.getUrlParameters = function() {
+	    var parameters = new Array('data=true');
+	
+		$.each(this.settings.vars, $.proxy(function(index, value) {
+			switch (index) {
+				case 'player':
+					parameters.push('pl=' + value);
+					
+					break;
+				case 'broadcast':
+					parameters.push('bc=' + value);
+					
+					break;
+				case 'preview':
+					if (this.settings.vars.preview) {
+						parameters.push('preview=true');
+					}
+			
+					break;
+			}
+		}).bind(this));
+		
+		if (0 < parameters.length) {
+			return '?' + parameters.join('&');
+		}
+		
+		return '';
     };
 
     /**
