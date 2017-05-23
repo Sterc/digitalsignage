@@ -30,10 +30,12 @@ class NarrowcastingHomeManagerController extends NarrowcastingManagerController
         $tinymcerte = $this->modx->getService('tinymcerte', 'TinyMCERTE', $this->modx->getOption('tinymcerte.core_path', null, $this->modx->getOption('core_path') . 'components/tinymcerte/') . 'model/tinymcerte/');
 
         if ($tinymcerte) {
-            $html = $this->modx->invokeEvent('OnRichTextEditorInit');
-            $html = $html[0];
+            $this->addJavascript($tinymcerte->getOption('jsUrl') . 'vendor/tinymce/tinymce.min.js');
+            $this->addJavascript($tinymcerte->getOption('jsUrl') . 'vendor/autocomplete.js');
+            $this->addJavascript($tinymcerte->getOption('jsUrl') . 'mgr/tinymcerte.js');
 
-            $this->modx->regClientHTMLBlock($html);
+            $html = $this->modx->invokeEvent('OnRichTextEditorInit');
+            $this->addHtml($html[0]);
         }
 
         $this->addCss($this->narrowcasting->config['css_url'].'mgr/narrowcasting.css');
