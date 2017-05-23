@@ -18,12 +18,12 @@
 	 * Narrowcasting; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
-	 
+
 	$_lang['narrowcasting'] 										= 'Narrowcasting';
 	$_lang['narrowcasting.desc'] 									= '';
-	
+
 	$_lang['area_narrowcasting']									= 'Narrowcasting';
-	
+
 	//$_lang['setting_narrowcasting.request_resource']				= '';
 	//$_lang['setting_narrowcasting.request_resource_desc']			= '';
 	//$_lang['setting_narrowcasting.request_param_broadcast']			= '';
@@ -34,7 +34,7 @@
 	//$_lang['setting_narrowcasting.context_desc']					= '';
 	//$_lang['setting_narrowcasting.templates']						= '';
 	//$_lang['setting_narrowcasting.template_desc']					= '';
-	
+
 	$_lang['narrowcasting.broadcast']								= 'Broadcast';
 	$_lang['narrowcasting.broadcasts']								= 'Broadcasts';
 	$_lang['narrowcasting.broadcasts_desc']							= 'Here you can manage all broadcasts for your narrowcasting.';
@@ -54,7 +54,7 @@
 	$_lang['narrowcasting.broadcast_feed_update']					= 'Update feed';
 	$_lang['narrowcasting.broadcast_feed_remove']					= 'Delete feed';
 	$_lang['narrowcasting.broadcast_feed_remove_confirm']			= 'Are you sure you want to delete this feed?';
-	
+
 	$_lang['narrowcasting.label_broadcast_name']					= 'Name';
 	$_lang['narrowcasting.label_broadcast_name_desc']				= 'The name of the broadcast.';
 	$_lang['narrowcasting.label_broadcast_description']				= 'Description';
@@ -71,7 +71,7 @@
 	$_lang['narrowcasting.label_broacast_last_sync_desc']			= '';
 	$_lang['narrowcasting.label_broacast_preview_player']			= 'Player';
 	$_lang['narrowcasting.label_broacast_preview_player_desc']		= 'Select the player to show the broadcast preview.';
-	
+
 	$_lang['narrowcasting.label_feed_key']							= 'Key';
 	$_lang['narrowcasting.label_feed_key_desc']						= 'The key of the feed.';
 	$_lang['narrowcasting.label_feed_name']							= 'Name';
@@ -84,7 +84,7 @@
 	$_lang['narrowcasting.label_feed_frequency_desc']				= 'The frequency of slides of the feed.';
 	$_lang['narrowcasting.label_feed_published']					= 'Published';
 	$_lang['narrowcasting.label_feed_published_desc']				= '';
-	
+
 	$_lang['narrowcasting.slide']									= 'Slide';
 	$_lang['narrowcasting.slides']									= 'Slides';
 	$_lang['narrowcasting.slides_desc']								= 'Here you can manage all the slides for your narrowcasting.';
@@ -101,7 +101,7 @@
 	$_lang['narrowcasting.label_slide_time_desc']					= 'The duration of the slide in seconds.';
 	$_lang['narrowcasting.label_slide_published']					= 'Published';
 	$_lang['narrowcasting.label_slide_published_desc']				= '';
-	
+
 	$_lang['narrowcasting.player']									= 'Player';
 	$_lang['narrowcasting.players']									= 'Players';
 	$_lang['narrowcasting.players_desc']							= 'Here you can manage all players for your narrowcasting.';
@@ -117,7 +117,7 @@
 	$_lang['narrowcasting.player_schedule_remove']					= 'Delete schedule';
 	$_lang['narrowcasting.player_schedule_remove_confirm']			= 'Are you sure you want to delete this schedule?';
 	$_lang['narrowcasting.player_calendar']							= 'Calendar';
-	
+
 	$_lang['narrowcasting.label_player_key']						= 'Key';
 	$_lang['narrowcasting.label_player_key_desc']					= 'The key of the player.';
 	$_lang['narrowcasting.label_player_name']						= 'Name';
@@ -134,7 +134,7 @@
 	$_lang['narrowcasting.label_player_online_desc']				= '';
 	$_lang['narrowcasting.label_player_current_broadcast']			= 'Current broadcast';
 	$_lang['narrowcasting.label_player_current_broadcast_desc']		= 'The current broadcast of the player.';
-	
+
 	$_lang['narrowcasting.label_schedule_broadcast']				= 'Broadcast';
 	$_lang['narrowcasting.label_schedule_broadcast_desc']			= 'The broadcast of the schedule.';
 	$_lang['narrowcasting.label_schedule_description']				= 'Description';
@@ -155,7 +155,7 @@
 	$_lang['narrowcasting.label_schedule_end_date_desc']			= '';
 	$_lang['narrowcasting.label_schedule_date']						= 'Date';
 	$_lang['narrowcasting.label_schedule_date_dec']					= '';
-	
+
 	$_lang['narrowcasting.auto_refresh_grid']						= 'Auto refresh';
 	$_lang['narrowcasting.filter_broadcast']						= 'Filter on broadcast';
 	$_lang['narrowcasting.sync_never']								= 'Never';
@@ -167,12 +167,10 @@
 	$_lang['narrowcasting.schedule_day']							= 'Day';
 	$_lang['narrowcasting.schedule_date']							= 'Date';
 	$_lang['narrowcasting.schedule_time_format_entire_day']			= '(entire day)';
-	$_lang['narrowcasting.schedule_time_format_set']				= '(from [[+start_time]] till [[+end_time]])';	
-	$_lang['narrowcasting.schedule_date_format_set']				= '[[+start_date]] till [[+end_date]]';					
+	$_lang['narrowcasting.schedule_time_format_set']				= '(from [[+start_time]] till [[+end_time]])';
+	$_lang['narrowcasting.schedule_date_format_set']				= '[[+start_date]] till [[+end_date]]';
 	$_lang['narrowcasting.schedule_date_format_set_long']			= '[[+start_date]] (van [[+start_time]]) tot [[+end_date]] (tot [[+end_time]])';
-	$_lang['narrowcasting.error_broadcast_sync']					= 'An error has occurred during synchronizing the broadcast.'; 
+	$_lang['narrowcasting.error_broadcast_sync']					= 'An error has occurred during synchronizing the broadcast.';
 	$_lang['narrowcasting.error_broadcast_player_exists']			= 'This mediabox is already connected to this broadcast. Specify another mediabox.';
 	$_lang['narrowcasting.error_broadcast_schedule_exists']			= 'There is already a schedule for this day: [[+schedule]]. Specify another schedule.';
 	$_lang['narrowcasting.error_player_resolution']					= 'Not a valid resolution (width x height (without spaces)).';
-	
-?>
