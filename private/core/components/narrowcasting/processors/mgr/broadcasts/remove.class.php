@@ -75,6 +75,10 @@
 				$slide->remove();
 			}
 			
+			foreach ($this->object->getMany('getFeeds') as $feed) {
+				$feed->remove();
+			}
+			
 			foreach ($this->object->getMany('getSchedules') as $schedulde) {
 				$schedulde->remove();
 			}
