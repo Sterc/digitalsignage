@@ -308,6 +308,11 @@
 			return $this->modx->toJSON($status);   
 		}
 		
+		/**
+		 * @access public.
+		 * @param Null|String $request.
+		 * @return Boolean|String.
+		 */
 		public function getCurrentRequest($request = null) {
 			$parameters = $this->getCurrentRequestParameters();
 			
@@ -322,6 +327,10 @@
 			return $parameters['type'];
 		}
 		
+		/**
+		 * @access public.
+		 * @return Array.
+		 */
 		public function getCurrentRequestParameters() {
 			return array_merge(array(
 				'type'										=> null,

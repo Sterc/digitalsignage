@@ -95,16 +95,6 @@
 
 			return parent::beforeSave();
 		}
-		
-		/**
-		 * @access public.
-		 * @return Mixed.
-		 */
-		public function beforeSave() {
-			
-			
-			return parent::beforeSave();
-		}
 	}
 	
 	return 'NarrowcastingBroadcastsCreateProcessor';
