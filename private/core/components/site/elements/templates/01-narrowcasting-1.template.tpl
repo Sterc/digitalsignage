@@ -16,7 +16,7 @@
 </head>
 
 <body>
-	<div class="window">
+	<div class="window window-[[!+narrowcasting.player.mode]] window-[[!+narrowcasting.player.resolution]]">
         <!-- Error message -->
         <div class="broadcast-error-message" data-template="error">
             <div class="broadcast-error-message-inner">
@@ -58,35 +58,16 @@
     			<div class="slide slide-default" data-placeholder-class="source">
     				<div class="slide-inner">
     					<div class="content">
+    					    <div class="image">
+    					        <img src="" data-placeholder="image" data-placeholder-wrapper="image" />
+    					    </div>
     						<h1 data-placeholder="title" data-placeholder-renders="striptags,ellipsis:150"></h1>
     						<div data-placeholder="content" data-placeholder-renders="striptags,ellipsis:200"></div>
-    					</div>
-    					<div class="image">
-    					    <img src="" data-placeholder="image" data-placeholder-wrapper="image" />
     					</div>
     				</div>
     			</div>
             </div>
-			<!--<div data-template="default">
-				<div class="slide slide-default slide-default-no-image" data-placeholder-class="source">
-					<div class="slide-inner">
-						<div class="content">
-							<h1 data-placeholder="title" data-placeholder-renders="striptags,ellipsis:150"></h1>
-							<div data-placeholder="content" data-placeholder-renders="striptags,ellipsis:400"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-            div data-template="media">
-                <div class="slide slide-media">
-    				<div class="slide-inner">
-    					<h1 data-placeholder="title"></h1>
-    					<img src="" data-placeholder="image" class="image" />
-    					<iframe src="" data-placeholder="video" class="video" frameborder="0" allowfullscreen></iframe>
-    				</div>
-    			</div>
-    		</div>
-		    <div data-template="buienradar">
+			<!--<div data-template="buienradar">
     			<div class="slide slide-buienradar">
     				<div class="slide-inner">
     					<div class="weather-content">
@@ -114,60 +95,13 @@
     					</div>
     				</div>
     			</div>
-    		</div>
-    		<div data-template="social-media">
-        		<div class="slide slide-social-media">
-    				<div class="slide-inner">
-    					<div class="content">
-    						<h1 data-placeholder="title"></h1>
-    						<ul data-placeholder="social-media">
-    							<li class="facebook" data-template="facebook">
-    								<div class="block">
-    									<span class="icon"></span>
-    									<img src="" class="avatar" data-placeholder="image" />
-    									<h1 data-placeholder="name"></h1>
-    									<h2 data-placeholder="username"></h2>
-    									<p data-placeholder="content"></p>
-    								</div>
-    							</li>
-    							<li class="twitter" data-template="twitter">
-    								<div class="block">
-    									<span class="icon"></span>
-    									<img src="" class="avatar" data-placeholder="image" />
-    									<h1 data-placeholder="name"></h1>
-    									<h2 data-placeholder="username"></h2>
-    									<p data-placeholder="content"></p>
-    								</div>
-    							</li>
-    							<li class="instagram" data-template="instagram">
-    								<div class="block">
-    									<span class="icon"></span>
-    									<img src="" class="avatar" data-placeholder="image" />
-    									<h1 data-placeholder="name"></h1>
-    									<h2 data-placeholder="username"></h2>
-    									<p><img src="" data-placeholder="media" class="media" /></p>
-    								</div>
-    							</li>
-    						</ul>
-    					</div>
-    				</div>
-    			</div>
-    		</div>
-    		<div data-template="sponsor">
-    		    <div class="slide slide-sponsor">
-    				<div class="slide-inner">
-    					<div class="content">
-    						<img src="" data-placeholder="logo" />
-    					</div>
-    				</div>
-    			</div>
-    		</div-->
+    		</div>-->
     	</div>
 	</div>
 	
 	<script type="text/javascript">
-	    var player    = '[[!+narrowcasting.player]]',
-	        broadcast = '[[!+narrowcasting.broadcast]]',
+	    var player    = '[[!+narrowcasting.player.key]]',
+	        broadcast = '[[!+narrowcasting.broadcast.id]]',
 	        preview   = [[!+narrowcasting.preview]];
 	</script>
 	
@@ -176,8 +110,6 @@
 	
 	<script type="text/javascript" src="/narrowcasting/assets/interface/javascript/narrowcasting.js"></script>
 	<script type="text/javascript" src="/narrowcasting/assets/interface/javascript/slide.buienradar.js"></script>
-    <script type="text/javascript" src="/narrowcasting/assets/interface/javascript/slide.social-media.js"></script>
-    <script type="text/javascript" src="/narrowcasting/assets/interface/javascript/slide.sponsor.js"></script>
 	
 </body>
 </html>

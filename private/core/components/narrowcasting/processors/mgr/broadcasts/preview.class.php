@@ -67,7 +67,9 @@
 				list($width, $height) = explode('x', $player->resolution);
 				
 				return $this->success(null, array(
-					'url' => $this->modx->makeUrl($this->object->resource_id, null, array(
+					'id'		=> $player->id,
+					'url' 	=> $this->modx->makeUrl($this->object->resource_id, null, array(
+						'pl'		=> $player->key,
 						'bc'		=> $this->object->id,
 						'preview' 	=> true
 					), 'full'),

@@ -529,13 +529,17 @@ $(document).ready(function() {
 				    		
 				    		break;
 				    	case 'ellipsis':
-				    		var ellipsis = render[1] ? render[1] : 100;
+				    		var ellipsis = render[1] ? parseInt(render[1]) : 100;
 
 				    		if (value.length > ellipsis) {
 					    		var firstPart 	= value.substring(0, ellipsis);
-					    		var secondPart	= value.substring(ellipsis + 1);
+					    		var secondPart	= value.substring(ellipsis);
 					    		
-					    		value = firstPart + (secondPart.substr(0, secondPart.indexOf(' '))) + '...';
+					    		if (-1 === (secondSpace = secondPart.indexOf(' '))) {
+						    		secondSpace = secondPart.lenght - 1;
+					    		}
+					    		
+					    		value = firstPart + (secondPart.substr(0, secondSpace)) + '...';
 				    		}
 				    		
 				    		break;

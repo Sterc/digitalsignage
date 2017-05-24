@@ -121,81 +121,91 @@
 	     */
 	    public function initializePlayer($scriptProperties = array()) {
 	        if (in_array($this->modx->resource->template, $this->config['templates'])) {
-		        $parameters = $this->modx->request->getParameters();
+		        $parameters = array_merge(array(
+		        	$this->config['request_param_player'] 		=> null,
+		        	$this->config['request_param_broadcast']	=> null
+		        ), $this->modx->request->getParameters());
 
-	            $this->modx->setPlaceholders(array(
-	                'player'	=> $parameters[$this->config['request_param_player']],
-	                'broadcast'	=> $parameters[$this->config['request_param_broadcast']],
-	                'preview'	=> isset($parameters['preview']) ? 1 : 0
-	            ), 'narrowcasting.');
+				if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
+					if (null !== ($broadcast = $this->getBroadcast($parameters[$this->config['request_param_broadcast']]))) {
+			            $this->modx->toPlaceholders(array(
+			                'player'	=> array(
+			                	'id'			=> $player->id,
+			                	'key'			=> $player->key,
+			                	'resolution'	=> $player->resolution,
+			                	'mode'			=> $player->getMode()
+			                ),
+			                'broadcast'	=> array(
+				            	'id'			=> $broadcast->id  
+			                ),
+			                'preview'			=> isset($parameters['preview']) ? 1 : 0
+			            ), 'narrowcasting');
+			        }
+			    }
 	        }
 
 	        if ($this->modx->resource->id == $this->config['request_id']) {
-		        $parameters = $this->modx->request->getParameters();
+		    	$parameters = array_merge(array(
+		        	$this->config['request_param_player'] 		=> null,
+		        	$this->config['request_param_broadcast']	=> null
+		        ), $this->modx->request->getParameters());
 
 				if (!isset($parameters['preview'])) {
-			        if (isset($parameters[$this->config['request_param_player']])) {
-				        if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
-					        $schedules = array();
-	
-					        foreach ($player->getBroadcasts() as $broadcast) {
-						    	if (false !== ($schedule = $broadcast->isScheduled($player->id))) {
-						    		if (null !== ($broadcast = $schedule->getBroadcast())) {
-										$schedules[] = array_merge($schedule->toArray(), array(
-											'broadcast'	=> $broadcast->toArray()
-										));
-						    		}
-						    	}
-					        }
-	
-					        // Sort the available schedules by type (dates overules day)
-					        $sort = array();
-	
-							foreach ($schedules as $key => $value) {
-							    $sort[$key] = $value['type'];
-							}
-	
-							array_multisort($sort, SORT_ASC, $schedules);
-	
-					        if (0 < count($schedules)) {
-						        // Get the first available schedule
-								$schedule = array_shift($schedules);
-	
-						        $player->setOnline($schedule['broadcast']['id']);
-	
-						        if (!isset($parameters['data'])) {
-							        $this->modx->sendRedirect($this->modx->makeUrl($schedule['broadcast']['resource_id'], null, array(
-							        	$this->config['request_param_player']		=> $player->key,
-							        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
-						        	), 'full'));
-						        }
-	
-						        $status = array(
-						        	'status'	=> 200,
-						        	'player'	=> $player->toArray(),
-						        	'schedule'	=> $schedule,
-						        	'broadcast'	=> $schedule['broadcast'],
-						        	'redirect'	=> str_replace('&amp;', '&', $this->modx->makeUrl($schedule['broadcast']['resource_id'], null, array(
-							        	$this->config['request_param_player']		=> $player->key,
-							        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
-						        	), 'full'))
-						        );
-						    } else {
-							    $status = array(
-								    'status'	=> 400,
-								    'message'	=> 'Geen uitzending voor de player gevonden.'
-							    );
-						    }
-				        } else {
-					        $status = array(
-						    	'status'	=> 400,
-						    	'message'	=> 'Player niet gevonden.'
-					        );
+			        if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
+				        $schedules = array();
+
+				        foreach ($player->getBroadcasts() as $broadcast) {
+					    	if (false !== ($schedule = $broadcast->isScheduled($player->id))) {
+					    		if (null !== ($broadcast = $schedule->getBroadcast())) {
+									$schedules[] = array_merge($schedule->toArray(), array(
+										'broadcast'	=> $broadcast->toArray()
+									));
+					    		}
+					    	}
 				        }
+
+				        // Sort the available schedules by type (dates overules day)
+				        $sort = array();
+
+						foreach ($schedules as $key => $value) {
+						    $sort[$key] = $value['type'];
+						}
+
+						array_multisort($sort, SORT_ASC, $schedules);
+
+				        if (0 < count($schedules)) {
+					        // Get the first available schedule
+							$schedule = array_shift($schedules);
+
+					        $player->setOnline($schedule['broadcast']['id']);
+
+					        if (!isset($parameters['data'])) {
+						        $this->modx->sendRedirect($this->modx->makeUrl($schedule['broadcast']['resource_id'], null, array(
+						        	$this->config['request_param_player']		=> $player->key,
+						        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
+					        	), 'full'));
+					        }
+
+					        $status = array(
+					        	'status'	=> 200,
+					        	'player'	=> $player->toArray(),
+					        	'schedule'	=> $schedule,
+					        	'broadcast'	=> $schedule['broadcast'],
+					        	'redirect'	=> str_replace('&amp;', '&', $this->modx->makeUrl($schedule['broadcast']['resource_id'], null, array(
+						        	$this->config['request_param_player']		=> $player->key,
+						        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
+					        	), 'full'))
+					        );
+					    } else {
+						    $status = array(
+							    'status'	=> 400,
+							    'message'	=> 'Geen uitzending voor de player gevonden.'
+						    );
+					    }
 			        } else {
 				        $status = array(
 					    	'status'	=> 400,
-					    	'message'	=> 'Player niet gedefineerd.'
+					    	'message'	=> 'Player niet gevonden.'
 				        );
 			        }
 			    } else {
@@ -214,15 +224,17 @@
 	     * @return Array.
 	     */
 	    public function initializeBroadcast($scriptProperties = array()) {
-		    $slides = array();
-		    $broadcast = null;
-		    $parameters = $this->modx->request->getParameters();
+		    $slides 	= array();
+		    $broadcast 	= null;
+		    
+		    $parameters = array_merge(array(
+	        	$this->config['request_param_player'] 		=> null,
+	        	$this->config['request_param_broadcast']	=> null
+	        ), $this->modx->request->getParameters());
 
 			if (isset($parameters['preview'])) {
-				if (isset($parameters[$this->config['request_param_broadcast']])) {
-					$broadcast = $this->getBroadcast($parameters[$this->config['request_param_broadcast']]);
-				}
-			} else if (isset($parameters[$this->config['request_param_player']])) {
+				$broadcast = $this->getBroadcast($parameters[$this->config['request_param_broadcast']]);
+			} else {
 				if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
 					$broadcast = $player->getCurrentBroadcast();
 				}
