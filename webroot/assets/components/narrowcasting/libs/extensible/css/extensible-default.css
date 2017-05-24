@@ -1,3 +1,41 @@
+.ext-cal-ct {
+    height: 46px !important;
+}
+
+.ext-cal-day {
+    border-left: 1px solid #dddddd;
+    background-color: #E4E9EE;
+}
+
+.ext-cal-dayview .ext-cal-hd-days-tbl {
+    background-color: #E4E9EE;
+    border-radius: 3px 3px 0 0;
+}
+
+.ext-cal-day-times {
+    padding: 0;
+    border-top: 1px solid #dddddd;
+    background-color: #F5F6F9;
+}
+
+.ext-cal-dayview .ext-cal-bg-tbl {
+    border: none;
+    border-bottom: 1px solid #E4E9EE;
+}
+
+.ext-cal-day-we {
+    background-color: #E4E9EE;
+}
+
+td.ext-cal-dtitle {
+    border-color: #E4E9EE;
+    color: #7d7d7d;
+}
+
+.ext-cal-day-today {
+    background-color: #FFF4BF;
+}
+
 .x-cal-panel .ext-cal-evt .ext-evt-bd {
 	font-size: 13px;
 	line-height: 19px;

@@ -1,5 +1,6 @@
 <?php
 
+<<<<<<< HEAD
 	/**
 	 * Narrowcasting
 	 *
@@ -64,6 +65,17 @@
 		 * @param Array $scriptProperties.
 		 */
 		public function process(array $scriptProperties = array()) {
+			//$tinymcerte = $this->modx->getService('tinymcerte', 'TinyMCERTE', $this->modx->getOption('tinymcerte.core_path', null, $this->modx->getOption('core_path') . 'components/tinymcerte/') . 'model/tinymcerte/');
+
+	        //if ($tinymcerte) {
+	        //    $this->addJavascript($tinymcerte->getOption('jsUrl') . 'vendor/tinymce/tinymce.min.js');
+	        //    $this->addJavascript($tinymcerte->getOption('jsUrl') . 'vendor/autocomplete.js');
+	        //    $this->addJavascript($tinymcerte->getOption('jsUrl') . 'mgr/tinymcerte.js');
+			//
+	        //    $html = $this->modx->invokeEvent('OnRichTextEditorInit');
+	        //    $this->addHtml($html[0]);
+	        //}
+        
 			if ($this->modx->getOption('use_editor') && $richtext = $this->modx->getOption('which_editor')) {
 				$properties = array(
 					'editor' 	=> $richtext,

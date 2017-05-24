@@ -207,7 +207,7 @@ Narrowcasting.window.CreateSlide = function(config) {
     config = config || {};
 
     Ext.applyIf(config, {
-	    width		: 600,
+	    width		: 800,
     	autoHeight	: true,
         title 		: _('narrowcasting.slide_create'),
         url			: Narrowcasting.config.connector_url,
@@ -222,7 +222,7 @@ Narrowcasting.window.CreateSlide = function(config) {
                 labelSeparator : ''
             },
         	items		: [{
-	        	columnWidth	: .5,
+	        	columnWidth	: .4,
 				items : [{
 			    	xtype		: 'narrowcasting-combo-slides-types',
 			    	fieldLabel	: _('narrowcasting.label_slide_type'),
@@ -296,7 +296,7 @@ Narrowcasting.window.CreateSlide = function(config) {
 					}]
 		        }]
 			}, {
-		        columnWidth	: .5,
+		        columnWidth	: .6,
 		        style		: 'margin-right: 0;',
 				items 		: [{
 			    	xtype		: 'container',
@@ -364,7 +364,7 @@ Narrowcasting.window.UpdateSlide = function(config) {
     config = config || {};
 
     Ext.applyIf(config, {
-	    width		: 600,
+	    width		: 800,
     	autoHeight	: true,
         title 		: _('narrowcasting.slide_update'),
         url			: Narrowcasting.config.connector_url,
@@ -382,7 +382,7 @@ Narrowcasting.window.UpdateSlide = function(config) {
                 labelSeparator : ''
             },
         	items		: [{
-	        	columnWidth	: .5,
+	        	columnWidth	: .4,
 				items : [{
 			    	xtype		: 'narrowcasting-combo-slides-types',
 			    	fieldLabel	: _('narrowcasting.label_slide_type'),
@@ -454,7 +454,7 @@ Narrowcasting.window.UpdateSlide = function(config) {
 					}]
 		       }]
 			}, {
-		        columnWidth	: .5,
+		        columnWidth	: .6,
 		        style		: 'margin-right: 0;',
 				items 		: [{
 			    	xtype		: 'container',
