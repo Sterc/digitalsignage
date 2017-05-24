@@ -61,16 +61,18 @@
 	$_lang['narrowcasting.label_broadcast_description_desc']		= 'A short description of the broadcast.';
 	$_lang['narrowcasting.label_broadcast_template']				= 'Template';
 	$_lang['narrowcasting.label_broadcast_template_desc']			= 'The template of the broadcast.';
+	$_lang['narrowcasting.label_broadcast_ticker_url']				= 'Ticker URL';
+	$_lang['narrowcasting.label_broadcast_ticker_url_desc']			= 'The URL of the feed for the ticker.';
 	$_lang['narrowcasting.label_broadcast_slides']					= 'Slides';
 	$_lang['narrowcasting.label_broadcast_slides_desc']				= 'The slides to broadcast the broadcast.';
 	$_lang['narrowcasting.label_broadcast_feeds']					= 'Feeds';
 	$_lang['narrowcasting.label_broadcast_feeds_desc']				= 'The feeds to broadcast the broadcast.';
 	$_lang['narrowcasting.label_broadcast_players']					= 'Mediaboxes';
 	$_lang['narrowcasting.label_broadcast_players_desc']			= 'The mediaboxes to broadcast the broadcast.';
-	$_lang['narrowcasting.label_broacast_last_sync']				= 'Last synchronized';
-	$_lang['narrowcasting.label_broacast_last_sync_desc']			= '';
-	$_lang['narrowcasting.label_broacast_preview_player']			= 'Player';
-	$_lang['narrowcasting.label_broacast_preview_player_desc']		= 'Select the player to show the broadcast preview.';
+	$_lang['narrowcasting.label_broadcast_last_sync']				= 'Last synchronized';
+	$_lang['narrowcasting.label_broadcast_last_sync_desc']			= '';
+	$_lang['narrowcasting.label_broadcast_preview_player']			= 'Player';
+	$_lang['narrowcasting.label_broadcast_preview_player_desc']		= 'Select the player to show the broadcast preview.';
 
 	$_lang['narrowcasting.label_feed_key']							= 'Key';
 	$_lang['narrowcasting.label_feed_key_desc']						= 'The key of the feed.';
@@ -158,6 +160,7 @@
 
 	$_lang['narrowcasting.auto_refresh_grid']						= 'Auto refresh';
 	$_lang['narrowcasting.filter_broadcast']						= 'Filter on broadcast';
+	$_lang['narrowcasting.show_broadcast_preview']					= 'Show broadcast preview';
 	$_lang['narrowcasting.sync_never']								= 'Never';
 	$_lang['narrowcasting.selected_slides']							= 'Selected slides';
 	$_lang['narrowcasting.available_slides']						= 'Available slides';

@@ -153,6 +153,28 @@
             return $players;
         }
         
+        /**
+         * @access public.
+         * @return Array.
+         */
+        public function getTickerItems() {
+	    	$items = array();
+
+		    if (preg_match('/^(http|https)/si', $this->ticker_url)) {
+			    if (false !== ($data = file_get_contents($this->ticker_url))) {
+	                if (null !== ($data = simplexml_load_string($data))) {
+	                    if (isset($data->channel->item)) {
+	                        foreach ($data->channel->item as $value) {
+		                        $items[] = $value;
+	                        }
+	                    }
+	                }
+	            }
+		    }
+	    	
+	    	return $items;
+        }
+        
 		/**
 		 * @access public.
 		 * @return Boolean.

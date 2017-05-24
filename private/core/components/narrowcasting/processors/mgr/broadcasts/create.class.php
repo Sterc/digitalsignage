@@ -79,14 +79,30 @@
 				}
 			}
 			
-			$object = $response->getObject();
-			
-			if (isset($object['id'])) {
-				$this->object->set('resource_id', $object['id']);
+			if (null !== ($object = $response->getObject())) {
+				if (isset($object['id'])) {
+					$this->object->set('resource_id', $object['id']);
+				} else {
+					$this->addFieldError('name', 'Er is een fout opgetreden...');
+				}
 			} else {
-				
+				$this->addFieldError('name', 'Er is een fout opgetreden...');
+			}
+			
+			if (!preg_match('/^(http|https)/si', $this->getProperty('ticker_url'))) {
+				$this->setProperty('url', 'http://'.$this->getProperty('ticker_url'));
 			}
 
+			return parent::beforeSave();
+		}
+		
+		/**
+		 * @access public.
+		 * @return Mixed.
+		 */
+		public function beforeSave() {
+			
+			
 			return parent::beforeSave();
 		}
 	}

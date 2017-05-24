@@ -27,6 +27,7 @@
 		'fields' 	=> array(
 			'id'			=> null,
 			'resource_id'	=> null,
+			'ticker_url'	=> null,
 			'color'			=> null,
 			'hash'			=> null,
 			'editedon'		=> null
@@ -44,6 +45,12 @@
 				'dbtype' 	=> 'int',
 				'precision' => '11',
 				'phptype' 	=> 'integer',
+				'null' 		=> false
+			),
+			'ticker_url' => array(
+				'dbtype' 	=> 'varchar',
+				'precision' => '255',
+				'phptype' 	=> 'string',
 				'null' 		=> false
 			),
 			'color' 	=> array(

@@ -121,10 +121,7 @@
 	     */
 	    public function initializePlayer($scriptProperties = array()) {
 	        if (in_array($this->modx->resource->template, $this->config['templates'])) {
-		        $parameters = array_merge(array(
-		        	$this->config['request_param_player'] 		=> null,
-		        	$this->config['request_param_broadcast']	=> null
-		        ), $this->modx->request->getParameters());
+		        $parameters = $this->getCurrentRequestParameters();
 
 				if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
 					if (null !== ($broadcast = $this->getBroadcast($parameters[$this->config['request_param_broadcast']]))) {
@@ -145,74 +142,77 @@
 	        }
 
 	        if ($this->modx->resource->id == $this->config['request_id']) {
-		    	$parameters = array_merge(array(
-		        	$this->config['request_param_player'] 		=> null,
-		        	$this->config['request_param_broadcast']	=> null
-		        ), $this->modx->request->getParameters());
+		    	$parameters = $this->getCurrentRequestParameters();;
 
-				if (!isset($parameters['preview'])) {
-			        if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
-				        $schedules = array();
-
-				        foreach ($player->getBroadcasts() as $broadcast) {
-					    	if (false !== ($schedule = $broadcast->isScheduled($player->id))) {
-					    		if (null !== ($broadcast = $schedule->getBroadcast())) {
-									$schedules[] = array_merge($schedule->toArray(), array(
-										'broadcast'	=> $broadcast->toArray()
-									));
-					    		}
-					    	}
-				        }
-
-				        // Sort the available schedules by type (dates overules day)
-				        $sort = array();
-
-						foreach ($schedules as $key => $value) {
-						    $sort[$key] = $value['type'];
-						}
-
-						array_multisort($sort, SORT_ASC, $schedules);
-
-				        if (0 < count($schedules)) {
-					        // Get the first available schedule
-							$schedule = array_shift($schedules);
-
-					        $player->setOnline($schedule['broadcast']['id']);
-
-					        if (!isset($parameters['data'])) {
-						        $this->modx->sendRedirect($this->modx->makeUrl($schedule['broadcast']['resource_id'], null, array(
-						        	$this->config['request_param_player']		=> $player->key,
-						        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
-					        	), 'full'));
+				$status = array();
+				
+				if ($this->getCurrentRequest('ticker')) {
+					// TODO: test this
+				} else {
+					if (!$this->getCurrentRequest('preview')) {
+				        if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
+					        $schedules = array();
+	
+					        foreach ($player->getBroadcasts() as $broadcast) {
+						    	if (false !== ($schedule = $broadcast->isScheduled($player->id))) {
+						    		if (null !== ($broadcast = $schedule->getBroadcast())) {
+										$schedules[] = array_merge($schedule->toArray(), array(
+											'broadcast'	=> $broadcast->toArray()
+										));
+						    		}
+						    	}
 					        }
-
+	
+					        // Sort the available schedules by type (dates overules day)
+					        $sort = array();
+	
+							foreach ($schedules as $key => $value) {
+							    $sort[$key] = $value['type'];
+							}
+	
+							array_multisort($sort, SORT_ASC, $schedules);
+	
+					        if (0 < count($schedules)) {
+						        // Get the first available schedule
+								$schedule = array_shift($schedules);
+	
+						        $player->setOnline($schedule['broadcast']['id']);
+	
+						        if (!isset($parameters['data'])) {
+							        $this->modx->sendRedirect($this->modx->makeUrl($schedule['broadcast']['resource_id'], null, array(
+							        	$this->config['request_param_player']		=> $player->key,
+							        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
+						        	), 'full'));
+						        }
+	
+						        $status = array(
+						        	'status'	=> 200,
+						        	'player'	=> $player->toArray(),
+						        	'schedule'	=> $schedule,
+						        	'broadcast'	=> $schedule['broadcast'],
+						        	'redirect'	=> str_replace('&amp;', '&', $this->modx->makeUrl($schedule['broadcast']['resource_id'], null, array(
+							        	$this->config['request_param_player']		=> $player->key,
+							        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
+						        	), 'full'))
+						        );
+						    } else {
+							    $status = array(
+								    'status'	=> 400,
+								    'message'	=> 'Geen uitzending voor de player gevonden.'
+							    );
+						    }
+				        } else {
 					        $status = array(
-					        	'status'	=> 200,
-					        	'player'	=> $player->toArray(),
-					        	'schedule'	=> $schedule,
-					        	'broadcast'	=> $schedule['broadcast'],
-					        	'redirect'	=> str_replace('&amp;', '&', $this->modx->makeUrl($schedule['broadcast']['resource_id'], null, array(
-						        	$this->config['request_param_player']		=> $player->key,
-						        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
-					        	), 'full'))
+						    	'status'	=> 400,
+						    	'message'	=> 'Player niet gevonden.'
 					        );
-					    } else {
-						    $status = array(
-							    'status'	=> 400,
-							    'message'	=> 'Geen uitzending voor de player gevonden.'
-						    );
-					    }
-			        } else {
-				        $status = array(
-					    	'status'	=> 400,
-					    	'message'	=> 'Player niet gevonden.'
-				        );
-			        }
-			    } else {
-				    $status = array(
-					    'status'	=> 200,
-					);
-			    }
+				        }
+				    } else {
+					    $status = array(
+						    'status'	=> 200,
+						);
+				    }
+				}
 
 		        $this->modx->resource->_output = $this->modx->toJSON($status);
 	        }
@@ -224,71 +224,110 @@
 	     * @return Array.
 	     */
 	    public function initializeBroadcast($scriptProperties = array()) {
-		    $slides 	= array();
-		    $broadcast 	= null;
+		    $status = array();
+		    $broadcast = null;
 		    
-		    $parameters = array_merge(array(
-	        	$this->config['request_param_player'] 		=> null,
-	        	$this->config['request_param_broadcast']	=> null
-	        ), $this->modx->request->getParameters());
+		    $parameters = $this->getCurrentRequestParameters();
 
-			if (isset($parameters['preview'])) {
+			if ($this->getCurrentRequest('preview')) {
 				$broadcast = $this->getBroadcast($parameters[$this->config['request_param_broadcast']]);
 			} else {
 				if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
 					$broadcast = $player->getCurrentBroadcast();
 				}
-			}
-					
-			if (null !== $broadcast) {
-				if (!isset($parameters['preview'])) {
-                	$slides = $broadcast->fromExport();
-                }
-
-                if (0 >= count($slides)) {
-                    foreach ($broadcast->getSlides() as $key => $slide) {
-                        $slides[] = array_merge(array(
-                            'time'  	=> $slide->time,
-                            'slide' 	=> $slide->type,
-                            'source'	=> 'intern',
-                            'title' 	=> $slide->name,
-                            'image' 	=> null
-                        ), unserialize($slide->data));
-                    }
-                    
-                    if ((bool) $this->modx->getOption('narrowcasting.auto_create_sync', null, false)) {
-                    	$broadcast->toExport($slides);
-                    }
-                }
-                
-                $total = count($slides);
-
-                foreach ($broadcast->getFeeds() as $key => $feed) {
-                    foreach ($feed->getSlides() as $key2 => $slide) {
-                        // TODO: test this
-                        if ($key2 < ceil($total / $feed->frequency)) {
-	                        $value = array(
-		                        'time'		=> $feed->time,
-		                        'slide'		=> 'default',
-		                        'source'	=> $feed->key,
-		                        'title'		=> (string) $slide->title,
-		                        'image'		=> null,
-		                        'content'	=> (string) $slide->description
-	                        );
-	                        
-	                        if (isset($slide->enclosure->attributes()->url)) {
-		                    	$value['image'] = (string) $slide->enclosure->attributes()->url;
-		                    }
-	                        
-                        	array_splice($slides, (($key2 + 1) * $feed->frequency) + $key + $key2, 0, array($value));
-                        }
-                    }
-                }
-            }
+			}	
+			
+			if ($this->getCurrentRequest('ticker')) {
+	            $items = array();
+	            
+	            if (null !== $broadcast) {
+		            foreach ($broadcast->getTickerItems() as $item) {
+			            $items[] = array(
+							'title'	=> (string) $item->title
+						);
+		            }
+		        }
+	            
+	            $status = array(
+					'items' => $items
+				);
+            } else {
+				$slides = array();
+				
+				if (null !== $broadcast) {
+					if (!isset($parameters['preview'])) {
+	                	$slides = $broadcast->fromExport();
+	                }
+	
+	                if (0 >= count($slides)) {
+	                    foreach ($broadcast->getSlides() as $key => $slide) {
+	                        $slides[] = array_merge(array(
+	                            'time'  	=> $slide->time,
+	                            'slide' 	=> $slide->type,
+	                            'source'	=> 'intern',
+	                            'title' 	=> $slide->name,
+	                            'image' 	=> null
+	                        ), unserialize($slide->data));
+	                    }
+	                    
+	                    if ((bool) $this->modx->getOption('narrowcasting.auto_create_sync', null, false)) {
+	                    	$broadcast->toExport($slides);
+	                    }
+	                }
+	                
+	                $total = count($slides);
+	
+	                foreach ($broadcast->getFeeds() as $key => $feed) {
+	                    foreach ($feed->getSlides() as $key2 => $slide) {
+	                        // TODO: test this
+	                        if ($key2 < ceil($total / $feed->frequency)) {
+		                        $value = array(
+			                        'time'		=> $feed->time,
+			                        'slide'		=> 'default',
+			                        'source'	=> $feed->key,
+			                        'title'		=> (string) $slide->title,
+			                        'image'		=> null,
+			                        'content'	=> (string) $slide->description
+		                        );
+		                        
+		                        if (isset($slide->enclosure->attributes()->url)) {
+			                    	$value['image'] = (string) $slide->enclosure->attributes()->url;
+			                    }
+		                        
+	                        	array_splice($slides, (($key2 + 1) * $feed->frequency) + $key + $key2, 0, array($value));
+	                        }
+	                    }
+	                }
+	            }
+	            
+				$status = array(
+					'slides' => $slides
+				);
+			} 
+			
+			return $this->modx->toJSON($status);   
+		}
 		
-		    return $this->modx->toJSON(array(
-		    	'slides' => $slides
-		    ));
+		public function getCurrentRequest($request = null) {
+			$parameters = $this->getCurrentRequestParameters();
+			
+			if ('preview' == $request) {
+				return isset($parameters['preview']);
+			}
+			
+			if (null !== $request) {
+				return $request == $parameters['type'];
+			}
+			
+			return $parameters['type'];
+		}
+		
+		public function getCurrentRequestParameters() {
+			return array_merge(array(
+				'type'										=> null,
+	        	$this->config['request_param_player'] 		=> null,
+	        	$this->config['request_param_broadcast']	=> null
+	        ), $this->modx->request->getParameters());
 		}
 	}
 

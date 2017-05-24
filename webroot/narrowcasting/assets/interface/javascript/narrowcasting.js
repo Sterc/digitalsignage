@@ -12,7 +12,7 @@ $(document).ready(function() {
         'ticker'	: {
             'element'	: '.ticker',
             'settings'	: {
-                'feed'		: '/narrowcasting/newsticker.php',
+                'feed'		: 'export.json',
                 'feedType'	: 'JSON'
             }
         },
@@ -180,7 +180,9 @@ $(document).ready(function() {
 
 	        if (null !== this.settings.ticker) {
 	            if (this.settings.ticker.element) {
-	                $(this.settings.ticker.element).Newsticker(this.settings.ticker.settings, this);
+	                $(this.settings.ticker.element).Newsticker($.extend({}, this.settings.ticker.settings, {
+			        	'vars' : this.settings.vars
+			        }), this);
 	            }
 	        }
 	    }
@@ -307,7 +309,7 @@ $(document).ready(function() {
      * @public.
      */
     Narrowcasting.prototype.getUrlParameters = function() {
-	    var parameters = new Array('data=true');
+	    var parameters = new Array('type=broadcast', 'data=true');
 	
 		$.each(this.settings.vars, $.proxy(function(index, value) {
 			switch (index) {
@@ -1222,8 +1224,13 @@ $(document).ready(function() {
     Newsticker.Defaults = {
         'feed': null,
         'feedType': 'JSON',
-
-        'loadInterval': 900
+        'feedInterval': 900,
+        
+        'vars': {
+			'player': null,
+			'broadcast': null,
+			'preview': false
+		}
     };
 
     /**
@@ -1246,10 +1253,10 @@ $(document).ready(function() {
         } else {
             this.loadData();
 
-            if (0 < this.settings.loadInterval) {
+            if (0 < this.settings.feedInterval) {
                 setInterval($.proxy(function(event) {
                     this.loadData();
-                }, this), this.settings.loadInterval * 1000);
+                }, this), this.settings.feedInterval * 1000);
             }
         }
     };
@@ -1260,7 +1267,7 @@ $(document).ready(function() {
      */
     Newsticker.prototype.loadData = function() {
         $.ajax({
-            'url'		: this.settings.feed,
+            'url'		: this.settings.feed + this.getUrlParameters(),
             'dataType'	: this.settings.feedType.toUpperCase(),
             'complete'	: $.proxy(function(result) {
                 if (200 == result.status) {
@@ -1296,6 +1303,39 @@ $(document).ready(function() {
                 this.dataRefresh++;
             }, this)
         });
+    };
+    
+    /**
+     * Returns all the URL parameters.
+     * @public.
+     */
+    Newsticker.prototype.getUrlParameters = function() {
+	    var parameters = new Array('type=ticker', 'data=true');
+		
+		$.each(this.settings.vars, $.proxy(function(index, value) {
+			switch (index) {
+				case 'player':
+					parameters.push('pl=' + value);
+					
+					break;
+				case 'broadcast':
+					parameters.push('bc=' + value);
+					
+					break;
+				case 'preview':
+					if (this.settings.vars.preview) {
+						parameters.push('preview=true');
+					}
+			
+					break;
+			}
+		}).bind(this));
+		
+		if (0 < parameters.length) {
+			return '?' + parameters.join('&');
+		}
+		
+		return '';
     };
 
     /**

@@ -57,6 +57,18 @@
 			
 			return parent::initialize();
 		}
+		
+		/**
+		 * @access public.
+		 * @return Mixed.
+		 */
+		public function beforeSave() {
+			if (!preg_match('/^(http|https)/si', $this->getProperty('url'))) {
+				$this->setProperty('url', 'http://'.$this->getProperty('url'));
+			}
+			
+			return parent::beforeSave();
+		}
 	}
 	
 	return 'NarrowcastingBroadcastFeedsCreateProcessor';

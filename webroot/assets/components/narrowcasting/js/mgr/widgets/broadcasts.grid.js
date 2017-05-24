@@ -81,7 +81,7 @@ Narrowcasting.grid.Broadcasts = function(config) {
             width		: 100,
             fixed 		: true
         }, {
-            header		: _('narrowcasting.label_broacast_last_sync'),
+            header		: _('narrowcasting.label_broadcast_last_sync'),
             dataIndex	: 'sync',
             sortable	: true,
             editable	: false,
@@ -98,7 +98,7 @@ Narrowcasting.grid.Broadcasts = function(config) {
         baseParams	: {
         	action		: 'mgr/broadcasts/getlist'
         },
-        fields		: ['id', 'resource_id', 'name', 'name_formatted', 'description', 'template', 'editedon', 'url', 'slides', 'feeds', 'players', 'sync'],
+        fields		: ['id', 'resource_id', 'ticker_url', 'name', 'name_formatted', 'description', 'template', 'editedon', 'url', 'slides', 'feeds', 'players', 'sync'],
         paging		: true,
         pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy		: 'id',
@@ -233,6 +233,7 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
 	        xtype		: 'narrowcasting-window-broadcast-preview',
 	        record		: this.menu.record,
 	        closeAction	: 'close',
+	        saveBtnText	: _('narrowcasting.show_broadcast_preview'),
 	        listeners	: {
             	'success'	: {
             		fn			: function(data) {
@@ -394,6 +395,16 @@ Narrowcasting.window.CreateBroadcast = function(config) {
         	xtype		: MODx.expandHelp ? 'label' : 'hidden',
             html		: _('narrowcasting.label_broadcast_template_desc'),
             cls			: 'desc-under'
+        }, {
+        	xtype		: 'textfield',
+        	fieldLabel	: _('narrowcasting.label_broadcast_ticker_url'),
+        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_broadcast_ticker_url_desc'),
+        	name		: 'ticker_url',
+        	anchor		: '100%'
+        }, {
+        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_broadcast_ticker_url_desc'),
+            cls			: 'desc-under'
         }]
     });
     
@@ -452,6 +463,16 @@ Narrowcasting.window.UpdateBroadcast = function(config) {
         	xtype		: MODx.expandHelp ? 'label' : 'hidden',
             html		: _('narrowcasting.label_broadcast_template_desc'),
             cls			: 'desc-under'
+        }, {
+        	xtype		: 'textfield',
+        	fieldLabel	: _('narrowcasting.label_broadcast_ticker_url'),
+        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_broadcast_ticker_url_desc'),
+        	name		: 'ticker_url',
+        	anchor		: '100%'
+        }, {
+        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_broadcast_ticker_url_desc'),
+            cls			: 'desc-under'
         }]
     });
     
@@ -477,14 +498,14 @@ Narrowcasting.window.PreviewBroadcast = function(config) {
             name		: 'id'
         }, {
             xtype		: 'narrowcasting-combo-players',
-            fieldLabel	: _('narrowcasting.label_broacast_preview_player'),
-            description	: MODx.expandHelp ? '' : _('narrowcasting.label_broacast_preview_player_esc'),
+            fieldLabel	: _('narrowcasting.label_broadcast_preview_player'),
+            description	: MODx.expandHelp ? '' : _('narrowcasting.label_broadcast_preview_player_desc'),
             name		: 'player',
             anchor		: '100%',
             allowBlank	: false
         }, {
         	xtype		: MODx.expandHelp ? 'label' : 'hidden',
-            html		: _('narrowcasting.label_broacast_preview_player_desc'),
+            html		: _('narrowcasting.label_broadcast_preview_player_desc'),
             cls			: 'desc-under'
         }]
     });

@@ -42,8 +42,8 @@
 	$_lang['narrowcasting.broadcast_update']						= 'Uitzending wijzigen';
 	$_lang['narrowcasting.broadcast_remove']						= 'Uitzending verwijderen';
 	$_lang['narrowcasting.broadcast_remove_confirm']				= 'Weet je zeker dat je deze uitzending wilt verwijderen?';
-    $_lang['narrowcasting.broadcast_preview']						= 'Voorvertoning uitzending';
-    $_lang['narrowcasting.broadcast_sync']							= 'Synchroniseer uitzending';
+    $_lang['narrowcasting.broadcast_preview']						= 'Uitzending voorbeeld';
+    $_lang['narrowcasting.broadcast_sync']							= 'Uitzending synchroniseren';
     $_lang['narrowcasting.broadcast_sync_confirm']					= 'Weet u zeker dat u deze uitzending wilt synchroniseren?';
     $_lang['narrowcasting.broadcast_slides']						= 'Slides (interne slides)';
     $_lang['narrowcasting.broadcast_slides_desc']					= 'Hier kunt u alle interne slides van de uitzending beheren. Sleep & Drop slides van de "beschikbare slides" naar "geselecteerde slides" om slides toe te voegen.';
@@ -61,16 +61,18 @@
     $_lang['narrowcasting.label_broadcast_description_desc']		= 'Korte omschrijving van de uitzending.';
     $_lang['narrowcasting.label_broadcast_template']				= 'Template';
     $_lang['narrowcasting.label_broadcast_template_desc']			= 'De template van de uitzending.';
+    $_lang['narrowcasting.label_broadcast_ticker_url']				= 'Ticker URL';
+	$_lang['narrowcasting.label_broadcast_ticker_url_desc']			= 'De URL van de feed voor de ticker.';
     $_lang['narrowcasting.label_broadcast_slides']					= 'Slides';
     $_lang['narrowcasting.label_broadcast_slides_desc']				= 'De slides van de uitzending.';
     $_lang['narrowcasting.label_broadcast_feeds']					= 'Feeds';
     $_lang['narrowcasting.label_broadcast_feeds_desc']				= 'De feeds van de uitzending.';
     $_lang['narrowcasting.label_broadcast_players']					= 'Mediaspelers';
     $_lang['narrowcasting.label_broadcast_players_desc']			= 'The mediaboxes to broadcast the broadcast.';
-    $_lang['narrowcasting.label_broacast_last_sync']				= 'Laatste synchronisatie';
-    $_lang['narrowcasting.label_broacast_last_sync_desc']			= '';
-    $_lang['narrowcasting.label_broacast_preview_player']			= 'Mediaspeler';
-    $_lang['narrowcasting.label_broacast_preview_player_desc']		= 'Selecteer een mediaspeler om de voorvertoning van de uitzending te tonen.';
+    $_lang['narrowcasting.label_broadcast_last_sync']				= 'Laatste synchronisatie';
+    $_lang['narrowcasting.label_broadcast_last_sync_desc']			= '';
+    $_lang['narrowcasting.label_broadcast_preview_player']			= 'Mediaspeler';
+    $_lang['narrowcasting.label_broadcast_preview_player_desc']		= 'Selecteer een mediaspeler om de voorvertoning van de uitzending te tonen.';
 
     $_lang['narrowcasting.label_feed_key']							= 'Sleutel';
     $_lang['narrowcasting.label_feed_key_desc']						= 'De sleutel van de feed.';
@@ -158,6 +160,7 @@
 
     $_lang['narrowcasting.auto_refresh_grid']						= 'Automatisch vernieuwen';
     $_lang['narrowcasting.filter_broadcast']						= 'Filter op uitzending';
+    $_lang['narrowcasting.show_broadcast_preview']					= 'Uitzending voorbeeld bekijken';
     $_lang['narrowcasting.sync_never']								= 'Nooit';
     $_lang['narrowcasting.selected_slides']							= 'Geselecteerde slides';
     $_lang['narrowcasting.available_slides']						= 'Beschikbare slides';

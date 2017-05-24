@@ -27,15 +27,17 @@
 		public function getSlides() {
 			$slides = array();
 			
-			if (false !== ($data = file_get_contents($this->url))) {
-                if (null !== ($data = simplexml_load_string($data))) {
-                    if (isset($data->channel->item)) {
-                        foreach ($data->channel->item as $value) {
-	                        $slides[] = $value;
-                        }
-                    }
-                }
-            }
+			if (preg_match('/^(http|https)/si', $this->url)) {
+				if (false !== ($data = file_get_contents($this->url))) {
+	                if (null !== ($data = simplexml_load_string($data))) {
+	                    if (isset($data->channel->item)) {
+	                        foreach ($data->channel->item as $value) {
+		                        $slides[] = $value;
+	                        }
+	                    }
+	                }
+	            }
+	        }
             
             return $slides;
 		}
