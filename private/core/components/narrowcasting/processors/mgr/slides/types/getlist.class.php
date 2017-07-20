@@ -19,7 +19,7 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 	 
-	class NarrowcastingSlidesTypesGetListProcessor extends modObjectGetListProcessor {
+	class NarrowcastingSlideTypesGetListProcessor extends modObjectGetListProcessor {
 		/**
 		 * @access public.
 		 * @var String.
@@ -48,6 +48,12 @@
 		 * @access public.
 		 * @var String.
 		 */
+		public $primaryKeyField = 'key';
+		
+		/**
+		 * @access public.
+		 * @var String.
+		 */
 		public $objectType = 'narrowcasting.slidestypes';
 		
 		/**
@@ -63,12 +69,34 @@
 		public function initialize() {
 			$this->narrowcasting = $this->modx->getService('narrowcasting', 'Narrowcasting', $this->modx->getOption('narrowcasting.core_path', null, $this->modx->getOption('core_path').'components/narrowcasting/').'model/narrowcasting/');
 			
+			$this->setDefaultProperties(array(
+				'dateFormat' => $this->modx->getOption('manager_date_format') .', '. $this->modx->getOption('manager_time_format')
+			));
+			
 			return parent::initialize();
 		}
 		
 		/**
 		 * @access public.
-		 * @param Object $object.
+		 * @param Object $c.
+		 * @return Object.
+		 */
+		public function prepareQueryBeforeCount(xPDOQuery $c) {
+			$query = $this->getProperty('query');
+			
+			if (!empty($query)) {
+				$c->where(array(
+					'key:LIKE' 		=> '%'.$query.'%',
+					'OR:name:LIKE' 	=> '%'.$query.'%'
+				));
+			}
+			
+			return $c;
+		}
+		
+		/**
+		 * @access public.
+		 * @param Object $query.
 		 * @return Array.
 		 */
 		public function prepareRow(xPDOObject $object) {
@@ -93,11 +121,17 @@
 					$array['description_formatted'] = $translation;
 				}
 			}
-
-			return $array;
+			
+			if (in_array($array['editedon'], array('-001-11-30 00:00:00', '-1-11-30 00:00:00', '0000-00-00 00:00:00', null))) {
+				$array['editedon'] = '';
+			} else {
+				$array['editedon'] = date($this->getProperty('dateFormat'), strtotime($array['editedon']));
+			}
+			
+			return $array;	
 		}
 	}
 
-	return 'NarrowcastingSlidesTypesGetListProcessor';
+	return 'NarrowcastingSlideTypesGetListProcessor';
 	
 ?>

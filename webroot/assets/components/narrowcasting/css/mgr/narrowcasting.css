@@ -44,3 +44,7 @@
 	font-size: 100px;
 	padding: 75px 0;
 }
+
+.narrowcasting-slide-options .mce-tinymce {
+	width: 100% !important;
+}

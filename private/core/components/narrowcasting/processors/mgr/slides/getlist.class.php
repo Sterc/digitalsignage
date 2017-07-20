@@ -99,7 +99,13 @@
 			));
 			
 			if (null !== ($type = $object->getOne('getSlideType'))) {
-				$array['type_formatted'] = $this->modx->lexicon($type->name);
+				$array['type_formatted'] = $type->name;
+
+				$translationKey = 'narrowcasting.slide_'.$type->key;
+				
+				if ($translationKey !== ($translation = $this->modx->lexicon($translationKey))) {
+					$array['type_formatted'] = $translation;
+				}
 			}
 			
 			if (in_array($array['editedon'], array('-001-11-30 00:00:00', '-1-11-30 00:00:00', '0000-00-00 00:00:00', null))) {

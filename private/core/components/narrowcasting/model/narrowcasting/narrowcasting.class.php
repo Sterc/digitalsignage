@@ -67,8 +67,11 @@
 	            'branding'				=> (boolean) $this->modx->getOption('narrowcasting.branding', null, true),
 	            'branding_url'			=> 'http://www.sterc.nl',
 	            'branding_help_url'		=> 'http://www.sterc.nl',
+	            'has_permission'		=> $this->hasPermission(),
 	            'request_id'			=> $this->modx->getOption('narrowcasting.request_resource'),
 	            'request_url'			=> $this->modx->makeUrl($this->modx->getOption('narrowcasting.request_resource'), null, null, 'full'),
+	            'export_id'				=> $this->modx->getOption('narrowcasting.export_resource'),
+	            'export_url'			=> $this->modx->makeUrl($this->modx->getOption('narrowcasting.export_resource'), null, null, 'full'),
 	            'request_param_player'	=> $this->modx->getOption('narrowcasting.request_param_player', null, 'pl'),
 	            'request_param_broadcast' => $this->modx->getOption('narrowcasting.request_param_broadcast', null, 'bc'),
 	            'templates'				=> explode(',', $this->modx->getOption('narrowcasting.templates'))
@@ -92,6 +95,14 @@
 	    public function getHelpUrl() {
 	        return $this->config['branding_help_url'].'?v='.$this->config['version'];
 	    }
+	    
+	    /**
+		 * @access public.
+		 * @return Boolean.
+		 */
+		public function hasPermission() {
+			return $this->modx->hasPermission('narrowcasting_admin');
+		}
 
 	    /**
 	     * @access public.
@@ -103,7 +114,7 @@
 	            'key' => $key
 	        ));
 	    }
-	    
+
 	    /**
 	     * @access public.
 	     * @param String $id.
@@ -133,7 +144,8 @@
 			                	'mode'			=> $player->getMode()
 			                ),
 			                'broadcast'	=> array(
-				            	'id'			=> $broadcast->id  
+				            	'id'			=> $broadcast->id,
+				            	'feed'			=> $this->config['export_url'],
 			                ),
 			                'preview'			=> isset($parameters['preview']) ? 1 : 0
 			            ), 'narrowcasting');
@@ -145,14 +157,14 @@
 		    	$parameters = $this->getCurrentRequestParameters();;
 
 				$status = array();
-				
+
 				if ($this->getCurrentRequest('ticker')) {
 					// TODO: test this
 				} else {
 					if (!$this->getCurrentRequest('preview')) {
 				        if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
 					        $schedules = array();
-	
+
 					        foreach ($player->getBroadcasts() as $broadcast) {
 						    	if (false !== ($schedule = $broadcast->isScheduled($player->id))) {
 						    		if (null !== ($broadcast = $schedule->getBroadcast())) {
@@ -162,29 +174,29 @@
 						    		}
 						    	}
 					        }
-	
+
 					        // Sort the available schedules by type (dates overules day)
 					        $sort = array();
-	
+
 							foreach ($schedules as $key => $value) {
 							    $sort[$key] = $value['type'];
 							}
-	
+
 							array_multisort($sort, SORT_ASC, $schedules);
-	
+
 					        if (0 < count($schedules)) {
 						        // Get the first available schedule
 								$schedule = array_shift($schedules);
-	
+
 						        $player->setOnline($schedule['broadcast']['id']);
-	
+
 						        if (!isset($parameters['data'])) {
 							        $this->modx->sendRedirect($this->modx->makeUrl($schedule['broadcast']['resource_id'], null, array(
 							        	$this->config['request_param_player']		=> $player->key,
 							        	$this->config['request_param_broadcast']	=> $schedule['broadcast']['id']
 						        	), 'full'));
 						        }
-	
+
 						        $status = array(
 						        	'status'	=> 200,
 						        	'player'	=> $player->toArray(),
@@ -226,7 +238,7 @@
 	    public function initializeBroadcast($scriptProperties = array()) {
 		    $status = array();
 		    $broadcast = null;
-		    
+
 		    $parameters = $this->getCurrentRequestParameters();
 
 			if ($this->getCurrentRequest('preview')) {
@@ -235,11 +247,11 @@
 				if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
 					$broadcast = $player->getCurrentBroadcast();
 				}
-			}	
-			
+			}
+
 			if ($this->getCurrentRequest('ticker')) {
 	            $items = array();
-	            
+
 	            if (null !== $broadcast) {
 		            foreach ($broadcast->getTickerItems() as $item) {
 			            $items[] = array(
@@ -247,36 +259,52 @@
 						);
 		            }
 		        }
-	            
+
 	            $status = array(
 					'items' => $items
 				);
             } else {
 				$slides = array();
-				
+
 				if (null !== $broadcast) {
 					if (!isset($parameters['preview'])) {
 	                	$slides = $broadcast->fromExport();
 	                }
-	
+
+	                $mediaSource    = $this->modx->getObject('modMediaSource', $this->modx->getOption('narrowcasting.media_source'));
+                    $mediaSourceUrl = '';
+
+					if ($mediaSource) {
+                        $mediaSource    = $mediaSource->get('properties');
+                        $mediaSourceUrl = $mediaSource['baseUrl']['value'];
+					}
+
 	                if (0 >= count($slides)) {
 	                    foreach ($broadcast->getSlides() as $key => $slide) {
+                            $data = unserialize($slide->data);
+
 	                        $slides[] = array_merge(array(
 	                            'time'  	=> $slide->time,
 	                            'slide' 	=> $slide->type,
 	                            'source'	=> 'intern',
 	                            'title' 	=> $slide->name,
 	                            'image' 	=> null
-	                        ), unserialize($slide->data));
+	                        ), $data);
 	                    }
-	                    
+
 	                    if ((bool) $this->modx->getOption('narrowcasting.auto_create_sync', null, false)) {
 	                    	$broadcast->toExport($slides);
 	                    }
 	                }
-	                
+
+	                foreach ($slides as $key => $value) {
+					    if (isset($value['image']) && $value['image'] !== '') {
+					        $slides[$key]['image'] = $mediaSourceUrl . $value['image'];
+                        }
+                    }
+
 	                $total = count($slides);
-	
+
 	                foreach ($broadcast->getFeeds() as $key => $feed) {
 	                    foreach ($feed->getSlides() as $key2 => $slide) {
 	                        // TODO: test this
@@ -289,25 +317,25 @@
 			                        'image'		=> null,
 			                        'content'	=> (string) $slide->description
 		                        );
-		                        
+
 		                        if (isset($slide->enclosure->attributes()->url)) {
 			                    	$value['image'] = (string) $slide->enclosure->attributes()->url;
 			                    }
-		                        
+
 	                        	array_splice($slides, (($key2 + 1) * $feed->frequency) + $key + $key2, 0, array($value));
 	                        }
 	                    }
 	                }
 	            }
-	            
+
 				$status = array(
 					'slides' => $slides
 				);
-			} 
-			
-			return $this->modx->toJSON($status);   
+			}
+
+			return $this->modx->toJSON($status);
 		}
-		
+
 		/**
 		 * @access public.
 		 * @param Null|String $request.
@@ -315,18 +343,18 @@
 		 */
 		public function getCurrentRequest($request = null) {
 			$parameters = $this->getCurrentRequestParameters();
-			
+
 			if ('preview' == $request) {
 				return isset($parameters['preview']);
 			}
-			
+
 			if (null !== $request) {
 				return $request == $parameters['type'];
 			}
-			
+
 			return $parameters['type'];
 		}
-		
+
 		/**
 		 * @access public.
 		 * @return Array.

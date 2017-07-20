@@ -1,8 +1,8 @@
 Ext.onReady(function() {
-	MODx.load({xtype: 'narrowcasting-page-home'});
+	MODx.load({xtype: 'narrowcasting-page-admin'});
 });
 
-Narrowcasting.page.Home = function(config) {
+Narrowcasting.page.Admin = function(config) {
 	config = config || {};
 	
 	config.buttons = [];
@@ -15,15 +15,11 @@ Narrowcasting.page.Home = function(config) {
 		});
 	}
 	
-	if (Narrowcasting.config.has_permission) {
-		config.buttons.push({
-			text		: _('narrowcasting.admin_view'),
-			handler		: this.toAdminView,
-			scope		: this
-		}, '-');
-	}
-	
 	config.buttons.push({
+		text		: _('narrowcasting.default_view'),
+		handler		: this.toDefaultView,
+		scope		: this
+	}, '-', {
 		text		: _('help_ex'),
 		handler		: MODx.loadHelpPane,
 		scope		: this
@@ -31,27 +27,27 @@ Narrowcasting.page.Home = function(config) {
 	
 	Ext.applyIf(config, {
 		components	: [{
-			xtype		: 'narrowcasting-panel-home',
-			renderTo	: 'narrowcasting-panel-home-div'
+			xtype		: 'narrowcasting-panel-admin',
+			renderTo	: 'narrowcasting-panel-admin-div'
 		}]
 	});
 	
-	Narrowcasting.page.Home.superclass.constructor.call(this, config);
+	Narrowcasting.page.Admin.superclass.constructor.call(this, config);
 };
 
-Ext.extend(Narrowcasting.page.Home, MODx.Component, {
+Ext.extend(Narrowcasting.page.Admin, MODx.Component, {
 	loadBranding: function(btn) {
 		window.open(Narrowcasting.config.branding_url);
 	},
-	toAdminView: function() {
+	toDefaultView: function() {
 		var request = MODx.request || {};
 		
         Ext.apply(request, {
-	    	'action' : 'admin'  
+	    	'action' : 'home'  
 	    });
         
         MODx.loadPage('?' + Ext.urlEncode(request));
 	}
 });
 
-Ext.reg('narrowcasting-page-home', Narrowcasting.page.Home);
+Ext.reg('narrowcasting-page-admin', Narrowcasting.page.Admin);

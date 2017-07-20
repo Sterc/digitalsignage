@@ -24,17 +24,23 @@
 
 	$_lang['area_narrowcasting']									= 'Narrowcasting';
 
-	$_lang['setting_narrowcasting.request_resource']				= 'Verzoek';
+	$_lang['setting_narrowcasting.auto_create_sync']				= 'Automatisch synchroniseren';
+	$_lang['setting_narrowcasting.auto_create_sync_desc']			= 'Automatisch synchroniseren wanneer er geen synchronisatie beschikbaar is.';
+	$_lang['setting_narrowcasting.request_resource']				= 'Standaardverzoek';
 	$_lang['setting_narrowcasting.request_resource_desc']			= 'De ID van de resource die u als standaardverzoek wilt gebruiken.';
+	$_lang['setting_narrowcasting.export_resource']					= 'Exportverzoek';
+	$_lang['setting_narrowcasting.export_resource_desc']			= 'De ID van de resource die u als exportverzoek wilt gebruiken.';
     $_lang['setting_narrowcasting.request_param_broadcast']			= 'Uitzending parameter';
-    $_lang['setting_narrowcasting.request_param_broadcast_desc']	= '';
-	$_lang['setting_narrowcasting.request_param_player']			= 'Verzoek mediabox parameter';
+    $_lang['setting_narrowcasting.request_param_broadcast_desc']	= 'De naam van de GET-parameter om de uitzending te identificeren.';
+	$_lang['setting_narrowcasting.request_param_player']			= 'Mediabox parameter';
 	$_lang['setting_narrowcasting.request_param_player_desc']		= 'De naam van de GET-parameter om de mediabox te identificeren.';
 	$_lang['setting_narrowcasting.context']							= 'Context';
 	$_lang['setting_narrowcasting.context_desc']					= 'De standaard narrowcasting context.';
 	$_lang['setting_narrowcasting.templates']						= 'Templates';
 	$_lang['setting_narrowcasting.template_desc']					= 'De beschikbare templates voor een uitzending. Template ID\'s comma gescheiden toevoegen.';
-
+	$_lang['setting_narrowcasting.media_source']					= 'Media source';
+	$_lang['setting_narrowcasting.media_source_desc']				= 'De media source die wordt gebruikt voor media bestanden.';
+	
 	$_lang['narrowcasting.broadcast']								= 'Uitzending';
 	$_lang['narrowcasting.broadcasts']								= 'Uitzendingen';
 	$_lang['narrowcasting.broadcasts_desc']							= 'Hier kun je alle uitzendingen van je narrowcasting beheren.';
@@ -44,7 +50,7 @@
 	$_lang['narrowcasting.broadcast_remove_confirm']				= 'Weet je zeker dat je deze uitzending wilt verwijderen?';
     $_lang['narrowcasting.broadcast_preview']						= 'Uitzending voorbeeld';
     $_lang['narrowcasting.broadcast_sync']							= 'Uitzending synchroniseren';
-    $_lang['narrowcasting.broadcast_sync_confirm']					= 'Weet u zeker dat u deze uitzending wilt synchroniseren?';
+    $_lang['narrowcasting.broadcast_sync_confirm']					= 'Weet je zeker dat je deze uitzending wilt synchroniseren?';
     $_lang['narrowcasting.broadcast_slides']						= 'Slides (interne slides)';
     $_lang['narrowcasting.broadcast_slides_desc']					= 'Hier kunt u alle interne slides van de uitzending beheren. Sleep & Drop slides van de "beschikbare slides" naar "geselecteerde slides" om slides toe te voegen.';
     $_lang['narrowcasting.broadcast_slide_remove']					= 'Verwijder slide';
@@ -53,7 +59,7 @@
     $_lang['narrowcasting.broadcast_feed_create']					= 'Nieuwe feed';
     $_lang['narrowcasting.broadcast_feed_update']					= 'Feed wijzigen';
     $_lang['narrowcasting.broadcast_feed_remove']					= 'Feed verwijderen';
-    $_lang['narrowcasting.broadcast_feed_remove_confirm']			= 'Weet u zeker dat u deze feed wilt verwijderen?';
+    $_lang['narrowcasting.broadcast_feed_remove_confirm']			= 'Weet je zeker dat je deze feed wilt verwijderen?';
 
     $_lang['narrowcasting.label_broadcast_name']					= 'Naam';
     $_lang['narrowcasting.label_broadcast_name_desc']				= 'Naam van de uitzending.';
@@ -81,7 +87,7 @@
     $_lang['narrowcasting.label_feed_url']							= 'URL';
     $_lang['narrowcasting.label_feed_url_desc']						= 'De URL van de feed.';
     $_lang['narrowcasting.label_feed_time']							= 'Looptijd';
-    $_lang['narrowcasting.label_feed_time_desc']					= 'De looptijd van de feed in seconden.';
+    $_lang['narrowcasting.label_feed_time_desc']					= 'De looptijd van de feed in seconden of minuten.';
     $_lang['narrowcasting.label_feed_frequency']					= 'Frequantie';
     $_lang['narrowcasting.label_feed_frequency_desc']				= 'De frequantie van de slides in de feed';
     $_lang['narrowcasting.label_feed_published']					= 'Gepubliceerd';
@@ -89,35 +95,35 @@
 
     $_lang['narrowcasting.slide']									= 'Slide';
     $_lang['narrowcasting.slides']									= 'Slides';
-    $_lang['narrowcasting.slides_desc']								= 'Hier kunt u alle slides voor uw narrowcasting beheren.';
+    $_lang['narrowcasting.slides_desc']								= 'Hier kun je alle slides van je narrowcasting beheren.';
     $_lang['narrowcasting.slide_create']							= 'Nieuwe slide';
     $_lang['narrowcasting.slide_update']							= 'Slide wijzigen';
     $_lang['narrowcasting.slide_remove']							= 'Slide verwijderen';
-    $_lang['narrowcasting.slide_remove_confirm']					= 'Weet u zeker dat u deze slide wilt verwijderen?';
+    $_lang['narrowcasting.slide_remove_confirm']					= 'Weet je zeker dat je deze slide wilt verwijderen?';
 
     $_lang['narrowcasting.label_slide_name']						= 'Naam';
     $_lang['narrowcasting.label_slide_name_desc']					= 'De naam van de slide.';
     $_lang['narrowcasting.label_slide_type']						= 'Type';
     $_lang['narrowcasting.label_slide_type_desc']					= 'Type van de slide.';
     $_lang['narrowcasting.label_slide_time']						= 'Looptijd';
-    $_lang['narrowcasting.label_slide_time_desc']					= 'De looptijd van de slide in seconden.';
+    $_lang['narrowcasting.label_slide_time_desc']					= 'De looptijd van de slide in seconden of minuten.';
     $_lang['narrowcasting.label_slide_published']					= 'Gepubliceerd';
     $_lang['narrowcasting.label_slide_published_desc']				= '';
 
     $_lang['narrowcasting.player']									= 'Mediaspeler';
     $_lang['narrowcasting.players']									= 'Mediaspelers';
-    $_lang['narrowcasting.players_desc']							= 'Hier kunt u alle mediaspelers beheren van het narrowcasting systeem.';
+    $_lang['narrowcasting.players_desc']							= 'Hier kun je alle mediaspelers van je narrowcasting systeem beheren.';
     $_lang['narrowcasting.player_create']							= 'Nieuwe mediaspeler';
     $_lang['narrowcasting.player_update']							= 'Mediaspeler wijzigen';
     $_lang['narrowcasting.player_remove']							= 'Mediaspeler verwijderen';
-    $_lang['narrowcasting.player_remove_confirm']					= 'Weet u zeker dat u deze mediaspeler wilt verwijderen?';
+    $_lang['narrowcasting.player_remove_confirm']					= 'Weet je zeker dat je deze mediaspeler wilt verwijderen?';
     $_lang['narrowcasting.player_view']								= 'Bekijk mediaspeler';
     $_lang['narrowcasting.player_view_desc']						= 'Om deze speler met de narrowcasting te verbinden, gebruik de URL:';
     $_lang['narrowcasting.player_schedule']							= 'Mediaspeler schema';
     $_lang['narrowcasting.player_schedule_create']					= 'Nieuw schema';
     $_lang['narrowcasting.player_schedule_update']					= 'Schema wijzigen';
     $_lang['narrowcasting.player_schedule_remove']					= 'Scheme verwijderen';
-    $_lang['narrowcasting.player_schedule_remove_confirm']			= 'Weet u zeker dat u deit schema wilt verwijderen?';
+    $_lang['narrowcasting.player_schedule_remove_confirm']			= 'Weet je zeker dat je deze schema wilt verwijderen?';
     $_lang['narrowcasting.player_calendar']							= 'Kalender';
 
     $_lang['narrowcasting.label_player_key']						= 'Sleutel';
@@ -136,7 +142,26 @@
     $_lang['narrowcasting.label_player_online_desc']				= '';
     $_lang['narrowcasting.label_player_current_broadcast']			= 'Huidige uitzending';
     $_lang['narrowcasting.label_player_current_broadcast_desc']		= 'De huidige uitzending van de mediaspeler.';
+    
+    $_lang['narrowcasting.slide_type']								= 'Slide type';
+	$_lang['narrowcasting.slide_types']								= 'Slide types';
+	$_lang['narrowcasting.slide_types_desc']						= 'Hier kun je alle beschikbare slides van je narrowcasting beheren.';
+	$_lang['narrowcasting.slide_type_create']						= 'Nieuwe slide type';
+	$_lang['narrowcasting.slide_type_update']						= 'Slide type wijzigen';
+	$_lang['narrowcasting.slide_type_remove']						= 'Slide type verwijderen';
+	$_lang['narrowcasting.slide_type_remove_confirm']				= 'Weet je zeker dat je deze slide type wilt verwijderen?';
 
+	$_lang['narrowcasting.label_slide_type_key']					= 'Sleutel';
+    $_lang['narrowcasting.label_slide_type_key_desc']				= 'De sleutel van de slide type.';
+	$_lang['narrowcasting.label_slide_type_name']					= 'Naam';
+    $_lang['narrowcasting.label_slide_type_name_desc']				= 'De naam van de slide type.';
+    $_lang['narrowcasting.label_slide_type_description']			= 'Omschrijving';
+    $_lang['narrowcasting.label_slide_type_description_desc']		= 'De omschrijving van de slide type.';
+    $_lang['narrowcasting.label_slide_type_icon']					= 'Icoon';
+    $_lang['narrowcasting.label_slide_type_icon_desc']				= 'De icoon van de slide type.';
+    $_lang['narrowcasting.label_slide_type_time']					= 'Looptijd';
+	$_lang['narrowcasting.label_slide_type_time_desc']				= 'De standaard looptijd van de slide in seconden of minuten.';
+	
     $_lang['narrowcasting.label_schedule_broadcast']				= 'Uitzending';
     $_lang['narrowcasting.label_schedule_broadcast_desc']			= 'De uitzending van het schema.';
     $_lang['narrowcasting.label_schedule_description']				= 'Omschrijving';
@@ -158,6 +183,8 @@
     $_lang['narrowcasting.label_schedule_date']						= 'Datum';
     $_lang['narrowcasting.label_schedule_date_dec']					= '';
 
+	$_lang['narrowcasting.default_view']							= 'Standaard weergave';
+	$_lang['narrowcasting.admin_view']								= 'Admin weergave';
     $_lang['narrowcasting.auto_refresh_grid']						= 'Automatisch vernieuwen';
     $_lang['narrowcasting.filter_broadcast']						= 'Filter op uitzending';
     $_lang['narrowcasting.show_broadcast_preview']					= 'Uitzending voorbeeld bekijken';
@@ -177,3 +204,9 @@
     $_lang['narrowcasting.error_broadcast_player_exists']			= 'Deze mediabox is al gekoppeld met deze uitzending. Kies een andere mediabox.';
     $_lang['narrowcasting.error_broadcast_schedule_exists']			= 'Er is al een schema voor deze dag: [[+schedule]]. Geef een ander schema op.';
     $_lang['narrowcasting.error_player_resolution']					= 'Niet een geldige resolutie (breedte x hoogte (zonder spaties)).';
+	$_lang['narrowcasting.error_resource_object']					= 'Er is een fout opgetreden tijdens het opslaan van de uitzending resource.';
+	$_lang['narrowcasting.error_slide_type_character']				= 'De sleutel bevat niet toegestane tekens. Definieer een andere sleutel.';
+	$_lang['narrowcasting.error_slide_type_exists']					= 'Een slide met deze sleutel bestaat reeds. Definieer een andere sleutel';
+	
+	
+?>

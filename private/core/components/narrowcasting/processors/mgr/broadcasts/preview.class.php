@@ -78,7 +78,7 @@
 				));
 			}
 			
-			return $this->failure('test');
+			return $this->failure();
 		}
 	}
 	

@@ -38,6 +38,13 @@
 	$_lang['narrowcasting.slide_socialmedia_query']					= 'Zoekopdracht';
 	$_lang['narrowcasting.slide_socialmedia_query_desc']			= 'De zoekopdracht van social media berichten, voorbeeld #hastag.';
 
+	$_lang['narrowcasting.slide_media'] 							= 'Media';
+	$_lang['narrowcasting.slide_media_desc'] 						= 'Een slide met een Youtube video.';
+	$_lang['narrowcasting.slide_media_youtube']						= 'Youtube';
+	$_lang['narrowcasting.slide_media_youtube_desc']				= 'De ID of URL van de Youtube video.';
+	$_lang['narrowcasting.slide_media_fullscreen']					= 'Speel de Youtube video fullscreen af.';
+	$_lang['narrowcasting.slide_media_fullscreen_desc']				= '';
+	
 	$_lang['narrowcasting.feed_nu']									= 'Nu.nl';
 	$_lang['narrowcasting.feed_nu_desc']							= 'RSS feed van Nu.nl.';
 	$_lang['narrowcasting.feed_nos']								= 'NOS';

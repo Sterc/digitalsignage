@@ -1,4 +1,4 @@
-/* Javascript for v.v. Opende narrowcasting project. (c) Oetzie.nl. All rights reserved. */
+/* Javascript for narrowcasting project. (c) Oetzie.nl. All rights reserved. */
 
 /* ----------------------------------------------------------------------------------------- */
 /* ----- jQuery onload --------------------------------------------------------------------- */
@@ -9,17 +9,18 @@ $(document).ready(function() {
         'clock'		: {
             'element'	: '.clock'
         },
+        
         'ticker'	: {
             'element'	: '.ticker',
             'settings'	: {
-                'feed'		: 'export.json',
+                'feed'		: broadcastFeed,
                 'feedType'	: 'JSON'
             }
         },
         
         'callback'	: '',
         
-        'feed' 		: 'export.json',
+        'feed' 		: broadcastFeed,
         
         'vars'		: {
 	    	'player'	: player,
@@ -111,6 +112,8 @@ $(document).ready(function() {
      * @public.
      */
     Narrowcasting.Defaults = {
+	    'debug': false,
+	    
         'clock': null,
         'ticker': null,
 
@@ -194,7 +197,7 @@ $(document).ready(function() {
      */
     Narrowcasting.prototype.getRequirements = function() {
 	    console.log('getRequirements');
-
+	    
 		if (0 == (preview = parseInt(this.settings.vars.preview))) {
 			if (-1 !== ['', null, undefined].indexOf(this.settings.vars.player)) {
 			    return this.setError('Narrowcasting player is niet gedefineerd.', true);
@@ -260,6 +263,14 @@ $(document).ready(function() {
             }, this)
         });
     };
+    
+    /**
+     * Gets the debug state for the Narrowcasting.
+     * @protected.
+     */
+    Narrowcasting.prototype.isDebug = function() {
+	    return this.settings.debug;
+    };
 
     /**
      * Loads the data for the Narrowcasting.
@@ -273,14 +284,22 @@ $(document).ready(function() {
             'dataType'	: this.settings.feedType.toUpperCase(),
             'complete'	: $.proxy(function(result) {
                 if (200 == result.status) {
-                    this.data = new Array();
-
                     switch (this.settings.feedType.toUpperCase()) {
                         case 'JSON':
                             if (result.responseJSON) {
-                                for (var i = 0; i < result.responseJSON.slides.length; i++) {
-                                    this.data.push(result.responseJSON.slides[i]);
-                                }
+	                            console.log(result.responseJSON);
+	                            
+	                            if (0 < result.responseJSON.slides.length) {
+		                            this.data = new Array();
+		                            
+	                                for (var i = 0; i < result.responseJSON.slides.length; i++) {
+	                                    this.data.push(result.responseJSON.slides[i]);
+	                                }
+	                            } else {
+		                            this.loadData();
+	                            }
+                                
+                                console.log('loadData: (slides: ' + result.responseJSON.slides.length + ')');
                             } else {
                                 this.setError('Narrowcasting feed kon niet gelezen worden (Formaat: ' + this.settings.feedType.toUpperCase() + ').');
                             }
@@ -346,26 +365,28 @@ $(document).ready(function() {
     Narrowcasting.prototype.setError = function(message, fatal) {
 	    console.log('setError: (message: ' + message + ', fatal: ' + fatal + ')');
 	    
-        if ($error = this.getTemplate('error', this.$specialTemplates)) {
-            if (typeof message !== 'object') {
-                message = {
-                    'title'		: 'Foutmelding',
-                    'message' 	: message
-                };
-            }
-
-            this.setPlaceholders($error, message).appendTo(this.$element);
-
-            this.$errors.push($error);
-
-			if (!fatal) {
-	            setTimeout($.proxy(function(event) {
-	                if ($error = this.$errors.shift()) {
-	                    $error.remove();
-	                }
-	            }, this), 5000);
+	    if (this.isDebug()) {
+	        if ($error = this.getTemplate('error', this.$specialTemplates)) {
+	            if (typeof message !== 'object') {
+	                message = {
+	                    'title'		: 'Foutmelding',
+	                    'message' 	: message
+	                };
+	            }
+	
+	            this.setPlaceholders($error, message).appendTo(this.$element);
+	
+	            this.$errors.push($error);
+	
+				if (!fatal) {
+		            setTimeout($.proxy(function(event) {
+		                if ($error = this.$errors.shift()) {
+		                    $error.remove();
+		                }
+		            }, this), 5000);
+		        }
 	        }
-        }
+	    }
 
         return false;
     };
@@ -439,7 +460,7 @@ $(document).ready(function() {
                     wrapper = $placeholder.attr('data-placeholder-wrapper'),
                     renders	= $placeholder.attr('data-placeholder-renders'),
                     value 	= this.getPlaceholderValue(name, data, renders),
-                    isEmpty	= null === value || '' === value;
+                    isEmpty	= null === value || undefined === value || '' === value;
 
                 switch (type) {
                     case 'IMG':
@@ -527,8 +548,10 @@ $(document).ready(function() {
 
 			    	switch (render[0]) {
 				    	case 'striptags':
-				    		value = value.replace(/<\/?[^>]+>/gi, '');
+				    		var regex = render[1] ? new RegExp('<(?!\/?(' + render[1] + ')+)[^>]+>', 'gi') : new RegExp('<\/?[^>]+>', 'gi');
 				    		
+				    		value = value.replace(regex, '');
+
 				    		break;
 				    	case 'ellipsis':
 				    		var ellipsis = render[1] ? parseInt(render[1]) : 100;
@@ -545,11 +568,23 @@ $(document).ready(function() {
 				    		}
 				    		
 				    		break;
+				    	case 'youtube':
+			    			var parts = value.replace(/\/$/gm, '').split('/');
+	
+			    			if (undefined !== (value = parts[parts.length - 1])) {
+				    			if (undefined !== (value = value.replace(/watch\?v=/gi, '').split(/[?#]/)[0])) {
+						    		var value = 'https://www.youtube.com/embed/' + value + '?autoplay=1&controls=0&rel=0&showinfo=0';
+				    			}
+			    			}
+
+				    		break;
 			    	}
 		    	}
 		    	
-		    	value = value.replace(/<\s*(\w+).*?>/gi, '<\$1>');
-				value = value.replace(/<\/?(span|a)[^>]*>/gi, '');
+		    	if (undefined !== value) {
+		    		value = value.replace(/<\s*(\w+).*?>/gi, '<\$1>');
+					value = value.replace(/<\/?(span|a)[^>]*>/gi, '');
+				}
 		    }
 		}
 	    
@@ -621,81 +656,90 @@ $(document).ready(function() {
     /**
      * Gets a slide template and initializes the slide.
      * @public.
-     * @param {current} integer - The slide to initialize.
+     * @param {Data} array - The slide data.
      */
-    Narrowcasting.prototype.getSlide = function(current) {
-	    console.log('getSlide: (current: ' + current + ')');
-	    
-        if (this.data[current]) {
-            var data = $.extend({}, {
-                'slide' : 'default'
-            }, this.data[current]);
-            
-            console.log('getSlide: (current: ' + current + ', title: ' + data.title + ')');
-            
-            if ($slide = this.getTemplate(data.slide, this.$templates)) {
-                $slide.prependTo($('.slides', this.$element));
+    Narrowcasting.prototype.getSlide = function(data) {
+        console.log('getSlide: (title: ' + data.title + ')');
 
-                if (data.fullscreen) {
-                    this.$element.addClass('slide-fullscreen');
+        if ($slide = this.getTemplate(data.slide, this.$templates)) {
+            $slide.prependTo($('.slides', this.$element));
+
+            if (plugin = this.getSlidePlugin(data.slide)) {
+                if ($.fn[plugin]) {
+                    $slide[plugin](data, this);
                 } else {
-                    this.$element.removeClass('slide-fullscreen');
-                }
-                
-                if (plugin = this.getSlidePlugin(data.slide)) {
+                    var plugin = this.getSlidePlugin('default');
+
                     if ($.fn[plugin]) {
                         $slide[plugin](data, this);
                     } else {
-                        var plugin = this.getSlidePlugin('default');
-
-                        if ($.fn[plugin]) {
-                            $slide[plugin](data, this);
-                        } else {
-                            this.setTimer(data.time);
-                        }
+                        this.setTimer(data.time);
                     }
-                } else {
-                    this.setTimer(data.time);
                 }
-
-                return $slide;
             } else {
-	            this.skipSlide();
+                this.setTimer(data.time);
             }
-        }
 
+            return $slide;
+        }
+        
         return null;
     };
-
-	/**
-     * Skips the current slide and animate next slide.
-     * @public.
-     */
-    Narrowcasting.prototype.skipSlide = function() {
-	    console.log('skipSlide');
-	    
-	    this.nextSlide();
-	};
 	
     /**
      * Sets the next slide and animate current en next slide.
      * @public.
      */
     Narrowcasting.prototype.nextSlide = function() {
-	    console.log('nextSlide');
+	    var next = this.getCurrent();
 	    
-        if ($slide = this.getSlide(this.getCurrent())) {
-            $slide.hide().fadeIn(this.settings.animationTime * 1000);
-
-            if ($current = this.$slides.shift()) {
-                $current.show().fadeOut(this.settings.animationTime * 1000, $.proxy(function() {
-                    $current.remove();
-                }, this));
-            }
-
-            this.$slides.push($slide);
-        }
+	    console.log('nextSlide: (next: ' + next + ')');
+	    
+	    if (this.data[next]) {
+		    var data = $.extend({}, {
+                'slide' : 'default'
+            }, this.data[next]);
+            
+	        if ($slide = this.getSlide(data)) {
+		        if (data.fullscreen) {
+			        this.$element.addClass('slide-fullscreen');
+			        
+			        this.$element.addClass('window-fullscreen');
+                } else {
+	                this.$element.removeClass('window-fullscreen');
+                }
+	                
+	            $slide.hide().fadeIn(this.settings.animationTime * 1000);
+	
+	            if ($current = this.$slides.shift()) {
+	                $current.show().fadeOut(this.settings.animationTime * 1000, $.proxy(function() {
+		                if (!data.fullscreen) {
+							this.$element.removeClass('slide-fullscreen');
+                		}
+	                
+	                    $current.remove();
+	                }, this));
+	            }
+	
+	            this.$slides.push($slide);
+	        } else {
+		    	this.skipSlide('Geen slide aanwezig'); 
+	        }
+	    } else {
+		    this.skipSlide('Geen data aanwezig');
+	    }
     };
+    
+    /**
+     * Skips the current slide and animate next slide.
+     * @public.
+     * @param {Message} string - The message of skip.
+     */
+    Narrowcasting.prototype.skipSlide = function(message) {
+	    console.log('skipSlide: (message: ' + message + ')');
+	    
+	    this.nextSlide();
+	};
 
     /**
      * Gets the plugin name of the slide.
@@ -1056,14 +1100,14 @@ $(document).ready(function() {
                     '%D'	: this.getText(date.getDay(), 'days').toString().substr(0, 3),
                     '%l'	: this.getText(date.getDay(), 'days').toString(),
                     '%W'	: date.getDay(),
-                    '%M'	: this.getText(date.getMonth() + 1, 'months').toString().substr(0, 3),
-                    '%F'	: this.getText(date.getMonth() + 1, 'months').toString(),
-                    '%m'	: this.getZero(date.getMonth() + 1),
+                    '%M'	: this.getText(date.getMonth(), 'months').toString().substr(0, 3),
+                    '%F'	: this.getText(date.getMonth(), 'months').toString(),
+                    '%m'	: this.getZero(date.getMonth()),
                     '%n'	: date.getMonth() + 1,
                     '%y'	: date.getFullYear().toString().substr(2, 2),
                     '%Y'	: date.getFullYear().toString()
                 };
-
+			
             if ($time[0]) {
                 var string = this.settings.formatTime;
 
@@ -1248,6 +1292,8 @@ $(document).ready(function() {
      * @protected.
      */
     Newsticker.prototype.initialize = function() {
+	    console.log('Newsticker initialize');
+	    
         if (null === this.settings.feed) {
             this.core.setError('Newsticker feed is niet ingesteld.');
         } else {
@@ -1266,19 +1312,27 @@ $(document).ready(function() {
      * @protected.
      */
     Newsticker.prototype.loadData = function() {
+	    console.log('Newsticker loadData');
+	    
         $.ajax({
             'url'		: this.settings.feed + this.getUrlParameters(),
             'dataType'	: this.settings.feedType.toUpperCase(),
             'complete'	: $.proxy(function(result) {
                 if (200 == result.status) {
-                    this.data = [];
-
                     switch (this.settings.feedType.toUpperCase()) {
                         case 'JSON':
                             if (result.responseJSON) {
-                                for (var i = 0; i < result.responseJSON.items.length; i++) {
-                                    this.data.push(result.responseJSON.items[i]);
-                                }
+	                            if (0 < result.responseJSON.items.length) {
+		                            this.data = new Array();
+		                            
+                                	for (var i = 0; i < result.responseJSON.items.length; i++) {
+										this.data.push(result.responseJSON.items[i]);
+                                	}
+                                } else {
+		                            this.loadData();
+	                            }
+                                
+                                console.log('Newsticker loadData: (slides: ' + result.responseJSON.items.length + ')');
                             } else {
                                 this.core.setError('Newsticker feed kon niet gelezen worden (Formaat: ' + this.settings.feedType.toUpperCase() + ').');
                             }

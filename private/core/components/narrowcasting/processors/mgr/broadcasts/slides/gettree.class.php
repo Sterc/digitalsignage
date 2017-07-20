@@ -24,7 +24,7 @@
 		 * @access public.
 		 * @var String.
 		 */
-		public $classKey = 'NarrowcastingSlides';
+		public $classKey = 'NarrowcastingBroadcastsSlides';
 		
 		/**
 		 * @access public.
@@ -72,10 +72,11 @@
 		 * @return Object.
 		 */
 		public function prepareQueryBeforeCount(xPDOQuery $c) {
-			$c->select($this->modx->getSelectColumns('NarrowcastingSlides', 'NarrowcastingSlides'));
-			$c->select($this->modx->getSelectColumns('NarrowcastingBroadcastsSlides', 'NarrowcastingBroadcastsSlides', 'c_', array('id')));
+			$c->select($this->modx->getSelectColumns('NarrowcastingBroadcastsSlides', 'NarrowcastingBroadcastsSlides'));
+			$c->select($this->modx->getSelectColumns('NarrowcastingSlides', 'NarrowcastingSlides', null, array('name', 'type', 'published')));
 			
-			$c->innerjoin('NarrowcastingBroadcastsSlides', 'NarrowcastingBroadcastsSlides', array('NarrowcastingSlides.id = NarrowcastingBroadcastsSlides.slide_id'));
+			//$c->innerjoin('NarrowcastingBroadcastsSlides', 'NarrowcastingBroadcastsSlides', array('NarrowcastingSlides.id = NarrowcastingBroadcastsSlides.slide_id'));
+			$c->innerjoin('NarrowcastingSlides', 'NarrowcastingSlides', array('NarrowcastingBroadcastsSlides.slide_id = NarrowcastingSlides.id'));
 			
 			$broadcast = $this->getProperty('broadcast_id');
 			
@@ -100,22 +101,24 @@
 			if (0 == $object->published) {
 				$class[] = 'unpublished';
 			}
-			
-			if (null !== ($type = $object->getOne('getSlideType'))) {
-				if (!empty($type->icon)) {
-					$icon = 'icon-'.$type->icon;
+
+			if (null !== ($slide = $object->getOne('getSlide'))) {
+				if (null !== ($type = $slide->getOne('getSlideType'))) {
+					if (!empty($type->icon)) {
+						$icon = 'icon-'.$type->icon;
+					}
 				}
 			}
-			
+
 			return array(
-				'id' 		=> 'n_slide:'.$object->id.'_id:'.$object->c_id,
+				'id' 		=> 'n_slide:'.$object->slide_id.'_id:'.$object->id,
 	            'text' 		=> $object->name,
 	            'cls' 		=> implode(' ', $class),
 	            'iconCls' 	=> empty($icon) ? 'icon-file' : $icon,
 	            'loaded'	=> true,
 	            'leaf'		=> true,
 	            'data' 		=> array_merge($object->toArray(), array(
-	            	'c_id'		=> $object->c_id
+	            	'c_id'		=> $object->id
 	            )),
 	            'pk'		=> $this->getProperty('broadcast_id')
 	        );

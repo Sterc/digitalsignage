@@ -19,85 +19,48 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 	 
-	class NarrowcastingSlidesTypesGetListProcessor extends modObjectGetListProcessor {
+	class NarrowcastingSlideTypesRemoveProcessor extends modObjectRemoveProcessor {
 		/**
-		 * @access public.
+		 * @acces public.
 		 * @var String.
 		 */
 		public $classKey = 'NarrowcastingSlidesTypes';
 		
 		/**
-		 * @access public.
+		 * @acces public.
 		 * @var Array.
 		 */
-		public $languageTopics = array('narrowcasting:default', 'narrowcasting:slides');
+		public $languageTopics = array('narrowcasting:default');
 		
 		/**
 		 * @access public.
 		 * @var String.
 		 */
-		public $defaultSortField = 'key';
+		public $primaryKeyField = 'key';
 		
 		/**
-		 * @access public.
-		 * @var String.
-		 */
-		public $defaultSortDirection = 'ASC';
-		
-		/**
-		 * @access public.
+		 * @acces public.
 		 * @var String.
 		 */
 		public $objectType = 'narrowcasting.slidestypes';
 		
 		/**
-		 * @access public.
+		 * @acces public.
 		 * @var Object.
 		 */
 		public $narrowcasting;
 		
 		/**
-		 * @access public.
+		 * @acces public.
 		 * @return Mixed.
 		 */
 		public function initialize() {
 			$this->narrowcasting = $this->modx->getService('narrowcasting', 'Narrowcasting', $this->modx->getOption('narrowcasting.core_path', null, $this->modx->getOption('core_path').'components/narrowcasting/').'model/narrowcasting/');
-			
+
 			return parent::initialize();
 		}
-		
-		/**
-		 * @access public.
-		 * @param Object $object.
-		 * @return Array.
-		 */
-		public function prepareRow(xPDOObject $object) {
-			$array = array_merge($object->toArray(), array(
-				'name_formatted' 			=> $object->name,
-				'description_formatted' 	=> $object->description,
-				'data'						=> unserialize($object->data)
-			));
-			
-			if (empty($object->name)) {
-				$translationKey = 'narrowcasting.slide_'.$object->key;
-				
-				if ($translationKey !== ($translation = $this->modx->lexicon($translationKey))) {
-					$array['name_formatted'] = $translation;
-				}
-			}
-			
-			if (empty($object->description)) {
-				$translationKey = 'narrowcasting.slide_'.$object->key.'_desc';
-				
-				if ($translationKey !== ($translation = $this->modx->lexicon($translationKey))) {
-					$array['description_formatted'] = $translation;
-				}
-			}
-
-			return $array;
-		}
 	}
-
-	return 'NarrowcastingSlidesTypesGetListProcessor';
+	
+	return 'NarrowcastingSlideTypesRemoveProcessor';
 	
 ?>

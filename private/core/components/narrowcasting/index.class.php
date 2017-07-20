@@ -47,7 +47,7 @@
 		}
 
 		/**
-		 * @acces public.
+		 * @access public.
 		 * @return Array.
 		 */
 		public function getLanguageTopics() {
@@ -55,18 +55,18 @@
 		}
 
 		/**
-		 * @acces public.
+		 * @access public.
 		 * @returns Boolean.
 		 */
 		public function checkPermissions() {
-			return true;
+			return $this->modx->hasPermission('narrowcasting');
 		}
 
 	}
 
 	class IndexManagerController extends NarrowcastingManagerController {
 		/**
-		 * @acces public.
+		 * @access public.
 		 * @return String.
 		 */
 		public static function getDefaultController() {

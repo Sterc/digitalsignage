@@ -71,53 +71,65 @@
 				$this->failure($this->modx->lexicon('invalid_data'));
 			}
 			
-			$index = 1;
-			$nodes = array();
-			
-			foreach ($data as $key => $children) {
-				$node = $this->getNodeID($key);
+			$c = array(
+				'id' => $this->getProperty('source_pk')	
+			);
+
+			if (null !== ($broadcast = $this->modx->getObject('NarrowcastingBroadcasts', $c))) {
+				$index = 1;
+				$nodes = array();
 				
-				if (empty($children)) {
-					if (isset($node['id'])) {
-						$c = array(
-							'id' => $node['id']	
-						);
-						
-						if (null !== ($object = $this->modx->getObject('NarrowcastingBroadcastsSlides', $c))) {
-							$object->fromArray(array(
-								'broadcast_id'	=> $this->getProperty('source_pk'),
-								'slide_id'		=> $node['slide'],
-								'sortindex' 	=> $index
-							));
-							
-							if ($object->save()) {
-								$nodes[$key] = array(
-									'id'		=> 'n_slide:'.$object->slide_id.'_id:'.$object->id,
-									'data'		=> $object->toArray()
-								);
-							}
-							
-							
-						}
-					} else {
-						if (null !== ($object = $this->modx->newObject('NarrowcastingBroadcastsSlides'))) {
-							$object->fromArray(array(
-								'broadcast_id'	=> $this->getProperty('source_pk'),
-								'slide_id'		=> $node['slide'],
-								'sortindex'		=> $index
-							));
-							
-							if ($object->save()) {
-								$nodes[$key] = array(
-									'id'		=> 'n_slide:'.$object->slide_id.'_id:'.$object->id,
-									'data'		=> $object->toArray()
-								);
-							}
-						}
-					}
+				foreach ($data as $key => $children) {
+					$node = $this->getNodeID($key);
 					
-					$index++;
+					if (empty($children)) {
+						if (isset($node['id'])) {
+							$c = array(
+								'id' => $node['id']	
+							);
+							
+							if (null !== ($object = $this->modx->getObject('NarrowcastingBroadcastsSlides', $c))) {
+								$object->fromArray(array(
+									'broadcast_id'	=> $broadcast->id,
+									'slide_id'		=> $node['slide'],
+									'sortindex' 	=> $index
+								));
+								
+								if ($object->save()) {
+									$nodes[$key] = array(
+										'id'		=> 'n_slide:'.$object->slide_id.'_id:'.$object->id,
+										'data'		=> $object->toArray()
+									);
+								}
+								
+								
+							}
+						} else {
+							if (null !== ($object = $this->modx->newObject('NarrowcastingBroadcastsSlides'))) {
+								$object->fromArray(array(
+									'broadcast_id'	=> $broadcast->id,
+									'slide_id'		=> $node['slide'],
+									'sortindex'		=> $index
+								));
+								
+								if ($object->save()) {
+									$nodes[$key] = array(
+										'id'		=> 'n_slide:'.$object->slide_id.'_id:'.$object->id,
+										'data'		=> $object->toArray()
+									);
+								}
+							}
+						}
+						
+						$index++;
+					}
 				}
+				
+				$broadcast->fromArray(array(
+					'hash' => time()
+				));
+				
+				$broadcast->save();
 			}
 	
 			return $this->outputArray($nodes);

@@ -1,5 +1,5 @@
 <?php
-
+	
 	/**
 	 * Narrowcasting
 	 *
@@ -19,12 +19,12 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 
-	class NarrowcastingBroadcastsUpdateProcessor extends modObjectUpdateProcessor {
+	class NarrowcastingSlideTypesCreateProcessor extends modObjectCreateProcessor {
 		/**
 		 * @access public.
 		 * @var String.
 		 */
-		public $classKey = 'NarrowcastingBroadcasts';
+		public $classKey = 'NarrowcastingSlidesTypes';
 		
 		/**
 		 * @access public.
@@ -36,7 +36,13 @@
 		 * @access public.
 		 * @var String.
 		 */
-		public $objectType = 'narrowcasting.broadcasts';
+		//public $primaryKeyField = 'key';
+		
+		/**
+		 * @access public.
+		 * @var String.
+		 */
+		public $objectType = 'narrowcasting.slidestypes';
 		
 		/**
 		 * @access public.
@@ -45,58 +51,40 @@
 		public $narrowcasting;
 		
 		/**
-		 * @acces public.
+		 * @access public.
 		 * @return Mixed.
 		 */
 		public function initialize() {
 			$this->narrowcasting = $this->modx->getService('narrowcasting', 'Narrowcasting', $this->modx->getOption('narrowcasting.core_path', null, $this->modx->getOption('core_path').'components/narrowcasting/').'model/narrowcasting/');
-
-			$this->setDefaultProperties(array(
-				'hash' => time()	
-			));
+			
+			if (null !== ($key = $this->getProperty('key'))) {
+				$this->setProperty('key', strtolower(str_replace(array(' ', '-'), '_', $key)));	
+			}
 			
 			return parent::initialize();
 		}
 		
 		/**
-		 * @acces public.
+		 * @access public.
 		 * @return Mixed.
 		 */
 		public function beforeSave() {
-			$response = $this->modx->runProcessor('resource/update', array(
-				'id'			=> $this->getProperty('resource_id'),
-				'pagetitle' 	=> $this->getProperty('name'),
-				'description'	=> $this->getProperty('description'),
-				'alias'			=> $this->getProperty('name'),
-				'context_key'	=> $this->modx->getOption('narrowcasting.context'),
-				'template'		=> $this->getProperty('template'),
-				'show_in_tree'	=> 0
-			));
+			$this->object->set('key', $this->getProperty('key'));
 			
-			if ($response->isError()) {
-				foreach ($response->getFieldErrors() as $error) {
-					$this->addFieldError('name', $error->message);
-				}
+			$criteria = array(
+				'key' => $this->getProperty('key')	
+			);
+			
+			if (!preg_match('/^([a-zA-Z0-9\_\-]+)$/si', $this->getProperty('key'))) {
+				$this->addFieldError('key', $this->modx->lexicon('narrowcasting.error_slide_type_character'));
+			} else if ($this->doesAlreadyExist($criteria)) {
+				$this->addFieldError('key', $this->modx->lexicon('narrowcasting.error_slide_type_exists'));
 			}
 			
-			if (null !== ($object = $response->getObject())) {
-				if (isset($object['id'])) {
-					$this->object->set('resource_id', $object['id']);
-				} else {
-					$this->addFieldError('name', $this->modx->lexicon('error_resource_object'));
-				}
-			} else {
-				$this->addFieldError('name', $this->modx->lexicon('error_resource_object'));
-			}
-			
-			if (!preg_match('/^(http|https)/si', $this->getProperty('ticker_url'))) {
-				$this->setProperty('url', 'http://'.$this->getProperty('ticker_url'));
-			}
-
 			return parent::beforeSave();
 		}
 	}
 	
-	return 'NarrowcastingBroadcastsUpdateProcessor';
+	return 'NarrowcastingSlideTypesCreateProcessor';
 	
 ?>

@@ -4,6 +4,6 @@ Narrowcasting
 
 ----------------------
 Version: 1.0.0
-Released: 0000-00-00
+Released: 2017-07-20
 ----------------------
 - First release

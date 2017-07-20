@@ -29,7 +29,9 @@
 			'name'			=> null,
 			'description'	=> null,
 			'icon'			=> null,
-			'data'			=> null
+			'time'			=> null,
+			'data'			=> null,
+			'editedon'		=> null
 		),
 		'fieldMeta'	=> array(
 			'key' 		=> array(
@@ -57,9 +59,21 @@
 				'phptype' 	=> 'string',
 				'null' 		=> false
 			),
+			'time' 		=> array(
+				'dbtype' 	=> 'int',
+				'precision' => '3',
+				'phptype' 	=> 'integer',
+				'null' 		=> false
+			),
 			'data' 		=> array(
 				'dbtype' 	=> 'text',
 				'phptype' 	=> 'string',
+				'null' 		=> false
+			),
+			'editedon' 	=> array(
+				'dbtype' 	=> 'timestamp',
+				'phptype' 	=> 'timestamp',
+				'attributes' => 'ON UPDATE CURRENT_TIMESTAMP',
 				'null' 		=> false
 			)
 		),

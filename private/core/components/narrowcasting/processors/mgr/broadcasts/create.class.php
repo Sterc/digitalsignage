@@ -83,10 +83,10 @@
 				if (isset($object['id'])) {
 					$this->object->set('resource_id', $object['id']);
 				} else {
-					$this->addFieldError('name', 'Er is een fout opgetreden...');
+					$this->addFieldError('name', $this->modx->lexicon('error_resource_object'));
 				}
 			} else {
-				$this->addFieldError('name', 'Er is een fout opgetreden...');
+				$this->addFieldError('name', $this->modx->lexicon('error_resource_object'));
 			}
 			
 			if (!preg_match('/^(http|https)/si', $this->getProperty('ticker_url'))) {

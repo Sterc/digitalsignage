@@ -20,7 +20,7 @@
 	 */
 
 	$_lang['narrowcasting.slide_default'] 							= 'Default';
-	$_lang['narrowcasting.slide_default_desc'] 						= 'A default slide with content and a image.';
+	$_lang['narrowcasting.slide_default_desc'] 						= 'A default slide with content and an image.';
 	$_lang['narrowcasting.slide_default_content']					= 'Content';
 	$_lang['narrowcasting.slide_default_content_desc']				= 'The main content of the slide.';
 	$_lang['narrowcasting.slide_default_image']						= 'Image';
@@ -38,6 +38,13 @@
 	$_lang['narrowcasting.slide_socialmedia_query']					= 'Query';
 	$_lang['narrowcasting.slide_socialmedia_query_desc']			= 'The query of the social media message, example #hastag.';
 
+	$_lang['narrowcasting.slide_media'] 							= 'Media';
+	$_lang['narrowcasting.slide_media_desc'] 						= 'A slide with a Youtube video.';
+	$_lang['narrowcasting.slide_media_youtube']						= 'Youtube';
+	$_lang['narrowcasting.slide_media_youtube_desc']				= 'The ID or URL of the Youtube video.';
+	$_lang['narrowcasting.slide_media_fullscreen']					= 'Play the Youtube video fullscreen.';
+	$_lang['narrowcasting.slide_media_fullscreen_desc']				= '';
+	
 	$_lang['narrowcasting.feed_nu']									= 'Nu.nl';
 	$_lang['narrowcasting.feed_nu_desc']							= 'The default RSS feed of Nu.nl.';
 	$_lang['narrowcasting.feed_nos']								= 'NOS';

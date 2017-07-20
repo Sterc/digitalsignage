@@ -78,6 +78,14 @@ h1 {
 	margin: 0 0 2.8vh;
 }
 
+h2, h3, h4 {
+	color: #b21181;
+	font-size: 4.6vh;
+	line-height: 6.6vh;
+	font-weight: 600px;
+	margin: 0 0 2.8vh;
+}
+
 p, ul {
 	margin: 0 0 2.8vh;
 }
@@ -162,12 +170,13 @@ p, ul {
 	position: absolute;
 	top: 0;
 	left: 0;
+	visibility: hidden;
 	z-index: 1000 !important;
 }
 
 .timer.timer-vertical {
 	width: 1vh;
-	height: 91vh;
+	height: 100%;
 }
 
 .timer.timer-horizontal {
@@ -183,11 +192,11 @@ p, ul {
 
 .timer.timer-vertical span {
 	width: 100%;
-	height: 50%;
+	height: 0;
 }
 
 .timer.timer-horizontal span {
-	width: 50%;
+	width: 0;
 	height: 100%;
 }
 
@@ -201,6 +210,14 @@ p, ul {
 	background: #b21181;
 	overflow: hidden;
 	z-index: 1000 !important;
+	opacity: 1;
+	-webkit-transition: opacity 1s linear;
+	   -moz-transition: opacity 1s linear;
+	   		transition: opacity 1s linear;
+}
+
+.window-fullscreen .ticker {
+	opacity: 0;
 }
 
 .ticker .ticker-inner {
@@ -244,20 +261,28 @@ p, ul {
 	height: 15vh;
 	width: 100vw;
 	border-bottom: 1vh solid #b21181;
-	z-index: 100;
+	z-index: 100 !important;
+	opacity: 1;
+	-webkit-transition: opacity 1s linear;
+	   -moz-transition: opacity 1s linear;
+	   		transition: opacity 1s linear;
+}
+
+.window-fullscreen .header {
+	opacity: 0;
 }
 
 /* Logo */
 
 .logo {
 	position: absolute;
-	top: 1.5vh;
+	top: 0.5vh;
 	left: 3.5vw;
 	z-index: 100;
 }
 
 .logo img {
-	height: 11vh;
+	height: 14vh;
 	width: auto;
 }
 
@@ -331,7 +356,6 @@ p, ul {
 	position: absolute;
 	top: 19.5vh;
 	left: 3.5vw;
-	/*right: 52.5vw;*/
 	right: 3.5vw;
 	bottom: 13.5vh;
 	overflow: hidden;
@@ -340,13 +364,12 @@ p, ul {
 .slides .slide.slide-default .slide-inner .content .image {
 	float: right;
 	width: 41vw;
-	height: 50vh;
-	margin: 4vh 1vw 4vh 4vw;
+	height: 60vh;
+	margin: 0vh 2vw 4vh 5vw;
+	padding: 0 2vw 2vw 0;
 	overflow: hidden;
 	z-index: 100;
-	-webkit-box-shadow: 1vw 1vw 0 0 #e0e0e0;
-	   -moz-box-shadow: 1vw 1vw 0 0 #e0e0e0;
-	   		box-shadow: 1vw 1vw 0 0 #e0e0e0;
+	position: relative;
 }
 
 .slides .slide.slide-default .slide-inner .content .image.is-empty {
@@ -355,272 +378,37 @@ p, ul {
 
 .slides .slide.slide-default .slide-inner .content .image img {
 	width: auto;
-	height: 100%;
-	margin-left: 50%;
-	transform: translateX(-50%)
+	height: auto;
+	max-width: 39vw;
+	max-height: 56vh;
+	box-shadow: 1vw 1vw 0 0 #e0e0e0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 /* ----------------------------------------------------------------------------------------- */
-/* ----- Buienradar Slide ------------------------------------------------------------------ */
+/* ----- Media Slide ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------- */
 
-.slides .slide.slide-buienradar .slide-inner .weather-content {
-	position: relative;
-	float: left;
-	width: 50%;
-	height: 100%;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content {
+.slides .slide.slide-media .slide-inner .content {
 	position: absolute;
-	top: 10%;
-	left: 72px;
-	right: 72px;
-	bottom: 186px;
-	overflow: hidden;
-	color: #152b81;
-	font-size: 45px;
-	line-height: 70px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content h1 {
-	color: #2a2a2a;
-	padding: 0 0 0 200px;
-	margin: 0 0 120px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul {
-	position: relative;
-	list-style-type: none;
-	padding: 0;
-	margin: 0 0 45px;
-	border-top: 3px solid #e2e2e2;
+	top: 19.5vh;
+	left: 3.5vw;
+	right: 3.5vw;
+	bottom: 13.5vh;
 	overflow: hidden;
 }
 
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li {
-	width: 100%;
-	padding: 24px 0;
-	border-bottom: 3px solid #e2e2e2;
-	overflow: hidden;
+.slide-fullscreen .slides .slide.slide-media .slide-inner .content {
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
 }
 
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li strong,
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li > span {
-	float: left;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li strong {
-	width: 40%;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon {
-	width: 15%;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode {
-	display: block !important;
-	width: 70px;
-	height: 70px;
-	overflow: hidden;
-	text-indent: -999999px;
-	background: url('../images/slide-buienradar-icons.svg') no-repeat 0 0;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.a {
-	background-position: 0 0;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.aa {
-	background-position: -70px 0;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.b {
-	background-position: 0 -70px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.bb {
-	background-position: -70px -70px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.c {
-	background-position: 0 -140px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.cc {
-	background-position: -70px -140px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.d {
-	background-position: 0 -210px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.dd {
-	background-position: -70px -210px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.f {
-	background-position: 0 -280px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.ff {
-	background-position: -70px -280px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.g {
-	background-position: 0 -350px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.gg {
-	background-position: -70px -350px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.h {
-	background-position: 0 -420px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.hh {
-	background-position: -70px -420px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.i {
-	background-position: 0 -490px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.ii {
-	background-position: -70px -490px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.j {
-	background-position: 0 -560px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.jj {
-	background-position: -70px -560px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.k {
-	background-position: 0 -630px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.kk {
-	background-position: -70px -630px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.l {
-	background-position: 0 -700px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.ll {
-	background-position: -70px -700px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.m {
-	background-position: 0 -770px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.mm {
-	background-position: -70px -770px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.n {
-	background-position: 0 -840px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.nn {
-	background-position: -70px -840px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.o {
-	background-position: 0 -910px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.oo {
-	background-position: -70px -910px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.p {
-	background-position: 0 -980px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.pp {
-	background-position: -70px -980px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.q {
-	background-position: 0 -1050px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.qq {
-	background-position: -70px -1050px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.r {
-	background-position: 0 -1120px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.rr {
-	background-position: -70px -1120px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.s {
-	background-position: 0 -1190px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.ss {
-	background-position: -70px -1190px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.t {
-	background-position: 0 -1260px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.tt {
-	background-position: -70px -1260px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.u {
-	background-position: 0 -1330px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.uu {
-	background-position: -70px -1330px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.v {
-	background-position: 0 -1400px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.vv {
-	background-position: -70px -1400px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.w {
-	background-position: 0 -1470px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .icon .iconcode.ww {
-	background-position: -70px -1470px;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .temprature {
-	width: 25%;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-content .content ul li .wind {
-	width: 20%;
-	text-align: right;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-radar {
-	position: relative;
-	float: right;
-	width: 50%;
-	height: 100%;
-}
-
-.slides .slide.slide-buienradar .slide-inner .weather-radar img {
-	position: absolute;
+.slides .slide.slide-media .slide-inner .content .video {
 	width: 100%;
 	height: 100%;
 }

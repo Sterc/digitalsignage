@@ -1,0 +1,37 @@
+<?php
+
+	$plugins = array();
+	
+	foreach (glob($sources['plugins'].'/*.php') as $key => $value) {
+		$name = str_replace('.plugin.php', '', substr($value, strrpos($value, '/') + 1, strlen($value)));
+		
+		$plugins[$name] = $modx->newObject('modPlugin');
+		$plugins[$name]->fromArray(array(
+			'id' 			=> 1,
+			'name'			=> ucfirst($name),
+			'description'	=> PKG_NAME.' '.PKG_VERSION.'-'.PKG_RELEASE.' plugin for MODx Revolution',
+            'static'        => '1',
+            'static_file'   => '/components/'.PKG_NAME_LOWER.'/elements/plugins/'.$name.'.plugin.php',
+            'source'        => '4',
+			'content'		=> getSnippetContent($value)
+		));
+		
+		if (file_exists(__DIR__.'/events/'.$name.'.events.php')) {
+			$events = array();
+			
+			foreach (include_once __DIR__.'/events/'.$name.'.events.php' as $key => $value) {
+				$events[$key]= $modx->newObject('modPluginEvent');
+				$events[$key]->fromArray($value, '', true, true);
+			}
+			
+			$plugins[$name]->addMany($events);
+		}
+		
+		if (file_exists(__DIR__.'/properties/'.$name.'.plugin.properties.php')) {
+			$plugins[$name]->setProperties(include_once __DIR__.'/properties/'.$name.'.plugin.properties.php');
+		}
+	}
+		
+	return $plugins;
+
+?>

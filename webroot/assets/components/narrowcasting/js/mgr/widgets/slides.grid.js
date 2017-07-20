@@ -265,13 +265,19 @@ Narrowcasting.window.CreateSlide = function(config) {
 		        	items		: [{
 			        	columnWidth	: .7,
 						items : [{
-				        	xtype		: 'numberfield',
+				        	xtype		: 'textfield',
 				        	fieldLabel	: _('narrowcasting.label_slide_time'),
 				        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_time_desc'),
 				        	name		: 'time',
+				        	id			: 'narrowcasting-window-slide-create-time',
 				        	anchor		: '100%',
 				        	allowBlank	: false,
-				        	value		: 10
+				        	listeners	: {
+					        	'change'	: {
+						        	fn 			: this.getSeconds,
+						        	scope 		: this
+					        	}
+				        	}
 				        }, {
 				        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
 				            html		: _('narrowcasting.label_slide_time_desc'),
@@ -316,27 +322,64 @@ Narrowcasting.window.CreateSlide = function(config) {
 };
 
 Ext.extend(Narrowcasting.window.CreateSlide, MODx.Window, {
+	getSeconds: function(tf, nv, ov) {
+		var time = tf.getValue();
+		
+		if (-1 !== time.search(':')) {
+			var res = time.split(':');
+			
+			if ('0' == res[0].substr(0, 1)) {
+				var minutes = parseInt(res[0].substr(1));
+			} else {
+				var minutes = parseInt(res[0]);
+			}
+			
+			if ('0' == res[1].substr(0, 1)) {
+				var seconds = parseInt(res[1].substr(1));
+			} else {
+				var seconds = parseInt(res[1]);
+			}
+			
+			tf.setValue((minutes * 60) + seconds);
+		}
+	},
 	getTypeFields: function(tf, nv, ov) {
 		var type = tf.getValue();
 
 		if (undefined != (record = tf.findRecord(tf.valueField, type))) {
+			if (undefined != (container = Ext.getCmp('narrowcasting-window-slide-create-time'))) {
+				container.setValue(record.data.time);
+			}
+			
 			if (undefined != (container = Ext.getCmp('narrowcasting-window-slide-create-fields'))) {
 				container.removeAll();
 
-				Ext.iterate(record.data.data, function(name, value) {
-					if (value.xtype === 'textarea') {
-						value.listeners = {
-                            'afterrender' : {
-								fn : function(data) {
-									if (typeof TinyMCERTE.Tiny !== 'undefined') {
-										MODx.loadRTE(data.id);
-									}
-								}
-							}
-						};
-					}
+				Ext.iterate(record.data.data, function(name, record) {
+					switch (record.xtype) {
+	                    case 'checkbox':
+	                    	record = Ext.apply(record, {
+		                    	hideLabel	: true,
+		                    	boxLabel	: _('narrowcasting.slide_' + type + '_' + name)
+	                        });
+	                        
+	                    	break;
+	                    case 'textarea':
+	                    	record = Ext.apply(record, {
+		                    	listeners	: {
+		                            'afterrender': {
+		                                fn: function(data) {
+		                                    if (typeof TinyMCERTE.Tiny !== 'undefined') {
+		                                        MODx.loadRTE(data.id);
+		                                    }
+		                                }
+		                            }
+		                        }
+	                        });
+	                        
+	                    	break;
+                    }
 
-					container.add(Ext.applyIf(value, {
+					container.add(Ext.applyIf(record, {
 						xtype 		: 'textarea',
 						fieldLabel	: _('narrowcasting.slide_' + type + '_' + name),
 						description	: MODx.expandHelp ? '' : _('narrowcasting.slide_' + type + '_' + name + '_desc'),
@@ -425,12 +468,19 @@ Narrowcasting.window.UpdateSlide = function(config) {
 		        	items		: [{
 			        	columnWidth	: .7,
 						items : [{
-				        	xtype		: 'numberfield',
+				        	xtype		: 'textfield',
 				        	fieldLabel	: _('narrowcasting.label_slide_time'),
 				        	description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_time_desc'),
 				        	name		: 'time',
+				        	id			: 'narrowcasting-window-slide-update-time',
 				        	anchor		: '100%',
-				        	allowBlank	: false
+				        	allowBlank	: false,
+				        	listeners	: {
+					        	'change'	: {
+						        	fn 			: this.getSeconds,
+						        	scope 		: this
+					        	}
+				        	}
 				        }, {
 				        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
 				            html		: _('narrowcasting.label_slide_time_desc'),
@@ -474,27 +524,65 @@ Narrowcasting.window.UpdateSlide = function(config) {
 };
 
 Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
+	getSeconds: function(tf, nv, ov) {
+		var time = tf.getValue();
+		
+		if (-1 !== time.search(':')) {
+			var res = time.split(':');
+			
+			if ('0' == res[0].substr(0, 1)) {
+				var minutes = parseInt(res[0].substr(1));
+			} else {
+				var minutes = parseInt(res[0]);
+			}
+			
+			if ('0' == res[1].substr(0, 1)) {
+				var seconds = parseInt(res[1].substr(1));
+			} else {
+				var seconds = parseInt(res[1]);
+			}
+			
+			tf.setValue((minutes * 60) + seconds);
+		}
+	},
 	getTypeFields: function(tf, nv, ov) {
 		var type = tf.getValue();
 
 		if (undefined != (record = tf.findRecord(tf.valueField, type))) {
+			if (undefined != (container = Ext.getCmp('narrowcasting-window-slide-update-time'))) {
+				container.setValue(record.data.time);
+			}
+			
 			if (undefined != (container = Ext.getCmp('narrowcasting-window-slide-update-fields'))) {
 				container.removeAll();
 
-				Ext.iterate(record.data.data, function(name, value) {
-                    if (value.xtype === 'textarea') {
-                        value.listeners = {
-                            'afterrender': {
-                                fn: function(data) {
-                                    if (typeof TinyMCERTE.Tiny !== 'undefined') {
-                                        MODx.loadRTE(data.id);
-                                    }
-                                }
-                            }
-                        };
+				Ext.iterate(record.data.data, function(name, record) {
+                    switch (record.xtype) {
+	                    case 'checkbox':
+	                    	record = Ext.apply(record, {
+		                    	hideLabel	: true,
+		                    	boxLabel	: _('narrowcasting.slide_' + type + '_' + name),
+		                    	checked		: this.config.record.data[name] == record.inputValue
+	                        });
+	                        
+	                    	break;
+	                    case 'textarea':
+	                    	record = Ext.apply(record, {
+		                    	listeners	: {
+		                            'afterrender': {
+		                                fn: function(data) {
+		                                    if (typeof TinyMCERTE.Tiny !== 'undefined') {
+		                                        MODx.loadRTE(data.id);
+		                                    }
+		                                }
+		                            }
+		                        }
+	                        });
+	                        
+	                    	break;
                     }
 
-					container.add(Ext.applyIf(value, {
+					container.add(Ext.applyIf(record, {
 						xtype 		: 'textarea',
 						fieldLabel	: _('narrowcasting.slide_' + type + '_' + name),
 						description	: MODx.expandHelp ? '' : _('narrowcasting.slide_' + type + '_' + name + '_desc'),
@@ -518,3 +606,30 @@ Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
 });
 
 Ext.reg('narrowcasting-window-slide-update', Narrowcasting.window.UpdateSlide);
+
+Narrowcasting.combo.SlidesTypes = function(config) {
+    config = config || {};
+    
+    Ext.applyIf(config, {
+        url			: Narrowcasting.config.connector_url,
+        baseParams 	: {
+            action		: 'mgr/slides/types/getnodes'
+        },
+        fields		: ['key', 'name', 'description', 'icon', 'time', 'data', 'name_formatted', 'description_formatted'],
+        hiddenName	: 'type',
+        pageSize	: 15,
+        valueField	: 'key',
+        displayField: 'name_formatted',
+        tpl			: new Ext.XTemplate('<tpl for=".">' + 
+        	'<div class="x-combo-list-item">' + 
+        		'<span style="font-weight: bold">{name_formatted}</span><br />{description_formatted}' + 
+			'</div>' + 
+		'</tpl>')
+    });
+    
+    Narrowcasting.combo.SlidesTypes.superclass.constructor.call(this,config);
+};
+
+Ext.extend(Narrowcasting.combo.SlidesTypes, MODx.combo.ComboBox);
+
+Ext.reg('narrowcasting-combo-slides-types', Narrowcasting.combo.SlidesTypes);

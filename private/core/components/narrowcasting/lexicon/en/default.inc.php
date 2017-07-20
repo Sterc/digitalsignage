@@ -24,16 +24,22 @@
 
 	$_lang['area_narrowcasting']									= 'Narrowcasting';
 
-	//$_lang['setting_narrowcasting.request_resource']				= '';
-	//$_lang['setting_narrowcasting.request_resource_desc']			= '';
-	//$_lang['setting_narrowcasting.request_param_broadcast']			= '';
-	//$_lang['setting_narrowcasting.request_param_broadcast_desc']	= '';
-	//$_lang['setting_narrowcasting.request_param_player']			= '';
-	//$_lang['setting_narrowcasting.request_param_player_desc']		= '';
-	//$_lang['setting_narrowcasting.context']							= '';
-	//$_lang['setting_narrowcasting.context_desc']					= '';
-	//$_lang['setting_narrowcasting.templates']						= '';
-	//$_lang['setting_narrowcasting.template_desc']					= '';
+	$_lang['setting_narrowcasting.auto_create_sync']				= 'Auto create synchronize';
+	$_lang['setting_narrowcasting.auto_create_sync_desc']			= 'Create automatically an synchronize when no synchronize available.';
+	$_lang['setting_narrowcasting.request_resource']				= 'Default request';
+	$_lang['setting_narrowcasting.request_resource_desc']			= 'The ID of the resource that you want to use as default request.';
+	$_lang['setting_narrowcasting.export_resource']					= 'Export request';
+	$_lang['setting_narrowcasting.export_resource_desc']			= 'The ID of the resource that you want to use as export request.';
+    $_lang['setting_narrowcasting.request_param_broadcast']			= 'Broadcast parameter';
+    $_lang['setting_narrowcasting.request_param_broadcast_desc']	= 'The name of the GET-parameter to identify the broadcast.';
+	$_lang['setting_narrowcasting.request_param_player']			= 'Player parameter';
+	$_lang['setting_narrowcasting.request_param_player_desc']		= 'The name of the GET-parameter to identify the player.';
+	$_lang['setting_narrowcasting.context']							= 'Context';
+	$_lang['setting_narrowcasting.context_desc']					= 'The default narrowcasting context.';
+	$_lang['setting_narrowcasting.templates']						= 'Templates';
+	$_lang['setting_narrowcasting.template_desc']					= 'The available templates for a broadcast. Separate multiple template ID\'s with a comma.';
+	$_lang['setting_narrowcasting.media_source']					= 'Media source';
+	$_lang['setting_narrowcasting.media_source_desc']				= 'The media source that is used for media files.';
 
 	$_lang['narrowcasting.broadcast']								= 'Broadcast';
 	$_lang['narrowcasting.broadcasts']								= 'Broadcasts';
@@ -81,7 +87,7 @@
 	$_lang['narrowcasting.label_feed_url']							= 'URL';
 	$_lang['narrowcasting.label_feed_url_desc']						= 'The URL of the feed.';
 	$_lang['narrowcasting.label_feed_time']							= 'Duration';
-	$_lang['narrowcasting.label_feed_time_desc']					= 'The duration of the slide in seconds.';
+	$_lang['narrowcasting.label_feed_time_desc']					= 'The duration of the slide in seconds or minutes.';
 	$_lang['narrowcasting.label_feed_frequency']					= 'Frequency';
 	$_lang['narrowcasting.label_feed_frequency_desc']				= 'The frequency of slides of the feed.';
 	$_lang['narrowcasting.label_feed_published']					= 'Published';
@@ -137,6 +143,25 @@
 	$_lang['narrowcasting.label_player_current_broadcast']			= 'Current broadcast';
 	$_lang['narrowcasting.label_player_current_broadcast_desc']		= 'The current broadcast of the player.';
 
+	$_lang['narrowcasting.slide_type']								= 'Slide type';
+	$_lang['narrowcasting.slide_types']								= 'Slide types';
+	$_lang['narrowcasting.slide_types_desc']						= 'Here you can manage all the available slide types for your narrowcasting.';
+	$_lang['narrowcasting.slide_type_create']						= 'Create new slide type';
+	$_lang['narrowcasting.slide_type_update']						= 'Update slide type';
+	$_lang['narrowcasting.slide_type_remove']						= 'Delete slide type';
+	$_lang['narrowcasting.slide_type_remove_confirm']				= 'Are you sure you want to delete this slide type?';
+	
+	$_lang['narrowcasting.label_slide_type_key']					= 'Key';
+    $_lang['narrowcasting.label_slide_type_key_desc']				= 'The key of the slide type.';
+	$_lang['narrowcasting.label_slide_type_name']					= 'Name';
+    $_lang['narrowcasting.label_slide_type_name_desc']				= 'The name of the slide type.';
+    $_lang['narrowcasting.label_slide_type_description']			= 'Description';
+    $_lang['narrowcasting.label_slide_type_description_desc']		= 'The description of the slide type.';
+    $_lang['narrowcasting.label_slide_type_icon']					= 'Icon';
+    $_lang['narrowcasting.label_slide_type_icon_desc']				= 'The icon of the slide type.';
+    $_lang['narrowcasting.label_slide_type_time']					= 'Duration';
+	$_lang['narrowcasting.label_slide_type_time_desc']				= 'The default duration of the slide in seconds or minutes.';
+    
 	$_lang['narrowcasting.label_schedule_broadcast']				= 'Broadcast';
 	$_lang['narrowcasting.label_schedule_broadcast_desc']			= 'The broadcast of the schedule.';
 	$_lang['narrowcasting.label_schedule_description']				= 'Description';
@@ -158,6 +183,8 @@
 	$_lang['narrowcasting.label_schedule_date']						= 'Date';
 	$_lang['narrowcasting.label_schedule_date_dec']					= '';
 
+	$_lang['narrowcasting.default_view']							= 'Default view';
+	$_lang['narrowcasting.admin_view']								= 'Admin view';
 	$_lang['narrowcasting.auto_refresh_grid']						= 'Auto refresh';
 	$_lang['narrowcasting.filter_broadcast']						= 'Filter on broadcast';
 	$_lang['narrowcasting.show_broadcast_preview']					= 'Show broadcast preview';
@@ -177,3 +204,9 @@
 	$_lang['narrowcasting.error_broadcast_player_exists']			= 'This mediabox is already connected to this broadcast. Specify another mediabox.';
 	$_lang['narrowcasting.error_broadcast_schedule_exists']			= 'There is already a schedule for this day: [[+schedule]]. Specify another schedule.';
 	$_lang['narrowcasting.error_player_resolution']					= 'Not a valid resolution (width x height (without spaces)).';
+	$_lang['narrowcasting.error_resource_object']					= 'An error has occurred during saving the broadcast resource.';
+	$_lang['narrowcasting.error_slide_type_character']				= 'The key contains forbidden characters. Please specify another key.';
+	$_lang['narrowcasting.error_slide_type_exists']					= 'A slide with that key already exists. Please specify another key.';
+	
+	
+?>
