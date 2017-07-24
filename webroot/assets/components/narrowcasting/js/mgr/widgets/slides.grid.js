@@ -328,13 +328,13 @@ Ext.extend(Narrowcasting.window.CreateSlide, MODx.Window, {
 		if (-1 !== time.search(':')) {
 			var res = time.split(':');
 			
-			if ('0' == res[0].substr(0, 1)) {
+			if ('0' == res[0].substr(0, 1) && res[0].length > 1) {
 				var minutes = parseInt(res[0].substr(1));
 			} else {
 				var minutes = parseInt(res[0]);
 			}
-			
-			if ('0' == res[1].substr(0, 1)) {
+
+			if ('0' == res[1].substr(0, 1) && res[1].length > 1) {
 				var seconds = parseInt(res[1].substr(1));
 			} else {
 				var seconds = parseInt(res[1]);
@@ -348,7 +348,9 @@ Ext.extend(Narrowcasting.window.CreateSlide, MODx.Window, {
 
 		if (undefined != (record = tf.findRecord(tf.valueField, type))) {
 			if (undefined != (container = Ext.getCmp('narrowcasting-window-slide-create-time'))) {
-				container.setValue(record.data.time);
+			    if ('' == container.getValue() || 0 == container.getValue()) {
+                    container.setValue(record.data.time);
+                }
 			}
 			
 			if (undefined != (container = Ext.getCmp('narrowcasting-window-slide-create-fields'))) {
@@ -529,18 +531,18 @@ Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
 		
 		if (-1 !== time.search(':')) {
 			var res = time.split(':');
-			
-			if ('0' == res[0].substr(0, 1)) {
-				var minutes = parseInt(res[0].substr(1));
-			} else {
-				var minutes = parseInt(res[0]);
-			}
-			
-			if ('0' == res[1].substr(0, 1)) {
-				var seconds = parseInt(res[1].substr(1));
-			} else {
-				var seconds = parseInt(res[1]);
-			}
+
+            if ('0' == res[0].substr(0, 1) && res[0].length > 1) {
+                var minutes = parseInt(res[0].substr(1));
+            } else {
+                var minutes = parseInt(res[0]);
+            }
+
+            if ('0' == res[1].substr(0, 1) && res[1].length > 1) {
+                var seconds = parseInt(res[1].substr(1));
+            } else {
+                var seconds = parseInt(res[1]);
+            }
 			
 			tf.setValue((minutes * 60) + seconds);
 		}
@@ -550,9 +552,11 @@ Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
 
 		if (undefined != (record = tf.findRecord(tf.valueField, type))) {
 			if (undefined != (container = Ext.getCmp('narrowcasting-window-slide-update-time'))) {
-				container.setValue(record.data.time);
+                if ('' == container.getValue() || 0 == container.getValue()) {
+                    container.setValue(record.data.time);
+                }
 			}
-			
+
 			if (undefined != (container = Ext.getCmp('narrowcasting-window-slide-update-fields'))) {
 				container.removeAll();
 
