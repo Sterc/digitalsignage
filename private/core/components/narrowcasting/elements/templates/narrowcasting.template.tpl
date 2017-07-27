@@ -16,80 +16,102 @@
 </head>
 
 <body>
-<div class="window window-[[!+narrowcasting.player.mode]] window-[[!+narrowcasting.player.resolution]]">
-	<!-- Error message -->
-	<div class="broadcast-error-message" data-template="error">
-		<div class="broadcast-error-message-inner">
-			<h2><span data-placeholder="title"></span></h2>
-			<p data-placeholder="message"></p>
-		</div>
-	</div>
+	<div class="window window-[[!+narrowcasting.player.mode]] window-[[!+narrowcasting.player.resolution]]">
+        <!-- Error message -->
+        <div class="broadcast-error-message" data-template="error">
+            <div class="broadcast-error-message-inner">
+                <h2><span data-placeholder="title"></span></h2>
+                <p data-placeholder="message"></p>
+            </div>
+        </div>
+        
+        <div class="header">
+			<!-- Logo -->
+			<div class="logo">
+				<img src="/narrowcasting/assets/interface/images/logo-text.svg" />
+			</div>
 
-	<!-- Ticker -->
-	<div class="ticker">
-		<div class="ticker-inner" data-placeholder="ticker">
-			<ul data-template="ticker">
-				<li data-template="item" data-placeholder-class="source">
+			<!-- Clock -->
+			<div class="clock" data-plugin="Clock" data-plugin-settings="{'formatTime': '%H:%I uur', 'formatDate': '%d %F %Y'}">
+				<div class="date" data-placeholder="date"></div>
+				<div class="time" data-placeholder="time"></div>
+			</div>
+			
+			<!-- Social Media -->
+            <div class="social-media" data-plugin="SocialMediaWidget" data-plugin-settings="{'feed': '/narrowcasting/socialmediawidget.json', 'feedType': 'JSON'}">
+                <div class="social-media-inner" data-placeholder="social-media">
+                    <div class="social-media-item" data-template="item">
+                        <div class="image">
+                            <img src="" data-placeholder="image" data-placeholder-wrapper="image" />
+                        </div>
+                        <div class="content">
+                            <div data-placeholder="content" data-placeholder-renders="striptags,ellipsis:100"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+		</div>
+
+        <!-- Ticker -->
+		<div class="ticker" data-plugin="Newsticker" data-plugin-settings="{'feed': '[[!+narrowcasting.broadcast.feed]]', 'feedType': 'JSON'}">
+			<div class="ticker-inner" data-placeholder="ticker">
+				<ul data-template="ticker">
+					<li data-template="item" data-placeholder-class="source">
 					    <span class="icons">
-					        <img src="/narrowcasting/assets/interface/images/ticker-icon-omrop-fryslan.svg" class="omrop-fryslan" />
+					        <span class="circle"></span>
 					    </span>
-					<span data-placeholder="title"></span>
-				</li>
-			</ul>
-		</div>
-	</div>
-
-	<div class="header">
-		<!-- Logo -->
-		<div class="logo">
-			<img src="/narrowcasting/assets/interface/images/logo-text.svg" />
-		</div>
-
-		<!-- Clock -->
-		<div class="clock">
-			<div class="time" data-placeholder="time"></div>
-			<div class="date" data-placeholder="date"></div>
-		</div>
-	</div>
-
-	<!-- Splides -->
-	<div class="slides">
-		<div data-template="default">
-			<div class="slide slide-default" data-placeholder-class="source">
-				<div class="slide-inner">
-					<div class="content">
-						<div class="image">
-							<img src="" data-placeholder="image" data-placeholder-wrapper="image" />
-						</div>
-						<h1 data-placeholder="title" data-placeholder-renders="striptags,ellipsis:150"></h1>
-						<div data-placeholder="content" data-placeholder-renders="striptags:p|h2|h3|h4|strong|em|span|br|ul|ol|li"></div>
-					</div>
-				</div>
+					    <span data-placeholder="title"></span>
+					</li>
+				</ul>
 			</div>
 		</div>
-		<div data-template="media">
-			<div class="slide slide-media">
-				<div class="slide-inner">
-					<div class="content">
-						<iframe src="" data-placeholder="youtube" data-placeholder-renders="youtube" class="video" frameborder="0" allowfullscreen></iframe>
-					</div>
-				</div>
-			</div>
-		</div>
+
+		<!-- Slides -->
+		<div class="slides" data-placeholder="slides">
+		    <div data-template="default">
+    			<div class="slide slide-default" data-placeholder-class="source">
+    				<div class="slide-inner">
+					    <div class="image">
+                            <img src="" data-placeholder="image" data-placeholder-wrapper="image" />
+                        </div>
+                        <div class="content">
+                            <div class="content-mask">
+        					    <h1 data-placeholder="title" data-placeholder-renders="striptags,ellipsis:150"></h1>
+        					    <div data-placeholder="content" data-placeholder-renders="striptags:p|h2|h3|h4|strong|em|span|br|ul|ol|li"></div>
+    					    </div>
+    					</div>
+    				</div>
+    			</div>
+            </div>
+            <div data-template="media">
+    			<div class="slide slide-media">
+    				<div class="slide-inner">
+    				    <div class="content">
+    					    <iframe src="" data-placeholder="youtube" data-placeholder-renders="youtube" class="video" frameborder="0" allowfullscreen></iframe>
+    					</div>
+    				</div>
+    			</div>
+            </div>
+    	</div>
 	</div>
-</div>
 
-<script type="text/javascript">
-    var player        = '[[!+narrowcasting.player.key]]',
-        broadcast     = '[[!+narrowcasting.broadcast.id]]',
-        broadcastFeed = '[[!+narrowcasting.broadcast.feed]]',
-        preview       = [[!+narrowcasting.preview]];
-</script>
+	<script type="text/javascript">
+    	var narrowcasting = {
+            'player'    : '[[!+narrowcasting.player.key]]',
+            'broadcast' : {
+                'id'        : '[[!+narrowcasting.broadcast.id]]',
+                'feed'      : '[[!+narrowcasting.broadcast.feed]]'
+            },
+            'callback'  : '[[!+narrowcasting.callback.feed]]',
+            'preview'   : [[!+narrowcasting.preview]]
+        }
+	</script>
 
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-<script type="text/javascript" src="/narrowcasting/assets/interface/javascript/modenizer.js"></script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+	<script type="text/javascript" src="/narrowcasting/assets/interface/javascript/modenizer.js"></script>
 
-<script type="text/javascript" src="/narrowcasting/assets/interface/javascript/narrowcasting.js"></script>
+    <script type="text/javascript" src="/narrowcasting/assets/interface/javascript/socialmedia.widget.js"></script>
+	<script type="text/javascript" src="/narrowcasting/assets/interface/javascript/narrowcasting.js"></script>
 
 </body>
 </html>

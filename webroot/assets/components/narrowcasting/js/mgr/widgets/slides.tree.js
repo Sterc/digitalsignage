@@ -8,6 +8,7 @@ Narrowcasting.tree.BroadcastSlides = function(config) {
 	    baseParams	: {
 		    broadcast_id : config.broadcast || null
 	    },
+        cls			: 'fixed-tree',
         root_id		: 'n_root',
         root_name	: _('narrowcasting.selected_slides'),
         rootVisible	: true,
@@ -87,6 +88,7 @@ Narrowcasting.tree.AvailableSlides = function(config) {
 	    baseParams	: {
 		    broadcast_id : config.broadcast || null
 	    },
+		cls			: 'fixed-tree',
         root_id		: 'n_root',
         root_name	: _('narrowcasting.available_slides'),
         rootVisible	: true,

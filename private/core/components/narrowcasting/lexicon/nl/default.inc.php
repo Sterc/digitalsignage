@@ -98,6 +98,7 @@
     $_lang['narrowcasting.slides_desc']								= 'Hier kun je alle slides van je narrowcasting beheren.';
     $_lang['narrowcasting.slide_create']							= 'Nieuwe slide';
     $_lang['narrowcasting.slide_update']							= 'Slide wijzigen';
+    $_lang['narrowcasting.slide_duplicate']							= 'Slide dupliceren';
     $_lang['narrowcasting.slide_remove']							= 'Slide verwijderen';
     $_lang['narrowcasting.slide_remove_confirm']					= 'Weet je zeker dat je deze slide wilt verwijderen?';
 
@@ -207,6 +208,6 @@
 	$_lang['narrowcasting.error_resource_object']					= 'Er is een fout opgetreden tijdens het opslaan van de uitzending resource.';
 	$_lang['narrowcasting.error_slide_type_character']				= 'De sleutel bevat niet toegestane tekens. Definieer een andere sleutel.';
 	$_lang['narrowcasting.error_slide_type_exists']					= 'Een slide met deze sleutel bestaat reeds. Definieer een andere sleutel';
-	
+	$_lang['narrowcasting.slide_name_duplicate']                    = 'Duplicaat van [[+name]]';
 	
 ?>

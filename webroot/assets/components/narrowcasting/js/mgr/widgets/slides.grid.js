@@ -108,7 +108,11 @@ Ext.extend(Narrowcasting.grid.Slides, MODx.grid.Grid, {
 	        text	: _('narrowcasting.slide_update'),
 	        handler	: this.updateSlide,
 	        scope	: this
-	    }, '-', {
+	    }, {
+            text	: _('narrowcasting.slide_duplicate'),
+            handler	: this.duplicateSlide,
+            scope	: this
+        }, '-', {
 		    text	: _('narrowcasting.slide_remove'),
 		    handler	: this.removeSlide,
 		    scope	: this
@@ -166,6 +170,35 @@ Ext.extend(Narrowcasting.grid.Slides, MODx.grid.Grid, {
 
         this.updateSlideWindow.setValues(this.menu.record);
         this.updateSlideWindow.show(e.target);
+    },
+    duplicateSlide: function(btn, e) {
+        if (this.duplicateSlideWindow) {
+            this.duplicateSlideWindow.destroy();
+        }
+
+        var record = Ext.applyIf({
+            name        : _('narrowcasting.slide_name_duplicate', {
+                name        : this.menu.record.name
+            })
+        }, this.menu.record);
+
+        this.duplicateSlideWindow = MODx.load({
+            xtype		: 'narrowcasting-window-slide-duplicate',
+            record		: record,
+            closeAction	: 'close',
+            listeners	: {
+                'success'	: {
+                    fn			: function(data) {
+                        this.refreshGrids();
+                        this.refresh();
+                    },
+                    scope		: this
+                }
+            }
+        });
+
+        this.duplicateSlideWindow.setValues(record);
+        this.duplicateSlideWindow.show(e.target);
     },
     removeSlide: function() {
     	MODx.msg.confirm({
@@ -610,6 +643,40 @@ Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
 });
 
 Ext.reg('narrowcasting-window-slide-update', Narrowcasting.window.UpdateSlide);
+
+Narrowcasting.window.DuplicateSlide = function(config) {
+    config = config || {};
+
+    Ext.applyIf(config, {
+        autoHeight	: true,
+        title 		: _('narrowcasting.slide_duplicate'),
+        url			: Narrowcasting.config.connector_url,
+        baseParams	: {
+            action		: 'mgr/slides/duplicate'
+        },
+        fields		: [{
+            xtype		: 'hidden',
+            name		: 'id'
+        }, {
+            xtype		: 'textfield',
+            fieldLabel	: _('narrowcasting.label_slide_name'),
+            description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_name_desc'),
+            name		: 'name',
+            anchor		: '100%',
+            allowBlank	: false
+        }, {
+            xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_slide_name_desc'),
+            cls			: 'desc-under'
+        }]
+    });
+
+    Narrowcasting.window.DuplicateSlide.superclass.constructor.call(this, config);
+};
+
+Ext.extend(Narrowcasting.window.DuplicateSlide, MODx.Window);
+
+Ext.reg('narrowcasting-window-slide-duplicate', Narrowcasting.window.DuplicateSlide);
 
 Narrowcasting.combo.SlidesTypes = function(config) {
     config = config || {};

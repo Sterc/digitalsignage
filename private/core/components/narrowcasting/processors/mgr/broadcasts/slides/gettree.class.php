@@ -62,7 +62,11 @@
 		 */
 		public function initialize() {
 			$this->narrowcasting = $this->modx->getService('narrowcasting', 'Narrowcasting', $this->modx->getOption('narrowcasting.core_path', null, $this->modx->getOption('core_path').'components/narrowcasting/').'model/narrowcasting/');
-			
+
+            $this->setDefaultProperties(array(
+                'limit' => 0
+            ));
+
 			return parent::initialize();
 		}
 		

@@ -98,6 +98,7 @@
 	$_lang['narrowcasting.slides_desc']								= 'Here you can manage all the slides for your narrowcasting.';
 	$_lang['narrowcasting.slide_create']							= 'Create new slide';
 	$_lang['narrowcasting.slide_update']							= 'Update slide';
+    $_lang['narrowcasting.slide_duplicate']							= 'Copy slide';
 	$_lang['narrowcasting.slide_remove']							= 'Delete slide';
 	$_lang['narrowcasting.slide_remove_confirm']					= 'Are you sure you want to delete this slide?';
 
@@ -207,6 +208,6 @@
 	$_lang['narrowcasting.error_resource_object']					= 'An error has occurred during saving the broadcast resource.';
 	$_lang['narrowcasting.error_slide_type_character']				= 'The key contains forbidden characters. Please specify another key.';
 	$_lang['narrowcasting.error_slide_type_exists']					= 'A slide with that key already exists. Please specify another key.';
-	
+    $_lang['narrowcasting.slide_name_duplicate']                    = 'Copy from [[+name]]';
 	
 ?>

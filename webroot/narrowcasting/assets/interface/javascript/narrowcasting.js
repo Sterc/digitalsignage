@@ -1,4 +1,4 @@
-/* Javascript for narrowcasting project. (c) Oetzie.nl. All rights reserved. */
+/* Javascript for Narrowcasting. (c) Sterc.nl. All rights reserved. */
 
 /* ----------------------------------------------------------------------------------------- */
 /* ----- jQuery onload --------------------------------------------------------------------- */
@@ -6,26 +6,14 @@
 
 $(document).ready(function() {
     $('.window').Narrowcasting({
-        'clock'		: {
-            'element'	: '.clock'
-        },
-        
-        'ticker'	: {
-            'element'	: '.ticker',
-            'settings'	: {
-                'feed'		: broadcastFeed,
-                'feedType'	: 'JSON'
-            }
-        },
-        
-        'callback'	: '',
-        
-        'feed' 		: broadcastFeed,
+        'callback'  : narrowcasting.callback,
+
+        'feed' 		: narrowcasting.broadcast.feed,
         
         'vars'		: {
-	    	'player'	: player,
-	    	'broadcast' : broadcast,
-	    	'preview'	: preview
+	    	'player'	: narrowcasting.player,
+	    	'broadcast' : narrowcasting.broadcast.id,
+	    	'preview'	: narrowcasting.preview
         },
         
         'domain'	: document.location.origin
@@ -104,6 +92,11 @@ $(document).ready(function() {
          */
         this.$slides = [];
 
+        /**
+         * The current plugins of Narrowcasting.
+         */
+        this.plugins = [];
+
         this.initialize();
     }
 
@@ -113,9 +106,6 @@ $(document).ready(function() {
      */
     Narrowcasting.Defaults = {
 	    'debug': false,
-	    
-        'clock': null,
-        'ticker': null,
 
         'timer': true,
         'timerType': 'vertical',
@@ -175,19 +165,7 @@ $(document).ready(function() {
 	            }, this), this.settings.feedInterval * 1000);
 	        }
 
-	        if (null !== this.settings.clock) {
-	            if (this.settings.clock.element) {
-	                $(this.settings.clock.element).Clock(this.settings.clock.settings, this);
-	            }
-	        }
-
-	        if (null !== this.settings.ticker) {
-	            if (this.settings.ticker.element) {
-	                $(this.settings.ticker.element).Newsticker($.extend({}, this.settings.ticker.settings, {
-			        	'vars' : this.settings.vars
-			        }), this);
-	            }
-	        }
+	        this.loadCustomPlugins();
 	    }
     };
 
@@ -354,6 +332,43 @@ $(document).ready(function() {
 		}
 		
 		return '';
+    };
+
+    /**
+     * Gets all custom plugins for the Narrowcasting.
+     * @protected.
+     */
+    Narrowcasting.prototype.loadCustomPlugins = function() {
+        console.log('loadCustomPlugins');
+
+        $('[data-plugin]', this.$element).each($.proxy(function(index, element) {
+            var $element    = $(element),
+                plugin       = $element.attr('data-plugin');
+
+            if ($.fn[plugin]) {
+                console.log('loadCustomPlugins: (plugin: ' + plugin + ')');
+
+                this.plugins[plugin.toLowerCase()] = $element[plugin](this);
+            }
+        }, this));
+    };
+
+    /**
+     * Gets all custom plugin settings for the Narrowcasting.
+     * @protected.
+     */
+    Narrowcasting.prototype.loadCustomPluginSettings = function($element) {
+        if (undefined !== (settings = $element.attr('data-plugin-settings'))) {
+            if (data = JSON.parse(settings.replace(/'/g, "\""))) {
+                return $.extend({}, data, {
+                    'vars' : this.settings.vars
+                });
+            }
+        }
+
+        return $.extend({}, {
+            'vars' : this.settings.vars
+        });
     };
 
     /**
@@ -662,7 +677,7 @@ $(document).ready(function() {
         console.log('getSlide: (title: ' + data.title + ')');
 
         if ($slide = this.getTemplate(data.slide, this.$templates)) {
-            $slide.prependTo($('.slides', this.$element));
+            $slide.prependTo($(this.getPlaceholder('slides', this.$element)));
 
             if (plugin = this.getSlidePlugin(data.slide)) {
                 if ($.fn[plugin]) {
@@ -1083,6 +1098,10 @@ $(document).ready(function() {
      * @protected.
      */
     Clock.prototype.initialize = function() {
+        console.log('Clock initialize');
+
+        this.settings = $.extend({}, this.settings, this.core.loadCustomPluginSettings(this.$element));
+
         var $time = this.core.getPlaceholder('time', this.$element);
         var $date = this.core.getPlaceholder('date', this.$element);
 
@@ -1146,7 +1165,7 @@ $(document).ready(function() {
      * Gets the translated text.
      * @protected.
      */
-    Clock.prototype.getText =function(format, type) {
+    Clock.prototype.getText = function(format, type) {
         switch (type) {
             case 'days':
                 if (this.settings.dateText[format]) {
@@ -1169,7 +1188,7 @@ $(document).ready(function() {
      * The jQuery Plugin for the Clock.
      * @public.
      */
-    $.fn.Clock = function(option, core) {
+    $.fn.Clock = function(core, option) {
         var args = Array.prototype.slice.call(arguments, 1);
 
         return this.each(function() {
@@ -1293,7 +1312,9 @@ $(document).ready(function() {
      */
     Newsticker.prototype.initialize = function() {
 	    console.log('Newsticker initialize');
-	    
+
+        this.settings = $.extend({}, this.settings, this.core.loadCustomPluginSettings(this.$element));
+
         if (null === this.settings.feed) {
             this.core.setError('Newsticker feed is niet ingesteld.');
         } else {
@@ -1487,7 +1508,7 @@ $(document).ready(function() {
      * The jQuery Plugin for the Newsticker.
      * @public.
      */
-    $.fn.Newsticker = function(option, core) {
+    $.fn.Newsticker = function(core, option) {
         var args = Array.prototype.slice.call(arguments, 1);
 
         return this.each(function() {

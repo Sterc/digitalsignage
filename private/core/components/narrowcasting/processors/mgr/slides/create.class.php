@@ -64,15 +64,15 @@
 		 */
 		public function beforeSave() {
 			$data = array();
-			
+
 			foreach ($this->getProperties() as $key => $value) {
 				if (false !== strstr($key, 'data_')) {
 					$data[substr($key, 5, strlen($key))] = $value;
 				}
 			}
-			
+
 			$this->object->fromArray(array(
-				'data' => serialize($data)	
+				'data' => serialize($data)
 			));
 			
 			return parent::beforeSave();

@@ -48,3 +48,8 @@
 .narrowcasting-slide-options .mce-tinymce {
 	width: 100% !important;
 }
+
+.fixed-tree .x-tree-root-ct > .x-tree-node > ul.x-tree-node-ct {
+	height: 205px;
+	overflow: scroll;
+}

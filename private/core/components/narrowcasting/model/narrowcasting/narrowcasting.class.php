@@ -147,6 +147,9 @@
 				            	'id'			=> $broadcast->id,
 				            	'feed'			=> $this->config['export_url'],
 			                ),
+			                'callback'	=> array(
+			                	'feed'			=> $this->config['request_url']
+							),
 			                'preview'			=> isset($parameters['preview']) ? 1 : 0
 			            ), 'narrowcasting');
 			        }
@@ -267,17 +270,11 @@
 				$slides = array();
 
 				if (null !== $broadcast) {
+                    $mediaSourceUrl = $this->getMediaSourceUrl();
+
 					if (!isset($parameters['preview'])) {
 	                	$slides = $broadcast->fromExport();
 	                }
-
-	                $mediaSource    = $this->modx->getObject('modMediaSource', $this->modx->getOption('narrowcasting.media_source'));
-                    $mediaSourceUrl = '';
-
-					if ($mediaSource) {
-                        $mediaSource    = $mediaSource->get('properties');
-                        $mediaSourceUrl = $mediaSource['baseUrl']['value'];
-					}
 
 	                if (0 >= count($slides)) {
 	                    foreach ($broadcast->getSlides() as $key => $slide) {
@@ -299,7 +296,7 @@
 
 	                foreach ($slides as $key => $value) {
 					    if (isset($value['image']) && $value['image'] !== '') {
-					        $slides[$key]['image'] = $mediaSourceUrl . $value['image'];
+					        $slides[$key]['image'] = $mediaSourceUrl.$value['image'];
                         }
                     }
 
@@ -307,7 +304,6 @@
 
 	                foreach ($broadcast->getFeeds() as $key => $feed) {
 	                    foreach ($feed->getSlides() as $key2 => $slide) {
-	                        // TODO: test this
 	                        if ($key2 < ceil($total / $feed->frequency)) {
 		                        $value = array(
 			                        'time'		=> $feed->time,
@@ -365,6 +361,26 @@
 	        	$this->config['request_param_player'] 		=> null,
 	        	$this->config['request_param_broadcast']	=> null
 	        ), $this->modx->request->getParameters());
+		}
+
+        /**
+         * @access protected,
+		 * @return String.
+         */
+		protected function getMediaSourceUrl() {
+			$criterea = array(
+				'id' => $this->modx->getOption('narrowcasting.media_source')
+			);
+
+            if (null !== ($mediaSource = $this->modx->getObject('modMediaSource', $criterea))) {
+                $mediaSource = $mediaSource->get('properties');
+
+                if (isset($mediaSource['baseUrl']['value'])) {
+                    return $mediaSource['baseUrl']['value'];
+                }
+            }
+
+            return '';
 		}
 	}
 
