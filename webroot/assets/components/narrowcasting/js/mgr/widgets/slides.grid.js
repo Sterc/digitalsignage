@@ -403,9 +403,11 @@ Ext.extend(Narrowcasting.window.CreateSlide, MODx.Window, {
 		                    	listeners	: {
 		                            'afterrender': {
 		                                fn: function(data) {
-		                                    if (typeof TinyMCERTE.Tiny !== 'undefined') {
+		                                    if (typeof TinyMCERTE !== 'undefined') {
 		                                        MODx.loadRTE(data.id);
-		                                    }
+		                                    } else {
+                                                MODx.loadRTE(data.id);
+											}
 		                                }
 		                            }
 		                        }
@@ -608,9 +610,11 @@ Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
 		                    	listeners	: {
 		                            'afterrender': {
 		                                fn: function(data) {
-		                                    if (typeof TinyMCERTE.Tiny !== 'undefined') {
-		                                        MODx.loadRTE(data.id);
-		                                    }
+                                            if (typeof TinyMCERTE !== 'undefined') {
+                                                MODx.loadRTE(data.id);
+                                            } else {
+                                                MODx.loadRTE(data.id);
+                                            }
 		                                }
 		                            }
 		                        }

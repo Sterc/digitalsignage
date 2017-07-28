@@ -9,8 +9,8 @@
 		),
         array(
             'key' 		=> 'site_status',
-            'value' 	=> 'true',
-            'xtype' 	=> 'combo-boolean',
+            'value' 	=> '1',
+            'xtype' 	=> 'textfield',
             'namespace' => 'core'
         ),
         array(
