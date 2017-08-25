@@ -30,6 +30,17 @@
 	top: -3px;
 }
 
+.icon-player-state,
+.icon-broadcast-state,
+.icon-broadcast-sync {
+	margin-right: 8px;
+}
+
+.icon-player-restart {
+	color: orange;
+	margin-right: 8px;
+}
+
 .icon-player-mode {
 	display: block;
 	width: 100%;

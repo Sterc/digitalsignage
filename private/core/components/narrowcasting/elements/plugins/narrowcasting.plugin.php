@@ -1,5 +1,4 @@
 <?php
-
 	/**
 	 * Narrowcasting
 	 *
@@ -32,5 +31,3 @@
 	        
 	        break;
 	}
-	
-?>

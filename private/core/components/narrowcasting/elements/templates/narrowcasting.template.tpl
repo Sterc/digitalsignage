@@ -92,6 +92,47 @@
     				</div>
     			</div>
             </div>
+            <div data-template="buienradar">
+                <div class="slide slide-buienradar">
+                    <video class="background-video" autoplay>
+                      <source src="/narrowcasting/assets/interface/images/buienradar/buienradar.mp4" type="video/mp4">
+                    </video>
+                    <div class="slide-inner">
+                        <div class="image">
+                            <img src="" data-placeholder="radar" data-placeholder-wrapper="image" />
+                        </div>
+                        <div class="content">
+                            <ul class="forecasts" data-placeholder="forecasts">
+                                <li data-template="forecast">
+                                    <div class="forecast-inner">
+                                        <h2 data-placeholder="date"></h2>
+                                        <div class="icon">
+                                            <img src="" data-placeholder="weatherIcon" />
+                                        </div>
+                                        <div class="data">
+                                            <div class="temperature">
+                                                <span class="temperature-min">
+                                                    <span data-placeholder="mintemperature" data-placeholder="mintemperature"></span>°
+                                                </span>
+                                                /
+                                                <span class="temperature-max">
+                                                    <span data-placeholder="maxtemperature" data-placeholder="maxtemperature"></span>°
+                                                </span>
+                                            </div>
+                                            <div class="rain">
+                                                <img src="/narrowcasting/assets/interface/images/buienradar/precipation.svg" /><span data-placeholder="precipationmm"></span> mm
+                                            </div>
+                                            <div class="wind">
+                                                <img src="" data-placeholder="windIcon" /><span data-placeholder="winddirection"></span> <span data-placeholder="beaufort"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
     	</div>
 	</div>
 
@@ -111,6 +152,7 @@
 	<script type="text/javascript" src="/narrowcasting/assets/interface/javascript/modenizer.js"></script>
 
     <script type="text/javascript" src="/narrowcasting/assets/interface/javascript/socialmedia.widget.js"></script>
+    <script type="text/javascript" src="/narrowcasting/assets/interface/javascript/buienradar.slide.js"></script>
 	<script type="text/javascript" src="/narrowcasting/assets/interface/javascript/narrowcasting.js"></script>
 
 </body>

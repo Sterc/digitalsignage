@@ -28,10 +28,8 @@
 
 	$_lang['narrowcasting.slide_buienradar'] 						= 'Buienradar';
 	$_lang['narrowcasting.slide_buienradar_desc'] 					= 'A slide with the weather forecast of Buienradar.';
-	$_lang['narrowcasting.slide_buienradar_lat']					= 'Lat';
-	$_lang['narrowcasting.slide_buienradar_lat_desc']				= 'The latitude position of the location.';
-	$_lang['narrowcasting.slide_buienradar_lng']					= 'Lng';
-	$_lang['narrowcasting.slide_buienradar_lng_desc']				= 'The longitude position of the location.';
+    $_lang['narrowcasting.slide_buienradar_location']				= 'Location ID';
+    $_lang['narrowcasting.slide_buienradar_location_desc']			= 'The ID of the location (weatherstation),  you can get this in the URL of buienradar.nl. Example https://www.buienradar.nl/weer/surhuisterveen/nl/2746558, the ID is \'2746558\'.';
 
 	$_lang['narrowcasting.slide_socialmedia'] 						= 'Social Media';
 	$_lang['narrowcasting.slide_socialmedia_desc'] 					= 'A slide with social media messages.';

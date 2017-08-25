@@ -43,14 +43,14 @@
 	
 	$_lang['narrowcasting.broadcast']								= 'Uitzending';
 	$_lang['narrowcasting.broadcasts']								= 'Uitzendingen';
-	$_lang['narrowcasting.broadcasts_desc']							= 'Hier kun je alle uitzendingen van je narrowcasting beheren.';
+	$_lang['narrowcasting.broadcasts_desc']							= 'Hier kun je alle uitzendingen van je narrowcasting beheren. Wijzigingen die hier en onder slides gedaan worden zijn niet rechtstreeks live te zien, deze kunnen alleen bekeken worden met behulp van de \'uitzending voorbeeld\'. De uitzending moet eerst gesynchroniseerd worden voordat de wijzigingen live te zien zijn, indien er wijzigingen zijn die nog niet gesynchroniseerd zijn wordt dit aangegeven met een <i class="icon icon-exclamation-triangle red"></i>.';
 	$_lang['narrowcasting.broadcast_create']						= 'Nieuwe uitzending';
 	$_lang['narrowcasting.broadcast_update']						= 'Uitzending wijzigen';
 	$_lang['narrowcasting.broadcast_remove']						= 'Uitzending verwijderen';
 	$_lang['narrowcasting.broadcast_remove_confirm']				= 'Weet je zeker dat je deze uitzending wilt verwijderen?';
     $_lang['narrowcasting.broadcast_preview']						= 'Uitzending voorbeeld';
-    $_lang['narrowcasting.broadcast_sync']							= 'Uitzending synchroniseren';
-    $_lang['narrowcasting.broadcast_sync_confirm']					= 'Weet je zeker dat je deze uitzending wilt synchroniseren?';
+    $_lang['narrowcasting.broadcast_sync']							= 'Uitzending data synchroniseren';
+    $_lang['narrowcasting.broadcast_sync_confirm']					= 'Weet je zeker dat je deze uitzending data wilt synchroniseren?';
     $_lang['narrowcasting.broadcast_slides']						= 'Slides (interne slides)';
     $_lang['narrowcasting.broadcast_slides_desc']					= 'Hier kunt u alle interne slides van de uitzending beheren. Sleep & Drop slides van de "beschikbare slides" naar "geselecteerde slides" om slides toe te voegen.';
     $_lang['narrowcasting.broadcast_slide_remove']					= 'Verwijder slide';
@@ -75,10 +75,10 @@
     $_lang['narrowcasting.label_broadcast_feeds_desc']				= 'De feeds van de uitzending.';
     $_lang['narrowcasting.label_broadcast_players']					= 'Mediaspelers';
     $_lang['narrowcasting.label_broadcast_players_desc']			= 'The mediaboxes to broadcast the broadcast.';
-    $_lang['narrowcasting.label_broadcast_last_sync']				= 'Laatste synchronisatie';
+    $_lang['narrowcasting.label_broadcast_last_sync']				= 'Laatste data synchronisatie';
     $_lang['narrowcasting.label_broadcast_last_sync_desc']			= '';
     $_lang['narrowcasting.label_broadcast_preview_player']			= 'Mediaspeler';
-    $_lang['narrowcasting.label_broadcast_preview_player_desc']		= 'Selecteer een mediaspeler om de voorvertoning van de uitzending te tonen.';
+    $_lang['narrowcasting.label_broadcast_preview_player_desc']		= 'Selecteer een mediaspeler om een voorbeeld van de uitzending uit te zenden.';
 
     $_lang['narrowcasting.label_feed_key']							= 'Sleutel';
     $_lang['narrowcasting.label_feed_key_desc']						= 'De sleutel van de feed.';
@@ -113,13 +113,17 @@
 
     $_lang['narrowcasting.player']									= 'Mediaspeler';
     $_lang['narrowcasting.players']									= 'Mediaspelers';
-    $_lang['narrowcasting.players_desc']							= 'Hier kun je alle mediaspelers van je narrowcasting systeem beheren.';
+    $_lang['narrowcasting.players_desc']							= 'Hier kun je alle mediaspelers van je narrowcasting systeem beheren. Een mediaspeler heeft standaard een vertraging van 5 minuten. Wijzigingen die hier gedaan worden, zijn dus 5 minuten later live te zien (synchronisatie). Mediaspelers met een <i class="icon icon-circle green"></i> staan momenteel aan en zenden een uitzending uit, mediaspelers met een <i class="icon icon-circle red"></i> staan uit.';
     $_lang['narrowcasting.player_create']							= 'Nieuwe mediaspeler';
     $_lang['narrowcasting.player_update']							= 'Mediaspeler wijzigen';
     $_lang['narrowcasting.player_remove']							= 'Mediaspeler verwijderen';
     $_lang['narrowcasting.player_remove_confirm']					= 'Weet je zeker dat je deze mediaspeler wilt verwijderen?';
-    $_lang['narrowcasting.player_view']								= 'Bekijk mediaspeler';
-    $_lang['narrowcasting.player_view_desc']						= 'Om deze speler met de narrowcasting te verbinden, gebruik de URL:';
+    $_lang['narrowcasting.player_restart']                          = 'Mediaspeler restarten';
+    $_lang['narrowcasting.player_restart_confirm']                  = 'Weet je zeker dat je deze mediaspeler wilt restarten?';
+    $_lang['narrowcasting.player_restart_cancel']                   = 'Mediaspeler restarten annuleren';
+    $_lang['narrowcasting.player_restart_cancel_confirm']           = 'Weet je zeker dat je deze mediaspeler restart wilt annuleren?';
+    $_lang['narrowcasting.player_view']								= 'Mediaspeler verbinden';
+    $_lang['narrowcasting.player_view_desc']						= 'Gebruik de onderstaande URL in de browser van je mediaspeler om deze te verbinden met het narrowcasting systeem.';
     $_lang['narrowcasting.player_schedule']							= 'Mediaspeler schema';
     $_lang['narrowcasting.player_schedule_create']					= 'Nieuw schema';
     $_lang['narrowcasting.player_schedule_update']					= 'Schema wijzigen';
@@ -138,12 +142,14 @@
     $_lang['narrowcasting.label_player_mode']						= 'Modus';
     $_lang['narrowcasting.label_player_mode_desc']					= 'De modus van de speler (landschap of portret).';
     $_lang['narrowcasting.label_player_type']						= 'Type';
-    $_lang['narrowcasting.label_player_type_desc']					= 'Type van de mediaspeler.';
+    $_lang['narrowcasting.label_player_type_desc']					= 'De type mediaspeler.';
     $_lang['narrowcasting.label_player_online']						= 'Online';
     $_lang['narrowcasting.label_player_online_desc']				= '';
     $_lang['narrowcasting.label_player_current_broadcast']			= 'Huidige uitzending';
     $_lang['narrowcasting.label_player_current_broadcast_desc']		= 'De huidige uitzending van de mediaspeler.';
-    
+    $_lang['narrowcasting.label_player_next_sync']                  = 'Synchronisatie';
+    $_lang['narrowcasting.label_player_next_sync_desc']             = '';
+
     $_lang['narrowcasting.slide_type']								= 'Slide type';
 	$_lang['narrowcasting.slide_types']								= 'Slide types';
 	$_lang['narrowcasting.slide_types_desc']						= 'Hier kun je alle beschikbare slides van je narrowcasting beheren.';
@@ -209,5 +215,7 @@
 	$_lang['narrowcasting.error_slide_type_character']				= 'De sleutel bevat niet toegestane tekens. Definieer een andere sleutel.';
 	$_lang['narrowcasting.error_slide_type_exists']					= 'Een slide met deze sleutel bestaat reeds. Definieer een andere sleutel';
 	$_lang['narrowcasting.slide_name_duplicate']                    = 'Duplicaat van [[+name]]';
-	
+	$_lang['narrowcasting.next_sync']                               = 'Over [[+time]] minuten';
+    $_lang['narrowcasting.preview_resolution']                      = ' (resolutie [[+resolution]])';
+
 ?>

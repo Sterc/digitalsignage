@@ -102,16 +102,26 @@
 
         /**
          * @access public.
+         * @param Integer $time.
          * @param Integer $broadcast.
          * @return Boolean.
          */
-        public function setOnline($broadcast) {
+        public function setOnline($time, $broadcast) {
+            $restart = 1 == $this->restart;
+
+            if ($restart) {
+                $this->set('restart', 0);
+            }
+
         	$this->fromArray(array(
 	        	'last_online'		=> date('Y-m-d H:i:s'),
+	        	'last_online_time'  => $time,
 	        	'last_broadcast_id'	=> $broadcast
         	));
-        	
-            return $this->save();
+
+            $this->save();
+
+            return $restart;
         }
 	}
 	

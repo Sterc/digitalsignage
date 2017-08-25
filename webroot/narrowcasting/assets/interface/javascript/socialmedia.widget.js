@@ -110,7 +110,7 @@
         this.settings = $.extend({}, this.settings, this.core.loadCustomPluginSettings(this.$element));
 
         if (null === this.settings.feed) {
-            this.core.setError('SocialMediaWidget feed is niet ingesteld.');
+            this.core.setError('SocialMediaWidget feed is not set.');
         } else {
             this.loadData();
 
@@ -147,14 +147,14 @@
                                    this.loadData();
                                }
 
-                               console.log('SocialMediaWidget loadData: (items: ' + result.responseJSON.items.length + ')');
+                               console.log('SocialMediaWidget loadData: (items: ' + result.responseJSON.items.length + ').');
                            } else {
-                               this.core.setError('SocialMediaWidget feed kon niet gelezen worden (Formaat: ' + this.settings.feedType.toUpperCase() + ').');
+                               this.core.setError('SocialMediaWidget feed could not be read: (Format: ' + this.settings.feedType.toUpperCase() + ').');
                            }
 
                            break;
                        default:
-                           this.core.setError('SocialMediaWidget feed kon niet gelezen worden omdat het formaat niet ondersteund word (Formaat: ' + this.settings.feedType.toUpperCase() + ').');
+                           this.core.setError('SocialMediaWidget feed could not be read because the format is not supported: (Format: ' + this.settings.feedType.toUpperCase() + ').');
 
                            break;
                    }
@@ -163,7 +163,7 @@
                        this.nextItem();
                    }
                } else {
-                   this.core.setError('SocialMediaWidget feed kon niet geladen worden (HTTP status: ' + result.status + ').');
+                   this.core.setError('SocialMediaWidget feed could not be loaded: (HTTP status: ' + result.status + ').');
                }
 
                this.dataRefresh++;
@@ -264,10 +264,10 @@
 
                 this.$items.push($item);
             } else {
-                this.skipItem('Geen slide aanwezig');
+                this.skipItem('SocialMediaWidget nextForecast: no item available.');
             }
         } else {
-            this.skipItem('Geen data aanwezig');
+            this.skipItem('SocialMediaWidget nextForecast: no data available.');
         }
     };
 

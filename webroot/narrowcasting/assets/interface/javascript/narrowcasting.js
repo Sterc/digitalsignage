@@ -120,7 +120,7 @@ $(document).ready(function() {
 
         'feed': null,
         'feedType': 'JSON',
-		'feedInterval': 900,
+		'feedInterval': 300,
 		
 		'vars': {
 			'player': null,
@@ -209,7 +209,7 @@ $(document).ready(function() {
 	    console.log('loadCallback');
 	    
 	    $.ajax({
-            'url'		: this.settings.callback + this.getUrlParameters(),
+            'url'		: this.settings.callback + this.getUrlParameters('callback'),
             'dataType'	: this.settings.callbackType.toUpperCase(),
             'complete'	: $.proxy(function(result) {
 	        	if (200 == result.status) {
@@ -224,6 +224,12 @@ $(document).ready(function() {
 		                                window.location.href = redirectLocation;
 	                                }
 	                            }
+
+                                if (result.responseJSON.player) {
+	                        	    if (result.responseJSON.player.restart) {
+                                        window.location.reload(false);
+                                    }
+                                }
                             } else {
                                 this.setError('Narrowcasting callback kon niet gelezen worden (Formaat: ' + this.settings.callbackType.toUpperCase() + ').');
                             }
@@ -258,15 +264,13 @@ $(document).ready(function() {
 	    console.log('loadData');
 
         $.ajax({
-            'url'		: this.settings.feed + this.getUrlParameters(),
+            'url'		: this.settings.feed + this.getUrlParameters('feed'),
             'dataType'	: this.settings.feedType.toUpperCase(),
             'complete'	: $.proxy(function(result) {
                 if (200 == result.status) {
                     switch (this.settings.feedType.toUpperCase()) {
                         case 'JSON':
                             if (result.responseJSON) {
-	                            console.log(result.responseJSON);
-	                            
 	                            if (0 < result.responseJSON.slides.length) {
 		                            this.data = new Array();
 		                            
@@ -303,10 +307,17 @@ $(document).ready(function() {
     
     /**
      * Returns all the URL parameters.
+     * @param {Type} String - The URL type.
      * @public.
      */
-    Narrowcasting.prototype.getUrlParameters = function() {
+    Narrowcasting.prototype.getUrlParameters = function(type) {
 	    var parameters = new Array('type=broadcast', 'data=true');
+
+        if ('callback' == type) {
+            parameters.push('time=' + this.settings.callbackInterval);
+        } else {
+            parameters.push('time=' + this.settings.feedInterval);
+        }
 	
 		$.each(this.settings.vars, $.proxy(function(index, value) {
 			switch (index) {
@@ -355,6 +366,7 @@ $(document).ready(function() {
 
     /**
      * Gets all custom plugin settings for the Narrowcasting.
+     * @param {$element} Object - The element of the plugin.
      * @protected.
      */
     Narrowcasting.prototype.loadCustomPluginSettings = function($element) {
@@ -456,7 +468,11 @@ $(document).ready(function() {
      * @param {$element} HTMLelement - The HTML object.
      */
     Narrowcasting.prototype.getPlaceholder = function(placeholder, $element) {
-        return $('[data-placeholder="' + placeholder + '"]', $element);
+        if (undefined !== ($placeholder = $('[data-placeholder="' + placeholder + '"]', $element))) {
+            return $placeholder.show();
+        }
+
+        return null;
     }
 
         /**
@@ -936,6 +952,8 @@ $(document).ready(function() {
      * @protected.
      */
     SlideDefault.prototype.initialize = function() {
+        console.log('SlideDefault');
+
         this.core.setPlaceholders(this.$element, this.settings);
 
         this.core.setTimer(this.settings.time);

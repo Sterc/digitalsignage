@@ -28,10 +28,8 @@
 
 	$_lang['narrowcasting.slide_buienradar'] 						= 'Buienradar';
 	$_lang['narrowcasting.slide_buienradar_desc'] 					= 'Een slide met de weersvoorspelling van Buienradar.';
-	$_lang['narrowcasting.slide_buienradar_lat']					= 'Lat';
-	$_lang['narrowcasting.slide_buienradar_lat_desc']				= 'De latitude van de locatie.';
-	$_lang['narrowcasting.slide_buienradar_lng']					= 'Lng';
-	$_lang['narrowcasting.slide_buienradar_lng_desc']				= 'De longitude van de locatie.';
+	$_lang['narrowcasting.slide_buienradar_location']				= 'Locatie ID';
+	$_lang['narrowcasting.slide_buienradar_location_desc']			= 'De ID van de locatie (weerstation), deze is te vinden in de URL van buienradar.nl. Bv https://www.buienradar.nl/weer/surhuisterveen/nl/2746558, het ID is dan \'2746558\'.';
 
 	$_lang['narrowcasting.slide_socialmedia'] 						= 'Social Media';
 	$_lang['narrowcasting.slide_socialmedia_desc'] 					= 'Een slide met social media berichten.';

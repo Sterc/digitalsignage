@@ -11,11 +11,16 @@ Narrowcasting.grid.Players = function(config) {
 		name		: 'narrowcasting-refresh-players',
         id			: 'narrowcasting-refresh-players',
 		boxLabel	: _('narrowcasting.auto_refresh_grid'),
+        checked     : true,
 		listeners	: {
 			'check'		: {
 				fn 			: this.autoRefresh,
 				scope 		: this	
-			}
+			},
+            'afterrender' : {
+                fn 			: this.autoRefresh,
+                scope 		: this
+            }
 		}
 	}, '->', {
         xtype		: 'textfield',
@@ -77,15 +82,16 @@ Narrowcasting.grid.Players = function(config) {
             dataIndex	: 'current_broadcast',
             sortable	: true,
             editable	: false,
-            width		: 200,
+            width		: 150,
             fixed 		: true
         }, {
-	        header		: _('narrowcasting.label_player_mode'),
-            dataIndex	: 'mode_formatted',
+		   	header		: _('narrowcasting.label_player_next_sync'),
+            dataIndex	: 'next_sync',
             sortable	: true,
             editable	: false,
-            width		: 100,
-            fixed		: true
+            width		: 150,
+            fixed		: true,
+            renderer	: this.renderNextSync
         }, {
             header		: _('last_modified'),
             dataIndex	: 'editedon',
@@ -104,7 +110,7 @@ Narrowcasting.grid.Players = function(config) {
         baseParams	: {
         	action		: 'mgr/players/getlist'
         },
-        fields		: ['id', 'key', 'name', 'description', 'type', 'resolution', 'last_online', 'last_broadcast_id', 'editedon', 'mode', 'mode_formatted', 'online', 'current_broadcast', 'url'],
+        fields		: ['id', 'key', 'name', 'description', 'type', 'resolution', 'restart', 'last_online', 'last_broadcast_id', 'editedon', 'mode', 'mode_formatted', 'online', 'current_broadcast', 'next_sync', 'url'],
         paging		: true,
         pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy		: 'id',
@@ -122,7 +128,7 @@ Narrowcasting.grid.Players = function(config) {
 
 Ext.extend(Narrowcasting.grid.Players, MODx.grid.Grid, {
 	autoRefresh: function(tf, nv) {
-		if (nv) {
+		if (tf.getValue()) {
 			this.config.refresher.timer = setInterval((function() {
 				tf.setBoxLabel(_('narrowcasting.auto_refresh_grid') + ' (' + (this.config.refresher.duration - this.config.refresher.count) + ')');
 				
@@ -156,6 +162,10 @@ Ext.extend(Narrowcasting.grid.Players, MODx.grid.Grid, {
 	    	handler : this.viewPlayer,
 	    	scope 	: this 
 	    }, '-', {
+            text	: '<i class="icon icon-power-off"></i> ' + (0 == this.menu.record.restart ? _('narrowcasting.player_restart') : _('narrowcasting.player_restart_cancel')),
+            handler	: this.restartPlayer,
+            scope	: this
+        }, '-', {
 	        text	: _('narrowcasting.player_update'),
 	        handler	: this.updatePlayer,
 	        scope	: this
@@ -222,6 +232,26 @@ Ext.extend(Narrowcasting.grid.Players, MODx.grid.Grid, {
         this.updatePlayerWindow.setValues(this.menu.record);
         this.updatePlayerWindow.show(e.target);
     },
+    restartPlayer: function() {
+        MODx.msg.confirm({
+            title 		: 0 == this.menu.record.restart ? _('narrowcasting.player_restart') : _('narrowcasting.player_restart_cancel'),
+            text		: 0 == this.menu.record.restart ? _('narrowcasting.player_restart_confirm') : _('narrowcasting.player_restart_cancel_confirm'),
+            url			: Narrowcasting.config.connector_url,
+            params		: {
+                action		: 'mgr/players/restart',
+                id			: this.menu.record.id
+            },
+            listeners	: {
+                'success'	: {
+                    fn			: function() {
+                        this.refreshGrids();
+                        this.refresh();
+                    },
+                    scope		: this
+                }
+            }
+        });
+    },
     removePlayer: function() {
     	MODx.msg.confirm({
         	title 		: _('narrowcasting.player_remove'),
@@ -281,16 +311,42 @@ Ext.extend(Narrowcasting.grid.Players, MODx.grid.Grid, {
         this.schedulePlayerWindow.show(e.target);
     },
     renderKey: function(d, c, e) {
-    	return String.format('<span class="icon icon-circle {0}"></span> {1}', 1 == parseInt(e.data.online) || e.data.online ? 'green' : 'red', d);
+    	return String.format('<i class="icon icon-circle icon-broadcast-state {0}"></i>{1}', 1 == parseInt(e.data.online) || e.data.online ? 'green' : 'red', d);
     },
     renderMode: function(d, c, e) {
-    	return String.format('<span class="icon icon-large icon-arrows-{0} icon-player-mode"></span>', 'landscape' == e.data.mode ? 'h' : 'v');
+    	return String.format('<i class="icon icon-large icon-arrows-{0} icon-player-mode"></i> {1}', 'landscape' == e.data.mode ? 'h' : 'v', d);
     },
     renderOnline: function(d, c, e) {
     	c.css = 1 == parseInt(d) || d ? 'green' : 'red';
 
-    	return '<span class="icon icon-circle"></span>';
+    	return '<i class="icon icon-circle"></i>';
     },
+    renderNextSync: function(d, c, e) {
+        if (Ext.isEmpty(d)) {
+            return '';
+        }
+
+		var minutes = Math.floor(d / 60),
+			seconds = d - (minutes * 60);
+
+		if (10 > minutes) {
+			minutes = '0' + minutes;
+		}
+
+		if (10 > seconds) {
+			seconds = '0' + seconds;
+		}
+
+        if (1 == e.data.restart) {
+            return String.format('<span class="icon icon-power-off icon-player-restart"></span>{0}', _('narrowcasting.next_sync', {
+                time: minutes + ':' + seconds
+            }));
+        }
+
+        return _('narrowcasting.next_sync', {
+            time: minutes + ':' + seconds
+        });
+	},
     renderDate: function(a) {
         if (Ext.isEmpty(a)) {
             return '—';

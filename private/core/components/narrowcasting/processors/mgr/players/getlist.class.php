@@ -99,6 +99,7 @@
 				'mode_formatted'	=> $this->modx->lexicon('narrowcasting.'.$this->modx->lexicon($object->getMode())),
 				'online' 			=> $object->isOnline(),
 				'current_broadcast' => '',
+				'next_sync'         => '',
 				'url' 				=> $this->narrowcasting->config['request_url'].'?'.$this->narrowcasting->config['request_param_player'].'='.$object->key
 			));
 			
@@ -108,7 +109,11 @@
 						$array['current_broadcast'] = $resource->pagetitle;
 					}
 				}
-			}
+
+				$array['next_sync'] = (strtotime($object->last_online) + $object->last_online_time) - time();
+			} else {
+			    $array['restart'] = 0;
+            }
 			
 			if (in_array($array['editedon'], array('-001-11-30 00:00:00', '-1-11-30 00:00:00', '0000-00-00 00:00:00', null))) {
 				$array['editedon'] = '';

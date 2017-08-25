@@ -43,7 +43,7 @@
 
 	$_lang['narrowcasting.broadcast']								= 'Broadcast';
 	$_lang['narrowcasting.broadcasts']								= 'Broadcasts';
-	$_lang['narrowcasting.broadcasts_desc']							= 'Here you can manage all broadcasts for your narrowcasting.';
+	$_lang['narrowcasting.broadcasts_desc']							= 'Here you can manage all broadcasts for your narrowcasting system. Modifications that are done here or under slides can not be shown live, you can only see this with the \'preview broadcast\'. THe broadcast needs to be synchronized first before you can see the modifications live, when there are modifications that are not synchronized a <i class="icon icon-exclamation-triangle red"></i> will be shown.';
 	$_lang['narrowcasting.broadcast_create']						= 'Create new broadcast';
 	$_lang['narrowcasting.broadcast_update']						= 'Update broadcast';
 	$_lang['narrowcasting.broadcast_remove']						= 'Delete broadcast';
@@ -113,13 +113,17 @@
 
 	$_lang['narrowcasting.player']									= 'Player';
 	$_lang['narrowcasting.players']									= 'Players';
-	$_lang['narrowcasting.players_desc']							= 'Here you can manage all players for your narrowcasting.';
+	$_lang['narrowcasting.players_desc']							= 'Here you can manage all players for your narrowcasting system. A player has a default delay of 5 minutes. Modifications that you do here, will be live after 5 minutes (synchronization). A player with a <i class="icon icon-circle green"></i> are current on and broadcasting a broadcast, players with a <i class="icon icon-circle green"></i> are off.';
 	$_lang['narrowcasting.player_create']							= 'Create new player';
 	$_lang['narrowcasting.player_update']							= 'Update player';
 	$_lang['narrowcasting.player_remove']							= 'Delete player';
 	$_lang['narrowcasting.player_remove_confirm']					= 'Are you sure you want to delete this player?';
-	$_lang['narrowcasting.player_view']								= 'View player';
-	$_lang['narrowcasting.player_view_desc']						= 'To connect this player with the narrowcasting use the URL:';
+    $_lang['narrowcasting.player_restart']                          = 'Restart player';
+    $_lang['narrowcasting.player_restart_confirm']                  = 'Are you sure you want to restart this player?';
+    $_lang['narrowcasting.player_restart_cancel']                   = 'Cancel player restart';
+    $_lang['narrowcasting.player_restart_cancel_confirm']           = 'Are you sure you want to cancel the player restart?';
+    $_lang['narrowcasting.player_view']								= 'Connect player';
+	$_lang['narrowcasting.player_view_desc']						= 'Use the following URL in the browser of your player to connect with the narrowcasting system.';
 	$_lang['narrowcasting.player_schedule']							= 'Schedule player';
 	$_lang['narrowcasting.player_schedule_create']					= 'Create new schedule';
 	$_lang['narrowcasting.player_schedule_update']					= 'Update schedule';
@@ -143,6 +147,8 @@
 	$_lang['narrowcasting.label_player_online_desc']				= '';
 	$_lang['narrowcasting.label_player_current_broadcast']			= 'Current broadcast';
 	$_lang['narrowcasting.label_player_current_broadcast_desc']		= 'The current broadcast of the player.';
+    $_lang['narrowcasting.label_player_next_sync']                  = 'Synchronization';
+    $_lang['narrowcasting.label_player_next_sync_desc']             = '';
 
 	$_lang['narrowcasting.slide_type']								= 'Slide type';
 	$_lang['narrowcasting.slide_types']								= 'Slide types';
@@ -209,5 +215,7 @@
 	$_lang['narrowcasting.error_slide_type_character']				= 'The key contains forbidden characters. Please specify another key.';
 	$_lang['narrowcasting.error_slide_type_exists']					= 'A slide with that key already exists. Please specify another key.';
     $_lang['narrowcasting.slide_name_duplicate']                    = 'Copy from [[+name]]';
-	
+    $_lang['narrowcasting.next_sync']                               = 'About [[+time]] minutes';
+    $_lang['narrowcasting.preview_resolution']                      = ' (resolutie [[+resolution]])';
+
 ?>

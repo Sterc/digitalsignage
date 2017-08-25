@@ -11,11 +11,16 @@ Narrowcasting.grid.Broadcasts = function(config) {
 		name		: 'narrowcasting-refresh-broadcasts',
         id			: 'narrowcasting-refresh-broadcasts',
 		boxLabel	: _('narrowcasting.auto_refresh_grid'),
+        checked     : true,
 		listeners	: {
 			'check'		: {
 				fn 			: this.autoRefresh,
 				scope 		: this	
-			}
+			},
+            'afterrender' : {
+                fn 			: this.autoRefresh,
+                scope 		: this
+            }
 		}
 	}, '->', {
         xtype		: 'textfield',
@@ -114,7 +119,7 @@ Narrowcasting.grid.Broadcasts = function(config) {
 
 Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
 	autoRefresh: function(tf, nv) {
-		if (nv) {
+		if (tf.getValue()) {
 			this.config.refresher.timer = setInterval((function() {
 				tf.setBoxLabel(_('narrowcasting.auto_refresh_grid') + ' (' + (this.config.refresher.duration - this.config.refresher.count) + ')');
 				
@@ -326,7 +331,7 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
 	    for (var i = 0; i < e.data.players.length; i++) {
 		    var player = e.data.players[i];
 		    
-		    players.push(String.format('<span class="icon icon-circle {0}"></span> {1}', 1 == parseInt(player.online) || player.online ? 'green' : 'red', player.name));
+		    players.push(String.format('<i class="icon icon-circle icon-broadcast-state {0}"></i>{1}', 1 == parseInt(player.online) || player.online ? 'green' : 'red', player.name));
 	    }
 
     	return players.join(', ');
@@ -337,7 +342,7 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
 				return _('narrowcasting.sync_never');
 			}
 			
-			return '<i  class="icon icon-exclamation-triangle red"></i> ' + a.timestamp;
+			return String.format('<i class="icon icon-exclamation-triangle icon-broadcast-sync red"></i>{0}', a.timestamp);
 		}
 		
 		return a.timestamp;  
@@ -522,7 +527,9 @@ Narrowcasting.window.ShowPreviewBroadcast = function(config) {
     
     Ext.applyIf(config, {
 		maximized	: true,
-        title 		: _('narrowcasting.broadcast_preview'),
+        title 		: _('narrowcasting.broadcast_preview') + _('narrowcasting.preview_resolution', {
+            resolution  : config.record.resolution
+        }),
         cls			: 'narrowcasting-window-preview',
         items		: [{
         	xtype		: 'container',

@@ -31,7 +31,9 @@
 			'description'		=> null,
 			'type'				=> null,
 			'resolution'		=> null,
+			'restart'           => null,
 			'last_online'		=> null,
+			'last_online_time'  => null,
 			'last_broadcast_id' => null,
 			'editedon' 			=> null
 		),
@@ -74,11 +76,26 @@
 				'phptype' 	=> 'string',
 				'null' 		=> false
 			),
+            'restart' 	=> array(
+                'dbtype' 	=> 'int',
+                'precision' => '1',
+                'phptype' 	=> 'integer',
+                'null' 		=> false,
+                'default'   => 0
+            ),
 			'last_online' => array(
 				'dbtype' 	=> 'timestamp',
 				'phptype' 	=> 'timestamp',
-				'null' 		=> false
+				'null' 		=> false,
+                'default'   => '0000-00-00 00:00:00'
 			),
+            'last_online_time' => array(
+                'dbtype' 	=> 'int',
+                'precision' => '5',
+                'phptype' 	=> 'integer',
+                'null' 		=> false,
+                'default'   => 900
+            ),
 			'last_broadcast_id' => array(
 				'dbtype' 	=> 'int',
 				'precision' => '11',

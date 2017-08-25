@@ -8,7 +8,7 @@
 	define('PKG_NAME', 			'Narrowcasting');
 	define('PKG_NAME_LOWER', 	strtolower(PKG_NAME));
 	define('PKG_NAMESPACE', 	strtolower(PKG_NAME));
-	define('PKG_VERSION',		'1.0.0');
+	define('PKG_VERSION',		'1.1.0');
 	define('PKG_RELEASE',		'pl');
 
 	define('PRIVATE_PATH',		dirname(dirname(dirname(__FILE__))).'/private/');
