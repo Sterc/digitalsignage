@@ -77,10 +77,10 @@
         'animation': 'fade',
         'animationTime': 1,
 
-        'forecast': 'http://api.buienradar.nl/data/forecast/1.1/daily/',
+        'forecast': '//api.buienradar.nl/data/forecast/1.1/daily/',
         'forecastType': 'JSON',
 
-        'radar': 'https://api.buienradar.nl/image/1.0/radarmapnl/?ext=png&l=1',
+        'radar': '//api.buienradar.nl/image/1.0/radarmapnl/?ext=png&l=1',
 
         'weatherIcon': '/narrowcasting/assets/interface/images/buienradar/weather/{icon}.svg',
         'windIcon': '/narrowcasting/assets/interface/images/buienradar/wind/{icon}.svg',

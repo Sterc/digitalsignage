@@ -15,6 +15,7 @@ private_html/core/cache/
 public_html/core/cache/
 core/cache/
 
+private/core/components/narrowcasting/export/
 private/core/export/
 private/core/import/
 private_html/core/export/
