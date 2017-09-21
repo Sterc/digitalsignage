@@ -90,8 +90,8 @@ Narrowcasting.grid.Broadcasts = function(config) {
             dataIndex	: 'sync',
             sortable	: true,
             editable	: false,
-            fixed		: true,
 			width		: 200,
+            fixed		: true,
 			renderer	: this.renderSync
         }]
     });

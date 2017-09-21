@@ -36,7 +36,7 @@
 	$_lang['narrowcasting.slide_socialmedia_query']					= 'Zoekopdracht';
 	$_lang['narrowcasting.slide_socialmedia_query_desc']			= 'De zoekopdracht van social media berichten, voorbeeld #hastag.';
 
-	$_lang['narrowcasting.slide_media'] 							= 'Media';
+    $_lang['narrowcasting.slide_media'] 							= 'Media';
 	$_lang['narrowcasting.slide_media_desc'] 						= 'Een slide met een Youtube video.';
 	$_lang['narrowcasting.slide_media_youtube']						= 'Youtube';
 	$_lang['narrowcasting.slide_media_youtube_desc']				= 'De ID of URL van de Youtube video.';

@@ -1,5 +1,5 @@
 <?php
-	
+
 	/**
 	 * Narrowcasting
 	 *
@@ -18,73 +18,71 @@
 	 * Narrowcasting; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
-
-	class NarrowcastingSlideTypesCreateProcessor extends modObjectCreateProcessor {
+	 
+	class NarrowcastingSlideTypesDataRemoveProcessor extends modProcessor {
 		/**
-		 * @access public.
+		 * @acces public.
 		 * @var String.
 		 */
 		public $classKey = 'NarrowcastingSlidesTypes';
 		
 		/**
-		 * @access public.
+		 * @acces public.
 		 * @var Array.
 		 */
 		public $languageTopics = array('narrowcasting:default');
 		
 		/**
-		 * @access public.
-		 * @var String.
-		 */
-		public $primaryKeyField = 'key';
-		
-		/**
-		 * @access public.
+		 * @acces public.
 		 * @var String.
 		 */
 		public $objectType = 'narrowcasting.slidestypes';
 		
 		/**
-		 * @access public.
+		 * @acces public.
 		 * @var Object.
 		 */
 		public $narrowcasting;
 		
 		/**
-		 * @access public.
+		 * @acces public.
 		 * @return Mixed.
 		 */
 		public function initialize() {
 			$this->narrowcasting = $this->modx->getService('narrowcasting', 'Narrowcasting', $this->modx->getOption('narrowcasting.core_path', null, $this->modx->getOption('core_path').'components/narrowcasting/').'model/narrowcasting/');
-			
-			if (null !== ($key = $this->getProperty('key'))) {
-				$this->setProperty('key', strtolower(str_replace(array(' ', '-'), '_', $key)));	
-			}
-			
+
 			return parent::initialize();
 		}
-		
-		/**
-		 * @access public.
-		 * @return Mixed.
-		 */
-		public function beforeSave() {
-			$this->object->set('key', $this->getProperty('key'));
-			
-			$criteria = array(
-				'key' => $this->getProperty('key')	
-			);
-			
-			if (!preg_match('/^([a-zA-Z0-9\_\-]+)$/si', $this->getProperty('key'))) {
-				$this->addFieldError('key', $this->modx->lexicon('narrowcasting.error_slide_type_character'));
-			} else if ($this->doesAlreadyExist($criteria)) {
-				$this->addFieldError('key', $this->modx->lexicon('narrowcasting.error_slide_type_exists'));
-			}
-			
-			return parent::beforeSave();
-		}
+
+        /**
+         * @access public.
+         * @return Mixed.
+         */
+        public function process() {
+            if (null !== ($object = $this->modx->getObject($this->classKey, $this->getProperty('id')))) {
+                $data = unserialize($object->data);
+
+                if (isset($data[$this->getProperty('key')])) {
+                    unset($data[$this->getProperty('key')]);
+                }
+
+                $object->fromArray(array(
+                    'data' => serialize($data)
+                ));
+
+                if (!$object->save()) {
+                    $this->addFieldError('key', $this->modx->lexicon('narrowcasting.error_slide_type_not_exists'));
+                } else {
+                    return $this->success('', $object);
+                }
+            } else {
+                $this->addFieldError('key', $this->modx->lexicon('narrowcasting.error_slide_type_not_exists'));
+            }
+
+            return $this->failure();
+        }
 	}
 	
-	return 'NarrowcastingSlideTypesCreateProcessor';
-	
+	return 'NarrowcastingSlideTypesDataRemoveProcessor';
+
 ?>

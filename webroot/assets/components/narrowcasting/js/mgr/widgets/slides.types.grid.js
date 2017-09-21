@@ -61,6 +61,14 @@ Narrowcasting.grid.SlideTypes = function(config) {
             editable	: false,
             width		: 250
         }, {
+            header		: _('narrowcasting.label_slide_type_data'),
+            dataIndex	: 'data',
+            sortable	: true,
+            editable	: false,
+            width		: 125,
+            fixed		: true,
+			renderer	: this.renderData
+        }, {
             header		: _('last_modified'),
             dataIndex	: 'editedon',
             sortable	: true,
@@ -76,7 +84,7 @@ Narrowcasting.grid.SlideTypes = function(config) {
         id			: 'narrowcasting-grid-slide-types',
         url			: Narrowcasting.config.connector_url,
         baseParams	: {
-        	action		: 'mgr/slides//types/getlist'
+        	action		: 'mgr/slides/types/getlist'
         },
         fields		: ['key', 'name', 'description', 'icon', 'time', 'data', 'editedon', 'name_formatted', 'description_formatted'],
         paging		: true,
@@ -107,7 +115,11 @@ Ext.extend(Narrowcasting.grid.SlideTypes, MODx.grid.Grid, {
 	        text	: _('narrowcasting.slide_type_update'),
 	        handler	: this.updateSlideType,
 	        scope	: this
-	    }, '-', {
+	    }, {
+            text	: _('narrowcasting.slide_type_data'),
+            handler	: this.slideTypeData,
+            scope	: this
+        }, '-', {
 		    text	: _('narrowcasting.slide_type_remove'),
 		    handler	: this.removeSlideType,
 		    scope	: this
@@ -168,6 +180,30 @@ Ext.extend(Narrowcasting.grid.SlideTypes, MODx.grid.Grid, {
             }
     	});
     },
+    slideTypeData: function(btn, e) {
+		if (this.slideTypeDataWindow) {
+            this.slideTypeDataWindow.destroy();
+        }
+
+        this.slideTypeDataWindow = MODx.load({
+			xtype		: 'narrowcasting-window-slide-type-data',
+			record		: this.menu.record,
+			closeAction	: 'close',
+			buttons		: [{
+			text    	: _('ok'),
+				cls			: 'primary-button',
+				handler		: function() {
+					this.slideTypeDataWindow.close();
+				},
+				scope		: this
+			}]
+		});
+
+        this.slideTypeDataWindow.show(e.target);
+    },
+	renderData: function(d, c) {
+    	return Object.keys(d).length;
+	},
     renderBoolean: function(d, c) {
     	c.css = 1 == parseInt(d) || d ? 'green' : 'red';
 
@@ -189,7 +225,7 @@ Narrowcasting.window.CreateSlideType = function(config) {
 
     Ext.applyIf(config, {
     	autoHeight	: true,
-        title 		: _('narrowcasting.slide_create'),
+        title 		: _('narrowcasting.slide_type_create'),
         url			: Narrowcasting.config.connector_url,
         baseParams	: {
             action		: 'mgr/slides/types/create'
@@ -304,7 +340,7 @@ Narrowcasting.window.UpdateSlideType = function(config) {
 
     Ext.applyIf(config, {
     	autoHeight	: true,
-        title 		: _('narrowcasting.slide_update'),
+        title 		: _('narrowcasting.slide_type_update'),
         url			: Narrowcasting.config.connector_url,
         baseParams	: {
             action		: 'mgr/slides/types/update'
@@ -414,3 +450,24 @@ Ext.extend(Narrowcasting.window.UpdateSlideType, MODx.Window, {
 });
 
 Ext.reg('narrowcasting-window-slide-type-update', Narrowcasting.window.UpdateSlideType);
+
+Narrowcasting.window.SlideTypeData = function(config) {
+    config = config || {};
+
+    Ext.applyIf(config, {
+        width		: 600,
+        autoHeight	: true,
+		title 		: _('narrowcasting.slide_type_data'),
+		fields		: [{
+			xtype			: 'narrowcasting-grid-slide-types-data',
+			record			: config.record,
+			preventRender	: true
+		}]
+    });
+
+    Narrowcasting.window.SlideTypeData.superclass.constructor.call(this, config);
+};
+
+Ext.extend(Narrowcasting.window.SlideTypeData, MODx.Window);
+
+Ext.reg('narrowcasting-window-slide-type-data', Narrowcasting.window.SlideTypeData);

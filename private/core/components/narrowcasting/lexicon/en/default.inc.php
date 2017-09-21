@@ -24,7 +24,11 @@
 
 	$_lang['area_narrowcasting']									= 'Narrowcasting';
 
-	$_lang['setting_narrowcasting.auto_create_sync']				= 'Auto create synchronize';
+    $_lang['setting_narrowcasting.branding_url']              		= 'Branding';
+    $_lang['setting_narrowcasting.branding_url_desc']         		= 'The URL of the branding button, if the URL is empty the branding button won\'t be shown.';
+    $_lang['setting_narrowcasting.branding_url_help']         		= 'Branding (help)';
+    $_lang['setting_narrowcasting.branding_url_help_desc']   		= 'The URL of the branding help button, if the URL is empty the branding help button won\'t be shown.';
+    $_lang['setting_narrowcasting.auto_create_sync']				= 'Auto create synchronize';
 	$_lang['setting_narrowcasting.auto_create_sync_desc']			= 'Create automatically an synchronize when no synchronize available.';
 	$_lang['setting_narrowcasting.request_resource']				= 'Default request';
 	$_lang['setting_narrowcasting.request_resource_desc']			= 'The ID of the resource that you want to use as default request.';
@@ -157,7 +161,8 @@
 	$_lang['narrowcasting.slide_type_update']						= 'Update slide type';
 	$_lang['narrowcasting.slide_type_remove']						= 'Delete slide type';
 	$_lang['narrowcasting.slide_type_remove_confirm']				= 'Are you sure you want to delete this slide type?';
-	
+    $_lang['narrowcasting.slide_type_data']					        = 'Slide types fields';
+
 	$_lang['narrowcasting.label_slide_type_key']					= 'Key';
     $_lang['narrowcasting.label_slide_type_key_desc']				= 'The key of the slide type.';
 	$_lang['narrowcasting.label_slide_type_name']					= 'Name';
@@ -168,7 +173,21 @@
     $_lang['narrowcasting.label_slide_type_icon_desc']				= 'The icon of the slide type.';
     $_lang['narrowcasting.label_slide_type_time']					= 'Duration';
 	$_lang['narrowcasting.label_slide_type_time_desc']				= 'The default duration of the slide in seconds or minutes.';
-    
+    $_lang['narrowcasting.label_slide_type_data']					= 'Fields';
+    $_lang['narrowcasting.label_slide_type_data_desc']				= '';
+
+    $_lang['narrowcasting.slide_type_data_create']					= 'Create field';
+    $_lang['narrowcasting.slide_type_data_update']					= 'Update field';
+    $_lang['narrowcasting.slide_type_data_remove']					= 'Delete field';
+    $_lang['narrowcasting.slide_type_data_remove_confirm']			= 'Are you sure you want to delete this field?';
+
+    $_lang['narrowcasting.label_slide_type_data_key']               = 'Key';
+    $_lang['narrowcasting.label_slide_type_data_key_desc']          = 'The key of the field.';
+    $_lang['narrowcasting.label_slide_type_data_xtype']             = 'Type';
+    $_lang['narrowcasting.label_slide_type_data_xtype_desc']        = 'The xtype of the field.';
+    $_lang['narrowcasting.label_slide_type_data_value']             = 'Value';
+    $_lang['narrowcasting.label_slide_type_data_value_desc']        = 'The default value of the field.';
+
 	$_lang['narrowcasting.label_schedule_broadcast']				= 'Broadcast';
 	$_lang['narrowcasting.label_schedule_broadcast_desc']			= 'The broadcast of the schedule.';
 	$_lang['narrowcasting.label_schedule_description']				= 'Description';

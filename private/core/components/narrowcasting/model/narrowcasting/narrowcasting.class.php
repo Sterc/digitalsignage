@@ -47,7 +47,7 @@
 
 	        $this->config = array_merge(array(
 	            'namespace'				=> $this->modx->getOption('namespace', $config, 'narrowcasting'),
-	            'lexicons'				=> array('narrowcasting:default', 'narrowcasting:slides'),
+	            'lexicons'				=> array('narrowcasting:default', 'narrowcasting:slides', 'site:narrowcasting'),
 	            'base_path'				=> $corePath,
 	            'core_path' 			=> $corePath,
 	            'model_path' 			=> $corePath.'model/',
@@ -64,10 +64,9 @@
 	            'assets_url' 			=> $assetsUrl,
 	            'connector_url'			=> $assetsUrl.'connector.php',
 	            'version'				=> '1.1.0',
-	            'branding'				=> (boolean) $this->modx->getOption('narrowcasting.branding', null, true),
-	            'branding_url'			=> 'http://www.sterc.nl',
-	            'branding_help_url'		=> 'http://www.sterc.nl',
-	            'has_permission'		=> $this->hasPermission(),
+                'branding_url'			=> $this->modx->getOption('narrowcasting.branding_url', null, ''),
+                'branding_help_url'		=> $this->modx->getOption('narrowcasting.branding_url_help', null, ''),
+                'has_permission'		=> $this->hasPermission(),
 	            'request_id'			=> $this->modx->getOption('narrowcasting.request_resource'),
 	            'request_url'			=> $this->modx->makeUrl($this->modx->getOption('narrowcasting.request_resource'), null, null, 'full'),
 	            'export_id'				=> $this->modx->getOption('narrowcasting.export_resource'),
@@ -88,13 +87,26 @@
 	        }
 	    }
 
-	    /**
-	     * @access public.
-	     * @return String.
-	     */
-	    public function getHelpUrl() {
-	        return $this->config['branding_help_url'].'?v='.$this->config['version'];
-	    }
+        /**
+         * @access public.
+         * @return String|Boolean.
+         */
+        public function getHelpUrl() {
+            if (!empty($this->config['branding_help_url'])) {
+                return $this->config['branding_help_url'].'?v=' . $this->config['version'];
+            }
+            return false;
+        }
+        /**
+         * @access public.
+         * @return String|Boolean.
+         */
+        public function getBrandingUrl() {
+            if (!empty($this->config['branding_url'])) {
+                return $this->config['branding_url'];
+            }
+            return false;
+        }
 	    
 	    /**
 		 * @access public.

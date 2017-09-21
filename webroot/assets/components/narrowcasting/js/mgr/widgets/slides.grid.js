@@ -396,7 +396,7 @@ Ext.extend(Narrowcasting.window.CreateSlide, MODx.Window, {
 		                    	hideLabel	: true,
 		                    	boxLabel	: _('narrowcasting.slide_' + type + '_' + name)
 	                        });
-	                        
+
 	                    	break;
 	                    case 'textarea':
 	                    	record = Ext.apply(record, {

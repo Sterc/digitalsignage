@@ -6,8 +6,8 @@ Narrowcasting.page.Admin = function(config) {
 	config = config || {};
 	
 	config.buttons = [];
-	
-	if (Narrowcasting.config.branding) {
+
+    if (Narrowcasting.config.branding_url) {
 		config.buttons.push({
 			text 		: 'Narrowcasting ' + Narrowcasting.config.version,
 			cls			: 'x-btn-branding',
@@ -19,11 +19,15 @@ Narrowcasting.page.Admin = function(config) {
 		text		: _('narrowcasting.default_view'),
 		handler		: this.toDefaultView,
 		scope		: this
-	}, '-', {
-		text		: _('help_ex'),
-		handler		: MODx.loadHelpPane,
-		scope		: this
 	});
+
+    if (Narrowcasting.config.branding_url_help) {
+        config.buttons.push('-', {
+            text		: _('help_ex'),
+            handler		: MODx.loadHelpPane,
+            scope		: this
+        });
+    }
 	
 	Ext.applyIf(config, {
 		components	: [{

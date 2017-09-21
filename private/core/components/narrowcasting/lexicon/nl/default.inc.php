@@ -24,7 +24,11 @@
 
 	$_lang['area_narrowcasting']									= 'Narrowcasting';
 
-	$_lang['setting_narrowcasting.auto_create_sync']				= 'Automatisch synchroniseren';
+    $_lang['setting_narrowcasting.branding_url']              		= 'Branding';
+    $_lang['setting_narrowcasting.branding_url_desc']        		= 'De URL waar de branding knop heen verwijst, indien leeg wordt de branding knop niet getoond.';
+    $_lang['setting_narrowcasting.branding_url_help']         		= 'Branding (help)';
+    $_lang['setting_narrowcasting.branding_url_help_desc']    		= 'De URL waar de branding help knop heen verwijst, indien leeg wordt de branding help knop niet getoond.';
+    $_lang['setting_narrowcasting.auto_create_sync']				= 'Automatisch synchroniseren';
 	$_lang['setting_narrowcasting.auto_create_sync_desc']			= 'Automatisch synchroniseren wanneer er geen synchronisatie beschikbaar is.';
 	$_lang['setting_narrowcasting.request_resource']				= 'Standaardverzoek';
 	$_lang['setting_narrowcasting.request_resource_desc']			= 'De ID van de resource die u als standaardverzoek wilt gebruiken.';
@@ -157,6 +161,7 @@
 	$_lang['narrowcasting.slide_type_update']						= 'Slide type wijzigen';
 	$_lang['narrowcasting.slide_type_remove']						= 'Slide type verwijderen';
 	$_lang['narrowcasting.slide_type_remove_confirm']				= 'Weet je zeker dat je deze slide type wilt verwijderen?';
+	$_lang['narrowcasting.slide_type_data']					        = 'Slide type velden';
 
 	$_lang['narrowcasting.label_slide_type_key']					= 'Sleutel';
     $_lang['narrowcasting.label_slide_type_key_desc']				= 'De sleutel van de slide type.';
@@ -168,7 +173,21 @@
     $_lang['narrowcasting.label_slide_type_icon_desc']				= 'De icoon van de slide type.';
     $_lang['narrowcasting.label_slide_type_time']					= 'Looptijd';
 	$_lang['narrowcasting.label_slide_type_time_desc']				= 'De standaard looptijd van de slide in seconden of minuten.';
-	
+    $_lang['narrowcasting.label_slide_type_data']					= 'Velden';
+    $_lang['narrowcasting.label_slide_type_data_desc']				= '';
+
+    $_lang['narrowcasting.slide_type_data_create']					= 'Nieuw veld';
+    $_lang['narrowcasting.slide_type_data_update']					= 'Veld wijzigen';
+    $_lang['narrowcasting.slide_type_data_remove']					= 'Veld verwijderen';
+    $_lang['narrowcasting.slide_type_data_remove_confirm']			= 'Weet je zeker dat je dit veld wilt verwijderen?';
+
+    $_lang['narrowcasting.label_slide_type_data_key']               = 'Sleutel';
+    $_lang['narrowcasting.label_slide_type_data_key_desc']          = 'De sleutel van het veld.';
+    $_lang['narrowcasting.label_slide_type_data_xtype']             = 'Type';
+    $_lang['narrowcasting.label_slide_type_data_xtype_desc']        = 'De xtype van het veld.';
+    $_lang['narrowcasting.label_slide_type_data_value']             = 'Waarde';
+    $_lang['narrowcasting.label_slide_type_data_value_desc']        = 'De standaard waarde van het veld.';
+
     $_lang['narrowcasting.label_schedule_broadcast']				= 'Uitzending';
     $_lang['narrowcasting.label_schedule_broadcast_desc']			= 'De uitzending van het schema.';
     $_lang['narrowcasting.label_schedule_description']				= 'Omschrijving';
@@ -213,8 +232,11 @@
     $_lang['narrowcasting.error_player_resolution']					= 'Niet een geldige resolutie (breedte x hoogte (zonder spaties)).';
 	$_lang['narrowcasting.error_resource_object']					= 'Er is een fout opgetreden tijdens het opslaan van de uitzending resource.';
 	$_lang['narrowcasting.error_slide_type_character']				= 'De sleutel bevat niet toegestane tekens. Definieer een andere sleutel.';
-	$_lang['narrowcasting.error_slide_type_exists']					= 'Een slide met deze sleutel bestaat reeds. Definieer een andere sleutel';
-	$_lang['narrowcasting.slide_name_duplicate']                    = 'Duplicaat van [[+name]]';
+	$_lang['narrowcasting.error_slide_type_exists']					= 'Een slide type met deze sleutel bestaat reeds. Definieer een andere sleutel.';
+    $_lang['narrowcasting.error_slide_type_not_exists']				= 'Een slide type met deze sleutel bestaat niet.';
+    $_lang['narrowcasting.error_slide_type_data_character']			= 'De sleutel bevat niet toegestane tekens. Definieer een andere sleutel.';
+    $_lang['narrowcasting.error_slide_type_date_exists']			= 'Een veld met deze sleutel bestaat reeds. Definieer een andere sleutel';
+    $_lang['narrowcasting.slide_name_duplicate']                    = 'Duplicaat van [[+name]]';
 	$_lang['narrowcasting.next_sync']                               = 'Over [[+time]] minuten';
     $_lang['narrowcasting.preview_resolution']                      = ' (resolutie [[+resolution]])';
 

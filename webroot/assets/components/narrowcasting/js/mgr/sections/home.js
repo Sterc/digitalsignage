@@ -6,14 +6,14 @@ Narrowcasting.page.Home = function(config) {
 	config = config || {};
 	
 	config.buttons = [];
-	
-	if (Narrowcasting.config.branding) {
-		config.buttons.push({
+
+    if (Narrowcasting.config.branding_url) {
+        config.buttons.push({
 			text 		: 'Narrowcasting ' + Narrowcasting.config.version,
 			cls			: 'x-btn-branding',
 			handler		: this.loadBranding
 		});
-	}
+    }
 	
 	if (Narrowcasting.config.has_permission) {
 		config.buttons.push({
@@ -22,12 +22,14 @@ Narrowcasting.page.Home = function(config) {
 			scope		: this
 		}, '-');
 	}
-	
-	config.buttons.push({
-		text		: _('help_ex'),
-		handler		: MODx.loadHelpPane,
-		scope		: this
-	});
+
+    if (Narrowcasting.config.branding_url_help) {
+        config.buttons.push('-', {
+            text		: _('help_ex'),
+            handler		: MODx.loadHelpPane,
+            scope		: this
+        });
+    }
 	
 	Ext.applyIf(config, {
 		components	: [{

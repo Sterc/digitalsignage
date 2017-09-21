@@ -30,6 +30,7 @@
 	        $this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/admin.panel.js');
 
 	        $this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/slides.types.grid.js');
+            $this->addJavascript($this->narrowcasting->config['js_url'].'mgr/widgets/slides.types.data.grid.js');
 
 	        $this->addLastJavascript($this->narrowcasting->config['js_url'].'mgr/sections/admin.js');
 	    }

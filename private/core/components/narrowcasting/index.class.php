@@ -38,8 +38,11 @@
 			$this->addHtml('<script type="text/javascript">
 				Ext.onReady(function() {
 					MODx.config.help_url = "'.$this->narrowcasting->getHelpUrl().'";
-			
-					Narrowcasting.config = '.$this->modx->toJSON($this->narrowcasting->config).';
+	
+					Narrowcasting.config = '.$this->modx->toJSON(array_merge($this->narrowcasting->config, array(
+						'branding_url'          => $this->narrowcasting->getBrandingUrl(),
+						'branding_url_help'     => $this->narrowcasting->getHelpUrl()
+					))).';
 				});
 			</script>');
 
