@@ -1,5 +1,42 @@
 Changelog for FormIt.
 
+FormIt 3.0.3
+====================================
+- Fix FormItSaveForm to allow multiple fields with same fieldName
+- Add 'saveTmpFiles' FormIt snippet property to enable/disable saving files to tmp directory
+- Remove list() function from formitsaveform snippet for better PHP version compatibility (#98)
+- Fix PHP7 by-reference errors (#98)
+- Replace ereg() functions with preg_match() for PHP compatibility (#98)
+- Increase precision for FormItForm 'ip' field to allow for IPV6 addresses (#135)
+- Fix issue where in some cases fields are not correctly saved in FormItForm (#92)
+- Optimize FormItForm export class for better performance (#120)
+- Add 'attachFilesToEmail' property to control if files are added as attachment to email (#122)
+
+FormIt 3.0.2
+====================================
+- Fix encryption in formitsaveform snippet to save correct encryption_type
+- Fix bug in forms grid when decrypting encrypted forms fail
+- Fix migration to check if decrypted data is correct
+
+FormIt 3.0.1
+====================================
+- Store file uploads in tmp folder to prevent file uploads getting lost in multistep forms
+- Add checks for OpenSSL in classes and encryption CMP tab
+- Add method_exists check to plugin to prevent errors when method not exists
+- Update context-menu in forms-encryption grid to show only encrypt or decrypt
+- Set placeholders for file upload $_FILES array
+- Add option to FormItCountryOptions snippet to limit country list to selected countries only (PR#123) - thanks to gadgetto
+
+FormIt 3.0.0
+====================================
+- PLEASE NOTE: THIS UPDATE CONTAINS A MIGRATION SCRIPT FOR ENCRYPTED FORMS - Read more about it at https://github.com/Sterc/FormIt
+- Mcrypt encryption/decryption methods replaced with openssl due to mcrypt being deprecated in PHP 7.1
+- Add default file-based chunks as objects
+- Add support for pdoTools getChunk method, thanks to soulcreate and bezumkin (PR#89)
+- Add French countries for FormItCountryOptions, thanks to beau-gosse (PR#109)
+- Add Dutch countries for FormItCountryOptions, thanks to visvoer (PR#110)
+- Add extjs stateful parameters to CMP tabs
+
 FormIt 2.2.11
 ====================================
 - Added storeLocation property to FormIt and FormItRetriever. (issue #95, PR #105#106#107)

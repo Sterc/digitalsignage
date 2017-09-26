@@ -83,7 +83,7 @@ class fiHooks {
      */
     function __construct(FormIt &$formit,array $config = array(),$type = '') {
         $this->formit =& $formit;
-        $this->modx =& $formit->modx;
+        $this->modx = $formit->modx;
         $this->config = array_merge(array(
             'placeholderPrefix' => 'fi.',
             'errTpl' => '<span class="error">[[+error]]</span>',
@@ -383,7 +383,7 @@ class fiHooks {
         /* compile message */
         $origFields = $fields;
         if (empty($tpl)) {
-            $tpl = 'email';
+            $tpl = 'fiDefaultEmailTpl';
             $f = '';
             $multiSeparator = $this->modx->getOption('emailMultiSeparator', $this->formit->config, "\n");
             $multiWrapper = $this->modx->getOption('emailMultiWrapper', $this->formit->config, "[[+value]]");
@@ -428,10 +428,10 @@ class fiHooks {
                 $multiWrapper = '[[+value]]';
             }
             
-            foreach ($fields as $k => &$v) {
+            foreach ($fields as $k => $v) {
                 if (is_array($v) && !empty($v['name']) && isset($v['error']) && $v['error'] == UPLOAD_ERR_OK) {
                     $v = $v['name'];
-                } else if (is_array($v)) {
+                } elseif (is_array($v)) {
                     $vOpts = array();
                     foreach ($v as $vKey => $vValue) {
                         if (is_string($vKey) && !empty($vKey)) {
@@ -464,26 +464,38 @@ class fiHooks {
         $this->modx->mail->set(modMail::MAIL_SUBJECT, $subject);
 
         /* handle file fields */
-        $attachmentIndex = 0;
-        foreach ($origFields as $k => $v) {
-            if (is_array($v) && !empty($v['tmp_name'])) {
-                if (is_array($v['name'])) {
-                    for ($i = 0; $i < count($v['name']); ++$i) {
-                        if (isset($v['error'][$i]) && $v['error'][$i] == UPLOAD_ERR_OK) {
-                            if (empty($v['name'][$i])) {
-                                $v['name'][$i] = 'attachment'.$attachmentIndex;
+        if ($this->modx->getOption('attachFilesToEmail', $this->config, true)) {
+            $attachmentIndex = 0;
+            foreach ($origFields as $k => $v) {
+                if (is_array($v) && !empty($v['tmp_name'])) {
+                    if (is_array($v['name'])) {
+                        for ($i = 0; $i < count($v['name']); ++$i) {
+                            if (isset($v['error'][$i]) && $v['error'][$i] == UPLOAD_ERR_OK) {
+                                if (empty($v['name'][$i])) {
+                                    $v['name'][$i] = 'attachment' . $attachmentIndex;
+                                }
+                                $this->modx->mail->mailer->addAttachment(
+                                    $v['tmp_name'][$i],
+                                    $v['name'][$i],
+                                    'base64',
+                                    !empty($v['type'][$i]) ? $v['type'][$i] : 'application/octet-stream'
+                                );
+                                $attachmentIndex++;
                             }
-                            $this->modx->mail->mailer->addAttachment($v['tmp_name'][$i], $v['name'][$i], 'base64', !empty($v['type'][$i]) ? $v['type'][$i] : 'application/octet-stream');
+                        }
+                    } else {
+                        if (isset($v['error']) && $v['error'] == UPLOAD_ERR_OK) {
+                            if (empty($v['name'])) {
+                                $v['name'] = 'attachment' . $attachmentIndex;
+                            }
+                            $this->modx->mail->mailer->addAttachment(
+                                $v['tmp_name'],
+                                $v['name'],
+                                'base64',
+                                !empty($v['type']) ? $v['type'] : 'application/octet-stream'
+                            );
                             $attachmentIndex++;
                         }
-                    }
-                } else {
-                    if (isset($v['error']) && $v['error'] == UPLOAD_ERR_OK) {
-                        if (empty($v['name'])) {
-                            $v['name'] = 'attachment'.$attachmentIndex;
-                        }
-                        $this->modx->mail->mailer->addAttachment($v['tmp_name'], $v['name'], 'base64', !empty($v['type']) ? $v['type'] : 'application/octet-stream');
-                        $attachmentIndex++;
                     }
                 }
             }

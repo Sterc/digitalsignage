@@ -39,8 +39,15 @@ class FormItGetListProcessor extends modObjectGetListProcessor
     public function prepareRow(xPDOObject $object)
     {
         $ff = $object->toArray();
-        if ($ff['encrypted']){
-            $ff['values'] = $object->decrypt($ff['values']);
+        if ($ff['encrypted']) {
+            $values = $object->decrypt($ff['values']);
+            if (!is_array(json_decode($values, true))) {
+                $values = $object->decrypt($ff['values'], 1);
+                if (!is_array(json_decode($values, true))) {
+                    $values = json_encode(array('error' => '<i>data corrupt</i>'));
+                }
+            }
+            $ff['values'] = $values;
         }
         
         return $ff;

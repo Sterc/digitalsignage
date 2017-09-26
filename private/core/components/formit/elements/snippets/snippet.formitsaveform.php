@@ -67,26 +67,35 @@ if ($formFields) {
 }
 // Build the data array
 $dataArray = array();
-if($formFields){
-    foreach($formFields as $field) {
-        $dataArray[$field] = (!isset($values[$field])) ? '' : $values[$field];
+if ($formFields) {
+    foreach ($formFields as $field) {
+        $fieldValue = isset($values[$field]) ? $values[$field] : '';
+        // When field is file field, value is an array
+        if (is_array($fieldValue) && isset($fieldValue['tmp_name'], $fieldValue['name'])) {
+            $fieldValue = $fieldValue['name'];
+        }
+        $dataArray[$field] = $fieldValue;
     }
-}else{
+} else {
     $dataArray = $values;
 }
-//Change the fieldnames
-if($fieldNames){
+// Change the fieldnames
+if ($fieldNames) {
     $newDataArray = array();
     $fieldLabels = array();
     $formFieldNames = explode(',', $fieldNames);
-    foreach($formFieldNames as $formFieldName){
-        list($name, $label) = explode('==', $formFieldName);
-        $fieldLabels[trim($name)] = trim($label);
+    foreach ($formFieldNames as $formFieldName) {
+        $parts = explode('==', $formFieldName);
+        $fieldLabels[trim($parts[0])] = trim($parts[1]);
     }
     foreach ($dataArray as $key => $value) {
-        if($fieldLabels[$key]){
-            $newDataArray[$fieldLabels[$key]] = $value;
-        }else{
+        if ($fieldLabels[$key]) {
+            $labelKey = $fieldLabels[$key];
+            if (array_key_exists($labelKey, $newDataArray)) {
+                $labelKey .= ' ('.$key.')';
+            }
+            $newDataArray[$labelKey] = $value;
+        } else {
             $newDataArray[$key] = $value;
         }
     }
@@ -100,12 +109,23 @@ $newForm = null;
 if ($mode === 'update') {
     $newForm = $modx->getObject('FormItForm', array('hash' => $formHashKey));
 }
-if ($newForm === null) $newForm = $modx->newObject('FormItForm');
+if ($newForm === null) {
+    $newForm = $modx->newObject('FormItForm');
+}
+
+// Array from which to populate form record
+$newFormArray = array();
 
 // Handle encryption
-if($formEncrypt){
+$encryptionType = 1;
+if ($formEncrypt) {
     $dataArray = $newForm->encrypt($modx->toJSON($dataArray));
-}else{
+    // Only set encryption type if encryption is successful
+    if ($dataArray) {
+        // Set encryption type to 2 (openssl)
+        $encryptionType = 2;
+    }
+} else {
     $dataArray = $modx->toJSON($dataArray);
 }
 
@@ -114,16 +134,14 @@ if ($mode === 'create') {
     $formHashKey = ($formHashKeyRandom) ? $newForm->generatePseudoRandomHash() : pathinfo($formit->getStoreKey(), PATHINFO_BASENAME);
 }
 
-// Array from which to populate form record
-$newFormArray = array();
-
 // Special case: if updateSavedForm has the flag 'values' we only merge in
 // the form values, not the other stuff
 if ($mode === 'update' && $updateSavedForm === 'values') {
     $newFormArray = $newForm->toArray();
     $newFormArray = array_merge($newFormArray, array(
         'values' => $dataArray,
-    ));       
+        'encryption_type' => $encryptionType,
+    ));
 } else {
     // In all other cases, we overwrite the record completely!
     // In create mode we must save the hash. In update mode, the 
@@ -135,6 +153,7 @@ if ($mode === 'update' && $updateSavedForm === 'values') {
         'ip' => $modx->getOption('REMOTE_ADDR', $_SERVER, ''),
         'context_key' => $modx->resource->get('context_key'),
         'encrypted' => $formEncrypt,
+        'encryption_type' => $encryptionType,
         'hash' => $formHashKey,
     );
 }

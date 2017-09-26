@@ -12,6 +12,12 @@ class FormItDecryptProcessor extends modObjectGetListProcessor
     public $defaultSortField = 'id';
     public $defaultSortDirection = 'DESC';
 
+    public function initialize()
+    {
+        $this->setProperty('limit', 0);
+        return parent::initialize();
+    }
+
     public function prepareQueryBeforeCount(xPDOQuery $c)
     {
         $c->where(array(
@@ -25,7 +31,8 @@ class FormItDecryptProcessor extends modObjectGetListProcessor
     {
         $object->set('encrypted', 0);
         $values = $object->get('values');
-        $object->set('values', $object->decrypt($values));
+        $type = $object->get('encryption_type');
+        $object->set('values', $object->decrypt($values, $type));
         $object->save();
         $ff = $object->toArray();
         return $ff;
