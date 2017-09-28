@@ -71,7 +71,9 @@
                 if (!preg_match('/^([a-zA-Z0-9\_\-]+)$/si', $this->getProperty('key'))) {
                     $this->addFieldError('key', $this->modx->lexicon('narrowcasting.error_slide_type_data_character'));
                 } else {
-                    if (null === ($data = unserialize($object->data))) {
+                    $data = unserialize($object->data);
+
+                    if (!is_array($data)) {
                         $data = array();
                     }
 

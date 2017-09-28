@@ -53,6 +53,26 @@
 
 			return parent::initialize();
 		}
+
+        /**
+         * @access public.
+         * @return Mixed.
+         */
+        public function afterRemove() {
+            $c = array(
+                'id' => $this->object->broadcast_id
+            );
+
+            if (null !== ($broadcast = $this->modx->getObject('NarrowcastingBroadcasts', $c))) {
+                $broadcast->fromArray(array(
+                    'hash' => time()
+                ));
+
+                $broadcast->save();
+            }
+
+            return parent::afterRemove();
+        }
 	}
 	
 	return 'NarrowcastingBroadcastFeedsRemoveProcessor';

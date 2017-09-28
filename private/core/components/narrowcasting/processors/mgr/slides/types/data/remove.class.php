@@ -62,6 +62,10 @@
             if (null !== ($object = $this->modx->getObject($this->classKey, $this->getProperty('id')))) {
                 $data = unserialize($object->data);
 
+                if (!is_array($data)) {
+                    $data = array();
+                }
+
                 if (isset($data[$this->getProperty('key')])) {
                     unset($data[$this->getProperty('key')]);
                 }

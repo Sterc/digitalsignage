@@ -11,8 +11,8 @@
 			'templatename'	=> ucfirst($name),
 			'description'	=> PKG_NAME.' '.PKG_VERSION.'-'.PKG_RELEASE.' template for MODx Revolution',
 			'static'        => '1',
-			'static_file'   => '/components/'.PKG_NAME_LOWER.'/elements/templates/'.$name.'.template.tpl',
-            'source'        => '4',
+			'static_file'   => '/core/components/'.PKG_NAME_LOWER.'/elements/templates/'.$name.'.template.tpl',
+            'source'        => '1',
 			'icon'          => 'icon-play-circle',
 			'content'		=> getSnippetContent($value)
 		));

@@ -138,6 +138,37 @@
 	        ));
 	    }
 
+        /**
+         * @access public.
+         * @param Array $scriptProperties.
+         */
+        public function initializeContext($scriptProperties = array()) {
+            if ('OnHandleRequest' == $this->modx->event->name) {
+                if ('mgr' != $this->modx->context->key) {
+                    $key = $this->modx->getOption('narrowcasting.context', null, 'nc');
+                    $base = '/nc/';
+
+                    if (null !== ($object = $this->modx->getObject('modContextSetting', array('context_key' => $key, 'key' => 'base_url')))) {
+                        $base = $object->value;
+                    }
+
+                    if (0 === strpos($_SERVER['REQUEST_URI'], $base)) {
+                        $this->modx->switchContext($key);
+                        $this->modx->setOption('site_start', $this->modx->getOption('narrowcasting.request_resource'));
+                        $this->modx->setOption('error_page', $this->modx->getOption('narrowcasting.request_resource'));
+
+                    	if (1 == $this->modx->getOption('friendly_urls')) {
+                    		$alias = $this->modx->getOption('request_param_alias', null, 'q');
+
+                    		if (isset($_REQUEST[$alias])) {
+                    			$_REQUEST[$alias] = substr('/'.ltrim($_REQUEST[$alias], '/'), strlen($base));
+							}
+						}
+                    }
+                }
+            }
+        }
+
 	    /**
 	     * @access public.
 	     * @param Array $scriptProperties.

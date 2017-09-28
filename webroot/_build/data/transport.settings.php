@@ -33,7 +33,7 @@
     $settings[3]->fromArray(array(
         'key' 		=> PKG_NAME_LOWER.'.context',
         'value' 	=> 'nc',
-        'xtype' 	=> 'textfield',
+        'xtype' 	=> 'modx-combo-context',
         'namespace' => PKG_NAME_LOWER,
         'area' 		=> PKG_NAME_LOWER
     ), '', true, true);
@@ -50,7 +50,7 @@
     $settings[5] = $modx->newObject('modSystemSetting');
     $settings[5]->fromArray(array(
         'key' 		=> PKG_NAME_LOWER.'.media_source',
-        'value' 	=> '2',
+        'value' 	=> '1',
         'xtype' 	=> 'modx-combo-source',
         'namespace' => PKG_NAME_LOWER,
         'area' 		=> PKG_NAME_LOWER

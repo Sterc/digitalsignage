@@ -107,7 +107,7 @@
 		 * @param Boolean $count.
 		 * @return String.
 		 */
-		public function outputArray($array) {
+        public function outputArray(array $array, $count = false) {
         	return $this->modx->toJSON($array);
     	}
 	}

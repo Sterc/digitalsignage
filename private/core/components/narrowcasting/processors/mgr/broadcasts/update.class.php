@@ -95,6 +95,29 @@
 
 			return parent::beforeSave();
 		}
+
+        /**
+         * @access public.
+         * @return Mixed.
+         */
+        public function afterSave() {
+            $this->modx->cacheManager->refresh(array(
+                'db'                => array(),
+                'auto_publish'      => array(
+                    'contexts' => array($this->modx->getOption('narrowcasting.context'))
+                ),
+                'context_settings'  => array(
+                    'contexts' => array($this->modx->getOption('narrowcasting.context'))
+                ),
+                'resource'          => array(
+                    'contexts' => array($this->modx->getOption('narrowcasting.context'))
+                )
+            ));
+
+            $this->modx->call('modResource', 'refreshURIs', array(&$this->modx));
+
+            return parent::afterSave();
+        }
 	}
 	
 	return 'NarrowcastingBroadcastsUpdateProcessor';

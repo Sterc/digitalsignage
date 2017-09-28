@@ -9,10 +9,6 @@ if (count($pieces) > 0) {
             $_REQUEST[$modx->getOption('request_param_alias', null, 'q')] = (isset($pieces[1]) ? $fullUrl : '');
             $modx->switchContext('Nieuwsbrieven');
             break;
-        case 'nc':
-            $_REQUEST[$modx->getOption('request_param_alias', null, 'q')] = (isset($pieces[1]) ? $fullUrl : '');
-            $modx->switchContext('nc');
-            break;
         default:
             break;
     }

@@ -11,8 +11,8 @@
 			'name'			=> ucfirst($name),
 			'description'	=> PKG_NAME.' '.PKG_VERSION.'-'.PKG_RELEASE.' plugin for MODx Revolution',
             'static'        => '1',
-            'static_file'   => '/components/'.PKG_NAME_LOWER.'/elements/plugins/'.$name.'.plugin.php',
-            'source'        => '4',
+            'static_file'   => '/core/components/'.PKG_NAME_LOWER.'/elements/plugins/'.$name.'.plugin.php',
+            'source'        => '1',
 			'content'		=> getSnippetContent($value)
 		));
 		

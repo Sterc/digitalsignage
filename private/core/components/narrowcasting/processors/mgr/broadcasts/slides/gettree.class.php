@@ -127,16 +127,16 @@
 	            'pk'		=> $this->getProperty('broadcast_id')
 	        );
 		}
-		
-		/**
-		 * @access public.
-		 * @param Array $array.
-		 * @param Boolean $count.
-		 * @return String.
-		 */
-		public function outputArray($array) {
-        	return $this->modx->toJSON($array);
-    	}
+
+        /**
+         * @access public.
+         * @param Array $array.
+         * @param Boolean $count.
+         * @return String.
+         */
+        public function outputArray(array $array, $count = false) {
+            return $this->modx->toJSON($array);
+        }
 	}
 
 	return 'NarrowcastingSlidesGetTreeProcessor';

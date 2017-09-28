@@ -86,6 +86,10 @@
                 $data   = unserialize($object->data);
                 $query  = $this->getProperty('query');
 
+                if (!is_array($data)) {
+                    $data = array();
+                }
+
                 if ('key' == $this->getProperty('sort')) {
                     if ('DESC' == strtoupper($this->getProperty('dir'))) {
                         krsort($data);

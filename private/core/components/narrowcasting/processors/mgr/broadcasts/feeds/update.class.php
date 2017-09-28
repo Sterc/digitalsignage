@@ -69,6 +69,26 @@
 			
 			return parent::beforeSave();
 		}
+
+        /**
+         * @access public.
+         * @return Mixed.
+         */
+        public function afterSave() {
+            $c = array(
+                'id' => $this->object->broadcast_id
+            );
+
+            if (null !== ($broadcast = $this->modx->getObject('NarrowcastingBroadcasts', $c))) {
+                $broadcast->fromArray(array(
+                    'hash' => time()
+                ));
+
+                $broadcast->save();
+            }
+
+            return parent::afterSave();
+        }
 	}
 	
 	return 'NarrowcastingBroadcastFeedsUpdateProcessor';
