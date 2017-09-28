@@ -1,5 +1,5 @@
 User-agent: *
-Allow: /assets/components/modx-minify/
+Allow: /assets/components/modxminify/
 Allow: /assets/site/
 Allow: /assets/css/
 Allow: /assets/js/
