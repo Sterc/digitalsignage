@@ -430,10 +430,10 @@ Ext.extend(Narrowcasting.window.CreateSlide, MODx.Window, {
                     }));
 
                     container.add({
-                                      xtype		: MODx.expandHelp ? 'label' : 'hidden',
-                                      html		:  _('narrowcasting.slide_' + type + '_' + name + '_desc'),
-                                      cls			: 'desc-under'
-                                  });
+                        xtype		: MODx.expandHelp ? 'label' : 'hidden',
+                        html		:  _('narrowcasting.slide_' + type + '_' + name + '_desc'),
+                        cls			: 'desc-under'
+                    });
                 }, this);
 
                 this.doLayout();
@@ -630,7 +630,7 @@ Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
                             });
 
                             break;
-                        case 'default':
+                        default:
                             record = Ext.apply(record, {
                                 value 		: this.config.record.data[name]
                             });
@@ -649,10 +649,11 @@ Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
                     }));
 
                     container.add({
-                                      xtype		: MODx.expandHelp ? 'label' : 'hidden',
-                                      html		:  _('narrowcasting.slide_' + type + '_' + name + '_desc'),
-                                      cls			: 'desc-under'
-                                  });
+                        xtype		: MODx.expandHelp ? 'label' : 'hidden',
+                        html		:  _('narrowcasting.slide_' + type + '_' + name + '_desc'),
+                        cls			: 'desc-under'
+                    });
+
                 }, this);
 
                 this.doLayout();
@@ -711,10 +712,10 @@ Narrowcasting.combo.SlidesTypes = function(config) {
         valueField	: 'key',
         displayField: 'name_formatted',
         tpl			: new Ext.XTemplate('<tpl for=".">' +
-                                           '<div class="x-combo-list-item">' +
-                                           '<span style="font-weight: bold">{name_formatted}</span><br />{description_formatted}' +
-                                           '</div>' +
-                                           '</tpl>')
+            '<div class="x-combo-list-item">' +
+                '<span style="font-weight: bold">{name_formatted}</span><br />{description_formatted}' +
+            '</div>' +
+        '</tpl>')
     });
 
     Narrowcasting.combo.SlidesTypes.superclass.constructor.call(this,config);
