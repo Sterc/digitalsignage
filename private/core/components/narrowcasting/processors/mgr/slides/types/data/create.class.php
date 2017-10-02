@@ -83,9 +83,10 @@
                         $object->fromArray(array(
                            'data' => serialize(array_merge($data, array(
                                $this->getProperty('key') => array(
-                                   'xtype'      => $this->getProperty('xtype'),
-                                   'value'      => $this->getProperty('value'),
-                                   'inputValue' => $this->getProperty('value')
+                                   'xtype'         => $this->getProperty('xtype'),
+                                   'value'         => $this->getProperty('value'),
+                                   'label'         => $this->getProperty('label'),
+                                   'description'   => $this->getProperty('description')
                                )
                            )))
                         ));

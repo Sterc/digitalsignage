@@ -207,10 +207,12 @@
         $modx->log(modX::LOG_LEVEL_INFO, 'Packed '.$sources['narrowcasting'].' resolver into category.');
     }
 
-    if (file_exists($sources['resolvers'].'resolve.tables.php')) {
-        $vehicle->resolve('php', array(
-            'source' => $sources['resolvers'].'resolve.tables.php',
-        ));
+    if (is_dir($sources['resolvers'])) {
+        foreach (glob($sources['resolvers'] . '*.php') as $file) {
+            $vehicle->resolve('php', array(
+                'source' => $file
+            ));
+        }
     }
 
     $builder->putVehicle($vehicle);

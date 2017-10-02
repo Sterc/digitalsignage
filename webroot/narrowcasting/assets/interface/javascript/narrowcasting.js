@@ -692,7 +692,11 @@ $(document).ready(function() {
     Narrowcasting.prototype.getSlide = function(data) {
         console.log('getSlide: (title: ' + data.title + ')');
 
-        if ($slide = this.getTemplate(data.slide, this.$templates)) {
+        if (null === ($slide = this.getTemplate(data.slide, this.$templates))) {
+            $slide = this.getTemplate('default', this.$templates);
+        }
+
+        if (null !== $slide) {
             $slide.prependTo($(this.getPlaceholder('slides', this.$element)));
 
             if (plugin = this.getSlidePlugin(data.slide)) {

@@ -55,10 +55,10 @@
 	$_lang['narrowcasting.broadcast_preview']						= 'Preview broadcast';
 	$_lang['narrowcasting.broadcast_sync']							= 'Synchronize broadcast';
 	$_lang['narrowcasting.broadcast_sync_confirm']					= 'Are you sure you want to sync this broadcast?';
-	$_lang['narrowcasting.broadcast_slides']						= 'Slides (internal slides)';
+	$_lang['narrowcasting.broadcast_slides']						= 'Add slides (internal slides)';
 	$_lang['narrowcasting.broadcast_slides_desc']					= 'Here you can manage all the internal slides of the broadcast. Drag & Drop slides from the "available slides" to "selected slide" to add slides.';
 	$_lang['narrowcasting.broadcast_slide_remove']					= 'Delete slide';
-	$_lang['narrowcasting.broadcast_feeds']							= 'Feeds (external slides)';
+	$_lang['narrowcasting.broadcast_feeds']							= 'Add feeds (external slides)';
 	$_lang['narrowcasting.broadcast_feeds_desc']					= 'Here you can manage all the external slides of the broadcast.';
 	$_lang['narrowcasting.broadcast_feed_create']					= 'Create new feed';
 	$_lang['narrowcasting.broadcast_feed_update']					= 'Update feed';

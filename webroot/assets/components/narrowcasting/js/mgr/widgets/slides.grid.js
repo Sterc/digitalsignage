@@ -133,18 +133,18 @@ Ext.extend(Narrowcasting.grid.Slides, MODx.grid.Grid, {
         }
 
         this.createSlideWindow = MODx.load({
-                                               xtype		: 'narrowcasting-window-slide-create',
-                                               closeAction	: 'close',
-                                               listeners	: {
-                                                   'success'	: {
-                                                       fn			: function(data) {
-                                                           this.refreshGrids();
-                                                           this.refresh();
-                                                       },
-                                                       scope		: this
-                                                   }
-                                               }
-                                           });
+            xtype		: 'narrowcasting-window-slide-create',
+            closeAction	: 'close',
+            listeners	: {
+            'success'	: {
+                fn			: function(data) {
+                    this.refreshGrids();
+                    this.refresh();
+                },
+                scope		: this
+                }
+            }
+        });
 
         this.createSlideWindow.show(e.target);
     },
@@ -154,19 +154,19 @@ Ext.extend(Narrowcasting.grid.Slides, MODx.grid.Grid, {
         }
 
         this.updateSlideWindow = MODx.load({
-                                               xtype		: 'narrowcasting-window-slide-update',
-                                               record		: this.menu.record,
-                                               closeAction	: 'close',
-                                               listeners	: {
-                                                   'success'	: {
-                                                       fn			: function(data) {
-                                                           this.refreshGrids();
-                                                           this.refresh();
-                                                       },
-                                                       scope		: this
-                                                   }
-                                               }
-                                           });
+            xtype		: 'narrowcasting-window-slide-update',
+            record		: this.menu.record,
+            closeAction	: 'close',
+            listeners	: {
+            'success'	: {
+                fn			: function(data) {
+                    this.refreshGrids();
+                    this.refresh();
+                },
+                scope		: this
+                }
+            }
+        });
 
         this.updateSlideWindow.setValues(this.menu.record);
         this.updateSlideWindow.show(e.target);
@@ -177,48 +177,48 @@ Ext.extend(Narrowcasting.grid.Slides, MODx.grid.Grid, {
         }
 
         var record = Ext.applyIf({
-                                     name        : _('narrowcasting.slide_name_duplicate', {
-                                         name        : this.menu.record.name
-                                     })
-                                 }, this.menu.record);
+            name        : _('narrowcasting.slide_name_duplicate', {
+                name        : this.menu.record.name
+            })
+        }, this.menu.record);
 
         this.duplicateSlideWindow = MODx.load({
-                                                  xtype		: 'narrowcasting-window-slide-duplicate',
-                                                  record		: record,
-                                                  closeAction	: 'close',
-                                                  listeners	: {
-                                                      'success'	: {
-                                                          fn			: function(data) {
-                                                              this.refreshGrids();
-                                                              this.refresh();
-                                                          },
-                                                          scope		: this
-                                                      }
-                                                  }
-                                              });
+            xtype		: 'narrowcasting-window-slide-duplicate',
+            record		: record,
+            closeAction	: 'close',
+            listeners	: {
+                'success'	: {
+                    fn			: function(data) {
+                        this.refreshGrids();
+                        this.refresh();
+                    },
+                    scope		: this
+                }
+            }
+        });
 
         this.duplicateSlideWindow.setValues(record);
         this.duplicateSlideWindow.show(e.target);
     },
     removeSlide: function() {
         MODx.msg.confirm({
-                             title 		: _('narrowcasting.slide_remove'),
-                             text		: _('narrowcasting.slide_remove_confirm'),
-                             url			: Narrowcasting.config.connector_url,
-                             params		: {
-                                 action		: 'mgr/slides/remove',
-                                 id			: this.menu.record.id
-                             },
-                             listeners	: {
-                                 'success'	: {
-                                     fn			: function(data) {
-                                         this.refreshGrids();
-                                         this.refresh();
-                                     },
-                                     scope		: this
-                                 }
-                             }
-                         });
+            title 		: _('narrowcasting.slide_remove'),
+            text		: _('narrowcasting.slide_remove_confirm'),
+            url			: Narrowcasting.config.connector_url,
+            params		: {
+                action		: 'mgr/slides/remove',
+                id			: this.menu.record.id
+            },
+            listeners	: {
+                'success'	: {
+                    fn			: function(data) {
+                        this.refreshGrids();
+                        this.refresh();
+                    },
+                    scope		: this
+                }
+            }
+        });
     },
     renderBoolean: function(d, c) {
         c.css = 1 == parseInt(d) || d ? 'green' : 'red';
@@ -390,11 +390,23 @@ Ext.extend(Narrowcasting.window.CreateSlide, MODx.Window, {
                 container.removeAll();
 
                 Ext.iterate(record.data.data, function(name, record) {
+                    var label   = _('narrowcasting.slide_' + type + '_' + name);
+                        desc    = _('narrowcasting.slide_' + type + '_' + name + '_desc');
+
+                    if (record.label && '' != record.label) {
+                        label = record.label;
+                    }
+
+                    if (record.description && '' != record.description) {
+                        desc = record.description;
+                    }
+
                     switch (record.xtype) {
                         case 'checkbox':
                             record = Ext.apply(record, {
                                 hideLabel	: true,
-                                boxLabel	: _('narrowcasting.slide_' + type + '_' + name)
+                                boxLabel	: label,
+                                inputValue  : record.value
                             });
 
                             break;
@@ -422,8 +434,8 @@ Ext.extend(Narrowcasting.window.CreateSlide, MODx.Window, {
 
                     container.add(Ext.applyIf(record, {
                         xtype 		: 'textarea',
-                        fieldLabel	: _('narrowcasting.slide_' + type + '_' + name),
-                        description	: MODx.expandHelp ? '' : _('narrowcasting.slide_' + type + '_' + name + '_desc'),
+                        fieldLabel	: label,
+                        description	: MODx.expandHelp ? '' : desc,
                         name		: 'data_' + name,
                         anchor		: '100%',
                         allowBlank	: true
@@ -431,7 +443,7 @@ Ext.extend(Narrowcasting.window.CreateSlide, MODx.Window, {
 
                     container.add({
                         xtype		: MODx.expandHelp ? 'label' : 'hidden',
-                        html		:  _('narrowcasting.slide_' + type + '_' + name + '_desc'),
+                        html		: desc,
                         cls			: 'desc-under'
                     });
                 }, this);
@@ -600,11 +612,22 @@ Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
                 container.removeAll();
 
                 Ext.iterate(record.data.data, function(name, record) {
+                    var label   = _('narrowcasting.slide_' + type + '_' + name);
+                        desc    = _('narrowcasting.slide_' + type + '_' + name + '_desc');
+
+                    if (record.label && '' != record.label) {
+                        label = record.label;
+                    }
+
+                    if (record.description && '' != record.description) {
+                        desc = record.description;
+                    }
+
                     switch (record.xtype) {
                         case 'checkbox':
                             record = Ext.apply(record, {
                                 hideLabel	: true,
-                                boxLabel	: _('narrowcasting.slide_' + type + '_' + name),
+                                boxLabel	: label,
                                 checked		: this.config.record.data[name] == record.inputValue
                             });
 
@@ -640,8 +663,8 @@ Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
 
                     container.add(Ext.applyIf(record, {
                         xtype 		: 'textarea',
-                        fieldLabel	: _('narrowcasting.slide_' + type + '_' + name),
-                        description	: MODx.expandHelp ? '' : _('narrowcasting.slide_' + type + '_' + name + '_desc'),
+                        fieldLabel	: label,
+                        description	: MODx.expandHelp ? '' : desc,
                         name		: 'data_' + name,
                         anchor		: '100%',
                         allowBlank	: true,
@@ -650,7 +673,7 @@ Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
 
                     container.add({
                         xtype		: MODx.expandHelp ? 'label' : 'hidden',
-                        html		:  _('narrowcasting.slide_' + type + '_' + name + '_desc'),
+                        html		:  desc,
                         cls			: 'desc-under'
                     });
 

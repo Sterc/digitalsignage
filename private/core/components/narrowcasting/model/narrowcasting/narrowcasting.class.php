@@ -347,14 +347,33 @@
                         }
                     }
 
+                    foreach ($broadcast->getFeeds('content') as $key => $feed) {
+                        foreach ($feed->getSlides() as $key2 => $slide) {
+							$value = array(
+								'time'		=> $feed->time,
+								'slide'		=> $feed->key,
+								'source'	=> $feed->key,
+								'title'		=> (string) $slide->title,
+								'image'		=> null,
+								'content'	=> (string) $slide->description
+							);
+
+							if (isset($slide->enclosure->attributes()->url)) {
+								$value['image'] = (string) $slide->enclosure->attributes()->url;
+							}
+
+							$slides[] = $value;
+                        }
+                    }
+
 	                $total = count($slides);
 
-	                foreach ($broadcast->getFeeds() as $key => $feed) {
+	                foreach ($broadcast->getFeeds('specials') as $key => $feed) {
 	                    foreach ($feed->getSlides() as $key2 => $slide) {
 	                        if ($key2 < ceil($total / $feed->frequency)) {
 		                        $value = array(
 			                        'time'		=> $feed->time,
-			                        'slide'		=> 'default',
+                                    'slide'		=> $feed->key,
 			                        'source'	=> $feed->key,
 			                        'title'		=> (string) $slide->title,
 			                        'image'		=> null,

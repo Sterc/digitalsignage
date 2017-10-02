@@ -72,7 +72,7 @@ Narrowcasting.grid.SlideTypesData = function(config) {
         	action		: 'mgr/slides/types/data/getlist',
             id			: config.record.key
         },
-        fields		: ['key', 'xtype', 'value'],
+        fields		: ['key', 'xtype', 'label', 'description', 'value'],
         paging		: true,
         pageSize	: 5,
         sortBy		: 'key',
@@ -224,6 +224,26 @@ Narrowcasting.window.CreateSlideTypeData = function(config) {
             cls			: 'desc-under'
         }, {
             xtype		: 'textfield',
+            fieldLabel	: _('narrowcasting.label_slide_type_data_label'),
+            description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_type_data_label_desc'),
+            name		: 'label',
+            anchor		: '100%'
+        }, {
+            xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_slide_type_data_label_desc'),
+            cls			: 'desc-under'
+        }, {
+            xtype		: 'textarea',
+            fieldLabel	: _('narrowcasting.label_slide_type_data_description'),
+            description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_type_data_description_desc'),
+            name		: 'description',
+            anchor		: '100%'
+        }, {
+            xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_slide_type_data_description_desc'),
+            cls			: 'desc-under'
+        }, {
+            xtype		: 'textfield',
             fieldLabel	: _('narrowcasting.label_slide_type_data_value'),
             description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_type_data_value_desc'),
             name		: 'value',
@@ -277,6 +297,26 @@ Narrowcasting.window.UpdateSlideTypeData = function(config) {
         }, {
             xtype		: MODx.expandHelp ? 'label' : 'hidden',
             html		: _('narrowcasting.label_slide_type_data_xtype_desc'),
+            cls			: 'desc-under'
+        }, {
+            xtype		: 'textfield',
+            fieldLabel	: _('narrowcasting.label_slide_type_data_label'),
+            description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_type_data_label_desc'),
+            name		: 'label',
+            anchor		: '100%'
+        }, {
+            xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_slide_type_data_label_desc'),
+            cls			: 'desc-under'
+        }, {
+            xtype		: 'textarea',
+            fieldLabel	: _('narrowcasting.label_slide_type_data_description'),
+            description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_type_data_description_desc'),
+            name		: 'description',
+            anchor		: '100%'
+        }, {
+            xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_slide_type_data_description_desc'),
             cls			: 'desc-under'
         }, {
             xtype		: 'textfield',

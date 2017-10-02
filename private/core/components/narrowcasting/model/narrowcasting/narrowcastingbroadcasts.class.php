@@ -121,15 +121,26 @@
 
 		/**
 		 * @access public.
+		 * @param String $type.
 		 * @return Array.
 		 */
-		public function getFeeds() {
+		public function getFeeds($type = 'all') {
 			$feeds = array();
 
 			foreach ($this->getMany('getFeeds') as $feed) {
 				if (1 == $feed->published) {
-					$feeds[] = $feed;
-				}
+                    if ('content' == $type) {
+                        if (0 == $feed->frequency) {
+                            $feeds[] = $feed;
+                        }
+                    } else if ('specials' == $type) {
+                        if (1 <= $feed->frequency) {
+                            $feeds[] = $feed;
+                        }
+                    } else {
+                        $feeds[] = $feed;
+                    }
+                }
 			}
 
 			return $feeds;

@@ -124,8 +124,6 @@
             this.loadRadar();
         }
 
-        console.log(this.settings);
-
         this.core.setTimer(this.settings.time);
     };
 

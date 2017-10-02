@@ -55,10 +55,10 @@
     $_lang['narrowcasting.broadcast_preview']						= 'Uitzending voorbeeld';
     $_lang['narrowcasting.broadcast_sync']							= 'Uitzending data synchroniseren';
     $_lang['narrowcasting.broadcast_sync_confirm']					= 'Weet je zeker dat je deze uitzending data wilt synchroniseren?';
-    $_lang['narrowcasting.broadcast_slides']						= 'Slides (interne slides)';
+    $_lang['narrowcasting.broadcast_slides']						= 'Slides toevoegen (interne slides)';
     $_lang['narrowcasting.broadcast_slides_desc']					= 'Hier kunt u alle interne slides van de uitzending beheren. Sleep & Drop slides van de "beschikbare slides" naar "geselecteerde slides" om slides toe te voegen.';
     $_lang['narrowcasting.broadcast_slide_remove']					= 'Verwijder slide';
-    $_lang['narrowcasting.broadcast_feeds']							= 'Feeds (externe slides)';
+    $_lang['narrowcasting.broadcast_feeds']							= 'Feeds toevoegen (externe slides)';
     $_lang['narrowcasting.broadcast_feeds_desc']					= 'Hier kunt u alle externe slides van de uitzending beheren.';
     $_lang['narrowcasting.broadcast_feed_create']					= 'Nieuwe feed';
     $_lang['narrowcasting.broadcast_feed_update']					= 'Feed wijzigen';
@@ -185,6 +185,10 @@
     $_lang['narrowcasting.label_slide_type_data_key_desc']          = 'De sleutel van het veld.';
     $_lang['narrowcasting.label_slide_type_data_xtype']             = 'Type';
     $_lang['narrowcasting.label_slide_type_data_xtype_desc']        = 'De xtype van het veld.';
+    $_lang['narrowcasting.label_slide_type_data_label']             = 'Label';
+    $_lang['narrowcasting.label_slide_type_data_label_desc']        = 'De label van het veld.';
+    $_lang['narrowcasting.label_slide_type_data_description']       = 'Omschrijving';
+    $_lang['narrowcasting.label_slide_type_data_description_desc']  = 'De omschrijving van het veld.';
     $_lang['narrowcasting.label_slide_type_data_value']             = 'Waarde';
     $_lang['narrowcasting.label_slide_type_data_value_desc']        = 'De standaard waarde van het veld.';
 
