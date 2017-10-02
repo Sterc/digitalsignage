@@ -56,10 +56,10 @@
     $_lang['narrowcasting.broadcast_sync']							= 'Uitzending data synchroniseren';
     $_lang['narrowcasting.broadcast_sync_confirm']					= 'Weet je zeker dat je deze uitzending data wilt synchroniseren?';
     $_lang['narrowcasting.broadcast_slides']						= 'Slides toevoegen (interne slides)';
-    $_lang['narrowcasting.broadcast_slides_desc']					= 'Hier kunt u alle interne slides van de uitzending beheren. Sleep & Drop slides van de "beschikbare slides" naar "geselecteerde slides" om slides toe te voegen.';
+    $_lang['narrowcasting.broadcast_slides_desc']					= 'Hier kun je alle slides (interne slides) van de uitzending beheren. Sleep & Drop slides van de "beschikbare slides" naar "geselecteerde slides" om slides aan de uitzending toe te voegen.';
     $_lang['narrowcasting.broadcast_slide_remove']					= 'Verwijder slide';
     $_lang['narrowcasting.broadcast_feeds']							= 'Feeds toevoegen (externe slides)';
-    $_lang['narrowcasting.broadcast_feeds_desc']					= 'Hier kunt u alle externe slides van de uitzending beheren.';
+    $_lang['narrowcasting.broadcast_feeds_desc']					= 'Hier kun je alle feeds (externe slides) van de uitzending beheren.';
     $_lang['narrowcasting.broadcast_feed_create']					= 'Nieuwe feed';
     $_lang['narrowcasting.broadcast_feed_update']					= 'Feed wijzigen';
     $_lang['narrowcasting.broadcast_feed_remove']					= 'Feed verwijderen';
@@ -92,8 +92,8 @@
     $_lang['narrowcasting.label_feed_url_desc']						= 'De URL van de feed.';
     $_lang['narrowcasting.label_feed_time']							= 'Looptijd';
     $_lang['narrowcasting.label_feed_time_desc']					= 'De looptijd van de feed in seconden of minuten.';
-    $_lang['narrowcasting.label_feed_frequency']					= 'Frequantie';
-    $_lang['narrowcasting.label_feed_frequency_desc']				= 'De frequantie van de slides in de feed';
+    $_lang['narrowcasting.label_feed_frequency']					= 'Frequentie';
+    $_lang['narrowcasting.label_feed_frequency_desc']				= 'De frequentie van de slides in de feed.';
     $_lang['narrowcasting.label_feed_published']					= 'Gepubliceerd';
     $_lang['narrowcasting.label_feed_published_desc']				= '';
 
