@@ -6,14 +6,16 @@
 
 $(document).ready(function() {
     $('.window').Narrowcasting({
-        'callback'  : narrowcasting.callback,
+        'debug'     : settings.debug,
 
-        'feed' 		: narrowcasting.broadcast.feed,
+        'callback'  : settings.callback,
+
+        'feed' 		: settings.broadcast.feed,
         
         'vars'		: {
-	    	'player'	: narrowcasting.player,
-	    	'broadcast' : narrowcasting.broadcast.id,
-	    	'preview'	: narrowcasting.preview
+	    	'player'	: settings.player,
+	    	'broadcast' : settings.broadcast.id,
+	    	'preview'	: settings.preview
         },
         
         'domain'	: document.location.origin
@@ -48,7 +50,13 @@ $(document).ready(function() {
          * All templates of the Narrowcasting.
          * @protected.
          */
-        this.$templates = this.getTemplates(this.$element, '.slides');
+        this.$templates = this.getTemplates(this.getPlaceholder('slides', this.$element), true);
+
+        /**
+         * All error templates of the Narrowcasting.
+         * @protected.
+         */
+        this.$errorTemplates = this.getTemplates(this.getPlaceholder('errors', this.$element), true);
 
         /**
          * All special templates of the Narrowcasting.
@@ -146,8 +154,8 @@ $(document).ready(function() {
      * @protected.
      */
     Narrowcasting.prototype.initialize = function() {
-	    console.log('initialize');
-	    
+	    this.setLog('[Core] initialize');
+
 	    if (this.getRequirements()) {
 			this.loadCallback();
 
@@ -174,15 +182,15 @@ $(document).ready(function() {
      * @protected.
      */
     Narrowcasting.prototype.getRequirements = function() {
-	    console.log('getRequirements');
-	    
+	    this.setLog('[Core] getRequirements');
+
 		if (0 == (preview = parseInt(this.settings.vars.preview))) {
 			if (-1 !== ['', null, undefined].indexOf(this.settings.vars.player)) {
-			    return this.setError('Narrowcasting player is niet gedefineerd.', true);
+			    return this.setError('[Core] player is not defined.', true);
 		    }
-	
+
 		    if (-1 !== ['', null, undefined].indexOf(this.settings.vars.broadcast)) {
-			    return this.setError('Narrowcasting broadcast is niet gedefineerd.', true);
+			    return this.setError('[Core] broadcast is not defined.', true);
 		    }
 		    
 		    this.settings.vars.preview = false;
@@ -191,11 +199,11 @@ $(document).ready(function() {
 		}
 
 	    if (null === this.settings.callback) {
-		    return this.setError('Narrowcasting callback is niet gedefineerd.', true);
+		    return this.setError('[Core] callback is not defined.', true);
 		}
 
 	    if (null === this.settings.feed) {
-		    return this.setError('Narrowcasting feed is niet gedefineerd.', true);
+		    return this.setError('[Core] feed is not defined.', true);
 		}
 
 		return true;
@@ -206,7 +214,7 @@ $(document).ready(function() {
      * @protected.
      */
     Narrowcasting.prototype.loadCallback = function() {
-	    console.log('loadCallback');
+	    this.setLog('[Core] loadCallback');
 	    
 	    $.ajax({
             'url'		: this.settings.callback + this.getUrlParameters('callback'),
@@ -231,18 +239,18 @@ $(document).ready(function() {
                                     }
                                 }
                             } else {
-                                this.setError('Narrowcasting callback kon niet gelezen worden (Formaat: ' + this.settings.callbackType.toUpperCase() + ').');
+                                this.setError('[Core] callback could not be read (Format: ' + this.settings.callbackType.toUpperCase() + ').');
                             }
 
                         	break;
                         default:
-                            this.setError('Narrowcasting callback kon niet gelezen worden omdat het formaat niet ondersteund word (Formaat: ' + this.settings.callbackType.toUpperCase() + ').');
+                            this.setError('[Core] callback could not be read because the format is not supported (Format: ' + this.settings.callbackType.toUpperCase() + ').');
 
                             break;
                     }
 
 		        } else {
-                    this.setError('Narrowcasting callback kon niet geladen worden (HTTP status: ' + result.status + ').');
+                    this.setError('[Core] callback could not be loaded (HTTP status: ' + result.status + ').');
                 }
             }, this)
         });
@@ -261,7 +269,7 @@ $(document).ready(function() {
      * @protected.
      */
     Narrowcasting.prototype.loadData = function() {
-	    console.log('loadData');
+	    this.setLog('[Core] loadData');
 
         $.ajax({
             'url'		: this.settings.feed + this.getUrlParameters('feed'),
@@ -281,14 +289,14 @@ $(document).ready(function() {
 		                            this.loadData();
 	                            }
                                 
-                                console.log('loadData: (slides: ' + result.responseJSON.slides.length + ')');
+                                this.setLog('[Core] loadData: (slides: ' + result.responseJSON.slides.length + ')');
                             } else {
-                                this.setError('Narrowcasting feed kon niet gelezen worden (Formaat: ' + this.settings.feedType.toUpperCase() + ').');
+                                this.setError('[Core] feed could not be read (Format: ' + this.settings.feedType.toUpperCase() + ').');
                             }
 
                             break;
                         default:
-                            this.setError('Narrowcasting feed kon niet gelezen worden omdat het formaat niet ondersteund word (Formaat: ' + this.settings.feedType.toUpperCase() + ').');
+                            this.setError('[Core] feed could not be read because the format is not supported (Format: ' + this.settings.feedType.toUpperCase() + ').');
 
                             break;
                     }
@@ -297,7 +305,7 @@ $(document).ready(function() {
                         this.nextSlide();
                     }
                 } else {
-                    this.setError('Narrowcasting feed kon niet geladen worden (HTTP status: ' + result.status + ').');
+                    this.setError('[Core] could not be loaded (HTTP status: ' + result.status + ').');
                 }
 
                 this.dataRefresh++;
@@ -339,7 +347,19 @@ $(document).ready(function() {
 		}).bind(this));
 		
 		if (0 < parameters.length) {
-			return '?' + parameters.join('&');
+            if ('callback' == type) {
+                if (-1 == this.settings.callback.search(/\?/i)) {
+                    return '?' + parameters.join('&');
+                } else {
+                    return '&' + parameters.join('&');
+                }
+            } else {
+                if (-1 == this.settings.feed.search(/\?/i)) {
+                    return '?' + parameters.join('&');
+                } else {
+                    return '&' + parameters.join('&');
+                }
+            }
 		}
 		
 		return '';
@@ -350,14 +370,14 @@ $(document).ready(function() {
      * @protected.
      */
     Narrowcasting.prototype.loadCustomPlugins = function() {
-        console.log('loadCustomPlugins');
+        this.setLog('[Core] loadCustomPlugins');
 
         $('[data-plugin]', this.$element).each($.proxy(function(index, element) {
             var $element    = $(element),
                 plugin       = $element.attr('data-plugin');
 
             if ($.fn[plugin]) {
-                console.log('loadCustomPlugins: (plugin: ' + plugin + ')');
+                this.setLog('[Core] loadCustomPlugins: (plugin: ' + plugin + ')');
 
                 this.plugins[plugin.toLowerCase()] = $element[plugin](this);
             }
@@ -384,36 +404,54 @@ $(document).ready(function() {
     };
 
     /**
+     * Logs a message.
+     * @public.
+     * @param {Message} String - The message to to.
+     * @param {Error} Boolean - If the message is an error.
+     * @param {Fatal} Boolean - If the message is fatal or not.
+     */
+    Narrowcasting.prototype.setLog = function(message, error, fatal) {
+        if (this.isDebug() || error || fatal) {
+            if (error || fatal) {
+                console.warn(message);
+            } else {
+                console.log(message);
+            }
+        }
+
+        return true;
+    };
+
+    /**
      * Display an error.
      * @public.
      * @param {Message} String - The error to display.
      * @param {Fatal} Boolean - If the error is fatal or not.
      */
     Narrowcasting.prototype.setError = function(message, fatal) {
-	    console.log('setError: (message: ' + message + ', fatal: ' + fatal + ')');
-	    
-	    if (this.isDebug()) {
-	        if ($error = this.getTemplate('error', this.$specialTemplates)) {
-	            if (typeof message !== 'object') {
-	                message = {
-	                    'title'		: 'Foutmelding',
-	                    'message' 	: message
-	                };
-	            }
-	
-	            this.setPlaceholders($error, message).appendTo(this.$element);
-	
-	            this.$errors.push($error);
-	
-				if (!fatal) {
-		            setTimeout($.proxy(function(event) {
-		                if ($error = this.$errors.shift()) {
-		                    $error.remove();
-		                }
-		            }, this), 5000);
-		        }
-	        }
-	    }
+        this.setLog(message, true, fatal);
+
+        if ($error = this.getTemplate('error', this.$errorTemplates)) {
+            if (typeof message === 'string') {
+                this.setPlaceholders($error, {
+                    'title'		: fatal ? 'Error' : 'Warning',
+                    'error'     : fatal ? 'error' : 'warning',
+                    'message' 	: message
+                }).appendTo(this.getPlaceholder('errors', this.$element));
+            } else {
+                this.setPlaceholders($error, message).appendTo(this.getPlaceholder('errors', this.$element));
+            }
+
+            this.$errors.push($error);
+
+            if (!fatal) {
+                setTimeout($.proxy(function(event) {
+                    if ($error = this.$errors.shift()) {
+                        $error.remove();
+                    }
+                }, this), 5000);
+            }
+        }
 
         return false;
     };
@@ -601,10 +639,10 @@ $(document).ready(function() {
 				    		break;
 				    	case 'youtube':
 			    			var parts = value.replace(/\/$/gm, '').split('/');
-	
+
 			    			if (undefined !== (value = parts[parts.length - 1])) {
 				    			if (undefined !== (value = value.replace(/watch\?v=/gi, '').split(/[?#]/)[0])) {
-						    		var value = 'https://www.youtube.com/embed/' + value + '?autoplay=1&controls=0&rel=0&showinfo=0';
+						    		var value = '//www.youtube.com/embed/' + value + (render[1] ? render[1] : '?autoplay=1&controls=0&rel=0&showinfo=0');
 				    			}
 			    			}
 
@@ -648,7 +686,7 @@ $(document).ready(function() {
      * @param {Time} integer - The time of the slide.
      */
     Narrowcasting.prototype.setTimer = function(time) {
-	    console.log('setTimer: (time: ' + time + ')');
+	    this.setLog('[Core] setTimer: (time: ' + time + ')');
 	    
         if ($timer = this.getTimer('progress')) {
             if ('vertical' == this.settings.timerType) {
@@ -690,7 +728,7 @@ $(document).ready(function() {
      * @param {Data} array - The slide data.
      */
     Narrowcasting.prototype.getSlide = function(data) {
-        console.log('getSlide: (title: ' + data.title + ')');
+        this.setLog('[Core] getSlide: (title: ' + data.title + ')');
 
         if (null === ($slide = this.getTemplate(data.slide, this.$templates))) {
             $slide = this.getTemplate('default', this.$templates);
@@ -728,7 +766,7 @@ $(document).ready(function() {
     Narrowcasting.prototype.nextSlide = function() {
 	    var next = this.getCurrent();
 	    
-	    console.log('nextSlide: (next: ' + next + ')');
+	    this.setLog('[Core] nextSlide: (next: ' + next + ')');
 	    
 	    if (this.data[next]) {
 		    var data = $.extend({}, {
@@ -758,10 +796,10 @@ $(document).ready(function() {
 	
 	            this.$slides.push($slide);
 	        } else {
-		    	this.skipSlide('Geen slide aanwezig'); 
+		    	this.skipSlide('No slide available.');
 	        }
 	    } else {
-		    this.skipSlide('Geen data aanwezig');
+		    this.skipSlide('No slide data available.');
 	    }
     };
     
@@ -771,7 +809,7 @@ $(document).ready(function() {
      * @param {Message} string - The message of skip.
      */
     Narrowcasting.prototype.skipSlide = function(message) {
-	    console.log('skipSlide: (message: ' + message + ')');
+	    this.setLog('[Core] skipSlide: (message: ' + message + ')');
 	    
 	    this.nextSlide();
 	};
@@ -856,10 +894,9 @@ $(document).ready(function() {
 
                 $this.data('narrowcasting', data);
 
-                $.each([
-
-                ], function(i, event) {
+                $.each([], function(i, event) {
                     data.register({ type: Narrowcasting.Type.Event, name: event });
+
                     data.$element.on(event + '.narrowcasting.core', $.proxy(function(e) {
                         if (e.namespace && this !== e.relatedTarget) {
                             this.suppress([event]);
@@ -956,7 +993,7 @@ $(document).ready(function() {
      * @protected.
      */
     SlideDefault.prototype.initialize = function() {
-        console.log('SlideDefault');
+        this.core.setLog('[SlideDefault] initialize');
 
         this.core.setPlaceholders(this.$element, this.settings);
 
@@ -1028,10 +1065,9 @@ $(document).ready(function() {
 
                 $this.data('narrowcasting.slidedefault', data);
 
-                $.each([
-
-                ], function(i, event) {
+                $.each([], function(i, event) {
                     data.register({ type: SlideDefault.Type.Event, name: event });
+
                     data.$element.on(event + '.narrowcasting.slidedefault.core', $.proxy(function(e) {
                         if (e.namespace && this !== e.relatedTarget) {
                             this.suppress([event]);
@@ -1059,30 +1095,24 @@ $(document).ready(function() {
 })(window.Zepto || window.jQuery, window, document);
 
 /* ----------------------------------------------------------------------------------------- */
-/* ----- Clock ----------------------------------------------------------------------------- */
+/* ----- Clock Plugin ---------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------- */
 
 ;(function($, window, document, undefined) {
     /**
-     * Creates a Clock.
-     * @class Clock.
+     * Creates a Clock Plugin.
+     * @class Clock Plugin.
      * @public.
-     * @param {Element} HTMLElement|jQuery - The element of the Clock.
-     * @param {Options} array - The options of the Clock.
-     * @param {Core} Object - The Narrowcasting object for the Clock.
+     * @param {Element} HTMLElement|jQuery - The element of the Clock Plugin.
+     * @param {Options} array - The options of the Clock Plugin.
+     * @param {Core} Object - The Narrowcasting object for the Clock Plugin.
      */
-    function Clock(element, options, core) {
+    function ClockPlugin(element, options, core) {
         /**
-         * The Narrowcasting object for the Clock.
+         * The Narrowcasting object for the Clock Plugin.
          * @public.
          */
         this.core = core;
-
-        /**
-         * Current settings for the Clock.
-         * @public.
-         */
-        this.settings = $.extend({}, Clock.Defaults, options);
 
         /**
          * Plugin element.
@@ -1090,14 +1120,20 @@ $(document).ready(function() {
          */
         this.$element = $(element);
 
+        /**
+         * Current settings for the Clock Plugin.
+         * @public.
+         */
+        this.settings = $.extend({}, ClockPlugin.Defaults, options, this.core.loadCustomPluginSettings(this.$element));
+
         this.initialize();
     }
 
     /**
-     * Default options for the Clock.
+     * Default options for the Clock Plugin.
      * @public.
      */
-    Clock.Defaults = {
+    ClockPlugin.Defaults = {
         'formatTime': '%H:%I',
         'formatDate': '%l %d %F',
 
@@ -1111,21 +1147,16 @@ $(document).ready(function() {
      * @readonly.
      * @enum {String}.
      */
-    Clock.Type = {
+    ClockPlugin.Type = {
         'Event': 'event'
     };
 
     /**
-     * Initializes the Clock.
+     * Initializes the Clock Plugin.
      * @protected.
      */
-    Clock.prototype.initialize = function() {
-        console.log('Clock initialize');
-
-        this.settings = $.extend({}, this.settings, this.core.loadCustomPluginSettings(this.$element));
-
-        var $time = this.core.getPlaceholder('time', this.$element);
-        var $date = this.core.getPlaceholder('date', this.$element);
+    ClockPlugin.prototype.initialize = function() {
+        this.core.setLog('[ClockPlugin] initialize');
 
         setInterval($.proxy(function() {
             var date = new Date(),
@@ -1148,26 +1179,25 @@ $(document).ready(function() {
                     '%y'	: date.getFullYear().toString().substr(2, 2),
                     '%Y'	: date.getFullYear().toString()
                 };
-			
-            if ($time[0]) {
-                var string = this.settings.formatTime;
 
-                for (format in formats) {
-                    string = string.replace(format, formats[format]);
+            var placeholders = {
+                'time'  : this.settings.formatTime,
+                'date'  : this.settings.formatDate
+            };
+
+            if (timeFormats = placeholders.time.match(/%[a-z]/gi)) {
+                for (var i = 0; i < timeFormats.length; i++) {
+                    placeholders.time = placeholders.time.replace(timeFormats[i], formats[timeFormats[i]]);
                 }
-
-                $time.html(string);
             }
 
-            if ($date[0]) {
-                var string = this.settings.formatDate;
-
-                for (format in formats) {
-                    string = string.replace(format, formats[format]);
+            if (dateFormats = placeholders.date.match(/%[a-z]/gi)) {
+                for (var i = 0; i < dateFormats.length; i++) {
+                    placeholders.date = placeholders.date.replace(dateFormats[i], formats[dateFormats[i]]);
                 }
-
-                $date.html(string);
             }
+
+            this.core.setPlaceholders(this.$element, placeholders);
         }, this), 1000);
     };
 
@@ -1175,19 +1205,15 @@ $(document).ready(function() {
      * Gets the leading zero.
      * @protected.
      */
-    Clock.prototype.getZero = function(format) {
-        if (format < 10) {
-            return '0' + format;
-        }
-
-        return format;
+    ClockPlugin.prototype.getZero = function(format) {
+        return format < 10 ? ('0' + format) : format;
     };
 
     /**
      * Gets the translated text.
      * @protected.
      */
-    Clock.prototype.getText = function(format, type) {
+    ClockPlugin.prototype.getText = function(format, type) {
         switch (type) {
             case 'days':
                 if (this.settings.dateText[format]) {
@@ -1204,23 +1230,23 @@ $(document).ready(function() {
         }
 
         return '';
-    }
+    };
 
     /**
-     * The jQuery Plugin for the Clock.
+     * The jQuery Plugin for the ClockPlugin.
      * @public.
      */
-    $.fn.Clock = function(core, option) {
+    $.fn.ClockPlugin = function(core, option) {
         var args = Array.prototype.slice.call(arguments, 1);
 
         return this.each(function() {
             var $this = $(this),
-                data = $this.data('narrowcasting.clock');
+                data = $this.data('narrowcasting.clockplugin');
 
             if (!data) {
-                data = new Clock(this, typeof option == 'object' && option, core);
+                data = new ClockPlugin(this, typeof option == 'object' && option, core);
 
-                $this.data('narrowcasting.clock', data);
+                $this.data('narrowcasting.clockplugin', data);
             }
 
             if (typeof option == 'string' && '_' !== option.charAt(0)) {
@@ -1233,7 +1259,7 @@ $(document).ready(function() {
      * The constructor for the jQuery Plugin.
      * @public.
      */
-    $.fn.Clock.Constructor = Clock;
+    $.fn.ClockPlugin.Constructor = ClockPlugin;
 
 })(window.Zepto || window.jQuery, window, document);
 
@@ -1243,25 +1269,19 @@ $(document).ready(function() {
 
 ;(function($, window, document, undefined) {
     /**
-     * Creates a Newsticker.
-     * @class Newsticker.
+     * Creates a Newsticker Plugin.
+     * @class Newsticker Plugin.
      * @public.
-     * @param {Element} HTMLElement|jQuery - The element of the Newsticker.
-     * @param {Options} array - The options of the Newsticker.
-     * @param {Core} Object - The Narrowcasting object for the Newsticker.
+     * @param {Element} HTMLElement|jQuery - The element of the Newsticker Plugin.
+     * @param {Options} array - The options of the Newsticker Plugin.
+     * @param {Core} Object - The Narrowcasting object for the Newsticker Plugin.
      */
-    function Newsticker(element, options, core) {
+    function NewstickerPlugin(element, options, core) {
         /**
-         * The Narrowcasting object for the Newsticker.
+         * The Narrowcasting object for the Newsticker Plugin.
          * @public.
          */
         this.core = core;
-
-        /**
-         * Current settings for the Newsticker.
-         * @public.
-         */
-        this.settings = $.extend({}, Newsticker.Defaults, options);
 
         /**
          * Plugin element.
@@ -1270,31 +1290,37 @@ $(document).ready(function() {
         this.$element = $(element);
 
         /**
+         * Current settings for the Newsticker Plugin.
+         * @public.
+         */
+        this.settings = $.extend({}, NewstickerPlugin.Defaults, options, this.core.loadCustomPluginSettings(this.$element));
+
+        /**
          * Currently suppressed events to prevent them from beeing retriggered.
          * @protected.
          */
         this._supress = {};
 
         /**
-         * All templates of the Newsticker.
+         * All templates of the Newsticker Plugin.
          * @protected.
          */
         this.$templates = this.core.getTemplates(this.$element);
 
         /**
-         * The data of the Newsticker.
+         * The data of the Newsticker Plugin.
          * @protected.
          */
         this.data = [];
 
         /**
-         * The number of times that the data of the Newsticker is loaded.
+         * The number of times that the data of the Newsticker Plugin is loaded.
          * @protected.
          */
         this.dataRefresh = 0;
 
         /**
-         * All elements of the Newsticker.
+         * All elements of the Newsticker Plugin.
          * @protected.
          */
         this.$elements = [];
@@ -1303,10 +1329,10 @@ $(document).ready(function() {
     }
 
     /**
-     * Default options for the Newsticker.
+     * Default options for the Newsticker Plugin.
      * @public.
      */
-    Newsticker.Defaults = {
+    NewstickerPlugin.Defaults = {
         'feed': null,
         'feedType': 'JSON',
         'feedInterval': 900,
@@ -1324,21 +1350,19 @@ $(document).ready(function() {
      * @readonly.
      * @enum {String}.
      */
-    Newsticker.Type = {
+    NewstickerPlugin.Type = {
         'Event': 'event'
     };
 
     /**
-     * Initializes the Newsticker.
+     * Initializes the Newsticker Plugin.
      * @protected.
      */
-    Newsticker.prototype.initialize = function() {
-	    console.log('Newsticker initialize');
-
-        this.settings = $.extend({}, this.settings, this.core.loadCustomPluginSettings(this.$element));
+    NewstickerPlugin.prototype.initialize = function() {
+	    this.core.setLog('[NewstickerPlugin] initialize');
 
         if (null === this.settings.feed) {
-            this.core.setError('Newsticker feed is niet ingesteld.');
+            this.core.setError('[NewstickerPlugin] feed is not defined.');
         } else {
             this.loadData();
 
@@ -1351,11 +1375,11 @@ $(document).ready(function() {
     };
 
     /**
-     * Loads the data for the Newsticker.
+     * Loads the data for the Newsticker Plugin.
      * @protected.
      */
-    Newsticker.prototype.loadData = function() {
-	    console.log('Newsticker loadData');
+    NewstickerPlugin.prototype.loadData = function() {
+	    this.core.setLog('[NewstickerPlugin] loadData');
 	    
         $.ajax({
             'url'		: this.settings.feed + this.getUrlParameters(),
@@ -1375,14 +1399,14 @@ $(document).ready(function() {
 		                            this.loadData();
 	                            }
                                 
-                                console.log('Newsticker loadData: (slides: ' + result.responseJSON.items.length + ')');
+                                this.core.setLog('[NewstickerPlugin] loadData: (slides: ' + result.responseJSON.items.length + ')');
                             } else {
-                                this.core.setError('Newsticker feed kon niet gelezen worden (Formaat: ' + this.settings.feedType.toUpperCase() + ').');
+                                this.core.setError('[NewstickerPlugin] feed could not be read (Format: ' + this.settings.feedType.toUpperCase() + ').');
                             }
 
                             break;
                         default:
-                            this.core.setError('Newsticker feed kon niet gelezen worden omdat het formaat niet ondersteund word (Formaat: ' + this.settings.feedType.toUpperCase() + ').');
+                            this.core.setError('[NewstickerPlugin] feed could not be read because the format is not supported (Format: ' + this.settings.feedType.toUpperCase() + ').');
 
                             break;
                     }
@@ -1394,7 +1418,7 @@ $(document).ready(function() {
                         this.start();
                     }
                 } else {
-                    this.core.setError('Newsticker feed kon niet geladen worden (HTTP status: ' + result.status + ').');
+                    this.core.setError('[NewstickerPlugin] feed could not be loaded (HTTP status: ' + result.status + ').');
                 }
 
                 this.dataRefresh++;
@@ -1406,7 +1430,7 @@ $(document).ready(function() {
      * Returns all the URL parameters.
      * @public.
      */
-    Newsticker.prototype.getUrlParameters = function() {
+    NewstickerPlugin.prototype.getUrlParameters = function() {
 	    var parameters = new Array('type=ticker', 'data=true');
 		
 		$.each(this.settings.vars, $.proxy(function(index, value) {
@@ -1429,7 +1453,11 @@ $(document).ready(function() {
 		}).bind(this));
 		
 		if (0 < parameters.length) {
-			return '?' + parameters.join('&');
+            if (-1 == this.settings.feed.search(/\?/i)) {
+                return '?' + parameters.join('&');
+            } else {
+                return '&' + parameters.join('&');
+            }
 		}
 		
 		return '';
@@ -1439,7 +1467,7 @@ $(document).ready(function() {
      * Sets the data.
      * @protected.
      */
-    Newsticker.prototype.setData = function() {
+    NewstickerPlugin.prototype.setData = function() {
         var $element = this.core.getTemplate('ticker', this.$templates);
 
         if ($element) {
@@ -1461,7 +1489,7 @@ $(document).ready(function() {
      * Starts the animation.
      * @protected.
      */
-    Newsticker.prototype.start = function() {
+    NewstickerPlugin.prototype.start = function() {
         if ($element = this.$elements.shift()) {
             $element.animate({'margin-left': '-' + $element.outerWidth(true) + 'px'}, {
                 'easing' 	: 'linear',
@@ -1482,8 +1510,8 @@ $(document).ready(function() {
      * @public.
      * @param {Object} object - The event or state to register.
      */
-    Newsticker.prototype.register = function(object) {
-        if (object.type === Newsticker.Type.Event) {
+    NewstickerPlugin.prototype.register = function(object) {
+        if (object.type === NewstickerPlugin.Type.Event) {
             if (!$.event.special[object.name]) {
                 $.event.special[object.name] = {};
             }
@@ -1509,7 +1537,7 @@ $(document).ready(function() {
      * @protected.
      * @param {Array.<String>} events - The events to suppress.
      */
-    Newsticker.prototype.suppress = function(events) {
+    NewstickerPlugin.prototype.suppress = function(events) {
         $.each(events, $.proxy(function(index, event) {
             this._supress[event] = true;
         }, this));
@@ -1520,33 +1548,32 @@ $(document).ready(function() {
      * @protected.
      * @param {Array.<String>} events - The events to release.
      */
-    Newsticker.prototype.release = function(events) {
+    NewstickerPlugin.prototype.release = function(events) {
         $.each(events, $.proxy(function(index, event) {
             delete this._supress[event];
         }, this));
     };
 
     /**
-     * The jQuery Plugin for the Newsticker.
+     * The jQuery Plugin for the Newsticker Plugin.
      * @public.
      */
-    $.fn.Newsticker = function(core, option) {
+    $.fn.NewstickerPlugin = function(core, option) {
         var args = Array.prototype.slice.call(arguments, 1);
 
         return this.each(function() {
             var $this = $(this),
-                data = $this.data('narrowcasting.newsticker');
+                data = $this.data('narrowcasting.newstickerplugin');
 
             if (!data) {
-                data = new Newsticker(this, typeof option == 'object' && option, core);
+                data = new NewstickerPlugin(this, typeof option == 'object' && option, core);
 
-                $this.data('narrowcasting.newsticker', data);
+                $this.data('narrowcasting.newstickerplugin', data);
 
-                $.each([
+                $.each([], function(i, event) {
+                    data.register({ type: NewstickerPlugin.Type.Event, name: event });
 
-                ], function(i, event) {
-                    data.register({ type: Newsticker.Type.Event, name: event });
-                    data.$element.on(event + '.narrowcasting.newsticker.core', $.proxy(function(e) {
+                    data.$element.on(event + '.narrowcasting.newstickerplugin.core', $.proxy(function(e) {
                         if (e.namespace && this !== e.relatedTarget) {
                             this.suppress([event]);
 
@@ -1568,6 +1595,6 @@ $(document).ready(function() {
      * The constructor for the jQuery Plugin.
      * @public.
      */
-    $.fn.Newsticker.Constructor = Newsticker;
+    $.fn.NewstickerPlugin.Constructor = NewstickerPlugin;
 
 })(window.Zepto || window.jQuery, window, document);

@@ -106,20 +106,18 @@
      * @protected.
      */
     SlideBuienradar.prototype.initialize = function() {
-        console.log('SlideBuienradar');
+        this.core.setLog('[SlideBuienradar] initialize');
 
         if (null === this.settings.forecast) {
-            this.core.setError('SlideBuienradar forecast feed is not set.');
+            this.core.setError('[SlideBuienradar] forecast feed is not defined.');
+        } else if (null === this.settings.location) {
+            this.core.setError('[SlideBuienradar] forecast feed location is not defined.');
         } else {
-            if (null === this.settings.location) {
-                this.core.setError('SlideBuienradar forecast feed location is not set.');
-            } else {
-                this.loadForcast();
-            }
+            this.loadForcast();
         }
 
         if (null === this.settings.radar) {
-            this.core.setError('SlideBuienradar radar feed is not set.');
+            this.core.setError('[SlideBuienradar] radar feed is not defined.');
         } else {
             this.loadRadar();
         }
@@ -132,7 +130,7 @@
      * @protected.
      */
     SlideBuienradar.prototype.loadForcast = function() {
-        console.log('SlideBuienradar loadForcast');
+        this.core.setLog('[SlideBuienradar] loadForcast');
 
         $.ajax({
             'url'		: this.settings.forecast + this.settings.location,
@@ -152,14 +150,14 @@
                                    this.loadForcast();
                                }
 
-                               console.log('SlideBuienradar loadForcast: (items: ' + result.responseJSON.days.length + ').');
+                               this.core.setLog('[SlideBuienradar] loadForcast: (items: ' + result.responseJSON.days.length + ').');
                            } else {
-                               this.core.setError('SlideBuienradar feed could not be read: (Format: ' + this.settings.forecastType.toUpperCase() + ').');
+                               this.core.setError('[SlideBuienradar] feed could not be read (Format: ' + this.settings.forecastType.toUpperCase() + ').');
                            }
 
                            break;
                        default:
-                           this.core.setError('SlideBuienradar feed could not be read because the format is not supported: (Format: ' + this.settings.forecastType.toUpperCase() + ').');
+                           this.core.setError('[SlideBuienradar] feed could not be read because the format is not supported (Format: ' + this.settings.forecastType.toUpperCase() + ').');
 
                            break;
                    }
@@ -168,7 +166,7 @@
                        this.nextForecast();
                    }
                } else {
-                   this.core.setError('SlideBuienradar feed could not be loaded: (HTTP status: ' + result.status + ').');
+                   this.core.setError('[SlideBuienradar] feed could not be loaded (HTTP status: ' + result.status + ').');
                }
             }, this)
         });
@@ -194,7 +192,7 @@
      * @param {Data} array - The item data.
      */
     SlideBuienradar.prototype.getForecast = function(data) {
-        console.log('SlideBuienradar getForecast: (date: ' + data.date + ')');
+        this.core.setLog('[SlideBuienradar] getForecast: (date: ' + data.date + ')');
 
         if ($forecast = this.core.getTemplate('forecast', this.$templates)) {
             $forecast.appendTo(this.core.getPlaceholder('forecasts', this.$element));
@@ -214,7 +212,7 @@
     SlideBuienradar.prototype.nextForecast = function() {
         var next = this.getCurrent();
 
-        console.log('SlideBuienradar nextForecast: (next: ' + next + ')');
+        this.core.setLog('[SlideBuienradar] nextForecast: (next: ' + next + ')');
 
         if (this.settings.limit > this.$forecasts.length) {
             if (this.data[next]) {
@@ -231,10 +229,10 @@
 
                     this.$forecasts.push($forecast);
                 } else {
-                    this.skipForecast('SlideBuienradar nextForecast: no forecast available.');
+                    this.skipForecast('[SlideBuienradar] nextForecast: no forecast available.');
                 }
             } else {
-                this.skipForecast('SlideBuienradar nextForecast: no data available.');
+                this.skipForecast('[SlideBuienradar] nextForecast: no data available.');
             }
         }
     };
@@ -245,7 +243,7 @@
      * @param {Message} string - The message of skip.
      */
     SlideBuienradar.prototype.skipForecast = function(message) {
-        console.log('SlideBuienradar skipForecast: (message: ' + message + ')');
+        this.core.setLog('[SlideBuienradar] skipForecast: (message: ' + message + ')');
 
         this.nextForecast();
     };
@@ -255,7 +253,7 @@
      * @protected.
      */
     SlideBuienradar.prototype.loadRadar = function() {
-        console.log('SlideBuienradar loadRadar');
+        this.core.setLog('[SlideBuienradar] loadRadar');
 
         var date = (new Date());
 
@@ -352,10 +350,9 @@
 
                 $this.data('narrowcasting.slidebBuienradar', data);
 
-                $.each([
-
-                       ], function(i, event) {
+                $.each([], function(i, event) {
                     data.register({ type: Slidebuienradar.Type.Event, name: event });
+
                     data.$element.on(event + '.narrowcasting.slidebuienradar.core', $.proxy(function(e) {
                         if (e.namespace && this !== e.relatedTarget) {
                             this.suppress([event]);

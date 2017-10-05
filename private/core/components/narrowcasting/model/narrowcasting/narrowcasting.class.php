@@ -68,9 +68,9 @@
                 'branding_help_url'		=> $this->modx->getOption('narrowcasting.branding_url_help', null, ''),
                 'has_permission'		=> $this->hasPermission(),
 	            'request_id'			=> $this->modx->getOption('narrowcasting.request_resource'),
-	            'request_url'			=> $this->modx->makeUrl($this->modx->getOption('narrowcasting.request_resource'), null, null, 'full'),
+	            'request_url'			=> $this->modx->makeUrl($this->modx->getOption('narrowcasting.request_resource'), $this->modx->getOption('narrowcasting.context', null, 'nc'), null, 'full'),
 	            'export_id'				=> $this->modx->getOption('narrowcasting.export_resource'),
-	            'export_url'			=> $this->modx->makeUrl($this->modx->getOption('narrowcasting.export_resource'), null, null, 'full'),
+	            'export_url'			=> $this->modx->makeUrl($this->modx->getOption('narrowcasting.export_resource'), $this->modx->getOption('narrowcasting.context', null, 'nc'), null, 'full'),
 	            'request_param_player'	=> $this->modx->getOption('narrowcasting.request_param_player', null, 'pl'),
 	            'request_param_broadcast' => $this->modx->getOption('narrowcasting.request_param_broadcast', null, 'bc'),
 	            'templates'				=> explode(',', $this->modx->getOption('narrowcasting.templates'))
@@ -145,26 +145,26 @@
         public function initializeContext($scriptProperties = array()) {
             if ('OnHandleRequest' == $this->modx->event->name) {
                 if ('mgr' != $this->modx->context->key) {
-                    $key = $this->modx->getOption('narrowcasting.context', null, 'nc');
-                    $base = '/nc/';
+					$key = $this->modx->getOption('narrowcasting.context', null, 'nc');
+					$base = '/nc/';
 
-                    if (null !== ($object = $this->modx->getObject('modContextSetting', array('context_key' => $key, 'key' => 'base_url')))) {
-                        $base = $object->value;
-                    }
+					if (null !== ($object = $this->modx->getObject('modContextSetting', array('context_key' => $key, 'key' => 'base_url')))) {
+						$base = $object->value;
+					}
 
-                    if (0 === strpos($_SERVER['REQUEST_URI'], $base)) {
-                        $this->modx->switchContext($key);
-                        $this->modx->setOption('site_start', $this->modx->getOption('narrowcasting.request_resource'));
-                        $this->modx->setOption('error_page', $this->modx->getOption('narrowcasting.request_resource'));
+					if (0 === strpos($_SERVER['REQUEST_URI'], $base)) {
+						$this->modx->switchContext($key);
+						$this->modx->setOption('site_start', $this->modx->getOption('narrowcasting.request_resource'));
+						$this->modx->setOption('error_page', $this->modx->getOption('narrowcasting.request_resource'));
 
-                    	if (1 == $this->modx->getOption('friendly_urls')) {
-                    		$alias = $this->modx->getOption('request_param_alias', null, 'q');
+						if (1 == $this->modx->getOption('friendly_urls')) {
+							$alias = $this->modx->getOption('request_param_alias', null, 'q');
 
-                    		if (isset($_REQUEST[$alias])) {
-                    			$_REQUEST[$alias] = substr('/'.ltrim($_REQUEST[$alias], '/'), strlen($base));
+							if (isset($_REQUEST[$alias])) {
+								$_REQUEST[$alias] = substr('/'.ltrim($_REQUEST[$alias], '/'), strlen($base));
 							}
 						}
-                    }
+					}
                 }
             }
         }

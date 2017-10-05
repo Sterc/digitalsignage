@@ -59,24 +59,26 @@
 		 * @return Mixed.
 		 */
 		public function process() {
-			$criterea = array(
-				'id' => $this->getProperty('player')	
-			);
-			
-			if (null !== ($player = $this->modx->getObject('NarrowcastingPlayers', $criterea))) {
-				list($width, $height) = explode('x', $player->resolution);
-				
-				return $this->success(null, array_merge($player->toArray(), array(
-					'url' 	=> $this->modx->makeUrl($this->object->resource_id, null, array(
-						'pl'		=> $player->key,
-						'bc'		=> $this->object->id,
-						'preview' 	=> true
-					), 'full'),
-					'width'		=> $width,
-					'height'	=> $height,
-				)));
-			}
-			
+		    if (null !== ($resource = $this->object->getResource())) {
+                $criterea = array(
+                    'id' => $this->getProperty('player')
+                );
+
+                if (null !== ($player = $this->modx->getObject('NarrowcastingPlayers', $criterea))) {
+                    list($width, $height) = explode('x', $player->resolution);
+
+                    return $this->success(null, array_merge($player->toArray(), array(
+                        'url' 	=> $this->modx->makeUrl($resource->id, $resource->context_key, array(
+                            'pl'		=> $player->key,
+                            'bc'		=> $this->object->id,
+                            'preview' 	=> true
+                        ), 'full'),
+                        'width'		=> $width,
+                        'height'	=> $height,
+                    )));
+                }
+            }
+
 			return $this->failure();
 		}
 	}

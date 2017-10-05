@@ -94,14 +94,20 @@
 		 * @return Array.
 		 */
 		public function prepareRow(xPDOObject $object) {
-			$array = array_merge($object->toArray(), array(
-				'mode'				=> $object->getMode(),
-				'mode_formatted'	=> $this->modx->lexicon('narrowcasting.'.$this->modx->lexicon($object->getMode())),
-				'online' 			=> $object->isOnline(),
-				'current_broadcast' => '',
-				'next_sync'         => '',
-				'url' 				=> $this->narrowcasting->config['request_url'].'?'.$this->narrowcasting->config['request_param_player'].'='.$object->key
-			));
+            $array = array_merge($object->toArray(), array(
+                'mode'				=> $object->getMode(),
+                'mode_formatted'	=> $this->modx->lexicon('narrowcasting.'.$this->modx->lexicon($object->getMode())),
+                'online' 			=> $object->isOnline(),
+                'current_broadcast' => '',
+                'next_sync'         => '',
+                'url' 				=> $this->narrowcasting->config['request_url']
+            ));
+
+            if (false === strpos($array['url'], '?')) {
+                $array['url'] = $array['url'].'?'.$this->narrowcasting->config['request_param_player'].'='.$object->key;
+            } else {
+                $array['url'] = $array['url'].'&'.$this->narrowcasting->config['request_param_player'].'='.$object->key;
+            }
 			
 			if ($object->isOnline()) {
 				if (null !== ($broadcast = $object->getCurrentBroadcast())) {

@@ -106,8 +106,8 @@
 	$_lang['narrowcasting.slide_remove']							= 'Delete slide';
 	$_lang['narrowcasting.slide_remove_confirm']					= 'Are you sure you want to delete this slide?';
 
-	$_lang['narrowcasting.label_slide_name']						= 'Name';
-	$_lang['narrowcasting.label_slide_name_desc']					= 'The name of the slide.';
+	$_lang['narrowcasting.label_slide_name']						= 'Title';
+	$_lang['narrowcasting.label_slide_name_desc']					= 'The title of the slide.';
 	$_lang['narrowcasting.label_slide_type']						= 'Type';
 	$_lang['narrowcasting.label_slide_type_desc']					= 'The type of the slide.';
 	$_lang['narrowcasting.label_slide_time']						= 'Duration';

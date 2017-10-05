@@ -106,8 +106,8 @@
     $_lang['narrowcasting.slide_remove']							= 'Slide verwijderen';
     $_lang['narrowcasting.slide_remove_confirm']					= 'Weet je zeker dat je deze slide wilt verwijderen?';
 
-    $_lang['narrowcasting.label_slide_name']						= 'Naam';
-    $_lang['narrowcasting.label_slide_name_desc']					= 'De naam van de slide.';
+    $_lang['narrowcasting.label_slide_name']						= 'Titel';
+    $_lang['narrowcasting.label_slide_name_desc']					= 'De titel van de slide.';
     $_lang['narrowcasting.label_slide_type']						= 'Type';
     $_lang['narrowcasting.label_slide_type_desc']					= 'Type van de slide.';
     $_lang['narrowcasting.label_slide_time']						= 'Looptijd';
@@ -122,10 +122,10 @@
     $_lang['narrowcasting.player_update']							= 'Mediaspeler wijzigen';
     $_lang['narrowcasting.player_remove']							= 'Mediaspeler verwijderen';
     $_lang['narrowcasting.player_remove_confirm']					= 'Weet je zeker dat je deze mediaspeler wilt verwijderen?';
-    $_lang['narrowcasting.player_restart']                          = 'Mediaspeler restarten';
-    $_lang['narrowcasting.player_restart_confirm']                  = 'Weet je zeker dat je deze mediaspeler wilt restarten?';
-    $_lang['narrowcasting.player_restart_cancel']                   = 'Mediaspeler restarten annuleren';
-    $_lang['narrowcasting.player_restart_cancel_confirm']           = 'Weet je zeker dat je deze mediaspeler restart wilt annuleren?';
+    $_lang['narrowcasting.player_restart']                          = 'Mediaspeler herstarten';
+    $_lang['narrowcasting.player_restart_confirm']                  = 'Weet je zeker dat je deze mediaspeler wilt herstarten?';
+    $_lang['narrowcasting.player_restart_cancel']                   = 'Mediaspeler herstarten annuleren';
+    $_lang['narrowcasting.player_restart_cancel_confirm']           = 'Weet je zeker dat je deze mediaspeler herstarten wilt annuleren?';
     $_lang['narrowcasting.player_view']								= 'Mediaspeler verbinden';
     $_lang['narrowcasting.player_view_desc']						= 'Gebruik de onderstaande URL in de browser van je mediaspeler om deze te verbinden met het narrowcasting systeem.';
     $_lang['narrowcasting.player_schedule']							= 'Mediaspeler schema';
@@ -151,7 +151,7 @@
     $_lang['narrowcasting.label_player_online_desc']				= '';
     $_lang['narrowcasting.label_player_current_broadcast']			= 'Huidige uitzending';
     $_lang['narrowcasting.label_player_current_broadcast_desc']		= 'De huidige uitzending van de mediaspeler.';
-    $_lang['narrowcasting.label_player_next_sync']                  = 'Synchronisatie';
+    $_lang['narrowcasting.label_player_next_sync']                  = 'Vernieuwd over';
     $_lang['narrowcasting.label_player_next_sync_desc']             = '';
 
     $_lang['narrowcasting.slide_type']								= 'Slide type';
@@ -241,7 +241,7 @@
     $_lang['narrowcasting.error_slide_type_data_character']			= 'De sleutel bevat niet toegestane tekens. Definieer een andere sleutel.';
     $_lang['narrowcasting.error_slide_type_date_exists']			= 'Een veld met deze sleutel bestaat reeds. Definieer een andere sleutel';
     $_lang['narrowcasting.slide_name_duplicate']                    = 'Duplicaat van [[+name]]';
-	$_lang['narrowcasting.next_sync']                               = 'Over [[+time]] minuten';
+	$_lang['narrowcasting.next_sync']                               = '[[+time]] minuten';
     $_lang['narrowcasting.preview_resolution']                      = ' (resolutie [[+resolution]])';
 
 ?>

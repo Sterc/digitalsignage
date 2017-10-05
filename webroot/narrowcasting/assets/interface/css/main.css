@@ -42,33 +42,43 @@ p, ul {
 	margin: 0 0 2.8vh;
 }
 
-/* Broadcast */
+/* Errors */
 
-.broadcast-error-message {
+.errors {
 	position: absolute;
 	top: 30px;
 	right: 30px;
 	width: 500px;
-	color: #636363;
-	padding: 15px 15px 0;
-	background: rgba(255, 255, 255, 0.75);
 	z-index: 9999999 !important;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
 }
 
-.broadcast-error-message h2 {
+.error-message {
+	display: block;
+	color: #ffffff;
+	margin: 0 0 15px;
+	overflow: hidden;
+	background: #e0414b;
+	-webkit-border-radius: 3px;
+	   -moz-border-radius: 3px;
+			border-radius: 3px;
+}
+
+.error-message h2 {
+	color: #ffffff;
 	font-size: 18px;
 	line-height: 24px;
-	margin: 0 0 15px;
-	color:  #000000;
+	border-bottom: 1px solid #d63842;
+	text-transform: uppercase;
+	padding: 10px 15px;
+	margin: 0;
 }
 
-.broadcast-error-message p {
+.error-message p {
 	font-size: 16px;
-	line-height: 22px;
-	margin: 0 0 15px;
+	line-height: 24px;
+	border-top: 1px solid #f8515c;
+	padding: 10px 15px;
+	margin: 0;
 }
 
 /* Window */

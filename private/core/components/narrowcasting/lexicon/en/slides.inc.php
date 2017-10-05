@@ -31,21 +31,11 @@
     $_lang['narrowcasting.slide_buienradar_location']				= 'Location ID';
     $_lang['narrowcasting.slide_buienradar_location_desc']			= 'The ID of the location (weatherstation),  you can get this in the URL of buienradar.nl. Example https://www.buienradar.nl/weer/surhuisterveen/nl/2746558, the ID is \'2746558\'.';
 
-	$_lang['narrowcasting.slide_socialmedia'] 						= 'Social Media';
-	$_lang['narrowcasting.slide_socialmedia_desc'] 					= 'A slide with social media messages.';
-	$_lang['narrowcasting.slide_socialmedia_query']					= 'Query';
-	$_lang['narrowcasting.slide_socialmedia_query_desc']			= 'The query of the social media message, example #hastag.';
-
 	$_lang['narrowcasting.slide_media'] 							= 'Media';
 	$_lang['narrowcasting.slide_media_desc'] 						= 'A slide with a Youtube video.';
 	$_lang['narrowcasting.slide_media_youtube']						= 'Youtube';
 	$_lang['narrowcasting.slide_media_youtube_desc']				= 'The ID or URL of the Youtube video.';
 	$_lang['narrowcasting.slide_media_fullscreen']					= 'Play the Youtube video fullscreen.';
 	$_lang['narrowcasting.slide_media_fullscreen_desc']				= '';
-	
-	$_lang['narrowcasting.feed_nu']									= 'Nu.nl';
-	$_lang['narrowcasting.feed_nu_desc']							= 'The default RSS feed of Nu.nl.';
-	$_lang['narrowcasting.feed_nos']								= 'NOS';
-	$_lang['narrowcasting.feed_nos_desc']							= 'The default RSS feed of NOS.';
-	$_lang['narrowcasting.feed_omrop_fryslan']						= 'Omrop Fryslân';
-	$_lang['narrowcasting.feed_omrop_fryslan_desc']					= 'The default RSS feed of Omrop Fryslân.';
+
+?>

@@ -17,28 +17,28 @@
 
 <body>
 	<div class="window window-[[!+narrowcasting.player.mode]] window-[[!+narrowcasting.player.resolution]]">
-        <!-- Error message -->
-        <div class="broadcast-error-message" data-template="error">
-            <div class="broadcast-error-message-inner">
-                <h2><span data-placeholder="title"></span></h2>
+        <!-- Begin Error Reporting -->
+        <div class="errors" data-placeholder="errors">
+            <div class="error-message" data-template="error">
+                <h2 data-placeholder="title"></h2>
                 <p data-placeholder="message"></p>
             </div>
         </div>
-        
+        <!-- End Error Reporting -->
         <div class="header">
-			<!-- Logo -->
 			<div class="logo">
 				<img src="/narrowcasting/assets/interface/images/logo-text.svg" />
 			</div>
 
-			<!-- Clock -->
-			<div class="clock" data-plugin="Clock" data-plugin-settings="{'formatTime': '%H:%I uur', 'formatDate': '%d %F %Y'}">
+			<!-- Begin Clock Plugin -->
+			<div class="clock" data-plugin="ClockPlugin" data-plugin-settings="{'formatTime': '%H:%I uur', 'formatDate': '%d %F %Y'}">
 				<div class="date" data-placeholder="date"></div>
 				<div class="time" data-placeholder="time"></div>
 			</div>
-			
-			<!-- Social Media -->
-            <div class="social-media" data-plugin="SocialMediaWidget" data-plugin-settings="{'feed': '/narrowcasting/socialmediawidget.json', 'feedType': 'JSON'}">
+			<!-- End Clock Plugin -->
+
+			<!-- Begin Social Media Plugin -->
+            <div class="social-media" data-plugin="SocialMediaPlugin" data-plugin-settings="{'feed': '/narrowcasting/socialmediaplugin.json', 'feedType': 'JSON'}">
                 <div class="social-media-inner" data-placeholder="social-media">
                     <div class="social-media-item" data-template="item">
                         <div class="image">
@@ -50,10 +50,11 @@
                     </div>
                 </div>
             </div>
+            <!-- End Social Media Plugin -->
 		</div>
 
-        <!-- Ticker -->
-		<div class="ticker" data-plugin="Newsticker" data-plugin-settings="{'feed': '[[!+narrowcasting.broadcast.feed]]', 'feedType': 'JSON'}">
+        <!-- Begin Newsticker Plugin -->
+		<div class="ticker" data-plugin="NewstickerPlugin" data-plugin-settings="{'feed': '[[!+narrowcasting.broadcast.feed]]', 'feedType': 'JSON'}">
 			<div class="ticker-inner" data-placeholder="ticker">
 				<ul data-template="ticker">
 					<li data-template="item" data-placeholder-class="source">
@@ -65,9 +66,11 @@
 				</ul>
 			</div>
 		</div>
+        <!-- End Newsticker Plugin -->
 
-		<!-- Slides -->
+		<!-- Begin slides -->
 		<div class="slides" data-placeholder="slides">
+            <!-- Begin Default Slide -->
 		    <div data-template="default">
     			<div class="slide slide-default" data-placeholder-class="source">
     				<div class="slide-inner">
@@ -83,6 +86,8 @@
     				</div>
     			</div>
             </div>
+            <!-- End Default Slide -->
+            <!-- Begin Media Slide -->
             <div data-template="media">
     			<div class="slide slide-media">
     				<div class="slide-inner">
@@ -92,6 +97,8 @@
     				</div>
     			</div>
             </div>
+            <!-- End Media Slide -->
+            <!-- Begin Buienradar Slide -->
             <div data-template="buienradar">
                 <div class="slide slide-buienradar">
                     <video class="background-video" autoplay>
@@ -133,11 +140,15 @@
                     </div>
                 </div>
             </div>
+            <!-- End Buienradar Slide -->
     	</div>
+        <!-- End Slides -->
 	</div>
 
+    <!-- Narrowcastin Settings -->
 	<script type="text/javascript">
-    	var narrowcasting = {
+    	var settings = {
+    	    'debug'     : true,
             'player'    : '[[!+narrowcasting.player.key]]',
             'broadcast' : {
                 'id'        : '[[!+narrowcasting.broadcast.id]]',
@@ -145,13 +156,11 @@
             },
             'callback'  : '[[!+narrowcasting.callback.feed]]',
             'preview'   : [[!+narrowcasting.preview]]
-        }
+        };
 	</script>
 
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-	<script type="text/javascript" src="/narrowcasting/assets/interface/javascript/modenizer.js"></script>
-
-    <script type="text/javascript" src="/narrowcasting/assets/interface/javascript/socialmedia.widget.js"></script>
+    <script type="text/javascript" src="/narrowcasting/assets/interface/javascript/socialmedia.plugin.js"></script>
     <script type="text/javascript" src="/narrowcasting/assets/interface/javascript/buienradar.slide.js"></script>
 	<script type="text/javascript" src="/narrowcasting/assets/interface/javascript/narrowcasting.js"></script>
 

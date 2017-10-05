@@ -1,30 +1,24 @@
 /* Javascript for Narrowcasting. (c) Sterc.nl. All rights reserved. */
 
 /* ----------------------------------------------------------------------------------------- */
-/* ----- Slide Example --------------------------------------------------------------------- */
+/* ----- Example Plugin -------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------- */
 
 ;(function($, window, document, undefined) {
     /**
-     * Creates a Example Slide.
-     * @class SlideExample.
+     * Creates a Example Plugin.
+     * @class Example Plugin.
      * @public.
-     * @param {Element} HTMLElement|jQuery - The element of the Example Slide.
-     * @param {Options} array - The options of the Example Slide.
-     * @param {Core} Object - The Narrowcasting object for the Example Slide.
+     * @param {Element} HTMLElement|jQuery - The element of the Example Plugin.
+     * @param {Options} array - The options of the Example Plugin.
+     * @param {Core} Object - The Narrowcasting object for the Example Plugin.
      */
-    function SlideExample(element, options, core) {
+    function ExamplePlugin(element, options, core) {
         /**
-         * The Narrowcasting object for the Example Slide.
+         * The Narrowcasting object for the Example Plugin.
          * @public.
          */
         this.core = core;
-
-        /**
-         * Current settings for the Example Slide.
-         * @public.
-         */
-        this.settings = $.extend({}, SlideExample.Defaults, options);
 
         /**
          * Plugin element.
@@ -33,26 +27,33 @@
         this.$element = $(element);
 
         /**
+         * Current settings for the Example Plugin.
+         * @public.
+         */
+        this.settings = $.extend({}, ExamplePlugin.Defaults, options, this.core.loadCustomPluginSettings(this.$element));
+
+        /**
          * Currently suppressed events to prevent them from beeing retriggered.
          * @protected.
          */
         this._supress = {};
 
         /**
-         * The data.
+         * All templates of the Example Plugin.
          * @protected.
          */
-        this.data = {};
+        this.$templates = this.core.getTemplates(this.$element);
 
         this.initialize();
     }
 
     /**
-     * Default options for the Example Slide.
+     * Default options for the Example Plugin.
      * @public.
      */
-    SlideExample.Defaults = {
-        'time': 15
+    ExamplePlugin.Defaults = {
+        'setting1': 'value-1',
+        'setting2': 'value-2'
     };
 
     /**
@@ -61,20 +62,16 @@
      * @readonly.
      * @enum {String}.
      */
-    SlideExample.Type = {
+    ExamplePlugin.Type = {
         'Event': 'event'
     };
 
     /**
-     * Initializes the Example Slide.
+     * Initializes the Example Plugin.
      * @protected.
      */
-    SlideExample.prototype.initialize = function() {
-        console.log('SlideExample');
-
-        this.core.setPlaceholders(this.$element, this.settings);
-
-        this.core.setTimer(this.settings.time);
+    ExamplePlugin.prototype.initialize = function() {
+        this.core.setLog('[ExamplePlugin] initialize');
     };
 
     /**
@@ -82,18 +79,18 @@
      * @public.
      * @param {Object} object - The event or state to register.
      */
-    SlideExample.prototype.register = function(object) {
-        if (object.type === SlideExample.Type.Event) {
+    ExamplePlugin.prototype.register = function(object) {
+        if (object.type === ExamplePlugin.Type.Event) {
             if (!$.event.special[object.name]) {
                 $.event.special[object.name] = {};
             }
 
             if (!$.event.special[object.name].narrowcasting) {
-                var _example = $.event.special[object.name]._example;
+                var _default = $.event.special[object.name]._default;
 
-                $.event.special[object.name]._example = function(e) {
-                    if (_example && _example.apply && (!e.namespace || -1 === e.namespace.indexOf('narrowcasting'))) {
-                        return _example.apply(this, arguments);
+                $.event.special[object.name]._default = function(e) {
+                    if (_default && _default.apply && (!e.namespace || -1 === e.namespace.indexOf('narrowcasting'))) {
+                        return _default.apply(this, arguments);
                     }
 
                     return e.namespace && e.namespace.indexOf('narrowcasting') > -1;
@@ -109,7 +106,7 @@
      * @protected.
      * @param {Array.<String>} events - The events to suppress.
      */
-    SlideExample.prototype.suppress = function(events) {
+    ExamplePlugin.prototype.suppress = function(events) {
         $.each(events, $.proxy(function(index, event) {
             this._supress[event] = true;
         }, this));
@@ -120,33 +117,32 @@
      * @protected.
      * @param {Array.<String>} events - The events to release.
      */
-    SlideExample.prototype.release = function(events) {
+    ExamplePlugin.prototype.release = function(events) {
         $.each(events, $.proxy(function(index, event) {
             delete this._supress[event];
         }, this));
     };
 
     /**
-     * The jQuery Plugin for the Example Slide.
+     * The jQuery Plugin for the Example Plugin.
      * @public.
      */
-    $.fn.SlideExample = function(option, core) {
+    $.fn.ExamplePlugin = function(core, option) {
         var args = Array.prototype.slice.call(arguments, 1);
 
         return this.each(function() {
             var $this = $(this),
-                data = $this.data('narrowcasting.slideexample');
+                data = $this.data('narrowcasting.exampleplugin');
 
             if (!data) {
-                data = new SlideExample(this, typeof option == 'object' && option, core);
+                data = new ExamplePlugin(this, typeof option == 'object' && option, core);
 
-                $this.data('narrowcasting.slideexample', data);
+                $this.data('narrowcasting.exampleplugin', data);
 
-                $.each([
+                $.each([], function(i, event) {
+                    data.register({ type: ExamplePlugin.Type.Event, name: event });
 
-                       ], function(i, event) {
-                    data.register({ type: SlideExample.Type.Event, name: event });
-                    data.$element.on(event + '.narrowcasting.slideexample.core', $.proxy(function(e) {
+                    data.$element.on(event + '.narrowcasting.exampleplugin.core', $.proxy(function(e) {
                         if (e.namespace && this !== e.relatedTarget) {
                             this.suppress([event]);
 
@@ -168,6 +164,6 @@
      * The constructor for the jQuery Plugin.
      * @public.
      */
-    $.fn.SlideExample.Constructor = SlideExample;
+    $.fn.ExamplePlugin.Constructor = ExamplePlugin;
 
 })(window.Zepto || window.jQuery, window, document);

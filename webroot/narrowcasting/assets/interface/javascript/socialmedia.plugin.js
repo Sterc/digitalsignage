@@ -1,30 +1,24 @@
 /* Javascript for Narrowcasting. (c) Sterc.nl. All rights reserved. */
 
 /* ----------------------------------------------------------------------------------------- */
-/* ----- Social Media Widget --------------------------------------------------------------- */
+/* ----- Social Media Plugin --------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------- */
 
 ;(function($, window, document, undefined) {
     /**
-     * Creates a Social Media Widget.
-     * @class Social Media Widget.
+     * Creates a Social Media Plugin.
+     * @class Social Media Plugin.
      * @public.
-     * @param {Element} HTMLElement|jQuery - The element of the Social Media Widget.
-     * @param {Options} array - The options of the Social Media Widget.
-     * @param {Core} Object - The Narrowcasting object for the Social Media Widget.
+     * @param {Element} HTMLElement|jQuery - The element of the Social Media Plugin.
+     * @param {Options} array - The options of the Social Media Plugin.
+     * @param {Core} Object - The Narrowcasting object for the Social Media Plugin.
      */
-    function SocialMediaWidget(element, options, core) {
+    function SocialMediaPlugin(element, options, core) {
         /**
-         * The Narrowcasting object for the Social Media Widget.
+         * The Narrowcasting object for the Social Media Plugin.
          * @public.
          */
         this.core = core;
-
-        /**
-         * Current settings for the Social Media Widget.
-         * @public.
-         */
-        this.settings = $.extend({}, SocialMediaWidget.Defaults, options);
 
         /**
          * Plugin element.
@@ -33,25 +27,31 @@
         this.$element = $(element);
 
         /**
+         * Current settings for the Social Media Plugin.
+         * @public.
+         */
+        this.settings = $.extend({}, SocialMediaPlugin.Defaults, options, this.core.loadCustomPluginSettings(this.$element));
+
+        /**
          * Currently suppressed events to prevent them from beeing retriggered.
          * @protected.
          */
         this._supress = {};
 
         /**
-         * All templates of the Social Media Widget.
+         * All templates of the Social Media Plugin.
          * @protected.
          */
         this.$templates = this.core.getTemplates(this.$element);
 
         /**
-         * The data of the Social Media Widget.
+         * The data of the Social Media Plugin.
          * @protected.
          */
         this.data = [];
 
         /**
-         * The number of times that the data of the Social Media Widget is loaded.
+         * The number of times that the data of the Social Media Plugin is loaded.
          * @protected.
          */
         this.dataRefresh = 0;
@@ -63,7 +63,7 @@
         this.current = -1;
 
         /**
-         * All items of the Social Media Widget.
+         * All items of the Social Media Plugin.
          * @protected.
          */
         this.$items = [];
@@ -72,10 +72,10 @@
     }
 
     /**
-     * Default options for the Social Media Widget.
+     * Default options for the Social Media Plugin.
      * @public.
      */
-    SocialMediaWidget.Defaults = {
+    SocialMediaPlugin.Defaults = {
         'animation': 'fade',
         'animationTime': 1,
 
@@ -96,21 +96,19 @@
      * @readonly.
      * @enum {String}.
      */
-    SocialMediaWidget.Type = {
+    SocialMediaPlugin.Type = {
         'Event': 'event'
     };
 
     /**
-     * Initializes the Social Media Widget.
+     * Initializes the Social Media Plugin.
      * @protected.
      */
-    SocialMediaWidget.prototype.initialize = function() {
-        console.log('SocialMediaWidget initialize');
-
-        this.settings = $.extend({}, this.settings, this.core.loadCustomPluginSettings(this.$element));
+    SocialMediaPlugin.prototype.initialize = function() {
+        this.core.setLog('[SocialMediaPlugin] initialize');
 
         if (null === this.settings.feed) {
-            this.core.setError('SocialMediaWidget feed is not set.');
+            this.core.setError('[SocialMediaPlugin] feed is not defined.');
         } else {
             this.loadData();
 
@@ -123,11 +121,11 @@
     };
 
     /**
-     * Loads the data for the Social Media Widget.
+     * Loads the data for the Social Media Plugin.
      * @protected.
      */
-    SocialMediaWidget.prototype.loadData = function() {
-        console.log('SocialMediaWidget loadData');
+    SocialMediaPlugin.prototype.loadData = function() {
+        this.core.setLog('[SocialMediaPlugin] loadData');
 
         $.ajax({
            'url'		: this.settings.feed + this.getUrlParameters(),
@@ -147,14 +145,14 @@
                                    this.loadData();
                                }
 
-                               console.log('SocialMediaWidget loadData: (items: ' + result.responseJSON.items.length + ').');
+                               this.core.setLog('[SocialMediaPlugin] loadData: (items: ' + result.responseJSON.items.length + ').');
                            } else {
-                               this.core.setError('SocialMediaWidget feed could not be read: (Format: ' + this.settings.feedType.toUpperCase() + ').');
+                               this.core.setError('[SocialMediaPlugin] feed could not be read (Format: ' + this.settings.feedType.toUpperCase() + ').');
                            }
 
                            break;
                        default:
-                           this.core.setError('SocialMediaWidget feed could not be read because the format is not supported: (Format: ' + this.settings.feedType.toUpperCase() + ').');
+                           this.core.setError('[SocialMediaPlugin] feed could not be read because the format is not supported (Format: ' + this.settings.feedType.toUpperCase() + ').');
 
                            break;
                    }
@@ -163,7 +161,7 @@
                        this.nextItem();
                    }
                } else {
-                   this.core.setError('SocialMediaWidget feed could not be loaded: (HTTP status: ' + result.status + ').');
+                   this.core.setError('[SocialMediaPlugin] feed could not be loaded (HTTP status: ' + result.status + ').');
                }
 
                this.dataRefresh++;
@@ -175,7 +173,7 @@
      * Returns all the URL parameters.
      * @public.
      */
-    SocialMediaWidget.prototype.getUrlParameters = function() {
+    SocialMediaPlugin.prototype.getUrlParameters = function() {
         var parameters = new Array('type=feed', 'data=true');
 
         $.each(this.settings.vars, $.proxy(function(index, value) {
@@ -198,7 +196,11 @@
         }).bind(this));
 
         if (0 < parameters.length) {
-            return '?' + parameters.join('&');
+            if (-1 == this.settings.feed.search(/\?/i)) {
+                return '?' + parameters.join('&');
+            } else {
+                return '&' + parameters.join('&');
+            }
         }
 
         return '';
@@ -208,7 +210,7 @@
      * Gets the current item count.
      * @public.
      */
-    SocialMediaWidget.prototype.getCurrent = function() {
+    SocialMediaPlugin.prototype.getCurrent = function() {
         if (this.current + 1 < this.data.length) {
             this.current = this.current + 1;
         } else {
@@ -223,8 +225,8 @@
      * @public.
      * @param {Data} array - The item data.
      */
-    SocialMediaWidget.prototype.getItem = function(data) {
-        console.log('SocialMediaWidget getItem: (title: ' + data.name + ')');
+    SocialMediaPlugin.prototype.getItem = function(data) {
+        this.core.setLog('[SocialMediaPlugin] getItem: (title: ' + data.name + ')');
 
         if ($item = this.core.getTemplate('item', this.$templates)) {
             $item.prependTo(this.core.getPlaceholder('social-media', this.$element));
@@ -245,10 +247,10 @@
      * Sets the item and animate current en next item.
      * @public.
      */
-    SocialMediaWidget.prototype.nextItem = function() {
+    SocialMediaPlugin.prototype.nextItem = function() {
         var next = this.getCurrent();
 
-        console.log('SocialMediaWidget nextItem: (next: ' + next + ')');
+        this.core.setLog('[SocialMediaPlugin] nextItem: (next: ' + next + ')');
 
         if (this.data[next]) {
             var data = this.data[next];
@@ -264,10 +266,10 @@
 
                 this.$items.push($item);
             } else {
-                this.skipItem('SocialMediaWidget nextForecast: no item available.');
+                this.skipItem('[SocialMediaPlugin] nextItem: no item available.');
             }
         } else {
-            this.skipItem('SocialMediaWidget nextForecast: no data available.');
+            this.skipItem('[SocialMediaPlugin] nextItem: no data available.');
         }
     };
 
@@ -276,8 +278,8 @@
      * @public.
      * @param {Message} string - The message of skip.
      */
-    SocialMediaWidget.prototype.skipItem = function(message) {
-        console.log('SocialMediaWidget skipItem: (message: ' + message + ')');
+    SocialMediaPlugin.prototype.skipItem = function(message) {
+        this.core.setLog('[SocialMediaPlugin] skipItem: (message: ' + message + ')');
 
         this.nextItem();
     };
@@ -287,8 +289,8 @@
      * @public.
      * @param {Object} object - The event or state to register.
      */
-    SocialMediaWidget.prototype.register = function(object) {
-        if (object.type === SocialMediaWidget.Type.Event) {
+    SocialMediaPlugin.prototype.register = function(object) {
+        if (object.type === SocialMediaPlugin.Type.Event) {
             if (!$.event.special[object.name]) {
                 $.event.special[object.name] = {};
             }
@@ -314,7 +316,7 @@
      * @protected.
      * @param {Array.<String>} events - The events to suppress.
      */
-    SocialMediaWidget.prototype.suppress = function(events) {
+    SocialMediaPlugin.prototype.suppress = function(events) {
         $.each(events, $.proxy(function(index, event) {
             this._supress[event] = true;
         }, this));
@@ -325,33 +327,32 @@
      * @protected.
      * @param {Array.<String>} events - The events to release.
      */
-    SocialMediaWidget.prototype.release = function(events) {
+    SocialMediaPlugin.prototype.release = function(events) {
         $.each(events, $.proxy(function(index, event) {
             delete this._supress[event];
         }, this));
     };
 
     /**
-     * The jQuery Plugin for the Social Media Widget.
+     * The jQuery Plugin for the Social Media Plugin.
      * @public.
      */
-    $.fn.SocialMediaWidget = function(core, option) {
+    $.fn.SocialMediaPlugin = function(core, option) {
         var args = Array.prototype.slice.call(arguments, 1);
 
         return this.each(function() {
             var $this = $(this),
-                data = $this.data('narrowcasting.socialmediawidget');
+                data = $this.data('narrowcasting.socialmediaplugin');
 
             if (!data) {
-                data = new SocialMediaWidget(this, typeof option == 'object' && option, core);
+                data = new SocialMediaPlugin(this, typeof option == 'object' && option, core);
 
-                $this.data('narrowcasting.socialmediawidget', data);
+                $this.data('narrowcasting.socialmediaplugin', data);
 
-                $.each([
+                $.each([], function(i, event) {
+                    data.register({ type: SocialMediaPlugin.Type.Event, name: event });
 
-                       ], function(i, event) {
-                    data.register({ type: SocialMediaWidget.Type.Event, name: event });
-                    data.$element.on(event + '.narrowcasting.socialmediawidget.core', $.proxy(function(e) {
+                    data.$element.on(event + '.narrowcasting.socialmediaplugin.core', $.proxy(function(e) {
                         if (e.namespace && this !== e.relatedTarget) {
                             this.suppress([event]);
 
@@ -373,6 +374,6 @@
      * The constructor for the jQuery Plugin.
      * @public.
      */
-    $.fn.SocialMediaWidget.Constructor = SocialMediaWidget;
+    $.fn.SocialMediaPlugin.Constructor = SocialMediaPlugin;
 
 })(window.Zepto || window.jQuery, window, document);

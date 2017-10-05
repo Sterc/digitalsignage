@@ -31,21 +31,11 @@
 	$_lang['narrowcasting.slide_buienradar_location']				= 'Locatie ID';
 	$_lang['narrowcasting.slide_buienradar_location_desc']			= 'De ID van de locatie (weerstation), deze is te vinden in de URL van buienradar.nl. Bv https://www.buienradar.nl/weer/surhuisterveen/nl/2746558, het ID is dan \'2746558\'.';
 
-	$_lang['narrowcasting.slide_socialmedia'] 						= 'Social Media';
-	$_lang['narrowcasting.slide_socialmedia_desc'] 					= 'Een slide met social media berichten.';
-	$_lang['narrowcasting.slide_socialmedia_query']					= 'Zoekopdracht';
-	$_lang['narrowcasting.slide_socialmedia_query_desc']			= 'De zoekopdracht van social media berichten, voorbeeld #hastag.';
-
     $_lang['narrowcasting.slide_media'] 							= 'Media';
 	$_lang['narrowcasting.slide_media_desc'] 						= 'Een slide met een Youtube video.';
 	$_lang['narrowcasting.slide_media_youtube']						= 'Youtube';
 	$_lang['narrowcasting.slide_media_youtube_desc']				= 'De ID of URL van de Youtube video.';
 	$_lang['narrowcasting.slide_media_fullscreen']					= 'Speel de Youtube video fullscreen af.';
 	$_lang['narrowcasting.slide_media_fullscreen_desc']				= '';
-	
-	$_lang['narrowcasting.feed_nu']									= 'Nu.nl';
-	$_lang['narrowcasting.feed_nu_desc']							= 'RSS feed van Nu.nl.';
-	$_lang['narrowcasting.feed_nos']								= 'NOS';
-	$_lang['narrowcasting.feed_nos_desc']							= 'RSS feed van NOS.';
-	$_lang['narrowcasting.feed_omrop_fryslan']						= 'Omrop Fryslân';
-	$_lang['narrowcasting.feed_omrop_fryslan_desc']					= 'RSS feed van Omrop Fryslân.';
+
+?>
