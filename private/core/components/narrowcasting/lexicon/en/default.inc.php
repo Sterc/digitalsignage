@@ -50,6 +50,7 @@
 	$_lang['narrowcasting.broadcasts_desc']							= 'Here you can manage all broadcasts for your narrowcasting system. Modifications that are done here or under slides can not be shown live, you can only see this with the \'preview broadcast\'. THe broadcast needs to be synchronized first before you can see the modifications live, when there are modifications that are not synchronized a <i class="icon icon-exclamation-triangle red"></i> will be shown.';
 	$_lang['narrowcasting.broadcast_create']						= 'Create new broadcast';
 	$_lang['narrowcasting.broadcast_update']						= 'Update broadcast';
+    $_lang['narrowcasting.broadcast_duplicate']						= 'Duplicate broadcast';
 	$_lang['narrowcasting.broadcast_remove']						= 'Delete broadcast';
 	$_lang['narrowcasting.broadcast_remove_confirm']				= 'Are you sure you want to delete this broadcast?';
 	$_lang['narrowcasting.broadcast_preview']						= 'Preview broadcast';
@@ -151,7 +152,7 @@
 	$_lang['narrowcasting.label_player_online_desc']				= '';
 	$_lang['narrowcasting.label_player_current_broadcast']			= 'Current broadcast';
 	$_lang['narrowcasting.label_player_current_broadcast_desc']		= 'The current broadcast of the player.';
-    $_lang['narrowcasting.label_player_next_sync']                  = 'Synchronization';
+    $_lang['narrowcasting.label_player_next_sync']                  = 'Refresh about';
     $_lang['narrowcasting.label_player_next_sync_desc']             = '';
 
 	$_lang['narrowcasting.slide_type']								= 'Slide type';
@@ -185,6 +186,10 @@
     $_lang['narrowcasting.label_slide_type_data_key_desc']          = 'The key of the field.';
     $_lang['narrowcasting.label_slide_type_data_xtype']             = 'Type';
     $_lang['narrowcasting.label_slide_type_data_xtype_desc']        = 'The xtype of the field.';
+    $_lang['narrowcasting.label_slide_type_data_label']             = 'Label';
+    $_lang['narrowcasting.label_slide_type_data_label_desc']        = 'The label of the field.';
+    $_lang['narrowcasting.label_slide_type_data_description']       = 'Description';
+    $_lang['narrowcasting.label_slide_type_data_description_desc']  = 'The description of the field.';
     $_lang['narrowcasting.label_slide_type_data_value']             = 'Value';
     $_lang['narrowcasting.label_slide_type_data_value_desc']        = 'The default value of the field.';
 
@@ -227,14 +232,18 @@
 	$_lang['narrowcasting.schedule_date_format_set']				= '[[+start_date]] till [[+end_date]]';
 	$_lang['narrowcasting.schedule_date_format_set_long']			= '[[+start_date]] (van [[+start_time]]) tot [[+end_date]] (tot [[+end_time]])';
 	$_lang['narrowcasting.error_broadcast_sync']					= 'An error has occurred during synchronizing the broadcast.';
-	$_lang['narrowcasting.error_broadcast_player_exists']			= 'This mediabox is already connected to this broadcast. Specify another mediabox.';
+	$_lang['narrowcasting.error_broadcast_player_exists']			= 'This player is already connected to this broadcast. Specify another mediabox.';
 	$_lang['narrowcasting.error_broadcast_schedule_exists']			= 'There is already a schedule for this day: [[+schedule]]. Specify another schedule.';
 	$_lang['narrowcasting.error_player_resolution']					= 'Not a valid resolution (width x height (without spaces)).';
 	$_lang['narrowcasting.error_resource_object']					= 'An error has occurred during saving the broadcast resource.';
-	$_lang['narrowcasting.error_slide_type_character']				= 'The key contains forbidden characters. Please specify another key.';
-	$_lang['narrowcasting.error_slide_type_exists']					= 'A slide with that key already exists. Please specify another key.';
+    $_lang['narrowcasting.error_slide_type_character']				= 'The key contains forbidden characters. Please specify another key.';
+    $_lang['narrowcasting.error_slide_type_exists']					= 'A slide type with this key already exists. Please specify another key.';
+    $_lang['narrowcasting.error_slide_type_not_exists']				= 'A slide type with this key doest not exists.';
+    $_lang['narrowcasting.error_slide_type_data_character']			= 'The key contains forbidden characters. Please specify another key.';
+    $_lang['narrowcasting.error_slide_type_date_exists']			= 'A field with this key already exists. Please specify another key.';
+    $_lang['narrowcasting.broadcast_name_duplicate']                = 'Copy from [[+name]]';
     $_lang['narrowcasting.slide_name_duplicate']                    = 'Copy from [[+name]]';
-    $_lang['narrowcasting.next_sync']                               = 'About [[+time]] minutes';
+    $_lang['narrowcasting.next_sync']                               = '[[+time]] minutes';
     $_lang['narrowcasting.preview_resolution']                      = ' (resolutie [[+resolution]])';
 
 ?>

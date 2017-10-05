@@ -50,12 +50,7 @@
 		 */
 		public function initialize() {
 			$this->narrowcasting = $this->modx->getService('narrowcasting', 'Narrowcasting', $this->modx->getOption('narrowcasting.core_path', null, $this->modx->getOption('core_path').'components/narrowcasting/').'model/narrowcasting/');
-			
-			$this->setDefaultProperties(array(
-				'color'	=> rand(1, 32),
-				'hash'	=> time()	
-			));
-			
+
 			return parent::initialize();
 		}
 		
@@ -64,6 +59,9 @@
 		 * @return Mixed.
 		 */
 		public function beforeSave() {
+            $this->object->set('has', time());
+            $this->object->set('color', rand(1, 32));
+
 			$response = $this->modx->runProcessor('resource/create', array(
 				'pagetitle' 	=> $this->getProperty('name'),
 				'description'	=> $this->getProperty('description'),
@@ -104,13 +102,13 @@
             $this->modx->cacheManager->refresh(array(
                 'db'                => array(),
                 'auto_publish'      => array(
-                    'contexts' => array($this->modx->getOption('narrowcasting.context'))
+                    'contexts'          => array($this->modx->getOption('narrowcasting.context'))
                 ),
                 'context_settings'  => array(
-                    'contexts' => array($this->modx->getOption('narrowcasting.context'))
+                    'contexts'          => array($this->modx->getOption('narrowcasting.context'))
                 ),
                 'resource'          => array(
-                    'contexts' => array($this->modx->getOption('narrowcasting.context'))
+                    'contexts'          => array($this->modx->getOption('narrowcasting.context'))
                 )
             ));
 

@@ -19,7 +19,7 @@
      * Suite 330, Boston, MA 02111-1307 USA
      */
 
-    class NarrowcastingSlidesDuplicateProcessor extends modProcessor {
+    class NarrowcastingSlidesDuplicateProcessor extends modObjectDuplicateProcessor {
         /**
          * @access public.
          * @var String.
@@ -56,32 +56,6 @@
             }
 
             return parent::initialize();
-        }
-
-        /**
-         * @access public
-         * @return Mixed.
-         */
-        public function process() {
-            $criterea = array(
-                'id' => $this->getProperty('id')
-            );
-
-            if (null !== ($original = $this->modx->getObject($this->classKey, $criterea))) {
-                if (null !== ($duplicate = $this->modx->newObject($this->classKey))) {
-                    $duplicate->fromArray(array_merge($original->toArray(), array(
-                        'name' => $this->getProperty('name')
-                    )));
-
-                    if ($duplicate->save()) {
-                        return $this->success('', array(
-                            'id'=> $duplicate->id
-                        ));
-                    }
-                }
-            }
-
-            return $this->failure();
         }
     }
 
