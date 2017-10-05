@@ -36,8 +36,8 @@
 	$_lang['setting_narrowcasting.export_resource_desc']			= 'De ID van de resource die u als exportverzoek wilt gebruiken.';
     $_lang['setting_narrowcasting.request_param_broadcast']			= 'Uitzending parameter';
     $_lang['setting_narrowcasting.request_param_broadcast_desc']	= 'De naam van de GET-parameter om de uitzending te identificeren.';
-	$_lang['setting_narrowcasting.request_param_player']			= 'Mediabox parameter';
-	$_lang['setting_narrowcasting.request_param_player_desc']		= 'De naam van de GET-parameter om de mediabox te identificeren.';
+	$_lang['setting_narrowcasting.request_param_player']			= 'Mediaspeler parameter';
+	$_lang['setting_narrowcasting.request_param_player_desc']		= 'De naam van de GET-parameter om de mediaspeler te identificeren.';
 	$_lang['setting_narrowcasting.context']							= 'Context';
 	$_lang['setting_narrowcasting.context_desc']					= 'De standaard narrowcasting context.';
 	$_lang['setting_narrowcasting.templates']						= 'Templates';

@@ -69,7 +69,7 @@
 		</div>
         <!-- End Newsticker Plugin -->
 
-		<!-- Begin slides -->
+		<!-- Begin Slides -->
 		<div class="slides" data-placeholder="slides">
             <!-- Begin Default Slide -->
 		    <div data-template="default">
@@ -146,7 +146,7 @@
         <!-- End Slides -->
 	</div>
 
-    <!-- Narrowcastin Settings -->
+    <!-- Narrowcasting Settings -->
 	<script type="text/javascript">
     	var settings = {
     	    'debug'     : true,
