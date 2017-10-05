@@ -136,7 +136,13 @@ $(document).ready(function() {
 			'preview': false
 		},
 
-		'domain': ''
+		'domain': '',
+
+        'lexicons': {
+            'days' : ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
+            'months' : ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+            'dayTypes': ['Vandaag', 'Morgen', 'Overmorgen']
+        }
     };
 
     /**
@@ -500,6 +506,35 @@ $(document).ready(function() {
     };
 
     /**
+     * Gets the translated text.
+     * @public.
+     * @param {Key} string - The key of the lexicon.
+     * @param {Category} string|object - The type lexicon.
+     * @param {Default} string - The default return.
+     */
+    Narrowcasting.prototype.getLexicon = function(key, category, lexicon) {
+        var lexicons = [];
+
+        if (typeof category == 'object') {
+            if (category[key]) {
+                return category[key];
+            }
+        } else {
+            if (this.settings.lexicons[category]) {
+                if (this.settings.lexicons[category][key]) {
+                    return this.settings.lexicons[category][key];
+                }
+            }
+        }
+
+        if (undefined !== lexicon) {
+            return lexicon;
+        }
+
+        return 'undefined';
+    };
+
+    /**
      * Gets a placeholder of a narrowcasting object.
      * @public.
      * @param {Placeholder} string - The name of the placeholder.
@@ -613,17 +648,23 @@ $(document).ready(function() {
 
 	        if (typeof value == 'string') {
 		    	for (var i = 0; i < renders.length; i++) {
-			    	var render = renders[i].split(':');
+		    	    var param   = null,
+                        render  = renders[i];
 
-			    	switch (render[0]) {
+		    	    if (-1 !== (pos = render.search(':'))) {
+		    	        param = render.substr(pos + 1);
+                        render = render.substr(0, pos);
+                    }
+
+			    	switch (render) {
 				    	case 'striptags':
-				    		var regex = render[1] ? new RegExp('<(?!\/?(' + render[1] + ')+)[^>]+>', 'gi') : new RegExp('<\/?[^>]+>', 'gi');
+				    		var regex = param ? new RegExp('<(?!\/?(' + param + ')+)[^>]+>', 'gi') : new RegExp('<\/?[^>]+>', 'gi');
 				    		
 				    		value = value.replace(regex, '');
 
 				    		break;
 				    	case 'ellipsis':
-				    		var ellipsis = render[1] ? parseInt(render[1]) : 100;
+				    		var ellipsis = param ? parseInt(param) : 100;
 
 				    		if (value.length > ellipsis) {
 					    		var firstPart 	= value.substring(0, ellipsis);
@@ -642,11 +683,55 @@ $(document).ready(function() {
 
 			    			if (undefined !== (value = parts[parts.length - 1])) {
 				    			if (undefined !== (value = value.replace(/watch\?v=/gi, '').split(/[?#]/)[0])) {
-						    		var value = '//www.youtube.com/embed/' + value + (render[1] ? render[1] : '?autoplay=1&controls=0&rel=0&showinfo=0');
+						    		value = '//www.youtube.com/embed/' + value + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0');
 				    			}
 			    			}
 
 				    		break;
+                        case 'date':
+                            var date    = new Date(value),
+                                hours   = date.getHours(),
+                                minutes = date.getMinutes(),
+                                seconds = date.getSeconds(),
+                                dates   = date.getDate(),
+                                day     = date.getDay(),
+                                month   = date.getMonth(),
+                                year    = date.getFullYear(),
+                                now     = new Date(),
+                                today   = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0),
+                                days    = Math.round(Math.abs(today.getTime() - date.getTime()) / (1000 * 3600 * 24)),
+                                format  = param ? param : '%l %d %F';
+
+                            var formats = {
+                                '%h'	: hours,
+                                '%H'	: hours < 10 ? ('0' + hours) : hours,
+                                '%i'	: minutes,
+                                '%I'	: minutes < 10 ? ('0' + minutes) : minutes,
+                                '%s'	: seconds,
+                                '%S'	: seconds < 10 ? ('0' + seconds) : seconds,
+                                '%j'	: dates,
+                                '%d'	: dates < 10 ? ('0' + dates) : dates,
+                                '%D'	: this.getLexicon(day, 'days').substr(0, 3),
+                                '%l'	: this.getLexicon(day, 'days'),
+                                '%W'	: day,
+                                '%M'	: this.getLexicon(month, 'months').substr(0, 3),
+                                '%F'	: this.getLexicon(month, 'months'),
+                                '%m'	: month < 10 ? ('0' + month) : month,
+                                '%n'	: month + 1,
+                                '%y'	: year.toString().substr(2, 2),
+                                '%Y'	: year.toString(),
+                                '%q'    : this.getLexicon(days, 'dayTypes', this.getLexicon(day, 'days').toString())
+                            };
+
+                            if (dateFormats = format.match(/%[a-z]/gi)) {
+                                for (var i = 0; i < dateFormats.length; i++) {
+                                    format = format.replace(dateFormats[i], formats[dateFormats[i]]);
+                                }
+                            }
+
+                            value = format;
+
+                            break;
 			    	}
 		    	}
 		    	
@@ -1134,11 +1219,7 @@ $(document).ready(function() {
      * @public.
      */
     ClockPlugin.Defaults = {
-        'formatTime': '%H:%I',
-        'formatDate': '%l %d %F',
 
-        'dateText': ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
-        'monthText': ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december']
     };
 
     /**
@@ -1159,77 +1240,13 @@ $(document).ready(function() {
         this.core.setLog('[ClockPlugin] initialize');
 
         setInterval($.proxy(function() {
-            var date = new Date(),
-                formats = {
-                    '%h'	: date.getHours(),
-                    '%H'	: this.getZero(date.getHours()),
-                    '%i'	: date.getMinutes(),
-                    '%I'	: this.getZero(date.getMinutes()),
-                    '%s'	: date.getSeconds(),
-                    '%S'	: this.getZero(date.getSeconds()),
-                    '%j'	: date.getDate(),
-                    '%d'	: this.getZero(date.getDate()),
-                    '%D'	: this.getText(date.getDay(), 'days').toString().substr(0, 3),
-                    '%l'	: this.getText(date.getDay(), 'days').toString(),
-                    '%W'	: date.getDay(),
-                    '%M'	: this.getText(date.getMonth(), 'months').toString().substr(0, 3),
-                    '%F'	: this.getText(date.getMonth(), 'months').toString(),
-                    '%m'	: this.getZero(date.getMonth()),
-                    '%n'	: date.getMonth() + 1,
-                    '%y'	: date.getFullYear().toString().substr(2, 2),
-                    '%Y'	: date.getFullYear().toString()
-                };
+            var date = new Date();
 
-            var placeholders = {
-                'time'  : this.settings.formatTime,
-                'date'  : this.settings.formatDate
-            };
-
-            if (timeFormats = placeholders.time.match(/%[a-z]/gi)) {
-                for (var i = 0; i < timeFormats.length; i++) {
-                    placeholders.time = placeholders.time.replace(timeFormats[i], formats[timeFormats[i]]);
-                }
-            }
-
-            if (dateFormats = placeholders.date.match(/%[a-z]/gi)) {
-                for (var i = 0; i < dateFormats.length; i++) {
-                    placeholders.date = placeholders.date.replace(dateFormats[i], formats[dateFormats[i]]);
-                }
-            }
-
-            this.core.setPlaceholders(this.$element, placeholders);
+            this.core.setPlaceholders(this.$element, {
+                'time' : date.toString(),
+                'date' : date.toString()
+            });
         }, this), 1000);
-    };
-
-    /**
-     * Gets the leading zero.
-     * @protected.
-     */
-    ClockPlugin.prototype.getZero = function(format) {
-        return format < 10 ? ('0' + format) : format;
-    };
-
-    /**
-     * Gets the translated text.
-     * @protected.
-     */
-    ClockPlugin.prototype.getText = function(format, type) {
-        switch (type) {
-            case 'days':
-                if (this.settings.dateText[format]) {
-                    return this.settings.dateText[format];
-                }
-
-                break;
-            case 'months':
-                if (this.settings.monthText[format]) {
-                    return this.settings.monthText[format];
-                }
-
-                break;
-        }
-
-        return '';
     };
 
     /**

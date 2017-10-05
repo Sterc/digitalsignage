@@ -31,9 +31,9 @@
 			</div>
 
 			<!-- Begin Clock Plugin -->
-			<div class="clock" data-plugin="ClockPlugin" data-plugin-settings="{'formatTime': '%H:%I uur', 'formatDate': '%d %F %Y'}">
-				<div class="date" data-placeholder="date"></div>
-				<div class="time" data-placeholder="time"></div>
+			<div class="clock" data-plugin="ClockPlugin">
+				<div class="date" data-placeholder="date" data-placeholder-renders="date:%d %F %Y"></div>
+				<div class="time" data-placeholder="time" data-placeholder-renders="date:%H:%I uur"></div>
 			</div>
 			<!-- End Clock Plugin -->
 
@@ -45,7 +45,8 @@
                             <img src="" data-placeholder="image" data-placeholder-wrapper="image" />
                         </div>
                         <div class="content">
-                            <div data-placeholder="content" data-placeholder-renders="striptags,ellipsis:100"></div>
+                            <p data-placeholder="content" data-placeholder-renders="striptags,ellipsis:100"></p>
+                            <p class="date" data-placeholder="added" data-placeholder-renders="date:%d %F %Y"></p>
                         </div>
                     </div>
                 </div>
@@ -112,7 +113,7 @@
                             <ul class="forecasts" data-placeholder="forecasts">
                                 <li data-template="forecast">
                                     <div class="forecast-inner">
-                                        <h2 data-placeholder="date"></h2>
+                                        <h2 data-placeholder="date" data-placeholder-renders="date:%q"></h2>
                                         <div class="icon">
                                             <img src="" data-placeholder="weatherIcon" />
                                         </div>

@@ -125,7 +125,7 @@ p, ul {
 	height: 100%;
 }
 
-/* Newsticker */
+/* Newsticker Plugin */
 
 .ticker {
 	position: absolute;
@@ -143,11 +143,6 @@ p, ul {
 
 .window-fullscreen .ticker {
 	opacity: 0;
-}
-
-.window-fullscreen .slides {
-	left: 0;
-	width: 100%;
 }
 
 .ticker .ticker-inner {
@@ -223,7 +218,7 @@ p, ul {
 	margin: 0 auto;
 }
 
-/* Clock */
+/* Clock Plugin */
 
 .clock {
 	position: absolute;
@@ -244,7 +239,7 @@ p, ul {
 	margin-bottom: 10px;
 }
 
-/* Social Media Widget */
+/* Social Media Plugin */
 
 .social-media {
 	position: absolute;
@@ -299,7 +294,15 @@ p, ul {
 	font-size: 2vh;
 	line-height: 2.6vh;
 	text-transform: uppercase;
-	padding: 2.5vh 1vw;
+	padding: 2vh 1vw;
+}
+
+.social-media .social-media-inner .social-media-item .content p {
+	margin: 0 0 0.5vh;
+}
+
+.social-media .social-media-inner .social-media-item .content .date {
+	font-style: italic;
 }
 
 /* ----------------------------------------------------------------------------------------- */
@@ -312,6 +315,11 @@ p, ul {
 	width: 80%;
 	height: 91vh;
 	z-index: 0;
+}
+
+.window-fullscreen .slides {
+	left: 0;
+	width: 100%;
 }
 
 .slides .slide {

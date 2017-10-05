@@ -85,9 +85,6 @@
         'weatherIcon': '/narrowcasting/assets/interface/images/buienradar/weather/{icon}.svg',
         'windIcon': '/narrowcasting/assets/interface/images/buienradar/wind/{icon}.svg',
 
-        'dayText': ['Vandaag', 'Morgen', 'Overmorgen'],
-        'dateText': ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
-
         'limit': 4
     };
 
@@ -217,7 +214,7 @@
         if (this.settings.limit > this.$forecasts.length) {
             if (this.data[next]) {
                 var data = $.extend({}, this.data[next], {
-                    'date' : this.getDate(this.data[next].date),
+                    'date' : this.data[next].date.toString(),
                     'weatherIcon' : this.settings.weatherIcon.replace('{icon}', this.data[next].iconcode.toLowerCase()),
                     'windIcon' : this.settings.windIcon.replace('{icon}', this.data[next].winddirection.toLowerCase())
                 });
@@ -255,34 +252,9 @@
     SlideBuienradar.prototype.loadRadar = function() {
         this.core.setLog('[SlideBuienradar] loadRadar');
 
-        var date = (new Date());
-
         this.core.setPlaceholders(this.$element, {
             'radar' : this.settings.radar + '?time=' + (new Date()).getTime()
         });
-    };
-
-    /**
-     * Gets the date.
-     * @protected.
-     */
-    SlideBuienradar.prototype.getDate = function(format) {
-        var start   = new Date(),
-            date    = new Date(format);
-
-        start.setHours(0, 0, 0, 0);
-
-        var days = Math.round(Math.abs(start.getTime() - date.getTime()) / (1000 * 3600 * 24));
-
-        if (undefined !== this.settings.dayText[days]) {
-            return this.settings.dayText[days];
-        }
-
-        if (undefined !== this.settings.dateText[date.getDay()]) {
-            return this.settings.dateText[date.getDay()];
-        }
-
-        return format;
     };
 
     /**
