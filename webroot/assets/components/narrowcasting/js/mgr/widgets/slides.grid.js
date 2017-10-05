@@ -41,37 +41,37 @@ Narrowcasting.grid.Slides = function(config) {
     }];
 
     columns = new Ext.grid.ColumnModel({
-                                           columns: [{
-                                               header		: _('narrowcasting.label_slide_name'),
-                                               dataIndex	: 'name',
-                                               sortable	: true,
-                                               editable	: false,
-                                               width		: 250
-                                           }, {
-                                               header		: _('narrowcasting.label_slide_type'),
-                                               dataIndex	: 'type_formatted',
-                                               sortable	: true,
-                                               editable	: false,
-                                               width		: 200,
-                                               fixed 		: true
-                                           }, {
-                                               header		: _('narrowcasting.label_slide_published'),
-                                               dataIndex	: 'published',
-                                               sortable	: true,
-                                               editable	: true,
-                                               width		: 100,
-                                               fixed		: true,
-                                               renderer	: this.renderBoolean
-                                           }, {
-                                               header		: _('last_modified'),
-                                               dataIndex	: 'editedon',
-                                               sortable	: true,
-                                               editable	: false,
-                                               fixed		: true,
-                                               width		: 200,
-                                               renderer	: this.renderDate
-                                           }]
-                                       });
+        columns: [{
+            header		: _('narrowcasting.label_slide_name'),
+            dataIndex	: 'name',
+            sortable	: true,
+            editable	: false,
+            width		: 250
+        }, {
+            header		: _('narrowcasting.label_slide_type'),
+            dataIndex	: 'type_formatted',
+            sortable	: true,
+            editable	: false,
+            width		: 200,
+            fixed 		: true
+        }, {
+            header		: _('narrowcasting.label_slide_published'),
+            dataIndex	: 'published',
+            sortable	: true,
+            editable	: true,
+            width		: 100,
+            fixed		: true,
+            renderer	: this.renderBoolean
+        }, {
+            header		: _('last_modified'),
+            dataIndex	: 'editedon',
+            sortable	: true,
+            editable	: false,
+            fixed		: true,
+            width		: 200,
+            renderer	: this.renderDate
+        }]
+    });
 
     Ext.applyIf(config, {
         cm			: columns,
@@ -177,8 +177,8 @@ Ext.extend(Narrowcasting.grid.Slides, MODx.grid.Grid, {
         }
 
         var record = Ext.applyIf({
-            name        : _('narrowcasting.slide_name_duplicate', {
-                name        : this.menu.record.name
+            name    : _('narrowcasting.slide_name_duplicate', {
+                name    : this.menu.record.name
             })
         }, this.menu.record);
 

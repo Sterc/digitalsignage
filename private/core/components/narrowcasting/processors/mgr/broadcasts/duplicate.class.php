@@ -1,5 +1,5 @@
 <?php
-
+	
 	/**
 	 * Narrowcasting
 	 *
@@ -19,7 +19,7 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 
-	class NarrowcastingBroadcastsUpdateProcessor extends modObjectUpdateProcessor {
+	class NarrowcastingBroadcastsDuplicateProcessor extends modObjectDuplicateProcessor {
 		/**
 		 * @access public.
 		 * @var String.
@@ -45,7 +45,7 @@
 		public $narrowcasting;
 		
 		/**
-		 * @acces public.
+		 * @access public.
 		 * @return Mixed.
 		 */
 		public function initialize() {
@@ -53,46 +53,58 @@
 
 			return parent::initialize();
 		}
-		
-		/**
-		 * @acces public.
-		 * @return Mixed.
-		 */
-		public function beforeSave() {
-		    $this->object->set('has', time());
 
-			$response = $this->modx->runProcessor('resource/update', array(
-				'id'			=> $this->getProperty('resource_id'),
-				'pagetitle' 	=> $this->getProperty('name'),
-				'description'	=> $this->getProperty('description'),
-				'alias'			=> $this->getProperty('name'),
-				'context_key'	=> $this->modx->getOption('narrowcasting.context'),
-				'template'		=> $this->getProperty('template'),
-				'show_in_tree'	=> 0
-			));
-			
-			if ($response->isError()) {
-				foreach ($response->getFieldErrors() as $error) {
-					$this->addFieldError('name', $error->message);
-				}
-			}
-			
-			if (null !== ($object = $response->getObject())) {
-				if (isset($object['id'])) {
-					$this->object->set('resource_id', $object['id']);
-				} else {
-					$this->addFieldError('name', $this->modx->lexicon('error_resource_object'));
-				}
-			} else {
-				$this->addFieldError('name', $this->modx->lexicon('error_resource_object'));
-			}
-			
-			if (!preg_match('/^(http|https)/si', $this->getProperty('ticker_url'))) {
-				$this->setProperty('url', 'http://'.$this->getProperty('ticker_url'));
-			}
+        /**
+         * @acces public.
+         * @return Mixed.
+         */
+        public function beforeSave() {
+            $this->newObject->set('has', time());
+            $this->newObject->set('color', rand(1, 32));
 
-			return parent::beforeSave();
-		}
+            $response = $this->modx->runProcessor('resource/duplicate', array(
+                'id' 	        => $this->object->get('resource_id'),
+                'name'	        => $this->newObject->get('name')
+            ));
+
+            if ($response->isError()) {
+                foreach ($response->getFieldErrors() as $error) {
+                    $this->addFieldError('name', $error->message);
+                }
+            }
+
+            if (null !== ($object = $response->getObject())) {
+                if (isset($object['id'])) {
+                    $this->newObject->set('resource_id', $object['id']);
+                } else {
+                    $this->addFieldError('name', $this->modx->lexicon('error_resource_object'));
+                }
+            } else {
+                $this->addFieldError('name', $this->modx->lexicon('error_resource_object'));
+            }
+
+            if (!preg_match('/^(http|https)/si', $this->getProperty('ticker_url'))) {
+                $this->setProperty('url', 'http://'.$this->getProperty('ticker_url'));
+            }
+
+            foreach ($this->object->getMany('getSlides') as $slide) {
+                if (null !== ($object = $this->modx->newObject('NarrowcastingBroadcastsSlides'))) {
+                    $object->fromArray($slide->toArray());
+
+                    $this->newObject->addMany($object);
+                }
+            }
+
+            foreach ($this->object->getMany('getFeeds') as $feed) {
+                if (null !== ($object = $this->modx->newObject('NarrowcastingBroadcastsFeeds'))) {
+                    $object->fromArray($feed->toArray());
+
+                    $this->newObject->addMany($object);
+                }
+            }
+
+            return parent::beforeSave();
+        }
 
         /**
          * @access public.
@@ -118,6 +130,6 @@
         }
 	}
 	
-	return 'NarrowcastingBroadcastsUpdateProcessor';
+	return 'NarrowcastingBroadcastsDuplicateProcessor';
 	
 ?>

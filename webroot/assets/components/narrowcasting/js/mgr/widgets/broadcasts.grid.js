@@ -168,7 +168,11 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
 	        text	: _('narrowcasting.broadcast_update'),
 	        handler	: this.updateBroadcast,
 	        scope	: this
-	    }, '-', {
+	    }, {
+            text	: _('narrowcasting.broadcast_duplicate'),
+            handler	: this.duplicateBroadcast,
+            scope	: this
+        }, '-', {
 		    text	: _('narrowcasting.broadcast_remove'),
 		    handler	: this.removeBroadcast,
 		    scope	: this
@@ -211,6 +215,32 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
         
         this.updateBroadcastWindow.setValues(this.menu.record);
         this.updateBroadcastWindow.show(e.target);
+    },
+    duplicateBroadcast: function(btn, e) {
+        if (this.duplicateBroadcastWindow) {
+            this.duplicateBroadcastWindow.destroy();
+        }
+
+        var record = Ext.applyIf({
+            name    : _('narrowcasting.broadcast_name_duplicate', {
+                name    : this.menu.record.name
+            })
+        }, this.menu.record);
+
+        this.duplicateBroadcastWindow = MODx.load({
+            xtype		: 'narrowcasting-window-broadcast-duplicate',
+            record		: record,
+            closeAction	: 'close',
+            listeners	: {
+                'success'	: {
+                    fn			: this.refresh,
+                    scope		: this
+                }
+            }
+        });
+
+        this.duplicateBroadcastWindow.setValues(record);
+        this.duplicateBroadcastWindow.show(e.target);
     },
     removeBroadcast: function() {
     	MODx.msg.confirm({
@@ -487,6 +517,40 @@ Narrowcasting.window.UpdateBroadcast = function(config) {
 Ext.extend(Narrowcasting.window.UpdateBroadcast, MODx.Window);
 
 Ext.reg('narrowcasting-window-broadcast-update', Narrowcasting.window.UpdateBroadcast);
+
+Narrowcasting.window.DuplicateBroadcast = function(config) {
+    config = config || {};
+
+    Ext.applyIf(config, {
+        autoHeight	: true,
+        title 		: _('narrowcasting.broadcast_duplicate'),
+        url			: Narrowcasting.config.connector_url,
+        baseParams	: {
+            action		: 'mgr/broadcasts/duplicate'
+        },
+        fields		: [{
+            xtype		: 'hidden',
+            name		: 'id'
+        },{
+            xtype		: 'textfield',
+            fieldLabel	: _('narrowcasting.label_broadcast_name'),
+            description	: MODx.expandHelp ? '' : _('narrowcasting.label_broadcast_name_desc'),
+            name		: 'name',
+            anchor		: '100%',
+            allowBlank	: false
+        }, {
+            xtype		: MODx.expandHelp ? 'label' : 'hidden',
+            html		: _('narrowcasting.label_broadcast_name_desc'),
+            cls			: 'desc-under'
+        }]
+    });
+
+    Narrowcasting.window.DuplicateBroadcast.superclass.constructor.call(this, config);
+};
+
+Ext.extend(Narrowcasting.window.DuplicateBroadcast, MODx.Window);
+
+Ext.reg('narrowcasting-window-broadcast-duplicate', Narrowcasting.window.DuplicateBroadcast);
 
 Narrowcasting.window.PreviewBroadcast = function(config) {
     config = config || {};

@@ -50,6 +50,7 @@
 	$_lang['narrowcasting.broadcasts_desc']							= 'Hier kun je alle uitzendingen van je narrowcasting beheren. Wijzigingen die hier en onder slides gedaan worden zijn niet rechtstreeks live te zien, deze kunnen alleen bekeken worden met behulp van de \'uitzending voorbeeld\'. De uitzending moet eerst gesynchroniseerd worden voordat de wijzigingen live te zien zijn, indien er wijzigingen zijn die nog niet gesynchroniseerd zijn wordt dit aangegeven met een <i class="icon icon-exclamation-triangle red"></i>.';
 	$_lang['narrowcasting.broadcast_create']						= 'Nieuwe uitzending';
 	$_lang['narrowcasting.broadcast_update']						= 'Uitzending wijzigen';
+    $_lang['narrowcasting.broadcast_duplicate']						= 'Uitzending kopiëren';
 	$_lang['narrowcasting.broadcast_remove']						= 'Uitzending verwijderen';
 	$_lang['narrowcasting.broadcast_remove_confirm']				= 'Weet je zeker dat je deze uitzending wilt verwijderen?';
     $_lang['narrowcasting.broadcast_preview']						= 'Uitzending voorbeeld';
@@ -66,7 +67,7 @@
     $_lang['narrowcasting.broadcast_feed_remove_confirm']			= 'Weet je zeker dat je deze feed wilt verwijderen?';
 
     $_lang['narrowcasting.label_broadcast_name']					= 'Naam';
-    $_lang['narrowcasting.label_broadcast_name_desc']				= 'Naam van de uitzending.';
+    $_lang['narrowcasting.label_broadcast_name_desc']				= 'De naam van de uitzending.';
     $_lang['narrowcasting.label_broadcast_description']				= 'Omschrijving';
     $_lang['narrowcasting.label_broadcast_description_desc']		= 'Korte omschrijving van de uitzending.';
     $_lang['narrowcasting.label_broadcast_template']				= 'Template';
@@ -109,7 +110,7 @@
     $_lang['narrowcasting.label_slide_name']						= 'Titel';
     $_lang['narrowcasting.label_slide_name_desc']					= 'De titel van de slide.';
     $_lang['narrowcasting.label_slide_type']						= 'Type';
-    $_lang['narrowcasting.label_slide_type_desc']					= 'Type van de slide.';
+    $_lang['narrowcasting.label_slide_type_desc']					= 'De type van de slide.';
     $_lang['narrowcasting.label_slide_time']						= 'Looptijd';
     $_lang['narrowcasting.label_slide_time_desc']					= 'De looptijd van de slide in seconden of minuten.';
     $_lang['narrowcasting.label_slide_published']					= 'Gepubliceerd';
@@ -233,7 +234,7 @@
     $_lang['narrowcasting.schedule_date_format_set']				= '[[+start_date]] tot [[+end_date]]';
     $_lang['narrowcasting.schedule_date_format_set_long']			= '[[+start_date]] (van [[+start_time]]) tot [[+end_date]] (tot [[+end_time]])';
     $_lang['narrowcasting.error_broadcast_sync']					= 'Er is een fout opgetreden tijdens het synchroniseren van de uitzending.';
-    $_lang['narrowcasting.error_broadcast_player_exists']			= 'Deze mediabox is al gekoppeld met deze uitzending. Kies een andere mediabox.';
+    $_lang['narrowcasting.error_broadcast_player_exists']			= 'Deze mediaspeler is al gekoppeld met deze uitzending. Kies een andere mediabox.';
     $_lang['narrowcasting.error_broadcast_schedule_exists']			= 'Er is al een schema voor deze dag: [[+schedule]]. Geef een ander schema op.';
     $_lang['narrowcasting.error_player_resolution']					= 'Niet een geldige resolutie (breedte x hoogte (zonder spaties)).';
 	$_lang['narrowcasting.error_resource_object']					= 'Er is een fout opgetreden tijdens het opslaan van de uitzending resource.';
@@ -242,7 +243,8 @@
     $_lang['narrowcasting.error_slide_type_not_exists']				= 'Een slide type met deze sleutel bestaat niet.';
     $_lang['narrowcasting.error_slide_type_data_character']			= 'De sleutel bevat niet toegestane tekens. Definieer een andere sleutel.';
     $_lang['narrowcasting.error_slide_type_date_exists']			= 'Een veld met deze sleutel bestaat reeds. Definieer een andere sleutel';
-    $_lang['narrowcasting.slide_name_duplicate']                    = 'Duplicaat van [[+name]]';
+    $_lang['narrowcasting.broadcast_name_duplicate']                = 'Kopie van [[+name]]';
+    $_lang['narrowcasting.slide_name_duplicate']                    = 'Kopie van [[+name]]';
 	$_lang['narrowcasting.next_sync']                               = '[[+time]] minuten';
     $_lang['narrowcasting.preview_resolution']                      = ' (resolutie [[+resolution]])';
 
