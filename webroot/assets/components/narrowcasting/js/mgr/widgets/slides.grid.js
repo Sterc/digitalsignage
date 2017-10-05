@@ -555,6 +555,45 @@ Narrowcasting.window.UpdateSlide = function(config) {
                             cls			: 'desc-under'
                         }]
                     }]
+                }, {
+                    id          : 'slide_broadcasts',
+                    xtype       : 'checkboxgroup',
+                    fieldLabel  : _('narrowcasting.label_slide_broadcasts'),
+                    description : MODx.expandHelp ? '' : _('narrowcasting.label_slide_broadcasts_desc'),
+                    name        : 'slide_broadcasts',
+                    itemCls     : 'x-checkboxgroup-narrowcasting',
+                    columns     : 1,
+                    listeners : {
+                        beforerender : function () {
+                            // var self = this;
+                            //
+                            // Ext.Ajax.request({
+                            //     url    : Narrowcasting.config.connector_url,
+                            //     params : {
+                            //         action : 'mgr/broadcasts/getlist',
+                            //         start  : 0,
+                            //         limit  : 0
+                            //     },
+                            //     success : function (result, request) {
+                            //         var items = [],
+                            //             data  = Ext.util.JSON.decode(result.responseText);
+                            //
+                            //         data = data.results;
+                            //         var total = data.length;
+                            //
+                            //         for (var i = 0; i < total; i++) {
+                            //             items.push(new Ext.form.Checkbox({
+                            //                 boxLabel : data[i].name,
+                            //                 name     : data[i].id
+                            //             }));
+                            //         }
+                            //
+                            //         self.items = items;
+                            //     }
+                            // });
+                        }
+                    },
+                    items : [{}]
                 }]
             }, {
                 columnWidth	: .6,

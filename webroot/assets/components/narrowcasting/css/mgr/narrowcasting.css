@@ -64,3 +64,17 @@
 	height: 205px;
 	overflow: scroll;
 }
+
+.x-checkboxgroup-narrowcasting .x-form-check-group {
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 150px;
+    border: 1px solid #E4E4E4;
+    border-radius: 3px;
+    background: #FBFBFB;
+}
+
+.x-checkboxgroup-narrowcasting .x-form-check-group .x-column {
+    padding-left: 10px;
+    padding-bottom: 8px;
+}

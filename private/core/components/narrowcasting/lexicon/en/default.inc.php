@@ -114,6 +114,8 @@
 	$_lang['narrowcasting.label_slide_time_desc']					= 'The duration of the slide in seconds.';
 	$_lang['narrowcasting.label_slide_published']					= 'Published';
 	$_lang['narrowcasting.label_slide_published_desc']				= '';
+    $_lang['narrowcasting.label_slide_broadcasts']                  = 'Slide broadcasts';
+    $_lang['narrowcasting.label_slide_broadcasts_desc']             = 'Select the broadcasts for this slide.';
 
 	$_lang['narrowcasting.player']									= 'Player';
 	$_lang['narrowcasting.players']									= 'Players';
