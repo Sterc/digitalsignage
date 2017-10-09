@@ -44,7 +44,7 @@
 	$_lang['setting_narrowcasting.template_desc']					= 'De beschikbare templates voor een uitzending. Template ID\'s comma gescheiden toevoegen.';
 	$_lang['setting_narrowcasting.media_source']					= 'Media source';
 	$_lang['setting_narrowcasting.media_source_desc']				= 'De media source die wordt gebruikt voor media bestanden.';
-	
+
 	$_lang['narrowcasting.broadcast']								= 'Uitzending';
 	$_lang['narrowcasting.broadcasts']								= 'Uitzendingen';
 	$_lang['narrowcasting.broadcasts_desc']							= 'Hier kun je alle uitzendingen van je narrowcasting beheren. Wijzigingen die hier en onder slides gedaan worden zijn niet rechtstreeks live te zien, deze kunnen alleen bekeken worden met behulp van de \'uitzending voorbeeld\'. De uitzending moet eerst gesynchroniseerd worden voordat de wijzigingen live te zien zijn, indien er wijzigingen zijn die nog niet gesynchroniseerd zijn wordt dit aangegeven met een <i class="icon icon-exclamation-triangle red"></i>.';
@@ -115,6 +115,8 @@
     $_lang['narrowcasting.label_slide_time_desc']					= 'De looptijd van de slide in seconden of minuten.';
     $_lang['narrowcasting.label_slide_published']					= 'Gepubliceerd';
     $_lang['narrowcasting.label_slide_published_desc']				= '';
+    $_lang['narrowcasting.label_slide_broadcasts']                  = 'Slide uitzendingen';
+    $_lang['narrowcasting.label_slide_broadcasts_desc']             = 'Selecteer de uitzendingen voor deze slide.';
 
     $_lang['narrowcasting.player']									= 'Mediaspeler';
     $_lang['narrowcasting.players']									= 'Mediaspelers';
