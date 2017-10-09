@@ -99,6 +99,25 @@
     			</div>
             </div>
             <!-- End Media Slide -->
+            <!-- Begin Facebook Slide -->
+		    <div data-template="facebook">
+    			<div class="slide slide-facebook">
+    				<div class="slide-inner">
+					    <div class="image">
+                            <img src="" data-placeholder="image" data-placeholder-wrapper="image" />
+                        </div>
+                        <div class="content">
+                            <div class="content-mask">
+        					    <h1 data-placeholder="title" data-placeholder-renders="striptags,ellipsis:150"></h1>
+        					    <div data-placeholder="content" data-placeholder-renders="striptags:p|h2|h3|h4|strong|em|span|br|ul|ol|li"></div>
+        					    <p class="author" data-placeholder="author"></p>
+        					    <p class="date" data-placeholder="pubDate" data-placeholder-renders="date:%d %F %Y"></p>
+    					    </div>
+    					</div>
+    				</div>
+    			</div>
+            </div>
+            <!-- End Facebook Slide -->
             <!-- Begin Buienradar Slide -->
             <div data-template="buienradar">
                 <div class="slide slide-buienradar">

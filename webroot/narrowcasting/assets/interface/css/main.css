@@ -409,6 +409,63 @@ p, ul {
 }
 
 /* ----------------------------------------------------------------------------------------- */
+/* ----- Facebook Slide -------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+
+.slides .slide.slide-facebook {
+	color: #ffffff;
+	background: #3b5998;
+}
+
+.slides .slide.slide-facebook .slide-inner .image {
+	position: relative;
+	float: left;
+	width: 30%;
+	height: 100%;
+	overflow: hidden;
+}
+
+.slides .slide.slide-facebook .slide-inner .image.is-empty {
+	display: none !important;
+}
+
+.slides .slide.slide-facebook .slide-inner .image img {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: auto;
+	height: 100%;
+	transform: translateX(-50%);
+}
+
+.slides .slide.slide-facebook .slide-inner .content {
+	height: 100%;
+	padding: 3vh 3vw 14vh 3vw;
+	overflow: hidden;
+}
+
+.slides .slide.slide-facebook .slide-inner .content h1,
+.slides .slide.slide-facebook .slide-inner .content h2,
+.slides .slide.slide-facebook .slide-inner .content h3,
+.slides .slide.slide-facebook .slide-inner .content h4 {
+	color: #ffffff;
+}
+
+.slides .slide.slide-facebook .slide-inner .content p {
+	margin: 2.8vh 0;
+}
+
+.slides .slide.slide-facebook .slide-inner .content .date {
+	font-style: italic;
+}
+
+.slides .slide.slide-facebook .slide-inner .content .content-mask {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+
+/* ----------------------------------------------------------------------------------------- */
 /* ----- Buienradar Slide ------------------------------------------------------------------ */
 /* ----------------------------------------------------------------------------------------- */
 

@@ -53,10 +53,14 @@
 					$data['content'] = $data['description'];
 				}
 			}
+
+			if (isset($data['image'])) {
+			    $data['image'] = urldecode($data['image']);
+            }
 			
 			if (isset($data['enclosure'])) {
 				if (isset($data['enclosure']['@attributes']['url'])) {
-					$data['image'] = $data['enclosure']['@attributes']['url'];
+					$data['image'] = urldecode($data['enclosure']['@attributes']['url']);
 				}
 				
 				unset($data['enclosure']);
