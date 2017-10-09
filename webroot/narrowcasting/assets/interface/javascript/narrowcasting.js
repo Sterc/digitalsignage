@@ -646,7 +646,7 @@ $(document).ready(function() {
 	            renders = renders.split(',');
 	        }
 
-	        if (typeof value == 'string') {
+	        if (typeof value == 'string' && '' != value) {
 		    	for (var i = 0; i < renders.length; i++) {
 		    	    var param   = null,
                         render  = renders[i];
@@ -679,13 +679,16 @@ $(document).ready(function() {
 				    		
 				    		break;
 				    	case 'youtube':
+				    		console.log(value);
 			    			var parts = value.replace(/\/$/gm, '').split('/');
-
+			    		
 			    			if (undefined !== (value = parts[parts.length - 1])) {
 				    			if (undefined !== (value = value.replace(/watch\?v=/gi, '').split(/[?#]/)[0])) {
 						    		value = '//www.youtube.com/embed/' + value + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0');
 				    			}
 			    			}
+			    			
+			    			console.log(value);
 
 				    		break;
                         case 'date':
@@ -855,11 +858,12 @@ $(document).ready(function() {
 	    
 	    if (this.data[next]) {
 		    var data = $.extend({}, {
-                'slide' : 'default'
+                'slide' 		: 'default',
+                'fullscreen'	: false
             }, this.data[next]);
-            
+
 	        if ($slide = this.getSlide(data)) {
-		        if (data.fullscreen) {
+		        if (data.fullscreen || 1 == data.fullscreen || 'true' == data.fullscreen) {
 			        this.$element.addClass('slide-fullscreen');
 			        
 			        this.$element.addClass('window-fullscreen');

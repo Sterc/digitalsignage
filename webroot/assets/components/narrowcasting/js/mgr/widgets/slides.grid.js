@@ -415,14 +415,10 @@ Ext.extend(Narrowcasting.window.CreateSlide, MODx.Window, {
                                 listeners	: {
                                     'afterrender': {
                                         fn : function(data) {
-                                            if (typeof TinyMCERTE !== 'undefined') {
-                                                if (MODx.loadRTE) {
-                                                    MODx.loadRTE(data.id);
-                                                }
-                                            } else {
-                                                if (MODx.loadRTE) {
-                                                    MODx.loadRTE(data.id);
-                                                }
+                                            if (MODx.loadRTE) {
+                                                MODx.loadRTE(data.id, {
+                                                    height : '200px'
+                                                });
                                             }
                                         }
                                     }
@@ -628,7 +624,8 @@ Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
                             record = Ext.apply(record, {
                                 hideLabel	: true,
                                 boxLabel	: label,
-                                checked		: this.config.record.data[name] == record.inputValue
+                                inputValue	: record.value,
+                                checked		: this.config.record.data[name] == record.value
                             });
 
                             break;
@@ -638,14 +635,10 @@ Ext.extend(Narrowcasting.window.UpdateSlide, MODx.Window, {
                                 listeners	: {
                                     'afterrender': {
                                         fn : function(data) {
-                                            if (typeof TinyMCERTE !== 'undefined') {
-                                                if (MODx.loadRTE) {
-                                                    MODx.loadRTE(data.id);
-                                                }
-                                            } else {
-                                                if (MODx.loadRTE) {
-                                                    MODx.loadRTE(data.id);
-                                                }
+                                            if (MODx.loadRTE) {
+                                                MODx.loadRTE(data.id, {
+                                                    height : '200px'
+                                                });
                                             }
                                         }
                                     }

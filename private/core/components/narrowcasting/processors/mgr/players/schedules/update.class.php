@@ -59,6 +59,9 @@
 		 * @return Mixed.
 		 */
 		public function beforeSave() {
+			$this->object->set('start_date', date('Y-m-d', strtotime($this->getProperty('start_date'))));
+			$this->object->set('end_date', date('Y-m-d', strtotime($this->getProperty('end_date'))));
+			
 			if ($this->object->is('day')) {
 				$start = array(
 					'date'	=> date('Y-m-d', strtotime('Next '.$this->object->getDayOfWeek())),

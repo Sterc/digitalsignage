@@ -193,6 +193,8 @@ Ext.extend(Narrowcasting.grid.SlideTypes, MODx.grid.Grid, {
 			text    	: _('ok'),
 				cls			: 'primary-button',
 				handler		: function() {
+					this.refresh();
+					 
 					this.slideTypeDataWindow.close();
 				},
 				scope		: this

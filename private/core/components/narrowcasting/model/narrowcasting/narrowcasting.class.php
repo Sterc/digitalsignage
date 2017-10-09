@@ -325,15 +325,13 @@
 
 	                if (0 >= count($slides)) {
 	                    foreach ($broadcast->getSlides() as $key => $slide) {
-                            $data = unserialize($slide->data);
-
 	                        $slides[] = array_merge(array(
 	                            'time'  	=> $slide->time,
 	                            'slide' 	=> $slide->type,
 	                            'source'	=> 'intern',
 	                            'title' 	=> $slide->name,
 	                            'image' 	=> null
-	                        ), $data);
+	                        ), unserialize($slide->data));
 	                    }
 
 	                    if ((bool) $this->modx->getOption('narrowcasting.auto_create_sync', null, false)) {
@@ -348,43 +346,29 @@
                     }
 
                     foreach ($broadcast->getFeeds('content') as $key => $feed) {
-                        foreach ($feed->getSlides() as $key2 => $slide) {
-							$value = array(
+                        foreach ($feed->getSlides() as $slide) {
+							$slide = array_merge($slide, array(
 								'time'		=> $feed->time,
 								'slide'		=> $feed->key,
 								'source'	=> $feed->key,
-								'title'		=> (string) $slide->title,
-								'image'		=> null,
-								'content'	=> (string) $slide->description
-							);
-
-							if (isset($slide->enclosure->attributes()->url)) {
-								$value['image'] = (string) $slide->enclosure->attributes()->url;
-							}
-
-							$slides[] = $value;
+							));
+							
+							$slides[] = $slide;
                         }
                     }
 
 	                $total = count($slides);
 
 	                foreach ($broadcast->getFeeds('specials') as $key => $feed) {
-	                    foreach ($feed->getSlides() as $key2 => $slide) {
-	                        if ($key2 < ceil($total / $feed->frequency)) {
-		                        $value = array(
-			                        'time'		=> $feed->time,
-                                    'slide'		=> $feed->key,
-			                        'source'	=> $feed->key,
-			                        'title'		=> (string) $slide->title,
-			                        'image'		=> null,
-			                        'content'	=> (string) $slide->description
-		                        );
+	                    foreach ($feed->getSlides() as $slice => $slide) {
+	                        if ($slice < ceil($total / $feed->frequency)) {
+		                        $slide = array_merge($slide, array(
+									'time'		=> $feed->time,
+									'slide'		=> $feed->key,
+									'source'	=> $feed->key,
+								));
 
-		                        if (isset($slide->enclosure->attributes()->url)) {
-			                    	$value['image'] = (string) $slide->enclosure->attributes()->url;
-			                    }
-
-	                        	array_splice($slides, (($key2 + 1) * $feed->frequency) + $key + $key2, 0, array($value));
+	                        	array_splice($slides, (($slice + 1) * $feed->frequency) + $key + $slice, 0, array($slide));
 	                        }
 	                    }
 	                }
