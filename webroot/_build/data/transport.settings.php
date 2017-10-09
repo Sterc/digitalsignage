@@ -14,7 +14,7 @@
     $settings[1] = $modx->newObject('modSystemSetting');
     $settings[1]->fromArray(array(
         'key' 		=> PKG_NAME_LOWER.'.branding_url_help',
-        'value' 	=> '//www.sterc.com/extras/narrowcasting',
+        'value' 	=> '',
         'xtype' 	=> 'textfield',
         'namespace' => PKG_NAME_LOWER,
         'area' 		=> PKG_NAME_LOWER

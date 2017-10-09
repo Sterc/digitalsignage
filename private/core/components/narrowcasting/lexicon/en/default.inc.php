@@ -103,7 +103,7 @@
 	$_lang['narrowcasting.slides_desc']								= 'Here you can manage all the slides for your narrowcasting.';
 	$_lang['narrowcasting.slide_create']							= 'Create new slide';
 	$_lang['narrowcasting.slide_update']							= 'Update slide';
-    $_lang['narrowcasting.slide_duplicate']							= 'Copy slide';
+    $_lang['narrowcasting.slide_duplicate']							= 'Duplicate slide';
 	$_lang['narrowcasting.slide_remove']							= 'Delete slide';
 	$_lang['narrowcasting.slide_remove_confirm']					= 'Are you sure you want to delete this slide?';
 
@@ -120,7 +120,7 @@
 
 	$_lang['narrowcasting.player']									= 'Player';
 	$_lang['narrowcasting.players']									= 'Players';
-	$_lang['narrowcasting.players_desc']							= 'Here you can manage all players for your narrowcasting system. A player has a default delay of 5 minutes. Modifications that you do here, will be live after 5 minutes (synchronization). A player with a <i class="icon icon-circle green"></i> are current on and broadcasting a broadcast, players with a <i class="icon icon-circle green"></i> are off.';
+	$_lang['narrowcasting.players_desc']							= 'Here you can manage all players for your narrowcasting system. A player has a default delay of 5 minutes. Modifications that you do here, will be live after 5 minutes (synchronization). A player with a <i class="icon icon-circle green"></i> are current on and broadcasting a broadcast, players with a <i class="icon icon-exclamation-triangle red"></i> are off.';
 	$_lang['narrowcasting.player_create']							= 'Create new player';
 	$_lang['narrowcasting.player_update']							= 'Update player';
 	$_lang['narrowcasting.player_remove']							= 'Delete player';
