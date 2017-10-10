@@ -1,1 +1,0 @@
-<div id="migx-panel-home-div"></div>

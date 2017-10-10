@@ -1,1 +1,0 @@
-<div id="usermanagement-panel-home-div"></div>

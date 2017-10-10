@@ -1,1 +1,0 @@
-<div id="oauth2server-panel-manage-div"></div>
