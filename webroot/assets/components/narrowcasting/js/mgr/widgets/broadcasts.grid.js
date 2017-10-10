@@ -107,6 +107,7 @@ Narrowcasting.grid.Broadcasts = function(config) {
         paging		: true,
         pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy		: 'id',
+        refreshGrid : [],
         refresher	: {
 	        timer 		: null,
 	        duration	: 30,
@@ -135,6 +136,15 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
 			clearInterval(this.config.refresher.timer);
 		}
 	},
+    refreshGrids: function() {
+        if ('string' == typeof this.config.refreshGrid) {
+            Ext.getCmp(this.config.refreshGrid).refresh();
+        } else {
+            for (var i = 0; i < this.config.refreshGrid.length; i++) {
+                Ext.getCmp(this.config.refreshGrid[i]).refresh();
+            }
+        }
+    },
     filterSearch: function(tf, nv, ov) {
         this.getStore().baseParams.query = tf.getValue();
         
@@ -188,8 +198,11 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
 	        closeAction	: 'close',
 	        listeners	: {
 		        'success'	: {
-		        	fn			: this.refresh,
-		        	scope		: this
+		        	fn			: function() {
+                        this.refreshGrids();
+                        this.refresh();
+                    },
+                    scope       : this
 		        }
 	         }
         });
@@ -207,8 +220,11 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
 	        closeAction	: 'close',
 	        listeners	: {
 		        'success'	: {
-		        	fn			: this.refresh,
-		        	scope		: this
+                    fn			: function() {
+                        this.refreshGrids();
+                        this.refresh();
+                    },
+                    scope       : this
 		        }
 	        }
         });
@@ -233,8 +249,11 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
             closeAction	: 'close',
             listeners	: {
                 'success'	: {
-                    fn			: this.refresh,
-                    scope		: this
+                    fn			: function() {
+                        this.refreshGrids();
+                        this.refresh();
+                    },
+                    scope       : this
                 }
             }
         });
@@ -253,8 +272,11 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
             },
             listeners	: {
             	'success'	: {
-            		fn			: this.refresh,
-		        	scope		: this
+                    fn			: function() {
+                        this.refreshGrids();
+                        this.refresh();
+                    },
+                    scope       : this
             	}
             }
     	});
@@ -325,8 +347,11 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
 	        closeAction	: 'close',
             listeners	: {
             	'close'		: {
-            		fn			: this.refresh,
-		        	scope		: this
+                    fn			: function() {
+                        this.refreshGrids();
+                        this.refresh();
+                    },
+                    scope       : this
             	}
             }
         });
@@ -346,8 +371,11 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
 	        closeAction	: 'close',
             listeners	: {
             	'close'		: {
-            		fn			: this.refresh,
-		        	scope		: this
+                    fn			: function() {
+                        this.refreshGrids();
+                        this.refresh();
+                    },
+                    scope       : this
             	}
             }
         });
@@ -806,3 +834,71 @@ Narrowcasting.combo.Templates = function(config) {
 Ext.extend(Narrowcasting.combo.Templates, MODx.combo.ComboBox);
 
 Ext.reg('narrowcasting-combo-templates', Narrowcasting.combo.Templates);
+
+Narrowcasting.combo.NarrowcastingBroadcastsCheckbox = function(config) {
+    config = config || {};
+
+    Ext.applyIf(config, {
+        value       : '',
+        columns     : 1,
+        id			: 'narrowcasting-checkboxgroup-fixed',
+        cls			: 'narrowcasting-checkboxgroup-fixed x-form-item',
+        store   : new Ext.data.JsonStore({
+            url         : Narrowcasting.config.connector_url,
+            baseParams  : {
+                action      : 'mgr/broadcasts/getlist',
+                start       : 0,
+                limit       : 0
+            },
+            root        : 'results',
+            totalProperty : 'total',
+            fields      : ['id', 'name', 'name_formatted'],
+            errorReader : MODx.util.JSONReader,
+            remoteSort  : false,
+            autoDestroy : true,
+            autoLoad    : true,
+            listeners   : {
+                'load'      : {
+                    fn          : this.setData,
+                    scope       : this
+                },
+                'loadexception' : {
+                    fn : function(o, trans, resp) {
+                        var status = _('code') + ': ' + resp.status + ' ' + resp.statusText + '<br/>';
+
+                        MODx.msg.alert(_('error'), status + resp.responseText);
+                    }
+                }
+            }
+        })
+    });
+
+    Narrowcasting.combo.NarrowcastingBroadcastsCheckbox.superclass.constructor.call(this,config);
+};
+
+Ext.extend(Narrowcasting.combo.NarrowcastingBroadcastsCheckbox, Ext.Panel, {
+    setData: function(store, data) {
+        var items = [];
+
+        Ext.each(data, function(record) {
+            items.push({
+                xtype      : 'checkbox',
+                boxLabel   : record.data.name_formatted,
+                name       : 'broadcasts[]',
+                inputValue : record.data.id,
+                checked    : -1 !== this.value.indexOf(record.data.id) ? true : false
+            });
+        }, this);
+
+        this.add({
+            xtype     : 'checkboxgroup',
+            hideLabel : true,
+            columns   : this.columns,
+            items     : items
+        });
+
+        this.doLayout();
+    }
+});
+
+Ext.reg('narrowcasting-checkbox-broadcasts', Narrowcasting.combo.NarrowcastingBroadcastsCheckbox);

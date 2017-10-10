@@ -19,6 +19,21 @@
 	 * Suite 330, Boston, MA 02111-1307 USA
 	 */
 	 
-	class NarrowcastingSlides extends xPDOSimpleObject {}
+	class NarrowcastingSlides extends xPDOSimpleObject {
+	    /**
+         * @access public.
+         * @return Array.
+         */
+	    public function getBroadcasts() {
+            $broadcasts = array();
+
+            foreach ($this->getMany('getBroadcasts') as $broadcast) {
+                if (null !== ($broadcast = $broadcast->getOne('getBroadcast'))) {
+                    $broadcasts[] = $broadcast;
+                }
+            }
+            return $broadcasts;
+        }
+    }
 	
 ?>

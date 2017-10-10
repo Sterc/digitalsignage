@@ -71,12 +71,79 @@
 				}
 			}
 
-			$this->object->fromArray(array(
-				'data' => serialize($data)
-			));
-			
+			$this->object->fromArray('data', serialize($data));
+
+            if (null === ($broadcasts = $this->getProperty('broadcasts'))) {
+                $broadcasts = array();
+            }
+
+            $currentBroadcastIDs = $this->getBroadcasts(null, true);
+
+            foreach ($broadcasts as $key => $broadcastID) {
+                $broadcastIDs = $this->getBroadcasts($broadcastID);
+
+                if (0 < count($broadcastIDs)) {
+                    $sortIndex = end(array_keys($broadcastIDs));
+                } else {
+                    $sortIndex = 0;
+                }
+
+                if (0 == count($this->getBroadcasts($broadcastID, true))) {
+                    if (null !== ($broadcast = $this->modx->newObject('NarrowcastingBroadcastsSlides'))) {
+                        $broadcast->fromArray(array(
+                            'broadcast_id'  => $broadcastID,
+                            'sortindex'     => $sortIndex + 1
+                        ));
+
+                        $this->object->addMany($broadcast);
+                    }
+                }
+            }
+
+            foreach ($currentBroadcastIDs as $broadcast) {
+                if (!in_array($broadcast->get('broadcast_id'), $broadcasts)) {
+                    $broadcast->remove();
+                }
+            }
+
 			return parent::beforeSave();
 		}
+
+        /**
+         * @access protected.
+         * @param Int $id.
+         * @param Boolean $unique;
+         * @return Array.
+         */
+        protected function getBroadcasts($id = null, $unique = false) {
+            $broadcasts = array();
+
+            $c = array();
+
+            if (null !== $id) {
+                $c = array_merge($c, array(
+                    'broadcast_id' => $id
+                ));
+            }
+
+            if ($unique) {
+                $c = array_merge($c, array(
+                    'slide_id' => $this->object->get('id')
+                ));
+            }
+
+            foreach ($this->modx->getCollection('NarrowcastingBroadcastsSlides', $c) as $broadcast) {
+                if (null !== $id) {
+                    $broadcasts[$broadcast->get('sortindex')] = $broadcast;
+                } else {
+                    $broadcasts[] = $broadcast;
+                }
+            }
+
+            ksort($broadcasts);
+
+            return $broadcasts;
+        }
 	}
 	
 	return 'NarrowcastingSlidesCreateProcessor';

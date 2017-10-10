@@ -80,7 +80,7 @@ Narrowcasting.grid.Slides = function(config) {
         baseParams	: {
             action		: 'mgr/slides/getlist'
         },
-        fields		: ['id', 'type', 'name', 'time', 'data', 'published', 'editedon', 'type_formatted'],
+        fields		: ['id', 'type', 'name', 'time', 'data', 'published', 'editedon', 'type_formatted', 'broadcasts'],
         paging		: true,
         pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy		: 'id',
@@ -256,23 +256,50 @@ Narrowcasting.window.CreateSlide = function(config) {
             },
             items		: [{
                 columnWidth	: .4,
-                items : [{
-                    xtype		: 'narrowcasting-combo-slides-types',
-                    fieldLabel	: _('narrowcasting.label_slide_type'),
-                    description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_type_desc'),
-                    name		: 'type',
-                    anchor		: '100%',
-                    allowBlank	: false,
-                    listeners	: {
-                        'change'	: {
-                            fn 			: this.getTypeFields,
-                            scope 		: this
-                        },
-                        'loaded' 	: {
-                            fn 			: this.getTypeFields,
-                            scope 		: this
-                        }
-                    }
+                items   : [{
+                    layout		: 'column',
+                    border		: false,
+                    defaults	: {
+                        layout		: 'form',
+                        labelSeparator : ''
+                    },
+                    items		: [{
+                        columnWidth	: .6,
+                        items   : [{
+                            xtype		: 'narrowcasting-combo-slides-types',
+                            fieldLabel	: _('narrowcasting.label_slide_type'),
+                            description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_type_desc'),
+                            name		: 'type',
+                            anchor		: '100%',
+                            allowBlank	: false,
+                            listeners	: {
+                                'change'	: {
+                                    fn 			: this.getTypeFields,
+                                    scope 		: this
+                                },
+                                'loaded' 	: {
+                                    fn 			: this.getTypeFields,
+                                    scope 		: this
+                                }
+                            }
+                        }]
+                    }, {
+                        columnWidth	: .4,
+                        style		: 'margin-right: 0;',
+                        items : [{
+                            xtype		: 'checkbox',
+                            fieldLabel	: '&nbsp;',
+                            description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_published_desc'),
+                            name		: 'published',
+                            inputValue	: 1,
+                            boxLabel	: _('narrowcasting.label_slide_published'),
+                            checked		: true
+                        }, {
+                            xtype		: MODx.expandHelp ? 'label' : 'hidden',
+                            html		: _('narrowcasting.label_slide_published_desc'),
+                            cls			: 'desc-under'
+                        }]
+                    }]
                 }, {
                     xtype		: MODx.expandHelp ? 'label' : 'hidden',
                     html		: _('narrowcasting.label_slide_type_desc'),
@@ -289,50 +316,31 @@ Narrowcasting.window.CreateSlide = function(config) {
                     html		: _('narrowcasting.label_slide_name_desc'),
                     cls			: 'desc-under'
                 }, {
-                    layout		: 'column',
-                    border		: false,
-                    defaults	: {
-                        layout		: 'form',
-                        labelSeparator : ''
-                    },
-                    items		: [{
-                        columnWidth	: .7,
-                        items : [{
-                            xtype		: 'textfield',
-                            fieldLabel	: _('narrowcasting.label_slide_time'),
-                            description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_time_desc'),
-                            name		: 'time',
-                            id			: 'narrowcasting-window-slide-create-time',
-                            anchor		: '100%',
-                            allowBlank	: false,
-                            listeners	: {
-                                'change'	: {
-                                    fn 			: this.getSeconds,
-                                    scope 		: this
-                                }
-                            }
-                        }, {
-                            xtype		: MODx.expandHelp ? 'label' : 'hidden',
-                            html		: _('narrowcasting.label_slide_time_desc'),
-                            cls			: 'desc-under'
-                        }]
-                    }, {
-                        columnWidth	: .3,
-                        style		: 'margin-right: 0;',
-                        items : [{
-                            xtype		: 'checkbox',
-                            fieldLabel	: '&nbsp;',
-                            description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_published_desc'),
-                            name		: 'published',
-                            inputValue	: 1,
-                            boxLabel	: _('narrowcasting.label_slide_published'),
-                            checked		: true
-                        }, {
-                            xtype		: MODx.expandHelp ? 'label' : 'hidden',
-                            html		: _('narrowcasting.label_slide_published_desc'),
-                            cls			: 'desc-under'
-                        }]
-                    }]
+                    xtype		: 'textfield',
+                    fieldLabel	: _('narrowcasting.label_slide_time'),
+                    description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_time_desc'),
+                    name		: 'time',
+                    id			: 'narrowcasting-window-slide-create-time',
+                    anchor		: '100%',
+                    allowBlank	: false,
+                    listeners	: {
+                        'change'	: {
+                            fn 			: this.getSeconds,
+                            scope 		: this
+                        }
+                    }
+                }, {
+                    xtype		: MODx.expandHelp ? 'label' : 'hidden',
+                    html		: _('narrowcasting.label_slide_time_desc'),
+                    cls			: 'desc-under'
+                }, {
+                    xtype       : 'narrowcasting-checkbox-broadcasts',
+                    fieldLabel  : _('narrowcasting.label_slide_broadcasts'),
+                    description : MODx.expandHelp ? '' : _('narrowcasting.label_slide_broadcasts_desc')
+                }, {
+                    xtype		: MODx.expandHelp ? 'label' : 'hidden',
+                    html		: _('narrowcasting.label_slide_broadcasts_desc'),
+                    cls			: 'desc-under'
                 }]
             }, {
                 columnWidth	: .6,
@@ -475,23 +483,49 @@ Narrowcasting.window.UpdateSlide = function(config) {
             },
             items		: [{
                 columnWidth	: .4,
-                items : [{
-                    xtype		: 'narrowcasting-combo-slides-types',
-                    fieldLabel	: _('narrowcasting.label_slide_type'),
-                    description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_type_desc'),
-                    name		: 'type',
-                    anchor		: '100%',
-                    allowBlank	: false,
-                    listeners	: {
-                        'change'	: {
-                            fn 			: this.getTypeFields,
-                            scope 		: this
-                        },
-                        'loaded' 	: {
-                            fn 			: this.getTypeFields,
-                            scope 		: this
-                        }
-                    }
+                items   : [{
+                    layout		: 'column',
+                    border		: false,
+                    defaults	: {
+                        layout		: 'form',
+                        labelSeparator : ''
+                    },
+                    items		: [{
+                        columnWidth	: .6,
+                        items   : [{
+                            xtype		: 'narrowcasting-combo-slides-types',
+                            fieldLabel	: _('narrowcasting.label_slide_type'),
+                            description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_type_desc'),
+                            name		: 'type',
+                            anchor		: '100%',
+                            allowBlank	: false,
+                            listeners	: {
+                                'change'	: {
+                                    fn 			: this.getTypeFields,
+                                    scope 		: this
+                                },
+                                'loaded' 	: {
+                                    fn 			: this.getTypeFields,
+                                    scope 		: this
+                                }
+                            }
+                        }]
+                    }, {
+                        columnWidth	: .4,
+                        style		: 'margin-right: 0;',
+                        items : [{
+                            xtype		: 'checkbox',
+                            fieldLabel	: '&nbsp;',
+                            description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_published_desc'),
+                            name		: 'published',
+                            inputValue	: 1,
+                            boxLabel	: _('narrowcasting.label_slide_published')
+                        }, {
+                            xtype		: MODx.expandHelp ? 'label' : 'hidden',
+                            html		: _('narrowcasting.label_slide_published_desc'),
+                            cls			: 'desc-under'
+                        }]
+                    }]
                 }, {
                     xtype		: MODx.expandHelp ? 'label' : 'hidden',
                     html		: _('narrowcasting.label_slide_type_desc'),
@@ -508,55 +542,32 @@ Narrowcasting.window.UpdateSlide = function(config) {
                     html		: _('narrowcasting.label_slide_name_desc'),
                     cls			: 'desc-under'
                 }, {
-                    layout		: 'column',
-                    border		: false,
-                    defaults	: {
-                        layout		: 'form',
-                        labelSeparator : ''
-                    },
-                    items		: [{
-                        columnWidth	: .7,
-                        items : [{
-                            xtype		: 'textfield',
-                            fieldLabel	: _('narrowcasting.label_slide_time'),
-                            description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_time_desc'),
-                            name		: 'time',
-                            id			: 'narrowcasting-window-slide-update-time',
-                            anchor		: '100%',
-                            allowBlank	: false,
-                            listeners	: {
-                                'change'	: {
-                                    fn 			: this.getSeconds,
-                                    scope 		: this
-                                }
-                            }
-                        }, {
-                            xtype		: MODx.expandHelp ? 'label' : 'hidden',
-                            html		: _('narrowcasting.label_slide_time_desc'),
-                            cls			: 'desc-under'
-                        }]
-                    }, {
-                        columnWidth	: .3,
-                        style		: 'margin-right: 0;',
-                        items : [{
-                            xtype		: 'checkbox',
-                            fieldLabel	: '&nbsp;',
-                            description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_published_desc'),
-                            name		: 'published',
-                            inputValue	: 1,
-                            boxLabel	: _('narrowcasting.label_slide_published')
-                        }, {
-                            xtype		: MODx.expandHelp ? 'label' : 'hidden',
-                            html		: _('narrowcasting.label_slide_published_desc'),
-                            cls			: 'desc-under'
-                        }]
-                    }]
+                    xtype		: 'textfield',
+                    fieldLabel	: _('narrowcasting.label_slide_time'),
+                    description	: MODx.expandHelp ? '' : _('narrowcasting.label_slide_time_desc'),
+                    name		: 'time',
+                    id			: 'narrowcasting-window-slide-update-time',
+                    anchor		: '100%',
+                    allowBlank	: false,
+                    listeners	: {
+                        'change'	: {
+                            fn 			: this.getSeconds,
+                            scope 		: this
+                        }
+                    }
                 }, {
-                    xtype       : 'narrowcasting-checkbox-slides-broadcasts',
+                    xtype		: MODx.expandHelp ? 'label' : 'hidden',
+                    html		: _('narrowcasting.label_slide_time_desc'),
+                    cls			: 'desc-under'
+                }, {
+                    xtype       : 'narrowcasting-checkbox-broadcasts',
                     fieldLabel  : _('narrowcasting.label_slide_broadcasts'),
                     description : MODx.expandHelp ? '' : _('narrowcasting.label_slide_broadcasts_desc'),
-                    name        : 'slide_broadcasts',
-                    itemCls     : 'x-checkboxgroup-narrowcasting'
+                    value       : config.record.broadcasts
+                }, {
+                    xtype		: MODx.expandHelp ? 'label' : 'hidden',
+                    html		: _('narrowcasting.label_slide_broadcasts_desc'),
+                    cls			: 'desc-under'
                 }]
             }, {
                 columnWidth	: .6,
@@ -746,70 +757,3 @@ Narrowcasting.combo.SlidesTypes = function(config) {
 Ext.extend(Narrowcasting.combo.SlidesTypes, MODx.combo.ComboBox);
 
 Ext.reg('narrowcasting-combo-slides-types', Narrowcasting.combo.SlidesTypes);
-
-Narrowcasting.combo.NarrowcastingCheckboxSlidesBroadcasts = function(config) {
-    config = config || {};
-
-    Ext.applyIf(config, {
-        value   : '',
-        columns : 2,
-        store   : new Ext.data.JsonStore({
-            url        : Narrowcasting.config.connector_url,
-            baseParams : {
-                action   : 'mgr/broadcasts/getlist',
-                start    : 0,
-                limit    : 0
-            },
-            root          : 'results',
-            totalProperty : 'total',
-            fields        : ['id', 'name', 'name_formatted', 'checked'],
-            errorReader   : MODx.util.JSONReader,
-            remoteSort    : false,
-            autoDestroy   : true,
-            autoLoad      : true,
-            listeners     : {
-                'load' : {
-                    fn    : this.setData,
-                    scope : this
-                },
-                'loadexception' : {
-                    fn : function(o, trans, resp) {
-                        var status = _('code') + ': ' + resp.status + ' ' + resp.statusText + '<br/>';
-
-                        MODx.msg.alert(_('error'), status + resp.responseText);
-                    }
-                }
-            }
-        })
-    });
-
-    Narrowcasting.combo.NarrowcastingCheckboxSlidesBroadcasts.superclass.constructor.call(this,config);
-};
-
-Ext.extend(Narrowcasting.combo.NarrowcastingCheckboxSlidesBroadcasts, Ext.Panel, {
-    setData: function(store, data) {
-        var items = [];
-
-        Ext.each(data, function(record) {
-            console.log(record);
-            items.push({
-                xtype      : 'checkbox',
-                boxLabel   : record.data.name_formatted,
-                name       : 'broadcasts[]',
-                inputValue : record.data.id,
-                checked    : this.value.indexOf(record.data.checked) !== -1 ? true : false
-            });
-        }, this);
-
-        this.add({
-            xtype     : 'checkboxgroup',
-            hideLabel : true,
-            columns   : this.columns,
-            items     : items
-        });
-
-        this.doLayout();
-    }
-});
-
-Ext.reg('narrowcasting-checkbox-slides-broadcasts', Narrowcasting.combo.NarrowcastingCheckboxSlidesBroadcasts);

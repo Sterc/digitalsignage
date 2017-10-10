@@ -115,8 +115,8 @@
     $_lang['narrowcasting.label_slide_time_desc']					= 'De looptijd van de slide in seconden of minuten.';
     $_lang['narrowcasting.label_slide_published']					= 'Gepubliceerd';
     $_lang['narrowcasting.label_slide_published_desc']				= '';
-    $_lang['narrowcasting.label_slide_broadcasts']                  = 'Slide uitzendingen';
-    $_lang['narrowcasting.label_slide_broadcasts_desc']             = 'Selecteer de uitzendingen voor deze slide.';
+    $_lang['narrowcasting.label_slide_broadcasts']                  = 'Uitzendingen';
+    $_lang['narrowcasting.label_slide_broadcasts_desc']             = 'De uitzendingen van de slide.';
 
     $_lang['narrowcasting.player']									= 'Mediaspeler';
     $_lang['narrowcasting.players']									= 'Mediaspelers';

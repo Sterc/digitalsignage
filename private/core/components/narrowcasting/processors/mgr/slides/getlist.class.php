@@ -95,7 +95,8 @@
 		public function prepareRow(xPDOObject $object) {
 			$array = array_merge($object->toArray(), array(
 				'data'				=>  unserialize($object->data),
-				'type_formatted' 	=> $object->type
+				'type_formatted' 	=> $object->type,
+                'broadcasts'        => array()
 			));
 			
 			if (null !== ($type = $object->getOne('getSlideType'))) {
@@ -107,6 +108,10 @@
 					$array['type_formatted'] = $translation;
 				}
 			}
+
+			foreach ($object->getBroadcasts() as $key => $broadcast) {
+			    $array['broadcasts'][] = $broadcast->get('id');
+            }
 			
 			if (in_array($array['editedon'], array('-001-11-30 00:00:00', '-1-11-30 00:00:00', '0000-00-00 00:00:00', null))) {
 				$array['editedon'] = '';

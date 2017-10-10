@@ -30,7 +30,8 @@ Narrowcasting.panel.Home = function(config) {
 				}, {
 					xtype			: 'narrowcasting-grid-broadcasts',
 					cls				: 'main-wrapper',
-					preventRender	: true
+					preventRender	: true,
+                    refreshGrid		: ['narrowcasting-grid-slides']
 				}]
 			}, {
 				layout		: 'form',

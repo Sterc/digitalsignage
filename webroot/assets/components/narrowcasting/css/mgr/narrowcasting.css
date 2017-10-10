@@ -65,16 +65,19 @@
 	overflow: scroll;
 }
 
-.x-checkboxgroup-narrowcasting .x-form-check-group {
-    overflow-x: hidden;
-    overflow-y: auto;
-    max-height: 150px;
-    border: 1px solid #E4E4E4;
-    border-radius: 3px;
-    background: #FBFBFB;
+.narrowcasting-checkboxgroup-fixed {
+	position: relative;
+	height: 62px;
+	overflow: hidden;
+	background: #fbfbfb;
+	border: 1px solid #e4e4e4;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
-.x-checkboxgroup-narrowcasting .x-form-check-group .x-column {
-    padding-left: 10px;
-    padding-bottom: 8px;
+.narrowcasting-checkboxgroup-fixed .x-form-check-group {
+	padding: 0 10px 10px;
+	max-height: 52px;
+	overflow-y: scroll;
 }
