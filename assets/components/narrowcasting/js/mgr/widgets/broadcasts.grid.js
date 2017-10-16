@@ -2,116 +2,126 @@ Narrowcasting.grid.Broadcasts = function(config) {
     config = config || {};
 
 	config.tbar = [{
-        text		: _('narrowcasting.broadcast_create'),
-        cls			:'primary-button',
-        handler		: this.createBroadcast,
-        scope		: this
+        text        : _('narrowcasting.broadcast_create'),
+        cls	        :'primary-button',
+        handler     : this.createBroadcast,
+        scope       : this
     }, {
-		xtype		: 'checkbox',
-		name		: 'narrowcasting-refresh-broadcasts',
-        id			: 'narrowcasting-refresh-broadcasts',
-		boxLabel	: _('narrowcasting.auto_refresh_grid'),
+        text        : _('bulk_actions'),
+        menu        : [{
+            text        : _('narrowcasting.broadcasts_sync_selected'),
+            handler     : this.syncSelectedBroadcasts,
+            scope		: this
+        }]
+    }, {
+        xtype       : 'checkbox',
+        name        : 'narrowcasting-refresh-broadcasts',
+        id          : 'narrowcasting-refresh-broadcasts',
+        boxLabel    : _('narrowcasting.auto_refresh_grid'),
         checked     : true,
-		listeners	: {
-			'check'		: {
-				fn 			: this.autoRefresh,
-				scope 		: this	
-			},
-            'afterrender' : {
-                fn 			: this.autoRefresh,
-                scope 		: this
+        listeners   : {
+            'check'     : {
+                fn          : this.autoRefresh,
+                scope       : this
+            },
+            'afterrender'   : {
+                fn          : this.autoRefresh,
+                scope       : this
             }
-		}
-	}, '->', {
-        xtype		: 'textfield',
-        name 		: 'narrowcasting-filter-search-broadcasts',
-        id			: 'narrowcasting-filter-search-broadcasts',
-        emptyText	: _('search')+'...',
-        listeners	: {
-	        'change'	: {
-	        	fn			: this.filterSearch,
-	        	scope		: this
-	        },
-	        'render'	: {
-		        fn			: function(cmp) {
-			        new Ext.KeyMap(cmp.getEl(), {
-				        key		: Ext.EventObject.ENTER,
-			        	fn		: this.blur,
-				        scope	: cmp
-			        });
-		        },
-		        scope		: this
-	        }
+        }
+    }, '->', {
+        xtype       : 'textfield',
+        name        : 'narrowcasting-filter-search-broadcasts',
+        id          : 'narrowcasting-filter-search-broadcasts',
+        emptyText   : _('search') + '...',
+        listeners   : {
+            'change'    : {
+                fn          : this.filterSearch,
+                scope       : this
+            },
+            'render'    : {
+                fn          : function(cmp) {
+                    new Ext.KeyMap(cmp.getEl(), {
+                        key     : Ext.EventObject.ENTER,
+                        fn      : this.blur,
+                        scope   : cmp
+                    });
+                },
+                scope       : this
+            }
         }
     }, {
-    	xtype		: 'button',
-    	cls			: 'x-form-filter-clear',
-    	id			: 'narrowcasting-filter-clear-broadcasts',
-    	text		: _('filter_clear'),
-    	listeners	: {
-        	'click'		: {
-        		fn			: this.clearFilter,
-        		scope		: this
-        	}
+        xtype       : 'button',
+        cls         : 'x-form-filter-clear',
+        id          : 'narrowcasting-filter-clear-broadcasts',
+        text        : _('filter_clear'),
+        listeners   : {
+            'click'     : {
+                fn          : this.clearFilter,
+                scope       : this
+            }
         }
     }];
+
+	sm = new Ext.grid.CheckboxSelectionModel();
     
     columns = new Ext.grid.ColumnModel({
-        columns: [{
-            header		: _('narrowcasting.label_broadcast_name'),
-            dataIndex	: 'name_formatted',
-            sortable	: true,
-            editable	: false,
-            width		: 250
+        columns: [sm, {
+            header      : _('narrowcasting.label_broadcast_name'),
+            dataIndex   : 'name_formatted',
+            sortable    : true,
+            editable    : false,
+            width       : 250
         }, {
-            header		: _('narrowcasting.label_broadcast_players'),
-            dataIndex	: null,
-            sortable	: true,
-            editable	: false,
-            width		: 250,
-            fixed 		: true,
-            renderer	: this.renderPlayers
+            header      : _('narrowcasting.label_broadcast_players'),
+            dataIndex   : null,
+            sortable    : true,
+            editable    : false,
+            width       : 250,
+            fixed       : true,
+            renderer    : this.renderPlayers
         }, {
-            header		: _('narrowcasting.label_broadcast_slides'),
-            dataIndex	: 'slides',
-            sortable	: true,
-            editable	: false,
-            width		: 100,
-            fixed 		: true
+            header      : _('narrowcasting.label_broadcast_slides'),
+            dataIndex   : 'slides',
+            sortable    : true,
+            editable    : false,
+            width       : 100,
+            fixed       : true
         }, {
-            header		: _('narrowcasting.label_broadcast_feeds'),
-            dataIndex	: 'feeds',
-            sortable	: true,
-            editable	: false,
-            width		: 100,
-            fixed 		: true
+            header      : _('narrowcasting.label_broadcast_feeds'),
+            dataIndex   : 'feeds',
+            sortable    : true,
+            editable    : false,
+            width       : 100,
+            fixed       : true
         }, {
-            header		: _('narrowcasting.label_broadcast_last_sync'),
-            dataIndex	: 'sync',
-            sortable	: true,
-            editable	: false,
-			width		: 200,
-            fixed		: true,
-			renderer	: this.renderSync
+            header      : _('narrowcasting.label_broadcast_last_sync'),
+            dataIndex   : 'sync',
+            sortable    : true,
+            editable    : false,
+            width       : 200,
+            fixed       : true,
+            renderer    : this.renderSync
         }]
     });
     
     Ext.applyIf(config, {
-    	cm			: columns,
-        id			: 'narrowcasting-grid-broadcasts',
-        url			: Narrowcasting.config.connector_url,
-        baseParams	: {
-        	action		: 'mgr/broadcasts/getlist'
+        sm          : sm,
+    	cm          : columns,
+        id          : 'narrowcasting-grid-broadcasts',
+        url         : Narrowcasting.config.connector_url,
+        baseParams  : {
+            action      : 'mgr/broadcasts/getlist'
         },
-        fields		: ['id', 'resource_id', 'ticker_url', 'name', 'name_formatted', 'description', 'template', 'editedon', 'url', 'slides', 'feeds', 'players', 'sync'],
-        paging		: true,
-        pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
-        sortBy		: 'id',
+        fields      : ['id', 'resource_id', 'ticker_url', 'name', 'name_formatted', 'description', 'template', 'editedon', 'url', 'slides', 'feeds', 'players', 'sync'],
+        paging      : true,
+        pageSize    : MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
+        sortBy      : 'id',
         refreshGrid : [],
-        refresher	: {
-	        timer 		: null,
-	        duration	: 30,
-	        count 		: 0
+        refresher   : {
+            timer       : null,
+            duration    : 30,
+            count       : 0
         }
     });
     
@@ -119,23 +129,23 @@ Narrowcasting.grid.Broadcasts = function(config) {
 };
 
 Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
-	autoRefresh: function(tf, nv) {
-		if (tf.getValue()) {
-			this.config.refresher.timer = setInterval((function() {
-				tf.setBoxLabel(_('narrowcasting.auto_refresh_grid') + ' (' + (this.config.refresher.duration - this.config.refresher.count) + ')');
-				
-				if (0 == (this.config.refresher.duration - this.config.refresher.count)) {
-					this.config.refresher.count = 0;
-					
-					this.refresh();
-				} else {
-					this.config.refresher.count++;
-				}
-			}).bind(this), 1000);
-		} else {
-			clearInterval(this.config.refresher.timer);
-		}
-	},
+    autoRefresh: function(tf, nv) {
+        if (tf.getValue()) {
+            this.config.refresher.timer = setInterval((function() {
+                tf.setBoxLabel(_('narrowcasting.auto_refresh_grid') + ' (' + (this.config.refresher.duration - this.config.refresher.count) + ')');
+
+                if (0 == (this.config.refresher.duration - this.config.refresher.count)) {
+                    this.config.refresher.count = 0;
+
+                    this.refresh();
+                } else {
+                    this.config.refresher.count++;
+                }
+            }).bind(this), 1000);
+        } else {
+            clearInterval(this.config.refresher.timer);
+        }
+    },
     refreshGrids: function() {
         if ('string' == typeof this.config.refreshGrid) {
             Ext.getCmp(this.config.refreshGrid).refresh();
@@ -151,42 +161,42 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
         this.getBottomToolbar().changePage(1);
     },
     clearFilter: function() {
-	    this.getStore().baseParams.query = '';
-	    
-	    Ext.getCmp('narrowcasting-filter-search-broadcasts').reset();
-	    
+        this.getStore().baseParams.query = '';
+
+        Ext.getCmp('narrowcasting-filter-search-broadcasts').reset();
+
         this.getBottomToolbar().changePage(1);
     },
     getMenu: function() {
         return [{
-	        text	: _('narrowcasting.broadcast_preview'),
-	        handler	: this.previewBroadcast,
-	        scope	: this
-	    }, '-', {
-	        text	: '<i class="icon icon-refresh"></i> ' + _('narrowcasting.broadcast_sync'),
-	        handler	: this.syncBroadcast,
-	        scope	: this
-	    }, '-', {
-	    	text 	: _('narrowcasting.broadcast_slides'),
-	    	handler : this.viewSlides,
-	    	scope 	: this 
-	    }, {
-	    	text 	: _('narrowcasting.broadcast_feeds'),
-	    	handler : this.viewFeeds,
-	    	scope 	: this 
-	    }, '-', {
-	        text	: _('narrowcasting.broadcast_update'),
-	        handler	: this.updateBroadcast,
-	        scope	: this
-	    }, {
-            text	: _('narrowcasting.broadcast_duplicate'),
-            handler	: this.duplicateBroadcast,
-            scope	: this
+            text    : _('narrowcasting.broadcast_preview'),
+            handler : this.previewBroadcast,
+            scope   : this
         }, '-', {
-		    text	: _('narrowcasting.broadcast_remove'),
-		    handler	: this.removeBroadcast,
-		    scope	: this
-		}];
+            text    : '<i class="icon icon-refresh"></i> ' + _('narrowcasting.broadcast_sync'),
+            handler : this.syncBroadcast,
+            scope   : this
+        }, '-', {
+            text    : _('narrowcasting.broadcast_slides'),
+            handler : this.viewSlides,
+            scope   : this
+        }, {
+            text    : _('narrowcasting.broadcast_feeds'),
+            handler : this.viewFeeds,
+            scope   : this
+        }, '-', {
+            text    : _('narrowcasting.broadcast_update'),
+            handler : this.updateBroadcast,
+            scope   : this
+        }, {
+            text    : _('narrowcasting.broadcast_duplicate'),
+            handler : this.duplicateBroadcast,
+            scope   : this
+        }, '-', {
+            text    : _('narrowcasting.broadcast_remove'),
+            handler : this.removeBroadcast,
+            scope   : this
+        }];
     },
     createBroadcast: function(btn, e) {
         if (this.createBroadcastWindow) {
@@ -199,6 +209,8 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
 	        listeners	: {
 		        'success'	: {
 		        	fn			: function() {
+                        this.getSelectionModel().clearSelections(true);
+
                         this.refreshGrids();
                         this.refresh();
                     },
@@ -221,6 +233,8 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
 	        listeners	: {
 		        'success'	: {
                     fn			: function() {
+                        this.getSelectionModel().clearSelections(true);
+
                         this.refreshGrids();
                         this.refresh();
                     },
@@ -250,6 +264,8 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
             listeners	: {
                 'success'	: {
                     fn			: function() {
+                        this.getSelectionModel().clearSelections(true);
+
                         this.refreshGrids();
                         this.refresh();
                     },
@@ -273,6 +289,8 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
             listeners	: {
             	'success'	: {
                     fn			: function() {
+                        this.getSelectionModel().clearSelections(true);
+
                         this.refreshGrids();
                         this.refresh();
                     },
@@ -294,6 +312,8 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
 	        listeners	: {
             	'success'	: {
             		fn			: function(data) {
+                        this.getSelectionModel().clearSelections(true);
+
 	            		this.showPreviewBroadcast(data.a.result.object);
 					},
 		        	scope		: this
@@ -318,22 +338,53 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
         
         this.showPreviewBroadcastWindow.show();
     },
-    syncBroadcast: function() {
+    syncBroadcast: function(btn, e) {
     	MODx.msg.confirm({
-        	title 		: _('narrowcasting.broadcast_sync'),
-        	text		: _('narrowcasting.broadcast_sync_confirm'),
-        	url			: Narrowcasting.config.connector_url,
-        	params		: {
-            	action		: 'mgr/broadcasts/sync',
-            	id			: this.menu.record.id
+            title       : _('narrowcasting.broadcast_sync'),
+            text        : _('narrowcasting.broadcast_sync_confirm'),
+            url         : Narrowcasting.config.connector_url,
+            params      : {
+                action      : 'mgr/broadcasts/sync',
+                id          : this.menu.record.id
             },
-            listeners	: {
-            	'success'	: {
-            		fn			: this.refresh,
-		        	scope		: this
-            	}
+            listeners   : {
+                'success'   : {
+                    fn          : function() {
+                        this.getSelectionModel().clearSelections(true);
+
+                        this.refresh();
+                    },
+                    scope      : this
+                }
             }
-    	});
+        });
+    },
+    syncSelectedBroadcasts: function(btn, e) {
+        var cs = this.getSelectedAsList();
+
+        if (cs === false) {
+            return false;
+        }
+
+        MODx.msg.confirm({
+            title       : _('narrowcasting.broadcasts_sync_selected'),
+            text        : _('narrowcasting.broadcasts_sync_selected_confirm'),
+            url         : Narrowcasting.config.connector_url,
+            params      : {
+                action      : 'mgr/broadcasts/syncselected',
+                ids          : cs
+            },
+            listeners   : {
+                'success'   : {
+                    fn          : function() {
+                        this.getSelectionModel().clearSelections(true);
+
+                        this.refresh();
+                    },
+                    scope      : this
+                }
+            }
+        });
     },
     viewSlides: function(btn, e) {
         if (this.viewSlidesWindow) {
@@ -348,6 +399,8 @@ Ext.extend(Narrowcasting.grid.Broadcasts, MODx.grid.Grid, {
             listeners	: {
             	'close'		: {
                     fn			: function() {
+                        this.getSelectionModel().clearSelections(true);
+
                         this.refreshGrids();
                         this.refresh();
                     },

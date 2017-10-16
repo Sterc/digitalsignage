@@ -54,8 +54,10 @@
 	$_lang['narrowcasting.broadcast_remove']						= 'Uitzending verwijderen';
 	$_lang['narrowcasting.broadcast_remove_confirm']				= 'Weet je zeker dat je deze uitzending wilt verwijderen?';
     $_lang['narrowcasting.broadcast_preview']						= 'Uitzending voorbeeld';
-    $_lang['narrowcasting.broadcast_sync']							= 'Uitzending data synchroniseren';
-    $_lang['narrowcasting.broadcast_sync_confirm']					= 'Weet je zeker dat je deze uitzending data wilt synchroniseren?';
+    $_lang['narrowcasting.broadcast_sync']							= 'Uitzending synchroniseren';
+    $_lang['narrowcasting.broadcast_sync_confirm']					= 'Weet je zeker dat je deze uitzending wilt synchroniseren?';
+    $_lang['narrowcasting.broadcasts_sync_selected']				= 'Geselecteerde uitzendingen synchroniseren';
+    $_lang['narrowcasting.broadcasts_sync_selected_confirm']		= 'Weet je zeker dat je de geselecteerde uitzendingen wilt synchroniseren?';
     $_lang['narrowcasting.broadcast_slides']						= 'Slides toevoegen (interne slides)';
     $_lang['narrowcasting.broadcast_slides_desc']					= 'Hier kun je alle slides (interne slides) van de uitzending beheren. Sleep & Drop slides van de "beschikbare slides" naar "geselecteerde slides" om slides aan de uitzending toe te voegen.';
     $_lang['narrowcasting.broadcast_slide_remove']					= 'Verwijder slide';

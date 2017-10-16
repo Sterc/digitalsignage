@@ -38,7 +38,7 @@
 			<!-- End Clock Plugin -->
 
 			<!-- Begin Social Media Plugin -->
-            <div class="social-media" data-plugin="SocialMediaPlugin" data-plugin-settings="{'feed': '/narrowcasting/socialmediaplugin.json', 'feedType': 'JSON'}">
+            <div class="social-media" data-plugin="SocialMediaPlugin" data-plugin-settings="{'feed': '[[~70]]', 'feedType': 'JSON'}">
                 <div class="social-media-inner" data-placeholder="social-media">
                     <div class="social-media-item" data-template="item">
                         <div class="image">
