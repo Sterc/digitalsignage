@@ -1,7 +1,7 @@
 /* Javascript for Narrowcasting. (c) Sterc.nl. All rights reserved. */
 
 /* ----------------------------------------------------------------------------------------- */
-/* ----- Buienradar Default ---------------------------------------------------------------- */
+/* ----- Slide Buienradar ------------------------------------------------------------------ */
 /* ----------------------------------------------------------------------------------------- */
 
 ;(function($, window, document, undefined) {
@@ -74,7 +74,6 @@
 
         'location': null,
 
-        'animation': 'fade',
         'animationTime': 1,
 
         'forecast': '//api.buienradar.nl/data/forecast/1.1/daily/',
@@ -85,7 +84,9 @@
         'weatherIcon': '/narrowcasting/assets/interface/images/buienradar/weather/{icon}.svg',
         'windIcon': '/narrowcasting/assets/interface/images/buienradar/wind/{icon}.svg',
 
-        'limit': 4
+        'limit': 4,
+
+        'loop': false
     };
 
     /**
@@ -104,6 +105,8 @@
      */
     SlideBuienradar.prototype.initialize = function() {
         this.core.setLog('[SlideBuienradar] initialize');
+
+        this.core.setPlaceholders(this.$element, this.settings);
 
         if (null === this.settings.forecast) {
             this.core.setError('[SlideBuienradar] forecast feed is not defined.');
@@ -174,10 +177,14 @@
      * @public.
      */
     SlideBuienradar.prototype.getCurrent = function() {
-        if (this.current + 1 < this.data.length) {
-            this.current = this.current + 1;
+        if (this.settings.loop) {
+            if (this.current + 1 < this.data.length) {
+                this.current = this.current + 1;
+            } else {
+                this.current = 0;
+            }
         } else {
-            this.current = 0;
+            this.current = this.current + 1;
         }
 
         return this.current;
@@ -214,6 +221,7 @@
         if (this.settings.limit > this.$forecasts.length) {
             if (this.data[next]) {
                 var data = $.extend({}, this.data[next], {
+                    'idx' : next + 1,
                     'date' : this.data[next].date.toString(),
                     'weatherIcon' : this.settings.weatherIcon.replace('{icon}', this.data[next].iconcode.toLowerCase()),
                     'windIcon' : this.settings.windIcon.replace('{icon}', this.data[next].winddirection.toLowerCase())

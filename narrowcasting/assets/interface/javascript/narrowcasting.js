@@ -679,7 +679,6 @@ $(document).ready(function() {
 				    		
 				    		break;
 				    	case 'youtube':
-				    		console.log(value);
 			    			var parts = value.replace(/\/$/gm, '').split('/');
 			    		
 			    			if (undefined !== (value = parts[parts.length - 1])) {
@@ -687,8 +686,6 @@ $(document).ready(function() {
 						    		value = '//www.youtube.com/embed/' + value + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0');
 				    			}
 			    			}
-			    			
-			    			console.log(value);
 
 				    		break;
                         case 'date':
@@ -818,7 +815,7 @@ $(document).ready(function() {
     Narrowcasting.prototype.getSlide = function(data) {
         this.setLog('[Core] getSlide: (title: ' + data.title + ')');
 
-        if (null === ($slide = this.getTemplate(data.slide, this.$templates))) {
+        if (null === ($slide = this.getTemplate(data.slide.replace('_', '-'), this.$templates))) {
             $slide = this.getTemplate('default', this.$templates);
         }
 
@@ -909,7 +906,7 @@ $(document).ready(function() {
      * @param {Type} string - The type of the slide.
      */
     Narrowcasting.prototype.getSlidePlugin = function(type) {
-        var plugin = ('slide-' + type).split('-');
+        var plugin = ('slide-' + type).replace('_', '-').split('-');
 
         for (var i = 0 ; i < plugin.length ; i++) {
             plugin[i] = plugin[i].charAt(0).toUpperCase() + plugin[i].substr(1);

@@ -322,21 +322,21 @@ p, ul {
 	width: 100%;
 }
 
-.slides .slide {
+.slide {
 	position: absolute;
 	width: 100%;
 	height: 100%;
 	background: #ffffff;
 }
 
-.slides .slide .slide-inner {
+.slide .slide-inner {
 	position: relative;
 	width: 100%;
 	height: 100%;
 	z-index: 1;
 }
 
-.slides .slide .slide-inner:after {
+.slide .slide-inner:after {
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -351,7 +351,7 @@ p, ul {
 /* ----- Default Slide --------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------- */
 
-.slides .slide.slide-default .slide-inner .image {
+.slide-default .slide-inner .image {
 	position: relative;
 	float: left;
 	width: 30%;
@@ -359,11 +359,11 @@ p, ul {
 	overflow: hidden;
 }
 
-.slides .slide.slide-default .slide-inner .image.is-empty {
+.slide-default .slide-inner .image.is-empty {
 	display: none !important;
 }
 
-.slides .slide.slide-default .slide-inner .image img {
+.slide-default .slide-inner .image img {
 	position: absolute;
 	top: 0;
 	left: 50%;
@@ -372,13 +372,13 @@ p, ul {
 	transform: translateX(-50%);
 }
 
-.slides .slide.slide-default .slide-inner .content {
+.slide-default .slide-inner .content {
     height: 100%;
 	padding: 3vh 3vw 14vh 3vw;
     overflow: hidden;
 }
 
-.slides .slide.slide-default .slide-inner .content .content-mask {
+.slide-default .slide-inner .content .content-mask {
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -388,7 +388,7 @@ p, ul {
 /* ----- Media Slide ----------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------- */
 
-.slides .slide.slide-media .slide-inner .content {
+.slide-media .slide-inner .content {
 	position: absolute;
 	width: 100%;
 	height: 100%;
@@ -396,14 +396,14 @@ p, ul {
     overflow: hidden;
 }
 
-.slide-fullscreen .slides .slide.slide-media .slide-inner .content {
+.slide-fullscreen .slide-media .slide-inner .content {
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
 }
 
-.slides .slide.slide-media .slide-inner .content .video {
+.slide-media .slide-inner .content .video {
 	width: 100%;
 	height: 100%;
 }
@@ -412,12 +412,12 @@ p, ul {
 /* ----- Facebook Slide -------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------- */
 
-.slides .slide.slide-facebook {
+.slide-facebook {
 	color: #ffffff;
 	background: #3b5998;
 }
 
-.slides .slide.slide-facebook .slide-inner .image {
+.slide-facebook .slide-inner .image {
 	position: relative;
 	float: left;
 	width: 30%;
@@ -425,11 +425,11 @@ p, ul {
 	overflow: hidden;
 }
 
-.slides .slide.slide-facebook .slide-inner .image.is-empty {
+.slide-facebook .slide-inner .image.is-empty {
 	display: none !important;
 }
 
-.slides .slide.slide-facebook .slide-inner .image img {
+.slide-facebook .slide-inner .image img {
 	position: absolute;
 	top: 0;
 	left: 50%;
@@ -438,28 +438,28 @@ p, ul {
 	transform: translateX(-50%);
 }
 
-.slides .slide.slide-facebook .slide-inner .content {
+.slide-facebook .slide-inner .content {
 	height: 100%;
 	padding: 3vh 3vw 14vh 3vw;
 	overflow: hidden;
 }
 
-.slides .slide.slide-facebook .slide-inner .content h1,
-.slides .slide.slide-facebook .slide-inner .content h2,
-.slides .slide.slide-facebook .slide-inner .content h3,
-.slides .slide.slide-facebook .slide-inner .content h4 {
+.slide-facebook .slide-inner .content h1,
+.slide-facebook .slide-inner .content h2,
+.slide-facebook .slide-inner .content h3,
+.slide-facebook .slide-inner .content h4 {
 	color: #ffffff;
 }
 
-.slides .slide.slide-facebook .slide-inner .content p {
+.slide-facebook .slide-inner .content p {
 	margin: 2.8vh 0;
 }
 
-.slides .slide.slide-facebook .slide-inner .content .date {
+.slide-facebook .slide-inner .content .date {
 	font-style: italic;
 }
 
-.slides .slide.slide-facebook .slide-inner .content .content-mask {
+.slide-facebook .slide-inner .content .content-mask {
 	width: 100%;
 	height: 100%;
 	overflow: hidden;
@@ -469,13 +469,13 @@ p, ul {
 /* ----- Buienradar Slide ------------------------------------------------------------------ */
 /* ----------------------------------------------------------------------------------------- */
 
-.slides .slide.slide-buienradar .background-video {
+.slide-buienradar .background-video {
 	position: absolute;
 	width: auto;
 	height: 100%;
 }
 
-.slides .slide.slide-buienradar .slide-inner .image {
+.slide-buienradar .slide-inner .image {
 	position: relative;
 	float: left;
 	width: 30%;
@@ -485,11 +485,11 @@ p, ul {
 	display: none !important;
 }
 
-.slides .slide.slide-buienradar .slide-inner .image.is-empty {
+.slide-buienradar .slide-inner .image.is-empty {
 	display: none !important;
 }
 
-.slides .slide.slide-buienradar .slide-inner .image img {
+.slide-buienradar .slide-inner .image img {
 	position: absolute;
 	top: 0;
 	left: 50%;
@@ -498,75 +498,142 @@ p, ul {
 	transform: translateX(-50%);
 }
 
-.slides .slide.slide-buienradar .slide-inner .content {
+.slide-buienradar .slide-inner .content {
 	height: 100%;
 	padding: 3vh 3vw 14vh 3vw;
 	overflow: hidden;
 }
 
-.slides .slide.slide-buienradar .slide-inner .content .forecasts {
+.slide-buienradar .forecasts {
 	padding: 0;
 	margin: 0 -2vw;
 	list-style-type: none;
 	overflow: hidden;
 }
 
-.slides .slide.slide-buienradar .slide-inner .content .forecasts li {
+.slide-buienradar .forecasts li {
 	float: left;
 	width: 50%;
 	padding: 0 2vw;
 	margin: 0 0 8vh;
 }
 
-.slides .slide.slide-buienradar .slide-inner .content .forecasts li .forecast-inner {
+.slide-buienradar .forecasts li .forecast-inner {
 	text-align: center;
 }
 
-.slides .slide.slide-buienradar .slide-inner .content .forecasts li .forecast-inner h2 {
+.slide-buienradar .forecasts li .forecast-inner h2 {
 	color: #152b81;
 	background: rgba(226, 239, 248, 0.8);
 	margin: 0;
 }
 
-.slides .slide.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .icon {
+.slide-buienradar .forecasts li .forecast-inner .icon {
 	height: 24vh;
 	padding: 3vh;
 	background: rgba(255, 255, 255, 0.6);
 }
 
-.slides .slide.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .icon img {
+.slide-buienradar .forecasts li .forecast-inner .icon img {
 	width: auto;
 	max-height: 100%;
 	margin: 0 auto;
 }
 
-.slides .slide.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .data {
+.slide-buienradar .forecasts li .forecast-inner .data {
 	padding: 1vh 1.5vw;
 	color: #152b81;
 	background: rgba(226, 239, 248, 0.8);
 	overflow: hidden;
 }
 
-.slides .slide.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .temperature {
+.slide-buienradar .forecasts li .forecast-inner .temperature {
 	float: left;
 }
 
-.slides .slide.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .temperature .temperature-min {
+.slide-buienradar .forecasts li .forecast-inner .temperature .temperature-min {
 	color: rgba(21, 43, 129, 0.4);
 }
 
-.slides .slide.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .rain {
+.slide-buienradar .forecasts li .forecast-inner .rain {
 	display: inline-block;
 }
 
-.slides .slide.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .wind {
+.slide-buienradar .forecasts li .forecast-inner .wind {
 	float: right;
 }
 
-.slides .slide.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .data img {
+.slide-buienradar .forecasts li .forecast-inner .data img {
 	float: left;
 	width: auto;
 	height: 4.5vh;
 	margin: 0 10px 0 0;
 	opacity: 0.4;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Success Rate Slide ---------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+
+.slide-success-rate .content {
+	height: 100%;
+	padding: 3vh 3vw 14vh 3vw;
+	overflow: hidden;
+}
+
+.slide-success-rate .table .table-head,
+.slide-success-rate .table .table-body {
+	padding: 0;
+	margin: 0;
+	overflow: hidden;
+}
+
+.slide-success-rate .table .table-head {
+	font-weight: 600;
+	border-bottom: 2px solid #2a2c33;
+}
+
+.slide-success-rate .table .table-row {
+	overflow: hidden;
+	border-bottom: 2px solid #2a2c33;
+}
+
+.slide-success-rate .table .table-column {
+	float: left;
+	display: block;
+	padding: 1.5vh 2vw;
+}
+
+.slide-success-rate .table .table-column.table-column-name {
+	width: 56%;
+}
+
+.slide-success-rate .table .table-column.table-column-commits,
+.slide-success-rate .table .table-column.table-column-rate {
+	width: 22%;
+}
+
+.slide-success-rate .icon {
+	display: inline-block;
+	width: 3vh;
+	height: 3vh;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+.slide-success-rate .rate-success .icon {
+	background-image: url('../images/successrate/success.svg');
+}
+
+.slide-success-rate .rate-failed .icon {
+	background-image: url('../images/successrate/failed.svg');
+}
+
+.slide-success-rate .rate-success {
+	color: #007f00;
+}
+
+.slide-success-rate .rate-failed {
+	color: #7f0000;
 }

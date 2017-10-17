@@ -76,18 +76,15 @@
      * @public.
      */
     SocialMediaPlugin.Defaults = {
-        'animation': 'fade',
         'animationTime': 1,
 
         'feed': null,
         'feedType': 'JSON',
         'feedInterval': 900,
 
-        'vars': {
-            'player': null,
-            'broadcast': null,
-            'preview': false
-        }
+        'limit': 5,
+
+        'loop': true
     };
 
     /**
@@ -128,7 +125,7 @@
         this.core.setLog('[SocialMediaPlugin] loadData');
 
         $.ajax({
-           'url'		: this.settings.feed + this.getUrlParameters(),
+           'url'		: this.settings.feed,
            'dataType'	: this.settings.feedType.toUpperCase(),
            'complete'	: $.proxy(function(result) {
                if (200 == result.status) {
@@ -170,51 +167,18 @@
     };
 
     /**
-     * Returns all the URL parameters.
-     * @public.
-     */
-    SocialMediaPlugin.prototype.getUrlParameters = function() {
-        var parameters = new Array('type=feed', 'data=true');
-
-        $.each(this.settings.vars, $.proxy(function(index, value) {
-            switch (index) {
-                case 'player':
-                    parameters.push('pl=' + value);
-
-                    break;
-                case 'broadcast':
-                    parameters.push('bc=' + value);
-
-                    break;
-                case 'preview':
-                    if (this.settings.vars.preview) {
-                        parameters.push('preview=true');
-                    }
-
-                    break;
-            }
-        }).bind(this));
-
-        if (0 < parameters.length) {
-            if (-1 == this.settings.feed.search(/\?/i)) {
-                return '?' + parameters.join('&');
-            } else {
-                return '&' + parameters.join('&');
-            }
-        }
-
-        return '';
-    };
-
-    /**
      * Gets the current item count.
      * @public.
      */
     SocialMediaPlugin.prototype.getCurrent = function() {
-        if (this.current + 1 < this.data.length) {
-            this.current = this.current + 1;
+        if (this.settings.loop) {
+            if (this.current + 1 < this.data.length) {
+                this.current = this.current + 1;
+            } else {
+                this.current = 0;
+            }
         } else {
-            this.current = 0;
+            this.current = this.current + 1;
         }
 
         return this.current;
@@ -226,7 +190,7 @@
      * @param {Data} array - The item data.
      */
     SocialMediaPlugin.prototype.getItem = function(data) {
-        this.core.setLog('[SocialMediaPlugin] getItem: (title: ' + data.name + ')');
+        this.core.setLog('[SocialMediaPlugin] getItem: (title: ' + data.creator + ')');
 
         if ($item = this.core.getTemplate('item', this.$templates)) {
             $item.prependTo(this.core.getPlaceholder('social-media', this.$element));
@@ -252,24 +216,28 @@
 
         this.core.setLog('[SocialMediaPlugin] nextItem: (next: ' + next + ')');
 
-        if (this.data[next]) {
-            var data = this.data[next];
+        if (this.settings.limit > this.$items.length) {
+            if (this.data[next]) {
+                var data = $.extend({}, this.data[next], {
+                    'idx' : next + 1
+                });
 
-            if ($item = this.getItem(data)) {
-                $item.hide().fadeIn(this.settings.animationTime * 1000);
+                if ($item = this.getItem(data)) {
+                    $item.hide().fadeIn(this.settings.animationTime * 1000);
 
-                if ($current = this.$items.shift()) {
-                    $current.show().fadeOut(this.settings.animationTime * 1000, $.proxy(function() {
-                        $current.remove();
-                    }, this));
+                    if ($current = this.$items.shift()) {
+                        $current.show().fadeOut(this.settings.animationTime * 1000, $.proxy(function() {
+                            $current.remove();
+                        }, this));
+                    }
+
+                    this.$items.push($item);
+                } else {
+                    this.skipItem('[SocialMediaPlugin] nextItem: no item available.');
                 }
-
-                this.$items.push($item);
             } else {
-                this.skipItem('[SocialMediaPlugin] nextItem: no item available.');
+                this.skipItem('[SocialMediaPlugin] nextItem: no data available.');
             }
-        } else {
-            this.skipItem('[SocialMediaPlugin] nextItem: no data available.');
         }
     };
 
