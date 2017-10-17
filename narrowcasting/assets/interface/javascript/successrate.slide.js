@@ -77,7 +77,7 @@
         'feed': null,
         'feedType': 'JSON',
 
-        'limit': 4,
+        'limit': 10,
 
         'loop': false
     };
