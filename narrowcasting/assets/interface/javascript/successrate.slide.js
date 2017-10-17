@@ -219,7 +219,9 @@
                     this.skipRate('[SlideSuccessRate] nextRate: no rate available.');
                 }
             } else {
-                this.skipRate('[SlideSuccessRate] nextRate: no data available.');
+                if (this.settings.loop) {
+                    this.skipRate('[SlideSuccessRate] nextRate: no data available.');
+                }
             }
         }
     };

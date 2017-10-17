@@ -236,7 +236,9 @@
                     this.skipItem('[SocialMediaPlugin] nextItem: no item available.');
                 }
             } else {
-                this.skipItem('[SocialMediaPlugin] nextItem: no data available.');
+                if (this.settings.loop) {
+                    this.skipItem('[SocialMediaPlugin] nextItem: no data available.');
+                }
             }
         }
     };

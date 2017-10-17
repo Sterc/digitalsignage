@@ -237,7 +237,9 @@
                     this.skipForecast('[SlideBuienradar] nextForecast: no forecast available.');
                 }
             } else {
-                this.skipForecast('[SlideBuienradar] nextForecast: no data available.');
+                if (this.settings.loop) {
+                    this.skipForecast('[SlideBuienradar] nextForecast: no data available.');
+                }
             }
         }
     };
