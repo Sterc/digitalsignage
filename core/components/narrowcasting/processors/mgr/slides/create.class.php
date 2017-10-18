@@ -71,7 +71,7 @@
 				}
 			}
 
-			$this->object->fromArray('data', serialize($data));
+			$this->object->set('data', serialize($data));
 
             if (null === ($broadcasts = $this->getProperty('broadcasts'))) {
                 $broadcasts = array();

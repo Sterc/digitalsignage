@@ -94,7 +94,7 @@
 		 */
 		public function prepareRow(xPDOObject $object) {
 			$array = array_merge($object->toArray(), array(
-				'data'				=>  unserialize($object->data),
+				'data'				=> unserialize($object->data),
 				'type_formatted' 	=> $object->type,
                 'broadcasts'        => array()
 			));
@@ -118,7 +118,7 @@
 			} else {
 				$array['editedon'] = date($this->getProperty('dateFormat'), strtotime($array['editedon']));
 			}
-			
+
 			return $array;	
 		}
 	}
