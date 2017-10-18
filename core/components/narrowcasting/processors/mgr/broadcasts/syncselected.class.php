@@ -69,13 +69,19 @@
                         $slides = array();
 
                         foreach ($object->getSlides() as $key => $slide) {
+                            $data = unserialize($slide->data);
+
+                            if (!is_array($data)) {
+                                $data = array();
+                            }
+
                             $slides[] = array_merge(array(
                                 'time'  	=> $slide->time,
                                 'slide' 	=> $slide->type,
                                 'source'	=> 'intern',
                                 'title' 	=> $slide->name,
                                 'image' 	=> null
-                            ), unserialize($slide->data));
+                            ), $data);
                         }
 
                         if (!$object->toExport($slides)) {
