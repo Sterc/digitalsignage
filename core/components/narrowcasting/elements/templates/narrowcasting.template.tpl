@@ -9,7 +9,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
 	<meta name="robots" content="noindex, nofollow" />
 
-	<link rel="stylesheet" href="/narrowcasting/assets/interface/css/main.css" />
+	<link rel="stylesheet" href="/narrowcasting/assets/interface/css/main.css?hash=[[!+narrowcasting.hash]]" />
 
 	<link rel="shortcut icon" type="image/ico" href="/narrowcasting/assets/interface/images/favicon.png" />
 	<link rel="apple-touch-icon" sizes="152x152" href="/narrowcasting/assets/interface/images/152x152.png" />
@@ -171,7 +171,7 @@
                                 <div class="table-head">
                                     <span class="table-column table-column-name">Naam</span>
                                     <span class="table-column table-column-commits">Commits</span>
-                                    <span class="table-column table-column-rate">Percentage</span>
+                                    <span class="table-column table-column-rate">Punten</span>
                                 </div>
                                 <div class="table-body" data-placeholder="rates">
                                     <div class="table-row" data-template="rate">
@@ -189,8 +189,8 @@
                                                 <span class="icon"></span>
                                             </span>
                                         </span>
-                                        <span class="table-column table-column-rate">
-                                            <span data-placeholder="rate"></span> %
+                                        <span class="table-column table-column-score">
+                                            <span data-placeholder="score"></span>
                                         </span>
                                     </div>
                                 </div>
@@ -219,10 +219,11 @@
 	</script>
 
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script type="text/javascript" src="/narrowcasting/assets/interface/javascript/socialmedia.plugin.js"></script>
-    <script type="text/javascript" src="/narrowcasting/assets/interface/javascript/successrate.slide.js"></script>
-    <script type="text/javascript" src="/narrowcasting/assets/interface/javascript/buienradar.slide.js"></script>
-	<script type="text/javascript" src="/narrowcasting/assets/interface/javascript/narrowcasting.js"></script>
+
+    <script type="text/javascript" src="/narrowcasting/assets/interface/javascript/socialmedia.plugin.js?hash=[[!+narrowcasting.hash]]"></script>
+    <script type="text/javascript" src="/narrowcasting/assets/interface/javascript/successrate.slide.js?hash=[[!+narrowcasting.hash]]"></script>
+    <script type="text/javascript" src="/narrowcasting/assets/interface/javascript/buienradar.slide.js?hash=[[!+narrowcasting.hash]]"></script>
+	<script type="text/javascript" src="/narrowcasting/assets/interface/javascript/narrowcasting.js?hash=[[!+narrowcasting.hash]]"></script>
 
 </body>
 </html>

@@ -181,6 +181,7 @@
                     if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
                         if (null !== ($broadcast = $this->getBroadcast($parameters[$this->config['request_param_broadcast']]))) {
                             $this->modx->toPlaceholders(array(
+                            	'hash'		=> time(),
                                 'player'	=> array(
                                     'id'			=> $player->id,
                                     'key'			=> $player->key,

@@ -594,6 +594,7 @@ p, ul {
 }
 
 .slide-success-rate .table .table-row {
+	position: relative;
 	overflow: hidden;
 	border-bottom: 2px solid #ccd6dc;
 }
@@ -609,8 +610,35 @@ p, ul {
 }
 
 .slide-success-rate .table .table-column.table-column-commits,
-.slide-success-rate .table .table-column.table-column-rate {
+.slide-success-rate .table .table-column.table-column-score {
 	width: 22%;
+}
+
+.slide-success-rate .table .table-row:before {
+	position: absolute;
+	top: 0.3vh;
+	left: 1vw;
+	display: block;
+	width: 3.8vh;
+	height: 3.8vh;
+	content: '';
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center center;
+	-webkit-transform: rotate(-40deg);
+			transform: rotate(-40deg);
+}
+
+.slide-success-rate .table .table-row:nth-child(1):before {
+	background-image: url('../images/successrate/crown-1.svg');
+}
+
+.slide-success-rate .table .table-row:nth-child(2):before {
+	background-image: url('../images/successrate/crown-2.svg');
+}
+
+.slide-success-rate .table .table-row:nth-child(3):before {
+	background-image: url('../images/successrate/crown-3.svg');
 }
 
 .slide-success-rate .icon {

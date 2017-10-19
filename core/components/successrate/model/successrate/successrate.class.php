@@ -143,15 +143,19 @@
 
             if (false !== ($data = $this->getApiData())) {
                 foreach ($data as $key => $value) {
-                    $output[] = array_merge($value, array(
-                        'rate' => round((int) $value['success'] / ((int) $value['total'] / 100))
-                    ));
+                    $output[] = array_merge(array(
+                        'name'      => '',
+                        'total'     => 0,
+                        'success'   => 0,
+                        'failed'    => 0,
+                        'score'     => 0
+                    ), $value);
                 }
 
                 $sort = array();
 
                 foreach ($output as $key => $value) {
-                    $sort[$key] = $value['rate'];
+                    $sort[$key] = $value['score'];
                 }
 
                 if ('DESC' == strtoupper($scriptProperties['sort'])) {
