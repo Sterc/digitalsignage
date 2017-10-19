@@ -70,17 +70,6 @@
         )
     );
 
-    /* Templates */
-    $templates = array(
-        array(
-            'name'          => 'Narrowcasting',
-            'static'        => 1,
-            'static_file'   => '/core/components/narrowcasting/elements/templates/narrowcasting.template.tpl',
-            'source'        => 1,
-            'icon'          => 'icon-play-circle'
-        )
-    );
-
     /* Slide types */
     $slides = array(
         'default'           => array(
@@ -251,46 +240,6 @@
                 }
             }
 
-            /* Add templates */
-            foreach ($templates as $key => $template) {
-                $template = array_merge($template, array(
-                   'templatename' => $template['name']
-                ));
-
-                $c = array(
-                    'templatename' => $template['templatename']
-                );
-
-                if (null === ($templateObject = $object->xpdo->getObject('modTemplate', $c))) {
-                    if (null !== ($templateObject = $object->xpdo->newObject('modTemplate'))) {
-                        $templateObject->fromArray($template, '', true, true);
-                        $templateObject->save();
-
-                        if (isset($settings['templates'])) {
-                            if (isset($settings['templates']['value'])) {
-                                $settings['templates']['value'] = implode(',', array_unique(array_filter(explode(',', $settings['templates']['value']) + array($templateObject->get('id')))));
-                            } else {
-                                $settings['templates']['value'] = $templateObject->get('id');
-                            }
-                        }
-
-                        $object->xpdo->log(xPDO::LOG_LEVEL_INFO, $template['templatename'] . ' template created.');
-                    } else {
-                        $object->xpdo->log(xPDO::LOG_LEVEL_INFO, $template['templatename'] . ' template could not be created.');
-                    }
-                } else {
-                    if (isset($settings['templates'])) {
-                        if (isset($settings['templates']['value'])) {
-                            $settings['templates']['value'] = implode(',', array_unique(array_filter(explode(',', $settings['templates']['value']) + array($templateObject->get('id')))));
-                        } else {
-                            $settings['templates']['value'] = $templateObject->get('id');
-                        }
-                    }
-
-                    $object->xpdo->log(xPDO::LOG_LEVEL_INFO, $template['templatename'] . ' template allready exists.');
-                }
-            }
-
             /* Add customs settings */
             foreach ($settings as $key => $setting) {
                 if (isset($options[$key])) {
@@ -337,6 +286,7 @@
                     }
                 }
             }
+
             $success = true;
 
             break;

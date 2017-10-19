@@ -11,7 +11,7 @@
 	define('PKG_VERSION',		'1.1.1');
 	define('PKG_RELEASE',		'pl');
 
-	define('PRIVATE_PATH',		dirname(dirname(dirname(__FILE__))).'/private/');
+	define('PRIVATE_PATH',		dirname(dirname(__FILE__)).'/');
 	define('PUBLIC_PATH',		dirname(dirname(__FILE__)).'/');
 
 	$sources = array(
