@@ -11,13 +11,13 @@ $(document).ready(function() {
         'callback'  : settings.callback,
 
         'feed' 		: settings.broadcast.feed,
-        
+
         'vars'		: {
-	    	'player'	: settings.player,
-	    	'broadcast' : settings.broadcast.id,
-	    	'preview'	: settings.preview
+            'player'	: settings.player,
+            'broadcast' : settings.broadcast.id,
+            'preview'	: settings.preview
         },
-        
+
         'domain'	: document.location.origin
     });
 });
@@ -69,7 +69,7 @@ $(document).ready(function() {
          * @protected.
          */
         this.$errors = [];
-        
+
         /**
          * The data.
          * @protected.
@@ -113,7 +113,7 @@ $(document).ready(function() {
      * @public.
      */
     Narrowcasting.Defaults = {
-	    'debug': false,
+        'debug': false,
 
         'timer': true,
         'timerType': 'vertical',
@@ -122,21 +122,21 @@ $(document).ready(function() {
         'animation': 'fade',
         'animationTime': 1,
 
-		'callback': null,
-		'callbackType': 'JSON',
-		'callbackInterval': 300,
+        'callback': null,
+        'callbackType': 'JSON',
+        'callbackInterval': 300,
 
         'feed': null,
         'feedType': 'JSON',
-		'feedInterval': 300,
-		
-		'vars': {
-			'player': null,
-			'broadcast': null,
-			'preview': false
-		},
+        'feedInterval': 300,
 
-		'domain': '',
+        'vars': {
+            'player': null,
+            'broadcast': null,
+            'preview': false
+        },
+
+        'domain': '',
 
         'lexicons': {
             'days' : ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
@@ -160,27 +160,27 @@ $(document).ready(function() {
      * @protected.
      */
     Narrowcasting.prototype.initialize = function() {
-	    this.setLog('[Core] initialize');
+        this.setLog('[Core] initialize');
 
-	    if (this.getRequirements()) {
-			this.loadCallback();
+        if (this.getRequirements()) {
+            this.loadCallback();
 
-			if (0 < this.settings.callbackInterval) {
-	            setInterval($.proxy(function(event) {
-	                this.loadCallback();
-	            }, this), this.settings.callbackInterval * 1000);
-	        }
+            if (0 < this.settings.callbackInterval) {
+                setInterval($.proxy(function(event) {
+                    this.loadCallback();
+                }, this), this.settings.callbackInterval * 1000);
+            }
 
-	        this.loadData();
+            this.loadData();
 
-	        if (0 < this.settings.feedInterval) {
-	            setInterval($.proxy(function(event) {
-	                this.loadData();
-	            }, this), this.settings.feedInterval * 1000);
-	        }
+            if (0 < this.settings.feedInterval) {
+                setInterval($.proxy(function(event) {
+                    this.loadData();
+                }, this), this.settings.feedInterval * 1000);
+            }
 
-	        this.loadCustomPlugins();
-	    }
+            this.loadCustomPlugins();
+        }
     };
 
     /**
@@ -188,31 +188,31 @@ $(document).ready(function() {
      * @protected.
      */
     Narrowcasting.prototype.getRequirements = function() {
-	    this.setLog('[Core] getRequirements');
+        this.setLog('[Core] getRequirements');
 
-		if (0 == (preview = parseInt(this.settings.vars.preview))) {
-			if (-1 !== ['', null, undefined].indexOf(this.settings.vars.player)) {
-			    return this.setError('[Core] player is not defined.', true);
-		    }
+        if (0 == (preview = parseInt(this.settings.vars.preview))) {
+            if (-1 !== ['', null, undefined].indexOf(this.settings.vars.player)) {
+                return this.setError('[Core] player is not defined.', true);
+            }
 
-		    if (-1 !== ['', null, undefined].indexOf(this.settings.vars.broadcast)) {
-			    return this.setError('[Core] broadcast is not defined.', true);
-		    }
-		    
-		    this.settings.vars.preview = false;
-		} else {
-			this.settings.vars.preview = true;
-		}
+            if (-1 !== ['', null, undefined].indexOf(this.settings.vars.broadcast)) {
+                return this.setError('[Core] broadcast is not defined.', true);
+            }
 
-	    if (null === this.settings.callback) {
-		    return this.setError('[Core] callback is not defined.', true);
-		}
+            this.settings.vars.preview = false;
+        } else {
+            this.settings.vars.preview = true;
+        }
 
-	    if (null === this.settings.feed) {
-		    return this.setError('[Core] feed is not defined.', true);
-		}
+        if (null === this.settings.callback) {
+            return this.setError('[Core] callback is not defined.', true);
+        }
 
-		return true;
+        if (null === this.settings.feed) {
+            return this.setError('[Core] feed is not defined.', true);
+        }
+
+        return true;
     };
 
     /**
@@ -220,27 +220,27 @@ $(document).ready(function() {
      * @protected.
      */
     Narrowcasting.prototype.loadCallback = function() {
-	    this.setLog('[Core] loadCallback');
-	    
-	    $.ajax({
+        this.setLog('[Core] loadCallback');
+
+        $.ajax({
             'url'		: this.settings.callback + this.getUrlParameters('callback'),
             'dataType'	: this.settings.callbackType.toUpperCase(),
             'complete'	: $.proxy(function(result) {
-	        	if (200 == result.status) {
-		        	switch (this.settings.callbackType.toUpperCase()) {
+                if (200 == result.status) {
+                    switch (this.settings.callbackType.toUpperCase()) {
                         case 'JSON':
-                        	if (result.responseJSON) {
-	                        	if (result.responseJSON.redirect) {
-		                        	var currentLocation = window.location.href.replace(this.settings.domain, '');
-	                                var redirectLocation = result.responseJSON.redirect.replace(this.settings.domain, '');
-	
-	                                if (currentLocation != redirectLocation) {
-		                                window.location.href = redirectLocation;
-	                                }
-	                            }
+                            if (result.responseJSON) {
+                                if (result.responseJSON.redirect) {
+                                    var currentLocation = window.location.href.replace(this.settings.domain, '');
+                                    var redirectLocation = result.responseJSON.redirect.replace(this.settings.domain, '');
+
+                                    if (currentLocation != redirectLocation) {
+                                        window.location.href = redirectLocation;
+                                    }
+                                }
 
                                 if (result.responseJSON.player) {
-	                        	    if (result.responseJSON.player.restart) {
+                                    if (result.responseJSON.player.restart) {
                                         window.location.reload(false);
                                     }
                                 }
@@ -248,26 +248,26 @@ $(document).ready(function() {
                                 this.setError('[Core] callback could not be read (Format: ' + this.settings.callbackType.toUpperCase() + ').');
                             }
 
-                        	break;
+                            break;
                         default:
                             this.setError('[Core] callback could not be read because the format is not supported (Format: ' + this.settings.callbackType.toUpperCase() + ').');
 
                             break;
                     }
 
-		        } else {
+                } else {
                     this.setError('[Core] callback could not be loaded (HTTP status: ' + result.status + ').');
                 }
             }, this)
         });
     };
-    
+
     /**
      * Gets the debug state for the Narrowcasting.
      * @protected.
      */
     Narrowcasting.prototype.isDebug = function() {
-	    return this.settings.debug;
+        return this.settings.debug;
     };
 
     /**
@@ -275,7 +275,7 @@ $(document).ready(function() {
      * @protected.
      */
     Narrowcasting.prototype.loadData = function() {
-	    this.setLog('[Core] loadData');
+        this.setLog('[Core] loadData');
 
         $.ajax({
             'url'		: this.settings.feed + this.getUrlParameters('feed'),
@@ -285,16 +285,16 @@ $(document).ready(function() {
                     switch (this.settings.feedType.toUpperCase()) {
                         case 'JSON':
                             if (result.responseJSON) {
-	                            if (0 < result.responseJSON.slides.length) {
-		                            this.data = new Array();
-		                            
-	                                for (var i = 0; i < result.responseJSON.slides.length; i++) {
-	                                    this.data.push(result.responseJSON.slides[i]);
-	                                }
-	                            } else {
-		                            this.loadData();
-	                            }
-                                
+                                if (0 < result.responseJSON.slides.length) {
+                                    this.data = new Array();
+
+                                    for (var i = 0; i < result.responseJSON.slides.length; i++) {
+                                        this.data.push(result.responseJSON.slides[i]);
+                                    }
+                                } else {
+                                    this.loadData();
+                                }
+
                                 this.setLog('[Core] loadData: (slides: ' + result.responseJSON.slides.length + ')');
                             } else {
                                 this.setError('[Core] feed could not be read (Format: ' + this.settings.feedType.toUpperCase() + ').');
@@ -318,41 +318,41 @@ $(document).ready(function() {
             }, this)
         });
     };
-    
+
     /**
      * Returns all the URL parameters.
      * @param {Type} String - The URL type.
      * @public.
      */
     Narrowcasting.prototype.getUrlParameters = function(type) {
-	    var parameters = new Array('type=broadcast', 'data=true');
+        var parameters = new Array('type=broadcast', 'data=true');
 
         if ('callback' == type) {
             parameters.push('time=' + this.settings.callbackInterval);
         } else {
             parameters.push('time=' + this.settings.feedInterval);
         }
-	
-		$.each(this.settings.vars, $.proxy(function(index, value) {
-			switch (index) {
-				case 'player':
-					parameters.push('pl=' + value);
-					
-					break;
-				case 'broadcast':
-					parameters.push('bc=' + value);
-					
-					break;
-				case 'preview':
-					if (this.settings.vars.preview) {
-						parameters.push('preview=true');
-					}
-			
-					break;
-			}
-		}).bind(this));
-		
-		if (0 < parameters.length) {
+
+        $.each(this.settings.vars, $.proxy(function(index, value) {
+            switch (index) {
+                case 'player':
+                    parameters.push('pl=' + value);
+
+                    break;
+                case 'broadcast':
+                    parameters.push('bc=' + value);
+
+                    break;
+                case 'preview':
+                    if (this.settings.vars.preview) {
+                        parameters.push('preview=true');
+                    }
+
+                    break;
+            }
+        }).bind(this));
+
+        if (0 < parameters.length) {
             if ('callback' == type) {
                 if (-1 == this.settings.callback.search(/\?/i)) {
                     return '?' + parameters.join('&');
@@ -366,9 +366,9 @@ $(document).ready(function() {
                     return '&' + parameters.join('&');
                 }
             }
-		}
-		
-		return '';
+        }
+
+        return '';
     };
 
     /**
@@ -548,7 +548,7 @@ $(document).ready(function() {
         return null;
     }
 
-        /**
+    /**
      * Sets the placeholder of a narrowcasting object.
      * @public.
      * @param {$template} HTMLelement - The HTML object.
@@ -572,7 +572,7 @@ $(document).ready(function() {
                         if (isEmpty) {
                             $placeholder.attr('src', '').hide();
                         } else {
-	                        $placeholder.attr('src', value).show();
+                            $placeholder.attr('src', value).show();
                         }
 
                         break;
@@ -580,20 +580,20 @@ $(document).ready(function() {
                         if (isEmpty) {
                             $placeholder.html('').hide();
                         } else {
-	                        $placeholder.html(value).show();
+                            $placeholder.html(value).show();
                         }
 
                         break;
                 }
-                
+
                 if (wrapper) {
-	                if ($placeholder.parents('.' + wrapper)) {
-		                if (isEmpty) {
-	                		$placeholder.parents('.' + wrapper).addClass('is-empty');
-	                	} else {
-		                	$placeholder.parents('.' + wrapper).removeClass('is-empty');
-	                	}
-	                }
+                    if ($placeholder.parents('.' + wrapper)) {
+                        if (isEmpty) {
+                            $placeholder.parents('.' + wrapper).addClass('is-empty');
+                        } else {
+                            $placeholder.parents('.' + wrapper).removeClass('is-empty');
+                        }
+                    }
                 }
             }
         }
@@ -633,7 +633,7 @@ $(document).ready(function() {
 
         return this.getPlaceholderValueRenders(value, renders);
     };
-    
+
     /**
      * Gets the placeholder value.
      * @public.
@@ -641,53 +641,53 @@ $(document).ready(function() {
      * @param {Renders} string|array - The renders of the placeholder.
      */
     Narrowcasting.prototype.getPlaceholderValueRenders = function(value, renders) {
-	    if (renders) {
-		    if (typeof renders == 'string') {
-	            renders = renders.split(',');
-	        }
+        if (renders) {
+            if (typeof renders == 'string') {
+                renders = renders.split(',');
+            }
 
-	        if (typeof value == 'string' && '' != value) {
-		    	for (var i = 0; i < renders.length; i++) {
-		    	    var param   = null,
+            if (typeof value == 'string' && '' != value) {
+                for (var i = 0; i < renders.length; i++) {
+                    var param   = null,
                         render  = renders[i];
 
-		    	    if (-1 !== (pos = render.search(':'))) {
-		    	        param = render.substr(pos + 1);
+                    if (-1 !== (pos = render.search(':'))) {
+                        param = render.substr(pos + 1);
                         render = render.substr(0, pos);
                     }
 
-			    	switch (render) {
-				    	case 'striptags':
-				    		var regex = param ? new RegExp('<(?!\/?(' + param + ')+)[^>]+>', 'gi') : new RegExp('<\/?[^>]+>', 'gi');
-				    		
-				    		value = value.replace(regex, '');
+                    switch (render) {
+                        case 'striptags':
+                            var regex = param ? new RegExp('<(?!\/?(' + param + ')+)[^>]+>', 'gi') : new RegExp('<\/?[^>]+>', 'gi');
 
-				    		break;
-				    	case 'ellipsis':
-				    		var ellipsis = param ? parseInt(param) : 100;
+                            value = value.replace(regex, '');
 
-				    		if (value.length > ellipsis) {
-					    		var firstPart 	= value.substring(0, ellipsis);
-					    		var secondPart	= value.substring(ellipsis);
-					    		
-					    		if (-1 === (secondSpace = secondPart.indexOf(' '))) {
-						    		secondSpace = secondPart.lenght - 1;
-					    		}
-					    		
-					    		value = firstPart + (secondPart.substr(0, secondSpace)) + '...';
-				    		}
-				    		
-				    		break;
-				    	case 'youtube':
-			    			var parts = value.replace(/\/$/gm, '').split('/');
-			    		
-			    			if (undefined !== (value = parts[parts.length - 1])) {
-				    			if (undefined !== (value = value.replace(/watch\?v=/gi, '').split(/[?#]/)[0])) {
-						    		value = '//www.youtube.com/embed/' + value + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0');
-				    			}
-			    			}
+                            break;
+                        case 'ellipsis':
+                            var ellipsis = param ? parseInt(param) : 100;
 
-				    		break;
+                            if (value.length > ellipsis) {
+                                var firstPart 	= value.substring(0, ellipsis);
+                                var secondPart	= value.substring(ellipsis);
+
+                                if (-1 === (secondSpace = secondPart.indexOf(' '))) {
+                                    secondSpace = secondPart.lenght - 1;
+                                }
+
+                                value = firstPart + (secondPart.substr(0, secondSpace)) + '...';
+                            }
+
+                            break;
+                        case 'youtube':
+                            var parts = value.replace(/\/$/gm, '').split('/');
+
+                            if (undefined !== (value = parts[parts.length - 1])) {
+                                if (undefined !== (value = value.replace(/watch\?v=/gi, '').split(/[?#]/)[0])) {
+                                    value = '//www.youtube.com/embed/' + value + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0');
+                                }
+                            }
+
+                            break;
                         case 'date':
                             var date    = new Date(value),
                                 hours   = date.getHours(),
@@ -732,17 +732,17 @@ $(document).ready(function() {
                             value = format;
 
                             break;
-			    	}
-		    	}
-		    	
-		    	if (undefined !== value) {
-		    		value = value.replace(/<\s*(\w+).*?>/gi, '<\$1>');
-					value = value.replace(/<\/?(span|a)[^>]*>/gi, '');
-				}
-		    }
-		}
-	    
-	    return value;
+                    }
+                }
+
+                if (undefined !== value) {
+                    value = value.replace(/<\s*(?!img)(\w+).*?>/gi, '<\$1>');
+                    value = value.replace(/<\/?(span|a)[^>]*>/gi, '');
+                }
+            }
+        }
+
+        return value;
     };
 
     /**
@@ -771,8 +771,8 @@ $(document).ready(function() {
      * @param {Time} integer - The time of the slide.
      */
     Narrowcasting.prototype.setTimer = function(time) {
-	    this.setLog('[Core] setTimer: (time: ' + time + ')');
-	    
+        this.setLog('[Core] setTimer: (time: ' + time + ')');
+
         if ($timer = this.getTimer('progress')) {
             if ('vertical' == this.settings.timerType) {
                 var startPosition 	= {'height': '0px'};
@@ -840,65 +840,65 @@ $(document).ready(function() {
 
             return $slide;
         }
-        
+
         return null;
     };
-	
+
     /**
      * Sets the next slide and animate current en next slide.
      * @public.
      */
     Narrowcasting.prototype.nextSlide = function() {
-	    var next = this.getCurrent();
-	    
-	    this.setLog('[Core] nextSlide: (next: ' + next + ')');
-	    
-	    if (this.data[next]) {
-		    var data = $.extend({}, {
+        var next = this.getCurrent();
+
+        this.setLog('[Core] nextSlide: (next: ' + next + ')');
+
+        if (this.data[next]) {
+            var data = $.extend({}, {
                 'slide' 		: 'default',
                 'fullscreen'	: false
             }, this.data[next]);
 
-	        if ($slide = this.getSlide(data)) {
-		        if (data.fullscreen || 1 == data.fullscreen || 'true' == data.fullscreen) {
-			        this.$element.addClass('slide-fullscreen');
-			        
-			        this.$element.addClass('window-fullscreen');
+            if ($slide = this.getSlide(data)) {
+                if (data.fullscreen || 1 == data.fullscreen || 'true' == data.fullscreen) {
+                    this.$element.addClass('slide-fullscreen');
+
+                    this.$element.addClass('window-fullscreen');
                 } else {
-	                this.$element.removeClass('window-fullscreen');
+                    this.$element.removeClass('window-fullscreen');
                 }
-	                
-	            $slide.hide().fadeIn(this.settings.animationTime * 1000);
-	
-	            if ($current = this.$slides.shift()) {
-	                $current.show().fadeOut(this.settings.animationTime * 1000, $.proxy(function() {
-		                if (!data.fullscreen) {
-							this.$element.removeClass('slide-fullscreen');
-                		}
-	                
-	                    $current.remove();
-	                }, this));
-	            }
-	
-	            this.$slides.push($slide);
-	        } else {
-		    	this.skipSlide('No slide available.');
-	        }
-	    } else {
-		    this.skipSlide('No slide data available.');
-	    }
+
+                $slide.hide().fadeIn(this.settings.animationTime * 1000);
+
+                if ($current = this.$slides.shift()) {
+                    $current.show().fadeOut(this.settings.animationTime * 1000, $.proxy(function() {
+                        if (!data.fullscreen) {
+                            this.$element.removeClass('slide-fullscreen');
+                        }
+
+                        $current.remove();
+                    }, this));
+                }
+
+                this.$slides.push($slide);
+            } else {
+                this.skipSlide('No slide available.');
+            }
+        } else {
+            this.skipSlide('No slide data available.');
+        }
     };
-    
+
     /**
      * Skips the current slide and animate next slide.
      * @public.
      * @param {Message} string - The message of skip.
      */
     Narrowcasting.prototype.skipSlide = function(message) {
-	    this.setLog('[Core] skipSlide: (message: ' + message + ')');
-	    
-	    this.nextSlide();
-	};
+        this.setLog('[Core] skipSlide: (message: ' + message + ')');
+
+        this.nextSlide();
+    };
 
     /**
      * Gets the plugin name of the slide.
@@ -1354,12 +1354,12 @@ $(document).ready(function() {
         'feed': null,
         'feedType': 'JSON',
         'feedInterval': 900,
-        
+
         'vars': {
-			'player': null,
-			'broadcast': null,
-			'preview': false
-		}
+            'player': null,
+            'broadcast': null,
+            'preview': false
+        }
     };
 
     /**
@@ -1377,7 +1377,7 @@ $(document).ready(function() {
      * @protected.
      */
     NewstickerPlugin.prototype.initialize = function() {
-	    this.core.setLog('[NewstickerPlugin] initialize');
+        this.core.setLog('[NewstickerPlugin] initialize');
 
         if (null === this.settings.feed) {
             this.core.setError('[NewstickerPlugin] feed is not defined.');
@@ -1397,8 +1397,8 @@ $(document).ready(function() {
      * @protected.
      */
     NewstickerPlugin.prototype.loadData = function() {
-	    this.core.setLog('[NewstickerPlugin] loadData');
-	    
+        this.core.setLog('[NewstickerPlugin] loadData');
+
         $.ajax({
             'url'		: this.settings.feed + this.getUrlParameters(),
             'dataType'	: this.settings.feedType.toUpperCase(),
@@ -1407,16 +1407,16 @@ $(document).ready(function() {
                     switch (this.settings.feedType.toUpperCase()) {
                         case 'JSON':
                             if (result.responseJSON) {
-	                            if (0 < result.responseJSON.items.length) {
-		                            this.data = new Array();
-		                            
-                                	for (var i = 0; i < result.responseJSON.items.length; i++) {
-										this.data.push(result.responseJSON.items[i]);
-                                	}
+                                if (0 < result.responseJSON.items.length) {
+                                    this.data = new Array();
+
+                                    for (var i = 0; i < result.responseJSON.items.length; i++) {
+                                        this.data.push(result.responseJSON.items[i]);
+                                    }
                                 } else {
-		                            this.loadData();
-	                            }
-                                
+                                    this.loadData();
+                                }
+
                                 this.core.setLog('[NewstickerPlugin] loadData: (slides: ' + result.responseJSON.items.length + ')');
                             } else {
                                 this.core.setError('[NewstickerPlugin] feed could not be read (Format: ' + this.settings.feedType.toUpperCase() + ').');
@@ -1443,42 +1443,42 @@ $(document).ready(function() {
             }, this)
         });
     };
-    
+
     /**
      * Returns all the URL parameters.
      * @public.
      */
     NewstickerPlugin.prototype.getUrlParameters = function() {
-	    var parameters = new Array('type=ticker', 'data=true');
-		
-		$.each(this.settings.vars, $.proxy(function(index, value) {
-			switch (index) {
-				case 'player':
-					parameters.push('pl=' + value);
-					
-					break;
-				case 'broadcast':
-					parameters.push('bc=' + value);
-					
-					break;
-				case 'preview':
-					if (this.settings.vars.preview) {
-						parameters.push('preview=true');
-					}
-			
-					break;
-			}
-		}).bind(this));
-		
-		if (0 < parameters.length) {
+        var parameters = new Array('type=ticker', 'data=true');
+
+        $.each(this.settings.vars, $.proxy(function(index, value) {
+            switch (index) {
+                case 'player':
+                    parameters.push('pl=' + value);
+
+                    break;
+                case 'broadcast':
+                    parameters.push('bc=' + value);
+
+                    break;
+                case 'preview':
+                    if (this.settings.vars.preview) {
+                        parameters.push('preview=true');
+                    }
+
+                    break;
+            }
+        }).bind(this));
+
+        if (0 < parameters.length) {
             if (-1 == this.settings.feed.search(/\?/i)) {
                 return '?' + parameters.join('&');
             } else {
                 return '&' + parameters.join('&');
             }
-		}
-		
-		return '';
+        }
+
+        return '';
     };
 
     /**
