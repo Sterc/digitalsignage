@@ -81,7 +81,7 @@
                         <div class="content">
                             <div class="content-mask">
                                 <h1 data-placeholder="title" data-placeholder-renders="striptags,ellipsis:150"></h1>
-                                <div data-placeholder="content" data-placeholder-renders="striptags:p|h2|h3|h4|strong|em|span|br|ul|ol|li"></div>
+                                <div data-placeholder="content" data-placeholder-renders="striptags:p|h2|h3|h4|strong|em|span|br|ul|ol|li|img"></div>
                             </div>
                         </div>
                     </div>
