@@ -37,6 +37,8 @@
 	$_lang['digitalsignage.broadcast_preview']						= 'Preview broadcast';
 	$_lang['digitalsignage.broadcast_sync']							= 'Synchronize broadcast';
 	$_lang['digitalsignage.broadcast_sync_confirm']					= 'Are you sure you want to sync this broadcast?';
+	$_lang['digitalsignage.broadcasts_sync_selected']				= 'Sync selected broadcasts';
+	$_lang['digitalsignage.broadcasts_sync_selected_confirm']		= 'Are you sure you want to sync the selected broadcasts?';
 	$_lang['digitalsignage.broadcast_slides']						= 'Add slides (internal slides)';
 	$_lang['digitalsignage.broadcast_slides_desc']					= 'Here you can manage all the internal slides of the broadcast. Drag & Drop slides from the "available slides" to "selected slide" to add slides.';
 	$_lang['digitalsignage.broadcast_slide_remove']					= 'Delete slide';
