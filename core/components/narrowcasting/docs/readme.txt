@@ -1,7 +1,7 @@
 ----------------------
 Narrowcasting
 ----------------------
-Version: 1.1.1
+Version: 1.1.2
 Author: Oene Tjeerd de Bruin
 Contact: oenetjeerd@sterc.nl
 ----------------------

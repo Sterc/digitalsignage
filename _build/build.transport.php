@@ -2,16 +2,16 @@
 
 	$mtime 	= explode(' ', microtime());
 	$tstart = $mtime[1] + $mtime[0];
-	
+
 	set_time_limit(0);
 
 	define('PKG_NAME', 			'Narrowcasting');
 	define('PKG_NAME_LOWER', 	strtolower(PKG_NAME));
 	define('PKG_NAMESPACE', 	strtolower(PKG_NAME));
-	define('PKG_VERSION',		'1.1.1');
+	define('PKG_VERSION',		'1.1.2');
 	define('PKG_RELEASE',		'pl');
 
-	define('PRIVATE_PATH',		dirname(dirname(__FILE__)).'/');
+	define('PRIVATE_PATH',		dirname(dirname(dirname(__FILE__))).'/');
 	define('PUBLIC_PATH',		dirname(dirname(__FILE__)).'/');
 
 	$sources = array(
@@ -35,25 +35,25 @@
 	require_once $sources['build'].'/includes/functions.php';
 	require_once PRIVATE_PATH.'core/config/config.inc.php';
 	require_once PRIVATE_PATH.'core/model/modx/modx.class.php';
-	
+
 	$modx = new modX();
 	$modx->initialize('mgr');
 	$modx->setLogLevel(modX::LOG_LEVEL_INFO);
 	$modx->setLogTarget('ECHO');
-	
+
 	echo XPDO_CLI_MODE ? '' : '<pre>';
 
 	$modx->loadClass('transport.modPackageBuilder', '', false, true);
-	
+
 	$builder = new modPackageBuilder($modx);
 	$builder->createPackage(PKG_NAMESPACE, PKG_VERSION, PKG_RELEASE);
 	$builder->registerNamespace(PKG_NAMESPACE, false, true, '{core_path}components/'.PKG_NAMESPACE.'/');
-	
+
 	$modx->log(modX::LOG_LEVEL_INFO, 'Packaging category...');
-	
+
 	$category = $modx->newObject('modCategory');
 	$category->fromArray(array('id' => 1, 'category' => PKG_NAME), '', true, true);
-	
+
 	if (file_exists($sources['data'].'transport.chunks.php')) {
         $chunks = include $sources['data'].'transport.chunks.php';
 
@@ -71,7 +71,7 @@
 	} else {
 		$modx->log(modX::LOG_LEVEL_INFO, 'No chunk(s) to pack into category...');
 	}
-	
+
 	if (file_exists($sources['data'].'transport.cronjobs.php')) {
         $cronjobs = include $sources['data'].'transport.cronjobs.php';
 
@@ -107,7 +107,7 @@
 	} else {
 		$modx->log(modX::LOG_LEVEL_INFO, 'No plugins(s) to pack into category...');
 	}
-	
+
 	if (file_exists($sources['data'].'transport.snippets.php')) {
         $snippets = include $sources['data'].'transport.snippets.php';
 
@@ -218,7 +218,7 @@
     $builder->putVehicle($vehicle);
 
     $modx->log(modX::LOG_LEVEL_INFO, 'Packed category.');
-	
+
 	if (file_exists($sources['data'].'transport.widgets.php')) {
         $widgets = include $sources['data'].'transport.widgets.php';
 
@@ -292,7 +292,7 @@
     } else {
         $modx->log(modX::LOG_LEVEL_INFO, 'No resource(s) to pack...');
     }
-	
+
 	if (file_exists($sources['data'].'transport.settings.php')) {
         $settings = include $sources['data'].'transport.settings.php';
 
@@ -314,7 +314,7 @@
 	} else {
 		$modx->log(modX::LOG_LEVEL_INFO, 'No systemsetting(s) to pack...');
 	}
-	
+
 	if (file_exists($sources['data'].'transport.menu.php')) {
 		$menu = include $sources['data'].'transport.menu.php';
 
@@ -340,7 +340,7 @@
 			$modx->log(modX::LOG_LEVEL_INFO, 'Packed menu.');
 		}
 	}
-		
+
 	$modx->log(xPDO::LOG_LEVEL_INFO, 'Setting Package Attributes...');
 
 	if (file_exists($sources['build'].'/setup.options.php')) {
@@ -363,7 +363,7 @@
 	$modx->log(xPDO::LOG_LEVEL_INFO, 'Zipping up package...');
 
 	$builder->pack();
-	
+
 	$mtime		= explode(' ', microtime());
 	$tend		= $mtime[1] + $mtime[0];
 	$totalTime	= ($tend - $tstart);
@@ -372,7 +372,7 @@
 	$modx->log(modX::LOG_LEVEL_INFO, 'Package Built: Execution time: {'.$totalTime.'}');
 
 	echo XPDO_CLI_MODE ? '' : '</pre>';
-	
+
 	exit();
-	
+
 ?>

@@ -3,6 +3,13 @@ Narrowcasting
 ----------------------
 
 ----------------------
+Version: 1.1.2
+Released: 2017-10-24
+----------------------
+- Allow img tags in content field
+- Bug fixes
+
+----------------------
 Version: 1.1.1
 Released: 2017-09-26
 ----------------------
