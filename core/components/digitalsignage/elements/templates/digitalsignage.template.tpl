@@ -36,22 +36,6 @@
                 <div class="time" data-placeholder="time" data-placeholder-renders="date:%H:%I uur"></div>
             </div>
             <!-- End Clock Plugin -->
-
-            <!-- Begin Social Media Plugin -->
-            <div class="social-media" data-plugin="SocialMediaPlugin" data-plugin-settings="{'feed': '/ds/facebook-export.json', 'feedType': 'JSON'}">
-                <div class="social-media-inner" data-placeholder="social-media">
-                    <div class="social-media-item" data-template="item">
-                        <div class="image">
-                            <img src="" data-placeholder="image" data-placeholder-wrapper="image" />
-                        </div>
-                        <div class="content">
-                            <p data-placeholder="content" data-placeholder-renders="striptags,ellipsis:100"></p>
-                            <p class="date" data-placeholder="added" data-placeholder-renders="date:%d %F %Y"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Social Media Plugin -->
         </div>
 
         <!-- Begin Newsticker Plugin -->
