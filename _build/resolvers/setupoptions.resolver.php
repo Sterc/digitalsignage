@@ -1,6 +1,6 @@
 <?php
 
-    $package = 'Narrowcasting';
+    $package = 'DigitalSignage';
 
     /* Custom settings */
     $settings = array(
@@ -21,15 +21,15 @@
     /* Permissions */
     $permissions = array(
         array(
-            'name'          => 'narrowcasting',
-            'description'   => 'To view the Narrowcasting package.',
+            'name'          => 'digitalsignage',
+            'description'   => 'To view the DigitalSignage package.',
             'value'         => 1,
             'templates'     => array('AdministratorTemplate'),
             'adminOnly'     => false
         ),
         array(
-            'name'          => 'narrowcasting_settings',
-            'description'   => 'To view/edit Narrowcasting package settings.',
+            'name'          => 'digitalsignage_settings',
+            'description'   => 'To view/edit DigitalSignage package settings.',
             'value'         => 1,
             'templates'     => array('AdministratorTemplate'),
             'adminOnly'     => true
@@ -38,17 +38,17 @@
 
     /* Context */
     $contexts = array(
-        'nc'                => array(
-            'name'              => 'Narrowcasting',
+        'ds'                => array(
+            'name'              => 'DigitalSignage',
             'settings'          => array(
                 'base_url'          => array(
-                    'value' 	        => '/nc/'
+                    'value' 	        => '/ds/'
                 ),
                 'site_status'       => array(
                     'value' 	        => '1'
                 ),
                 'site_url'          => array(
-                    'value' 	        => 'http://{http_host}/nc/'
+                    'value' 	        => 'http://{http_host}/ds/'
                 )
             )
         )
@@ -64,7 +64,7 @@
         ),
         array(
             'pagetitle'     => 'Export',
-            'content'       => '[[!Narrowcasting]]',
+            'content'       => '[[!DigitalSignage]]',
             'content_type'  => 7,
             'setting'       => 'export_resource'
         )
@@ -260,8 +260,8 @@
             }
 
             /* Add slides */
-            if ($object->xpdo->loadClass('Narrowcasting', $object->xpdo->getOption('narrowcasting.core_path', null, $object->xpdo->getOption('core_path').'components/narrowcasting/').'model/narrowcasting/', true, true)) {
-                $narrowcasting = new Narrowcasting($modx);
+            if ($object->xpdo->loadClass('DigitalSignage', $object->xpdo->getOption('digitalsignage.core_path', null, $object->xpdo->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/', true, true)) {
+                $digitalsignage = new DigitalSignage($modx);
 
                 foreach ($slides as $key => $slide) {
                     $slide = array_merge(array(
@@ -272,8 +272,8 @@
                         'key' => $slide['key']
                     );
 
-                    if (null === ($slideObject = $object->xpdo->getObject('NarrowcastingSlidesTypes', $c))) {
-                        if (null !== ($slideObject = $object->xpdo->newObject('NarrowcastingSlidesTypes'))) {
+                    if (null === ($slideObject = $object->xpdo->getObject('DigitalSignageSlidesTypes', $c))) {
+                        if (null !== ($slideObject = $object->xpdo->newObject('DigitalSignageSlidesTypes'))) {
                             $slideObject->fromArray($slide, '', true, true);
                             $slideObject->save();
 

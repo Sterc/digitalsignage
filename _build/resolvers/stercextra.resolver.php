@@ -1,6 +1,6 @@
 <?php
 
-    $package = 'Narrowcasting';
+    $package = 'DigitalSignage';
 
     $url     = 'https://extras.sterc.nl/api/v1/packagedata';
     $params  = array();

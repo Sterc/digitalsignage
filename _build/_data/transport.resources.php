@@ -4,7 +4,7 @@
 
     $resources[0] = $modx->newObject('modResource');
     $resources[0]->fromArray(array(
-        'context_key'   => 'nc',
+        'context_key'   => 'ds',
         'pagetitle'     => 'Home',
         'published'     => 1,
         'deleted'       => 0,
@@ -17,14 +17,14 @@
 
     $resources[1] = $modx->newObject('modResource');
     $resources[1]->fromArray(array(
-         'context_key'  => 'nc',
+         'context_key'  => 'ds',
          'pagetitle'    => 'Export',
          'published'    => 1,
          'deleted'      => 0,
          'hidemenu'     => 1,
          'richtext'     => 0,
          'template'     => '',
-         'content'      => '[[!Narrowcasting]]',
+         'content'      => '[[!DigitalSignage]]',
          'menuindex'    => 1,
          'content_type' => 7
      ));

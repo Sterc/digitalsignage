@@ -5,7 +5,7 @@
 
 	set_time_limit(0);
 
-	define('PKG_NAME', 			'Narrowcasting');
+	define('PKG_NAME', 			'DigitalSignage');
 	define('PKG_NAME_LOWER', 	strtolower(PKG_NAME));
 	define('PKG_NAMESPACE', 	strtolower(PKG_NAME));
 	define('PKG_VERSION',		'1.1.2');
@@ -29,7 +29,7 @@
         'templates' 	=> PRIVATE_PATH.'core/components/'.PKG_NAME_LOWER.'/elements/templates/',
 	    'lexicon' 		=> PRIVATE_PATH.'core/components/'.PKG_NAME_LOWER.'/lexicon/',
 	    'docs' 			=> PRIVATE_PATH.'core/components/'.PKG_NAME_LOWER.'/docs/',
-        'narrowcasting' => PUBLIC_PATH.'narrowcasting/'
+        'digitalsignage' => PUBLIC_PATH.'digitalsignage/'
 	);
 
 	require_once $sources['build'].'/includes/functions.php';
@@ -198,13 +198,13 @@
         $modx->log(modX::LOG_LEVEL_INFO, 'Packed '.$sources['core'].' resolver into category.');
     }
 
-    if (is_dir($sources['narrowcasting'])) {
+    if (is_dir($sources['digitalsignage'])) {
         $vehicle->resolve('file', array(
-            'source' => $sources['narrowcasting'],
+            'source' => $sources['digitalsignage'],
             'target' => "return MODX_BASE_PATH;",
         ));
 
-        $modx->log(modX::LOG_LEVEL_INFO, 'Packed '.$sources['narrowcasting'].' resolver into category.');
+        $modx->log(modX::LOG_LEVEL_INFO, 'Packed '.$sources['digitalsignage'].' resolver into category.');
     }
 
     if (is_dir($sources['resolvers'])) {

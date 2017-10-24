@@ -8,7 +8,7 @@
 		$plugins[$name] = $modx->newObject('modPlugin');
 		$plugins[$name]->fromArray(array(
 			'id' 			=> 1,
-			'name'			=> ucfirst($name),
+			'name'			=> PKG_NAME,
 			'description'	=> PKG_NAME.' '.PKG_VERSION.'-'.PKG_RELEASE.' plugin for MODx Revolution',
 			'content'		=> getSnippetContent($value)
 		));
