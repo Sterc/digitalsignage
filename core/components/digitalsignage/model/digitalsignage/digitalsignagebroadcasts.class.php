@@ -214,6 +214,7 @@
 	     */
         public function getLastSync() {
 	        if ($this->getExportPath()) {
+
 		        if (file_exists($this->getExportFile())) {
 			        return date('Y-m-d H:i:s', filemtime($this->getExportFile()));
 			    }
@@ -228,6 +229,7 @@
 	     * @return Boolean.
 	     */
         public function toExport($slides = array()) {
+
 	        if ($this->getExportPath()) {
 		        if ($handle = fopen($this->getExportFile(), 'w')) {
 			        fwrite($handle, $this->xpdo->toJSON(array(

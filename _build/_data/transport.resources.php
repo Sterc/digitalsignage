@@ -4,7 +4,7 @@
 
     $resources[0] = $modx->newObject('modResource');
     $resources[0]->fromArray(array(
-        'context_key'   => 'nc',
+        'context_key'   => 'ds',
         'pagetitle'     => 'Home',
         'published'     => 1,
         'deleted'       => 0,
@@ -17,7 +17,7 @@
 
     $resources[1] = $modx->newObject('modResource');
     $resources[1]->fromArray(array(
-         'context_key'  => 'nc',
+         'context_key'  => 'ds',
          'pagetitle'    => 'Export',
          'published'    => 1,
          'deleted'      => 0,

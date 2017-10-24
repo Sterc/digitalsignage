@@ -38,17 +38,17 @@
 
     /* Context */
     $contexts = array(
-        'nc'                => array(
+        'ds'                => array(
             'name'              => 'DigitalSignage',
             'settings'          => array(
                 'base_url'          => array(
-                    'value' 	        => '/nc/'
+                    'value' 	        => '/ds/'
                 ),
                 'site_status'       => array(
                     'value' 	        => '1'
                 ),
                 'site_url'          => array(
-                    'value' 	        => 'http://{http_host}/nc/'
+                    'value' 	        => 'http://{http_host}/ds/'
                 )
             )
         )

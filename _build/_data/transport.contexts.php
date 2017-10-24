@@ -2,10 +2,10 @@
 
     $contexts = array();
 
-    foreach (array('nc' => 'DigitalSignage') as $name => $value) {
+    foreach (array('ds' => 'DigitalSignage') as $name => $value) {
         $contexts[$name] = $modx->newObject('modContext');
         $contexts[$name]->fromArray(array(
-                'key'         => 'nc',
+                'key'         => 'ds',
                 'name'        => 'DigitalSignage',
                 'description' => PKG_NAME . ' ' . PKG_VERSION . '-' . PKG_RELEASE . ' context for MODx Revolution'
         ), '', true, true);
