@@ -1,1 +1,0 @@
-<div id="narrowcasting-panel-admin-div"></div>

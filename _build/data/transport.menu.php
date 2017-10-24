@@ -21,7 +21,7 @@
 	    'menuindex' 	=> 0,
 	    'params' 		=> '',
 	    'handler' 		=> '',
-	    'permissions'	=> 'narrowcasting'
+	    'permissions'	=> 'digitalsignage'
 	), '', true, true);
 	
 	$menu->addOne($action);

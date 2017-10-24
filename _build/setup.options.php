@@ -1,6 +1,6 @@
 <?php
 
-    $package = 'Narrowcasting';
+    $package = 'DigitalSignage';
 
     $settings = array(
         array(
@@ -37,11 +37,11 @@
         #modx-setupoptions-panel { display: none; }
     </style>
     <script>
-        document.getElementsByClassName("x-window-header-text")[0].innerHTML = "Narrowcasting installation - a MODX Extra by Sterc";
+        document.getElementsByClassName("x-window-header-text")[0].innerHTML = "DigitalSignage installation - a MODX Extra by Sterc";
     </script>
     <h2>Get free priority updates</h2>
     <p>Enter your name and email address below to receive priority updates about our extras. Be the first to know about updates and new features.<i><b>It is NOT required to enter your name and email to use this extra.</b></i></p>
-    <div style="display: block; margin: 15px 0 0; padding: 15px; color: #993939; background: #f6ebeb; border: 1px solid #dac7cb;"><strong>Warning</strong>: before installing a narrowcasting upgrade make sure you backup the narrowcasting templates (templates, CSS files, images). A narrowcasting upgrade will replace the narrowcasting templates and directory.</div>';
+    <div style="display: block; margin: 15px 0 0; padding: 15px; color: #993939; background: #f6ebeb; border: 1px solid #dac7cb;"><strong>Warning</strong>: before installing a digitalsignage upgrade make sure you backup the digitalsignage templates (templates, CSS files, images). A digitalsignage upgrade will replace the digitalsignage templates and directory.</div>';
 
     foreach ($settings as $setting) {
         $output[] = '<label for="'. $setting['key'] .'">'. $setting['name'] .' (optional)</label>

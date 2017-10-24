@@ -8,7 +8,7 @@
         $templates[$name] = $modx->newObject('modTemplate');
         $templates[$name]->fromArray(array(
 			'id' 			=> 1,
-			'templatename'	=> ucfirst($name),
+			'templatename'	=> PKG_NAME,
 			'description'	=> PKG_NAME.' '.PKG_VERSION.'-'.PKG_RELEASE.' template for MODx Revolution',
 			'icon'          => 'icon-play-circle',
 			'content'		=> getSnippetContent($value)

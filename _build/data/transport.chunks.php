@@ -8,7 +8,7 @@
 		$chunks[$name] = $modx->newObject('modChunk');
 		$chunks[$name]->fromArray(array(
 			'id' 			=> 1,
-			'name'			=> ucfirst($name),
+			'name'			=> PKG_NAME,
 			'description'	=> PKG_NAME.' '.PKG_VERSION.'-'.PKG_RELEASE.' chunk for MODx Revolution',
 			'content'		=> getSnippetContent($value)
 		));

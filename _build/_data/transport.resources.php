@@ -24,7 +24,7 @@
          'hidemenu'     => 1,
          'richtext'     => 0,
          'template'     => '',
-         'content'      => '[[!Narrowcasting]]',
+         'content'      => '[[!DigitalSignage]]',
          'menuindex'    => 1,
          'content_type' => 7
      ));
