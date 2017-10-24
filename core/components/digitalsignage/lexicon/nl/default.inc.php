@@ -1,9 +1,9 @@
 <?php
 
-	$_lang['digitalsignage'] 										= 'DigitalSignage';
+	$_lang['digitalsignage'] 										= 'Digital Signage';
 	$_lang['digitalsignage.desc'] 									= '';
 
-	$_lang['area_digitalsignage']									= 'DigitalSignage';
+	$_lang['area_digitalsignage']									= 'Digital Signage';
 
     $_lang['setting_digitalsignage.branding_url']              		= 'Branding';
     $_lang['setting_digitalsignage.branding_url_desc']        		= 'De URL waar de branding knop heen verwijst, indien leeg wordt de branding knop niet getoond.';
