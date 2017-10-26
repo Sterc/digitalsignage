@@ -20,7 +20,7 @@
 	$_lang['setting_digitalsignage.request_param_player']			= 'Player parameter';
 	$_lang['setting_digitalsignage.request_param_player_desc']		= 'The name of the GET-parameter to identify the player.';
 	$_lang['setting_digitalsignage.context']							= 'Context';
-	$_lang['setting_digitalsignage.context_desc']					= 'The default digitalsignage context.';
+	$_lang['setting_digitalsignage.context_desc']					= 'The default digital signage context.';
 	$_lang['setting_digitalsignage.templates']						= 'Templates';
 	$_lang['setting_digitalsignage.template_desc']					= 'The available templates for a broadcast. Separate multiple template ID\'s with a comma.';
 	$_lang['setting_digitalsignage.media_source']					= 'Media source';
@@ -28,7 +28,7 @@
 
 	$_lang['digitalsignage.broadcast']								= 'Broadcast';
 	$_lang['digitalsignage.broadcasts']								= 'Broadcasts';
-	$_lang['digitalsignage.broadcasts_desc']							= 'Here you can manage all broadcasts for your digitalsignage system. Modifications that are done here or under slides can not be shown live, you can only see this with the \'preview broadcast\'. THe broadcast needs to be synchronized first before you can see the modifications live, when there are modifications that are not synchronized a <i class="icon icon-exclamation-triangle red"></i> will be shown.';
+	$_lang['digitalsignage.broadcasts_desc']							= 'Here you can manage all broadcasts for your digital signage system. Modifications that are done here or under slides can not be shown live, you can only see this with the \'preview broadcast\'. THe broadcast needs to be synchronized first before you can see the modifications live, when there are modifications that are not synchronized a <i class="icon icon-exclamation-triangle red"></i> will be shown.';
 	$_lang['digitalsignage.broadcast_create']						= 'Create new broadcast';
 	$_lang['digitalsignage.broadcast_update']						= 'Update broadcast';
     $_lang['digitalsignage.broadcast_duplicate']						= 'Duplicate broadcast';
@@ -83,7 +83,7 @@
 
 	$_lang['digitalsignage.slide']									= 'Slide';
 	$_lang['digitalsignage.slides']									= 'Slides';
-	$_lang['digitalsignage.slides_desc']								= 'Here you can manage all the slides for your digitalsignage.';
+	$_lang['digitalsignage.slides_desc']								= 'Here you can manage all the slides for your digital signage.';
 	$_lang['digitalsignage.slide_create']							= 'Create new slide';
 	$_lang['digitalsignage.slide_update']							= 'Update slide';
     $_lang['digitalsignage.slide_duplicate']							= 'Duplicate slide';
@@ -103,7 +103,7 @@
 
 	$_lang['digitalsignage.player']									= 'Player';
 	$_lang['digitalsignage.players']									= 'Players';
-	$_lang['digitalsignage.players_desc']							= 'Here you can manage all players for your digitalsignage system. A player has a default delay of 5 minutes. Modifications that you do here, will be live after 5 minutes (synchronization). A player with a <i class="icon icon-circle green"></i> are current on and broadcasting a broadcast, players with a <i class="icon icon-exclamation-triangle red"></i> are off.';
+	$_lang['digitalsignage.players_desc']							= 'Here you can manage all players for your digital signage system. A player has a default delay of 5 minutes. Modifications that you do here, will be live after 5 minutes (synchronization). A player with a <i class="icon icon-circle green"></i> are current on and broadcasting a broadcast, players with a <i class="icon icon-exclamation-triangle red"></i> are off.';
 	$_lang['digitalsignage.player_create']							= 'Create new player';
 	$_lang['digitalsignage.player_update']							= 'Update player';
 	$_lang['digitalsignage.player_remove']							= 'Delete player';
@@ -113,7 +113,7 @@
     $_lang['digitalsignage.player_restart_cancel']                   = 'Cancel player restart';
     $_lang['digitalsignage.player_restart_cancel_confirm']           = 'Are you sure you want to cancel the player restart?';
     $_lang['digitalsignage.player_view']								= 'Connect player';
-	$_lang['digitalsignage.player_view_desc']						= 'Use the following URL in the browser of your player to connect with the digitalsignage system.';
+	$_lang['digitalsignage.player_view_desc']						= 'Use the following URL in the browser of your player to connect with the digital signage system.';
 	$_lang['digitalsignage.player_schedule']							= 'Schedule player';
 	$_lang['digitalsignage.player_schedule_create']					= 'Create new schedule';
 	$_lang['digitalsignage.player_schedule_update']					= 'Update schedule';
@@ -142,7 +142,7 @@
 
 	$_lang['digitalsignage.slide_type']								= 'Slide type';
 	$_lang['digitalsignage.slide_types']								= 'Slide types';
-	$_lang['digitalsignage.slide_types_desc']						= 'Here you can manage all the available slide types for your digitalsignage.';
+	$_lang['digitalsignage.slide_types_desc']						= 'Here you can manage all the available slide types for your digital signage.';
 	$_lang['digitalsignage.slide_type_create']						= 'Create new slide type';
 	$_lang['digitalsignage.slide_type_update']						= 'Update slide type';
 	$_lang['digitalsignage.slide_type_remove']						= 'Delete slide type';
