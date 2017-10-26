@@ -28,7 +28,7 @@
 
 	$_lang['digitalsignage.broadcast']								= 'Broadcast';
 	$_lang['digitalsignage.broadcasts']								= 'Broadcasts';
-	$_lang['digitalsignage.broadcasts_desc']							= 'Here you can manage all broadcasts for your digital signage system. Modifications that are done here or under slides can not be shown live, you can only see this with the \'preview broadcast\'. THe broadcast needs to be synchronized first before you can see the modifications live, when there are modifications that are not synchronized a <i class="icon icon-exclamation-triangle red"></i> will be shown.';
+	$_lang['digitalsignage.broadcasts_desc']							= 'Here you can manage all broadcasts for your digital signage system. Modifications that are done here or under slides can not be shown live, you can only see this with the \'preview broadcast\'. The broadcast needs to be synchronized first before you can see the modifications live, when there are modifications that are not synchronized a <i class="icon icon-exclamation-triangle red"></i> will be shown.';
 	$_lang['digitalsignage.broadcast_create']						= 'Create new broadcast';
 	$_lang['digitalsignage.broadcast_update']						= 'Update broadcast';
     $_lang['digitalsignage.broadcast_duplicate']						= 'Duplicate broadcast';
