@@ -240,7 +240,7 @@ DigitalSignage.window.CreateSlide = function(config) {
     config = config || {};
 
     Ext.applyIf(config, {
-        width		: 800,
+        width		: 1000,
         autoHeight	: true,
         title 		: _('digitalsignage.slide_create'),
         url			: DigitalSignage.config.connector_url,
@@ -255,7 +255,7 @@ DigitalSignage.window.CreateSlide = function(config) {
                 labelSeparator : ''
             },
             items		: [{
-                columnWidth	: .4,
+                columnWidth	: .3,
                 items   : [{
                     layout		: 'column',
                     border		: false,
@@ -343,7 +343,7 @@ DigitalSignage.window.CreateSlide = function(config) {
                     cls			: 'desc-under'
                 }]
             }, {
-                columnWidth	: .6,
+                columnWidth	: .7,
                 style		: 'margin-right: 0;',
                 items 		: [{
                     xtype		: 'container',
@@ -464,7 +464,7 @@ DigitalSignage.window.UpdateSlide = function(config) {
     config = config || {};
 
     Ext.applyIf(config, {
-        width		: 800,
+        width		: 1000,
         autoHeight	: true,
         title 		: _('digitalsignage.slide_update'),
         url			: DigitalSignage.config.connector_url,
@@ -482,7 +482,7 @@ DigitalSignage.window.UpdateSlide = function(config) {
                 labelSeparator : ''
             },
             items		: [{
-                columnWidth	: .4,
+                columnWidth	: .3,
                 items   : [{
                     layout		: 'column',
                     border		: false,
@@ -570,7 +570,7 @@ DigitalSignage.window.UpdateSlide = function(config) {
                     cls			: 'desc-under'
                 }]
             }, {
-                columnWidth	: .6,
+                columnWidth	: .7,
                 style		: 'margin-right: 0;',
                 items 		: [{
                     xtype		: 'container',
