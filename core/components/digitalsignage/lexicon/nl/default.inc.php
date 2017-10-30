@@ -20,7 +20,7 @@
 	$_lang['setting_digitalsignage.request_param_player']			= 'Mediaspeler parameter';
 	$_lang['setting_digitalsignage.request_param_player_desc']		= 'De naam van de GET-parameter om de mediaspeler te identificeren.';
 	$_lang['setting_digitalsignage.context']							= 'Context';
-	$_lang['setting_digitalsignage.context_desc']					= 'De standaard digitalsignage context.';
+	$_lang['setting_digitalsignage.context_desc']					= 'De standaard digital signage context.';
 	$_lang['setting_digitalsignage.templates']						= 'Templates';
 	$_lang['setting_digitalsignage.template_desc']					= 'De beschikbare templates voor een uitzending. Template ID\'s comma gescheiden toevoegen.';
 	$_lang['setting_digitalsignage.media_source']					= 'Media source';
@@ -28,7 +28,7 @@
 
 	$_lang['digitalsignage.broadcast']								= 'Uitzending';
 	$_lang['digitalsignage.broadcasts']								= 'Uitzendingen';
-	$_lang['digitalsignage.broadcasts_desc']							= 'Hier kun je alle uitzendingen van je digitalsignage beheren. Wijzigingen die hier en onder slides gedaan worden zijn niet rechtstreeks live te zien, deze kunnen alleen bekeken worden met behulp van de \'uitzending voorbeeld\'. De uitzending moet eerst gesynchroniseerd worden voordat de wijzigingen live te zien zijn, indien er wijzigingen zijn die nog niet gesynchroniseerd zijn wordt dit aangegeven met een <i class="icon icon-exclamation-triangle red"></i>.';
+	$_lang['digitalsignage.broadcasts_desc']							= 'Hier kun je alle uitzendingen van je digital signage beheren. Wijzigingen die hier en onder slides gedaan worden zijn niet rechtstreeks live te zien, deze kunnen alleen bekeken worden met behulp van de \'uitzending voorbeeld\'. De uitzending moet eerst gesynchroniseerd worden voordat de wijzigingen live te zien zijn, indien er wijzigingen zijn die nog niet gesynchroniseerd zijn wordt dit aangegeven met een <i class="icon icon-exclamation-triangle red"></i>.';
 	$_lang['digitalsignage.broadcast_create']						= 'Nieuwe uitzending';
 	$_lang['digitalsignage.broadcast_update']						= 'Uitzending wijzigen';
     $_lang['digitalsignage.broadcast_duplicate']						= 'Uitzending kopiëren';
@@ -83,7 +83,7 @@
 
     $_lang['digitalsignage.slide']									= 'Slide';
     $_lang['digitalsignage.slides']									= 'Slides';
-    $_lang['digitalsignage.slides_desc']								= 'Hier kun je alle slides van je digitalsignage beheren.';
+    $_lang['digitalsignage.slides_desc']								= 'Hier kun je alle slides van je digital signage beheren.';
     $_lang['digitalsignage.slide_create']							= 'Nieuwe slide';
     $_lang['digitalsignage.slide_update']							= 'Slide wijzigen';
     $_lang['digitalsignage.slide_duplicate']							= 'Slide dupliceren';
@@ -103,7 +103,7 @@
 
     $_lang['digitalsignage.player']									= 'Mediaspeler';
     $_lang['digitalsignage.players']									= 'Mediaspelers';
-    $_lang['digitalsignage.players_desc']							= 'Hier kun je alle mediaspelers van je digitalsignage systeem beheren. Een mediaspeler heeft standaard een vertraging van 5 minuten. Wijzigingen die hier gedaan worden, zijn dus 5 minuten later live te zien (synchronisatie). Mediaspelers met een <i class="icon icon-circle green"></i> staan momenteel aan en zenden een uitzending uit, mediaspelers met een <i class="icon icon-circle red"></i> staan uit.';
+    $_lang['digitalsignage.players_desc']							= 'Hier kun je alle mediaspelers van je digital signage systeem beheren. Een mediaspeler heeft standaard een vertraging van 5 minuten. Wijzigingen die hier gedaan worden, zijn dus 5 minuten later live te zien (synchronisatie). Mediaspelers met een <i class="icon icon-circle green"></i> staan momenteel aan en zenden een uitzending uit, mediaspelers met een <i class="icon icon-circle red"></i> staan uit.';
     $_lang['digitalsignage.player_create']							= 'Nieuwe mediaspeler';
     $_lang['digitalsignage.player_update']							= 'Mediaspeler wijzigen';
     $_lang['digitalsignage.player_remove']							= 'Mediaspeler verwijderen';
@@ -113,7 +113,7 @@
     $_lang['digitalsignage.player_restart_cancel']                   = 'Mediaspeler herstarten annuleren';
     $_lang['digitalsignage.player_restart_cancel_confirm']           = 'Weet je zeker dat je deze mediaspeler herstarten wilt annuleren?';
     $_lang['digitalsignage.player_view']								= 'Mediaspeler verbinden';
-    $_lang['digitalsignage.player_view_desc']						= 'Gebruik de onderstaande URL in de browser van je mediaspeler om deze te verbinden met het digitalsignage systeem.';
+    $_lang['digitalsignage.player_view_desc']						= 'Gebruik de onderstaande URL in de browser van je mediaspeler om deze te verbinden met het digital signage systeem.';
     $_lang['digitalsignage.player_schedule']							= 'Mediaspeler schema';
     $_lang['digitalsignage.player_schedule_create']					= 'Nieuw schema';
     $_lang['digitalsignage.player_schedule_update']					= 'Schema wijzigen';
@@ -142,7 +142,7 @@
 
     $_lang['digitalsignage.slide_type']								= 'Slide type';
 	$_lang['digitalsignage.slide_types']								= 'Slide types';
-	$_lang['digitalsignage.slide_types_desc']						= 'Hier kun je alle beschikbare slides van je digitalsignage beheren.';
+	$_lang['digitalsignage.slide_types_desc']						= 'Hier kun je alle beschikbare slides van je digital signage beheren.';
 	$_lang['digitalsignage.slide_type_create']						= 'Nieuwe slide type';
 	$_lang['digitalsignage.slide_type_update']						= 'Slide type wijzigen';
 	$_lang['digitalsignage.slide_type_remove']						= 'Slide type verwijderen';
