@@ -862,10 +862,11 @@ $(document).ready(function() {
             if ($slide = this.getSlide(data)) {
                 if (data.fullscreen || 1 == data.fullscreen || 'true' == data.fullscreen) {
                     this.$element.addClass('slide-fullscreen');
-
                     this.$element.addClass('window-fullscreen');
+                    $slide.addClass('slide-fullscreen');
                 } else {
                     this.$element.removeClass('window-fullscreen');
+                    $slide.removeClass('slide-fullscreen');
                 }
 
                 $slide.hide().fadeIn(this.settings.animationTime * 1000);
@@ -874,6 +875,7 @@ $(document).ready(function() {
                     $current.show().fadeOut(this.settings.animationTime * 1000, $.proxy(function() {
                         if (!data.fullscreen) {
                             this.$element.removeClass('slide-fullscreen');
+                            $slide.removeClass('slide-fullscreen');
                         }
 
                         $current.remove();
