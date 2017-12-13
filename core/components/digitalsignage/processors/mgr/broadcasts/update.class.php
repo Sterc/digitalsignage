@@ -49,7 +49,8 @@
                 'alias'			=> $this->getProperty('name'),
                 'context_key'	=> $this->modx->getOption('digitalsignage.context'),
                 'template'		=> $this->getProperty('template'),
-                'show_in_tree'	=> 0
+                'show_in_tree'	=> 0,
+                'published'     => 1
             ));
 
             if ($response->isError()) {

@@ -51,11 +51,12 @@
                     }
 
                     $slides[] = array_merge(array(
-                        'time'  	=> $slide->time,
-                        'slide' 	=> $slide->type,
-                        'source'	=> 'intern',
-                        'title' 	=> $slide->name,
-                        'image' 	=> null
+                        'id'        => $slide->get('id'),
+                        'time'      => $slide->get('time'),
+                        'slide'     => $slide->get('type'),
+                        'source'    => 'intern',
+                        'title'     => $slide->get('name'),
+                        'image'     => null
                     ), $data);
                 }
 

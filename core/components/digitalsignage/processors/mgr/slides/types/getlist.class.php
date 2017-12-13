@@ -87,6 +87,10 @@
                 'data'						=> unserialize($object->data)
             ));
 
+            if (empty($object->icon)) {
+                $array['icon'] = 'file';
+            }
+
             if (empty($object->name)) {
                 $translationKey = 'digitalsignage.slide_'.$object->key;
 

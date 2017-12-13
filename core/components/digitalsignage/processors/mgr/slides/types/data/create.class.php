@@ -41,13 +41,37 @@
 
         /**
          * @access public.
-         * @return Mixed.
+         * @return Integer.
          */
-        public function process() {
-            $criteria = array(
-                'key' => $this->getProperty('key')
-            );
+        public function getMenuindex($data) {
+            if (0 < count($data)) {
+                $sort = array();
 
+                foreach ($data as $key => $row) {
+                    if (isset($row['menuindex'])) {
+                        $sort[$key] = $row['menuindex'];
+                    } else {
+                        $sort[$key] = $row['key'];
+                    }
+                }
+
+                array_multisort($sort, SORT_DESC, $data);
+
+                $menuindex = array_shift(array_values($data));
+
+                if (isset($menuindex)) {
+                    return $menuindex['menuindex'] + 1;
+                }
+            }
+
+            return 1;
+        }
+
+        /**
+        * @access public.
+        * @return Mixed.
+        */
+        public function process() {
             if (null !== ($object = $this->modx->getObject($this->classKey, $this->getProperty('id')))) {
                 if (!preg_match('/^([a-zA-Z0-9\_\-]+)$/si', $this->getProperty('key'))) {
                     $this->addFieldError('key', $this->modx->lexicon('digitalsignage.error_slide_type_data_character'));
@@ -59,31 +83,30 @@
                     }
 
                     if (isset($data[$this->getProperty('key')])) {
-                        $this->addFieldError('key', $this->modx->lexicon('digitalsignage.error_slide_type_date_exists'));
+                        $this->addFieldError('key', $this->modx->lexicon('digitalsignage.error_slide_type_data_exists'));
                     } else {
                         $object->fromArray(array(
-                           'data' => serialize(array_merge($data, array(
-                               $this->getProperty('key') => array(
-                                   'xtype'         => $this->getProperty('xtype'),
-                                   'value'         => $this->getProperty('value'),
-                                   'label'         => $this->getProperty('label'),
-                                   'description'   => $this->getProperty('description')
-                               )
-                           )))
+                            'data' => serialize(array_merge($data, array(
+                                $this->getProperty('key') => array(
+                                    'xtype'          => $this->getProperty('xtype'),
+                                    'default_value'  => $this->getProperty('default_value'),
+                                    'label'          => $this->getProperty('label'),
+                                    'description'    => $this->getProperty('description'),
+                                    'menuindex'      => $this->getMenuindex($data)
+                                )
+                            )))
                         ));
 
                         if (!$object->save()) {
-                            $this->addFieldError('key', $this->modx->lexicon('digitalsignage.error_slide_type_not_exists'));
+                            $this->addFieldError('key', $this->modx->lexicon('digitalsignage.error_slide_type_data'));
                         } else {
                             return $this->success('', $object);
                         }
                     }
                 }
-            } else {
-                $this->addFieldError('key', $this->modx->lexicon('digitalsignage.error_slide_type_not_exists'));
             }
 
-            return $this->failure();
+            return $this->failure($this->modx->lexicon('digitalsignage.error_slide_type_not_exists'));
         }
     }
 

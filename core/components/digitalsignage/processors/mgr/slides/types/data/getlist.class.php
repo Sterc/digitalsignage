@@ -17,7 +17,7 @@
          * @access public.
          * @var String.
          */
-        public $defaultSortField = 'key';
+        public $defaultSortField = 'menuindex';
 
         /**
          * @access public.
@@ -56,7 +56,6 @@
             return parent::initialize();
         }
 
-
         /**
          * @access public.
          * @return Array.
@@ -64,6 +63,7 @@
         public function process() {
             if (null !== ($object = $this->modx->getObject($this->classKey, $this->getProperty('id')))) {
                 $output = array();
+                $sort   = array();
                 $data   = unserialize($object->data);
                 $query  = $this->getProperty('query');
 
@@ -71,12 +71,18 @@
                     $data = array();
                 }
 
-                if ('key' == $this->getProperty('sort')) {
-                    if ('DESC' == strtoupper($this->getProperty('dir'))) {
-                        krsort($data);
+                foreach ($data as $key => $row) {
+                    if (isset($row[$this->getProperty('sort')])) {
+                        $sort[$key] = $row[$this->getProperty('sort')];
                     } else {
-                        ksort($data);
+                        $sort[$key] = $row['key'];
                     }
+                }
+
+                if ('DESC' == strtoupper($this->getProperty('dir'))) {
+                    array_multisort($sort, SORT_DESC, $data);
+                } else {
+                    array_multisort($sort, SORT_ASC, $data);
                 }
 
                 foreach ($data as $key => $value) {
@@ -96,7 +102,7 @@
                 return $this->outputArray(array_slice($output, $this->getProperty('start'), $this->getProperty('limit')), count($output));
             }
 
-            return $this->failure('Mislukt');
+            return $this->failure($this->modx->lexicon('digitalsignage.error_slide_type_not_exists'));
         }
     }
 

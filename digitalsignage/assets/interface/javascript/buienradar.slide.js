@@ -45,22 +45,10 @@
         this.$templates = this.core.getTemplates(this.$element);
 
         /**
-         * The data.
-         * @protected.
-         */
-        this.data = {};
-
-        /**
-         * The current forecast count.
-         * @protected.
-         */
-        this.current = -1;
-
-        /**
          * All forecasts of the Buienradar Slide.
          * @protected.
          */
-        this.$forecasts = [];
+        this.$items = [];
 
         this.initialize();
     }
@@ -70,23 +58,21 @@
      * @public.
      */
     SlideBuienradar.Defaults = {
-        'time': 15,
+        'time'          : 15,
 
-        'location': null,
+        'location'      : null,
 
-        'animationTime': 1,
+        'animationTime' : 1,
 
-        'forecast': '//api.buienradar.nl/data/forecast/1.1/daily/',
-        'forecastType': 'JSON',
+        'forecast'      : '//api.buienradar.nl/data/forecast/1.1/daily/',
+        'forecastType'  : 'JSON',
 
-        'radar': '//api.buienradar.nl/image/1.0/radarmapnl/?ext=png&l=1',
+        'radar'         : '//api.buienradar.nl/image/1.0/radarmapnl/?ext=png&l=1',
 
-        'weatherIcon': '/digitalsignage/assets/interface/images/buienradar/weather/{icon}.svg',
-        'windIcon': '/digitalsignage/assets/interface/images/buienradar/wind/{icon}.svg',
+        'weatherIcon'   : '/digitalsignage/assets/interface/images/buienradar/weather/{icon}.svg',
+        'windIcon'      : '/digitalsignage/assets/interface/images/buienradar/wind/{icon}.svg',
 
-        'limit': 4,
-
-        'loop': false
+        'limit'         : 4
     };
 
     /**
@@ -105,6 +91,8 @@
      */
     SlideBuienradar.prototype.initialize = function() {
         this.core.setLog('[SlideBuienradar] initialize');
+
+        this.core.setData('slide-' + this.settings.id, null, -1);
 
         this.core.setPlaceholders(this.$element, this.settings);
 
@@ -133,61 +121,47 @@
         this.core.setLog('[SlideBuienradar] loadForcast');
 
         $.ajax({
-            'url'		: this.settings.forecast + this.settings.location,
-            'dataType'	: this.settings.forecastType.toUpperCase(),
-            'complete'	: $.proxy(function(result) {
-               if (200 == result.status) {
-                   switch (this.settings.forecastType.toUpperCase()) {
-                       case 'JSON':
-                           if (result.responseJSON) {
-                               if (0 < result.responseJSON.days.length) {
-                                   this.data = new Array();
+            'url'       : this.core.getAjaxUrl(this.settings.forecast + this.settings.location, 0, []),
+            'dataType'  : this.settings.forecastType.toUpperCase(),
+            'complete'  : $.proxy(function(result) {
+                if (200 == result.status) {
+                    switch (this.settings.forecastType.toUpperCase()) {
+                        case 'JSON':
+                            if (result.responseJSON) {
+                                if (0 < result.responseJSON.days.length) {
+                                    var data = [];
 
-                                   for (var i = 0; i < result.responseJSON.days.length; i++) {
-                                       this.data.push(result.responseJSON.days[i]);
-                                   }
-                               } else {
-                                   this.loadForcast();
-                               }
+                                    for (var i = 0; i < result.responseJSON.days.length; i++) {
+                                        data.push(result.responseJSON.days[i]);
+                                    }
 
-                               this.core.setLog('[SlideBuienradar] loadForcast: (items: ' + result.responseJSON.days.length + ').');
-                           } else {
-                               this.core.setError('[SlideBuienradar] feed could not be read (Format: ' + this.settings.forecastType.toUpperCase() + ').');
-                           }
+                                    this.core.setData('slide-' + this.settings.id, data, -1);
+                                } else {
+                                    this.loadForcast();
+                                }
 
-                           break;
-                       default:
-                           this.core.setError('[SlideBuienradar] feed could not be read because the format is not supported (Format: ' + this.settings.forecastType.toUpperCase() + ').');
+                                this.core.setLog('[SlideBuienradar] loadForcast: (items: ' + result.responseJSON.days.length + ')');
+                            } else {
+                                this.core.setError('[SlideBuienradar] feed could not be read (Format: ' + this.settings.forecastType.toUpperCase() + ')');
+                            }
 
-                           break;
-                   }
+                            break;
+                        default:
+                            this.core.setError('[SlideBuienradar] feed could not be read because the format is not supported (Format: ' + this.settings.forecastType.toUpperCase() + ')');
 
-                   if (0 == this.$forecasts.length) {
-                       this.nextForecast();
-                   }
-               } else {
-                   this.core.setError('[SlideBuienradar] feed could not be loaded (HTTP status: ' + result.status + ').');
-               }
+                            break;
+                    }
+                } else {
+                    this.core.setError('[SlideBuienradar] feed could not be loaded (HTTP status: ' + result.status + ')');
+                }
+
+                if (0 == this.$items.length) {
+                    if (0 < this.core.getData('slide-' + this.settings.id, 'length')) {
+                        this.nextForecast();
+                    }
+                }
             }, this)
         });
-    };
-
-    /**
-     * Gets the current item count.
-     * @public.
-     */
-    SlideBuienradar.prototype.getCurrent = function() {
-        if (this.settings.loop) {
-            if (this.current + 1 < this.data.length) {
-                this.current = this.current + 1;
-            } else {
-                this.current = 0;
-            }
-        } else {
-            this.current = this.current + 1;
-        }
-
-        return this.current;
     };
 
     /**
@@ -214,17 +188,17 @@
      * @public.
      */
     SlideBuienradar.prototype.nextForecast = function() {
-        var next = this.getCurrent();
+        var next = this.core.getCurrentDataIndex('slide-' + this.settings.id, 'next', this.settings.limit);
 
         this.core.setLog('[SlideBuienradar] nextForecast: (next: ' + next + ')');
 
-        if (this.settings.limit > this.$forecasts.length) {
-            if (this.data[next]) {
-                var data = $.extend({}, this.data[next], {
+        if (this.settings.limit > this.$items.length) {
+            if (null !== (data = this.core.getData('slide-' + this.settings.id, next))) {
+                var data = $.extend({}, data, {
                     'idx' : next + 1,
-                    'date' : this.data[next].date.toString(),
-                    'weatherIcon' : this.settings.weatherIcon.replace('{icon}', this.data[next].iconcode.toLowerCase()),
-                    'windIcon' : this.settings.windIcon.replace('{icon}', this.data[next].winddirection.toLowerCase())
+                    'date' : data.date.toString(),
+                    'weatherIcon' : this.settings.weatherIcon.replace('{icon}', data.iconcode.toLowerCase()),
+                    'windIcon' : this.settings.windIcon.replace('{icon}', data.winddirection.toLowerCase())
                 });
 
                 if ($forecast = this.getForecast(data)) {
@@ -232,7 +206,7 @@
                         this.nextForecast();
                     }, this));
 
-                    this.$forecasts.push($forecast);
+                    this.$items.push($forecast);
                 } else {
                     this.skipForecast('[SlideBuienradar] nextForecast: no forecast available.');
                 }
@@ -263,7 +237,7 @@
         this.core.setLog('[SlideBuienradar] loadRadar');
 
         this.core.setPlaceholders(this.$element, {
-            'radar' : this.settings.radar + '?time=' + (new Date()).getTime()
+            'radar' : this.settings.radar + '?hash=' + (new Date()).getTime()
         });
     };
 

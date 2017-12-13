@@ -5,6 +5,11 @@
 	color: #555555 !important;
 }
 
+.icon-slide-type {
+	width: 17px;
+	color: dimgray;
+}
+
 .digitalsignage-window-padding .x-window-body {
 	padding: 15px !important;
 }

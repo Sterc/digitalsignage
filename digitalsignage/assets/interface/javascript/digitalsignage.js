@@ -1,7 +1,7 @@
 /* Javascript for DigitalSignage. (c) Sterc.nl. All rights reserved. */
 
 /* ----------------------------------------------------------------------------------------- */
-/* ----- jQuery onload --------------------------------------------------------------------- */
+/* ----- jQuery ready ---------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------- */
 
 $(document).ready(function() {
@@ -10,15 +10,15 @@ $(document).ready(function() {
 
         'callback'  : settings.callback,
 
-        'feed' 		: settings.broadcast.feed,
+        'feed'      : settings.broadcast.feed,
 
-        'vars'		: {
-            'player'	: settings.player,
+        'vars'      : {
+            'player'    : settings.player,
             'broadcast' : settings.broadcast.id,
-            'preview'	: settings.preview
+            'preview'   : settings.preview
         },
 
-        'domain'	: document.location.origin
+        'domain'    : document.location.origin
     });
 });
 
@@ -77,22 +77,15 @@ $(document).ready(function() {
         this.data = [];
 
         /**
-         * The number of times that the data of the DigitalSignage is loaded.
-         * @protected.
-         */
-        this.dataRefresh = 0;
-
-        /**
          * The timer.
          * @protected.
          */
         this.timer = null;
 
         /**
-         * The current slide count.
-         * @protected.
+         * The state of the dev tools.
          */
-        this.current = -1;
+        this.devTools = true;
 
         /**
          * The current slides of DigitalSignage.
@@ -109,39 +102,43 @@ $(document).ready(function() {
     }
 
     /**
-     * Default options for the DigitalSignage.
-     * @public.
-     */
+    * Default options for the DigitalSignage.
+    * @public.
+    */
     DigitalSignage.Defaults = {
-        'debug': false,
+        'debug'             : false,
 
-        'timer': true,
-        'timerType': 'vertical',
-        'timerClass': 'timer',
+        'timer'             : true,
+        'timerType'         : 'vertical',
+        'timerClass'        : 'timer',
 
-        'animation': 'fade',
-        'animationTime': 1,
+        'animation'         : 'fade',
+        'animationTime'     : 1,
 
-        'callback': null,
-        'callbackType': 'JSON',
-        'callbackInterval': 300,
+        'callback'          : null,
+        'callbackType'      : 'JSON',
+        'callbackInterval'  : 300,
 
-        'feed': null,
-        'feedType': 'JSON',
-        'feedInterval': 300,
+        'feed'              : null,
+        'feedType'          : 'JSON',
+        'feedInterval'      : 300,
 
-        'vars': {
-            'player': null,
-            'broadcast': null,
-            'preview': false
+        'vars'              : {
+            'player'            : null,
+            'broadcast'         : null,
+            'preview'           : false
         },
 
-        'domain': '',
+        'domain'            : '',
 
-        'lexicons': {
-            'days' : ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
-            'months' : ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
-            'dayTypes': ['Vandaag', 'Morgen', 'Overmorgen']
+        'keys'              : ['fullscreen', 'header', 'ticker'],
+
+        'lexicons'          : {
+            'prevSlide'         : 'Vorige slide',
+            'nextSlide'         : 'Volgende slide',
+            'days'              : ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
+            'months'            : ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
+            'dayTypes'          : ['Vandaag', 'Morgen', 'Overmorgen']
         }
     };
 
@@ -157,7 +154,6 @@ $(document).ready(function() {
 
     /**
      * Initializes the DigitalSignage.
-     * @protected.
      */
     DigitalSignage.prototype.initialize = function() {
         this.setLog('[Core] initialize');
@@ -179,13 +175,13 @@ $(document).ready(function() {
                 }, this), this.settings.feedInterval * 1000);
             }
 
+            this.setDevTools();
             this.loadCustomPlugins();
         }
     };
 
     /**
      * Checks the the DigitalSignage.
-     * @protected.
      */
     DigitalSignage.prototype.getRequirements = function() {
         this.setLog('[Core] getRequirements');
@@ -217,15 +213,14 @@ $(document).ready(function() {
 
     /**
      * Loads the callback data for the DigitalSignage.
-     * @protected.
      */
     DigitalSignage.prototype.loadCallback = function() {
         this.setLog('[Core] loadCallback');
 
         $.ajax({
-            'url'		: this.settings.callback + this.getUrlParameters('callback'),
-            'dataType'	: this.settings.callbackType.toUpperCase(),
-            'complete'	: $.proxy(function(result) {
+            'url'       : this.getAjaxUrl(this.settings.callback, this.settings.callbackInterval, ['type=broadcast', 'data=true']),
+            'dataType'  : this.settings.callbackType.toUpperCase(),
+            'complete'  : $.proxy(function(result) {
                 if (200 == result.status) {
                     switch (this.settings.callbackType.toUpperCase()) {
                         case 'JSON':
@@ -248,13 +243,12 @@ $(document).ready(function() {
                                 this.setError('[Core] callback could not be read (Format: ' + this.settings.callbackType.toUpperCase() + ').');
                             }
 
-                            break;
+                             break;
                         default:
                             this.setError('[Core] callback could not be read because the format is not supported (Format: ' + this.settings.callbackType.toUpperCase() + ').');
 
                             break;
                     }
-
                 } else {
                     this.setError('[Core] callback could not be loaded (HTTP status: ' + result.status + ').');
                 }
@@ -263,34 +257,27 @@ $(document).ready(function() {
     };
 
     /**
-     * Gets the debug state for the DigitalSignage.
-     * @protected.
-     */
-    DigitalSignage.prototype.isDebug = function() {
-        return this.settings.debug;
-    };
-
-    /**
      * Loads the data for the DigitalSignage.
-     * @protected.
      */
     DigitalSignage.prototype.loadData = function() {
         this.setLog('[Core] loadData');
 
         $.ajax({
-            'url'		: this.settings.feed + this.getUrlParameters('feed'),
-            'dataType'	: this.settings.feedType.toUpperCase(),
-            'complete'	: $.proxy(function(result) {
+            'url'       : this.getAjaxUrl(this.settings.feed, this.settings.feedInterval, ['type=broadcast', 'data=true']),
+            'dataType'  : this.settings.feedType.toUpperCase(),
+            'complete'  : $.proxy(function(result) {
                 if (200 == result.status) {
                     switch (this.settings.feedType.toUpperCase()) {
                         case 'JSON':
                             if (result.responseJSON) {
                                 if (0 < result.responseJSON.slides.length) {
-                                    this.data = new Array();
+                                    var data = [];
 
                                     for (var i = 0; i < result.responseJSON.slides.length; i++) {
-                                        this.data.push(result.responseJSON.slides[i]);
+                                        data.push(result.responseJSON.slides[i]);
                                     }
+
+                                    this.setData('slides', data, null);
                                 } else {
                                     this.loadData();
                                 }
@@ -304,7 +291,7 @@ $(document).ready(function() {
                         default:
                             this.setError('[Core] feed could not be read because the format is not supported (Format: ' + this.settings.feedType.toUpperCase() + ').');
 
-                            break;
+                        break;
                     }
 
                     if (0 == this.$slides.length) {
@@ -313,26 +300,75 @@ $(document).ready(function() {
                 } else {
                     this.setError('[Core] could not be loaded (HTTP status: ' + result.status + ').');
                 }
-
-                this.dataRefresh++;
             }, this)
-        });
+       });
     };
 
     /**
-     * Returns all the URL parameters.
-     * @param {Type} String - The URL type.
-     * @public.
+     * Gets the debug state for the DigitalSignage.
      */
-    DigitalSignage.prototype.getUrlParameters = function(type) {
-        var parameters = new Array('type=broadcast', 'data=true');
+    DigitalSignage.prototype.isDebug = function() {
+        return this.settings.debug;
+    };
 
-        if ('callback' == type) {
-            parameters.push('time=' + this.settings.callbackInterval);
-        } else {
-            parameters.push('time=' + this.settings.feedInterval);
+    /**
+     * Sets the dev tools for the DigitalSignage.
+     */
+    DigitalSignage.prototype.setDevTools = function() {
+        if (this.settings.vars.preview) {
+            $(window).on('keyup', $.proxy(function(event) {
+                if (this.isDevTools()) {
+                    if (37 == event.keyCode) {
+                        this.nextSlide('prev');
+                    } else if (39 == event.keyCode) {
+                        this.nextSlide('next');
+                    }
+                }
+            }, this));
+
+            $('body').addClass('window-preview').append(
+                $('<div>').addClass('dev-tools').append(
+                    $('<a>').attr({'href': '#', 'class': 'dev-tools-btn dev-tools-prev', 'title': this.getLexicon('prevSlide')}).html(this.getLexicon('prevSlide')).on('click', $.proxy(function(event) {
+                        if (this.isDevTools()) {
+                            this.nextSlide('prev');
+                        }
+
+                        return false;
+                    }, this)),
+                    $('<a>').attr({'href': '#', 'class': 'dev-tools-btn dev-tools-next', 'title': this.getLexicon('nextSlide')}).html(this.getLexicon('nextSlide')).on('click', $.proxy(function(event) {
+                        if (this.isDevTools()) {
+                            this.nextSlide('next');
+                        }
+
+                        return false;
+                    }, this))
+                )
+            );
         }
+    };
 
+    /**
+     * Gets the dev tools state for the DigitalSignage.
+     */
+    DigitalSignage.prototype.isDevTools = function() {
+        return this.settings.devTools;
+    };
+
+    /**
+     * Sets the dev tools state the DigitalSignage.
+     * @param {Boolean} enable - The state of the dev tools.
+     */
+    DigitalSignage.prototype.enableDevTools = function(enable) {
+        return this.settings.devTools = enable;
+    };
+
+    /**
+     * Returns a URL with the required parameters.
+     * @param {String} url - The current URL.
+     * @param {Integer} interval = The current interval time.
+     * @param {Array} parameters - The current URL parameters.
+     */
+    DigitalSignage.prototype.getAjaxUrl = function(url, interval, parameters) {
         $.each(this.settings.vars, $.proxy(function(index, value) {
             switch (index) {
                 case 'player':
@@ -352,35 +388,29 @@ $(document).ready(function() {
             }
         }).bind(this));
 
+        parameters.push('time=' + interval);
+        parameters.push('hash=' + (new Date()).getTime());
+
         if (0 < parameters.length) {
-            if ('callback' == type) {
-                if (-1 == this.settings.callback.search(/\?/i)) {
-                    return '?' + parameters.join('&');
-                } else {
-                    return '&' + parameters.join('&');
-                }
+            if (-1 == url.search(/\?/i)) {
+                return url + '?' + parameters.join('&');
             } else {
-                if (-1 == this.settings.feed.search(/\?/i)) {
-                    return '?' + parameters.join('&');
-                } else {
-                    return '&' + parameters.join('&');
-                }
+                return url + '&' + parameters.join('&');
             }
         }
 
-        return '';
+        return url;
     };
 
     /**
      * Gets all custom plugins for the DigitalSignage.
-     * @protected.
      */
     DigitalSignage.prototype.loadCustomPlugins = function() {
         this.setLog('[Core] loadCustomPlugins');
 
         $('[data-plugin]', this.$element).each($.proxy(function(index, element) {
             var $element    = $(element),
-                plugin       = $element.attr('data-plugin');
+                plugin      = $element.attr('data-plugin');
 
             if ($.fn[plugin]) {
                 this.setLog('[Core] loadCustomPlugins: (plugin: ' + plugin + ')');
@@ -392,8 +422,7 @@ $(document).ready(function() {
 
     /**
      * Gets all custom plugin settings for the DigitalSignage.
-     * @param {$element} Object - The element of the plugin.
-     * @protected.
+     * @param {HTMLElement} $element - The element of the plugin.
      */
     DigitalSignage.prototype.loadCustomPluginSettings = function($element) {
         if (undefined !== (settings = $element.attr('data-plugin-settings'))) {
@@ -411,10 +440,9 @@ $(document).ready(function() {
 
     /**
      * Logs a message.
-     * @public.
-     * @param {Message} String - The message to to.
-     * @param {Error} Boolean - If the message is an error.
-     * @param {Fatal} Boolean - If the message is fatal or not.
+     * @param {String} message - The message to to log.
+     * @param {Boolean} error - If the message is an error.
+     * @param {Boolean} fatal  - If the message is fatal or not.
      */
     DigitalSignage.prototype.setLog = function(message, error, fatal) {
         if (this.isDebug() || error || fatal) {
@@ -430,32 +458,33 @@ $(document).ready(function() {
 
     /**
      * Display an error.
-     * @public.
-     * @param {Message} String - The error to display.
-     * @param {Fatal} Boolean - If the error is fatal or not.
+     * @param {String} message - The error to display.
+     * @param {Boolean} fatal - If the error is fatal or not.
      */
     DigitalSignage.prototype.setError = function(message, fatal) {
         this.setLog(message, true, fatal);
 
-        if ($error = this.getTemplate('error', this.$errorTemplates)) {
-            if (typeof message === 'string') {
-                this.setPlaceholders($error, {
-                    'title'		: fatal ? 'Error' : 'Warning',
-                    'error'     : fatal ? 'error' : 'warning',
-                    'message' 	: message
-                }).appendTo(this.getPlaceholder('errors', this.$element));
-            } else {
-                this.setPlaceholders($error, message).appendTo(this.getPlaceholder('errors', this.$element));
-            }
+        if (this.isDebug() || fatal) {
+            if ($error = this.getTemplate('error', this.$errorTemplates)) {
+                if (typeof message === 'string') {
+                    this.setPlaceholders($error, {
+                        'title'     : fatal ? 'Error' : 'Warning',
+                        'error'     : fatal ? 'error' : 'warning',
+                        'message'   : message
+                    }).appendTo(this.getPlaceholder('errors', this.$element));
+                } else {
+                    this.setPlaceholders($error, message).appendTo(this.getPlaceholder('errors', this.$element));
+                }
 
-            this.$errors.push($error);
+                this.$errors.push($error);
 
-            if (!fatal) {
-                setTimeout($.proxy(function(event) {
-                    if ($error = this.$errors.shift()) {
-                        $error.remove();
-                    }
-                }, this), 5000);
+                if (!fatal) {
+                    setTimeout($.proxy(function(event) {
+                        if ($error = this.$errors.shift()) {
+                            $error.remove();
+                        }
+                    }, this), 5000);
+                }
             }
         }
 
@@ -463,14 +492,110 @@ $(document).ready(function() {
     };
 
     /**
-     * Sets all the templates of a digitalsignage object.
-     * @public.
-     * @param {$element} HTMLelement - The HTML object.
-     * @param {Level} boolean - Get templates from level.
+     * Sets the data of a slide.
+     * @param {String} key - The key of the slide.
+     * @param {Array} data - The data of the slide.
+     * @param {Integer} current - The current count.
+     */
+    DigitalSignage.prototype.setData = function(key, data, current) {
+        if (null === data) {
+            data = this.getData(key, 'data');
+        }
+
+        if (null === current) {
+            current = this.getData(key, 'current');
+        }
+
+        this.data[key] = {
+            current : current,
+            output  : data
+        };
+    };
+
+    /**
+     * Gets the data of a slide.
+     * @param {String} key - The key of the slide.
+     * @param {String} index - The index of the data type.
+     */
+    DigitalSignage.prototype.getData = function(key, index) {
+        if ('current' == index) {
+            if (this.data[key]) {
+                if (this.data[key]['current']) {
+                    return this.data[key]['current'];
+                }
+            }
+
+            return -1;
+        } else if ('data' == index) {
+            if (this.data[key]) {
+                if (this.data[key]['output']) {
+                    return this.data[key]['output'];
+                }
+            }
+
+            return [];
+        } else if ('length' == index) {
+            if (this.data[key]) {
+                if (this.data[key]['output']) {
+                    return this.data[key]['output'].length;
+                }
+            }
+
+            return 0;
+        } else {
+            if (this.data[key]) {
+                if (this.data[key]['output'][index]) {
+                    return this.data[key]['output'][index];
+                }
+            }
+
+            return null;
+        }
+    };
+
+    /**
+     * Gets the current data count of a slide.
+     * @param {String} key - The key of the slide.
+     * @param {String} type - The type to calculate the next count.
+     * @param {Integer} max - Te maximum length of the data count.
+     */
+    DigitalSignage.prototype.getCurrentDataIndex = function(key, type, max) {
+        if (this.data[key]) {
+            var current = this.data[key]['current'],
+                length  = max;
+
+            if (null == length || length > this.data[key]['output'].length) {
+                length = this.data[key]['output'].length;
+            }
+
+            if ('prev' == type) {
+                if ((current - 1) >= 0) {
+                    current = current - 1;
+                } else {
+                    current = length - 1;
+                }
+            } else {
+                if ((current + 1) <= (length - 1)) {
+                    current = current + 1;
+                } else {
+                    current = 0;
+                }
+            }
+
+            return this.data[key]['current'] = current;
+        }
+
+        return null;
+    };
+
+    /**
+     * Sets all the templates of a DigitalSignage object.
+     * @param {HTMLElement} $element - The HTML object.
+     * @param {Boolean} level - Get templates from level.
      */
     DigitalSignage.prototype.getTemplates = function($element, level) {
-        var	templates = [],
-            $templates = [];
+        var templates   = [],
+            $templates  = [];
 
         if (level) {
             if (typeof level === 'string') {
@@ -492,10 +617,9 @@ $(document).ready(function() {
     };
 
     /**
-     * Gets a templates of a digitalsignage object.
-     * @public.
-     * @param {Template} string - The name of the template.
-     * @param {$templates} array - The available templates.
+     * Gets a templates of a DigitalSignage object.
+     * @param {String} template - The name of the template.
+     * @param {Array} $templates - The available templates.
      */
     DigitalSignage.prototype.getTemplate = function(template, $templates) {
         if ($templates[template]) {
@@ -507,10 +631,9 @@ $(document).ready(function() {
 
     /**
      * Gets the translated text.
-     * @public.
-     * @param {Key} string - The key of the lexicon.
-     * @param {Category} string|object - The type lexicon.
-     * @param {Default} string - The default return.
+     * @param {String} key - The key of the lexicon.
+     * @param {String|Object} category - The type lexicon.
+     * @param {String} lexicon - The default return.
      */
     DigitalSignage.prototype.getLexicon = function(key, category, lexicon) {
         var lexicons = [];
@@ -524,6 +647,8 @@ $(document).ready(function() {
                 if (this.settings.lexicons[category][key]) {
                     return this.settings.lexicons[category][key];
                 }
+            } else if (this.settings.lexicons[key]) {
+                return this.settings.lexicons[key];
             }
         }
 
@@ -535,10 +660,9 @@ $(document).ready(function() {
     };
 
     /**
-     * Gets a placeholder of a digitalsignage object.
-     * @public.
-     * @param {Placeholder} string - The name of the placeholder.
-     * @param {$element} HTMLelement - The HTML object.
+     * Gets a placeholder of a DigitalSignage object.
+     * @param {String} placeholder - The name of the placeholder.
+     * @param {HTMLElement} $element - The HTML object.
      */
     DigitalSignage.prototype.getPlaceholder = function(placeholder, $element) {
         if (undefined !== ($placeholder = $('[data-placeholder="' + placeholder + '"]', $element))) {
@@ -546,25 +670,24 @@ $(document).ready(function() {
         }
 
         return null;
-    }
+    };
 
     /**
-     * Sets the placeholder of a digitalsignage object.
-     * @public.
-     * @param {$template} HTMLelement - The HTML object.
-     * @param {Data} object - The data of the placeholders.
+     * Sets the placeholder of a DigitalSignage object.
+     * @param {HTMLElement} $template - The HTML object.
+     * @param {Object} data - The data of the placeholders.
      */
     DigitalSignage.prototype.setPlaceholders = function($template, data) {
         var placeholders = $('[data-placeholder]', $template);
 
         for (var i = 0; i < placeholders.length; i++) {
             if ($placeholder = $(placeholders[i])) {
-                var type 	= $placeholder.prop('tagName'),
-                    name 	= $placeholder.attr('data-placeholder'),
+                var type    = $placeholder.prop('tagName'),
+                    name    = $placeholder.attr('data-placeholder'),
                     wrapper = $placeholder.attr('data-placeholder-wrapper'),
-                    renders	= $placeholder.attr('data-placeholder-renders'),
-                    value 	= this.getPlaceholderValue(name, data, renders),
-                    isEmpty	= null === value || undefined === value || '' === value;
+                    renders = $placeholder.attr('data-placeholder-renders'),
+                    value   = this.getPlaceholderValue(name, data, renders),
+                    isEmpty = null === value || undefined === value || '' === value;
 
                 switch (type) {
                     case 'IMG':
@@ -600,25 +723,28 @@ $(document).ready(function() {
 
         var placeholders = $('[data-placeholder-class]', $template);
 
+        if (undefined != $template.attr('data-placeholder-class')) {
+            placeholders.push($template);
+        }
+
         for (var i = 0; i < placeholders.length; i++) {
             if ($placeholder = $(placeholders[i])) {
-                var type 	= $placeholder.prop('tagName'),
-                    name 	= $placeholder.attr('data-placeholder-class'),
-                    value 	= this.getPlaceholderValue(name, data);
+                var type    = $placeholder.prop('tagName'),
+                    name    = $placeholder.attr('data-placeholder-class'),
+                    value   = this.getPlaceholderValue(name, data);
 
                 $placeholder.addClass(value);
             }
         }
 
         return $template;
-    }
+    };
 
     /**
      * Gets the placeholder value.
-     * @public.
-     * @param {Name} string|object - The name of the placeholder.
-     * @param {Data} object - The data of the placeholder.
-     * @param {Renders} string|array - The renders of the placeholder.
+     * @param {String|Object} name - The name of the placeholder.
+     * @param {Object} data - The data of the placeholder.
+     * @param {String|Array} renders - The renders of the placeholder.
      */
     DigitalSignage.prototype.getPlaceholderValue = function(name, data, renders) {
         if (typeof name == 'string') {
@@ -747,46 +873,41 @@ $(document).ready(function() {
 
     /**
      * Sets the timer object.
-     * @public.
-     * @param {Type} string - The type timer to return.
+     * @param {String} type - The type timer to return.
      */
     DigitalSignage.prototype.getTimer = function(type) {
         if (null === this.timer) {
             this.timer = {
-                '$timer'	: $('<div class="' + this.settings.timerClass + ' ' + this.settings.timerClass + '-' + this.settings.timerType + '"/>').css({
-                    'opacity' 	: this.settings.timer ? 1 : 0
-                }),
-                '$progress'	: $('<span class="' + this.settings.timerClass + '-inner"/>')
+                $timer      : $('<div class="' + this.settings.timerClass + ' ' + this.settings.timerClass + '-' + this.settings.timerType + '">').css({'opacity' : this.settings.timer ? 1 : 0}),
+                $progress   : $('<span class="' + this.settings.timerClass + '-inner">')
             };
 
             this.timer.$timer.append(this.timer.$progress).appendTo(this.$element);
         }
 
         return this.timer['$' + type];
-    }
+    };
 
     /**
      * Sets the time of a slide by the timer object.
-     * @public.
-     * @param {Time} integer - The time of the slide.
+     * @param {Integer} time - The time of the slide.
      */
     DigitalSignage.prototype.setTimer = function(time) {
         this.setLog('[Core] setTimer: (time: ' + time + ')');
 
         if ($timer = this.getTimer('progress')) {
             if ('vertical' == this.settings.timerType) {
-                var startPosition 	= {'height': '0px'};
-                var endPosition		= {'height': '100%'};
-
+                var startPosition   = {'height': '0px'};
+                var endPosition     = {'height': '100%'};
             } else {
-                var startPosition 	= {'width': '0px'};
-                var endPosition		= {'width': '100%'};
+                var startPosition   = {'width': '0px'};
+                var endPosition     = {'width': '100%'};
             }
 
-            $timer.css(startPosition).animate(endPosition, {
-                'easing' 	: 'linear',
-                'duration' 	: time * 1000,
-                'complete' 	: $.proxy(function(event) {
+            $timer.css(startPosition).stop().animate(endPosition, {
+                'easing'    : 'linear',
+                'duration'  : time * 1000,
+                'complete'  : $.proxy(function(event) {
                     this.nextSlide();
                 }, this)
             });
@@ -794,23 +915,8 @@ $(document).ready(function() {
     };
 
     /**
-     * Gets the current slide count.
-     * @public.
-     */
-    DigitalSignage.prototype.getCurrent = function() {
-        if (this.current + 1 < this.data.length) {
-            this.current = this.current + 1;
-        } else {
-            this.current = 0;
-        }
-
-        return this.current;
-    };
-
-    /**
      * Gets a slide template and initializes the slide.
-     * @public.
-     * @param {Data} array - The slide data.
+     * @param {Object} data - The slide data.
      */
     DigitalSignage.prototype.getSlide = function(data) {
         this.setLog('[Core] getSlide: (title: ' + data.title + ')');
@@ -822,11 +928,13 @@ $(document).ready(function() {
         if (null !== $slide) {
             $slide.prependTo($(this.getPlaceholder('slides', this.$element)));
 
-            if (plugin = this.getSlidePlugin(data.slide)) {
+            if (plugin = this.getSlidePlugin($slide, data.slide)) {
+                data = $.extend({}, data, this.loadCustomPluginSettings($slide));
+
                 if ($.fn[plugin]) {
                     $slide[plugin](data, this);
                 } else {
-                    var plugin = this.getSlidePlugin('default');
+                    var plugin = this.getSlidePlugin($slide, 'default');
 
                     if ($.fn[plugin]) {
                         $slide[plugin](data, this);
@@ -846,27 +954,36 @@ $(document).ready(function() {
 
     /**
      * Sets the next slide and animate current en next slide.
-     * @public.
+     * @param {String} type - The type to calculate the current slide.
      */
-    DigitalSignage.prototype.nextSlide = function() {
-        var next = this.getCurrent();
+    DigitalSignage.prototype.nextSlide = function(type) {
+        var next = this.getCurrentDataIndex('slides', type, null);
 
         this.setLog('[Core] nextSlide: (next: ' + next + ')');
 
-        if (this.data[next]) {
+        if (null !== (data = this.getData('slides', next))) {
             var data = $.extend({}, {
-                'slide' 		: 'default',
-                'fullscreen'	: false
-            }, this.data[next]);
+                'slide'         : 'default',
+                'fullscreen'    : false
+            }, data);
 
             if ($slide = this.getSlide(data)) {
-                if (data.fullscreen || 1 == data.fullscreen || 'true' == data.fullscreen) {
-                    this.$element.addClass('slide-fullscreen');
-                    this.$element.addClass('window-fullscreen');
-                    $slide.addClass('slide-fullscreen');
-                } else {
-                    this.$element.removeClass('window-fullscreen');
-                    $slide.removeClass('slide-fullscreen');
+                this.enableDevTools(false);
+
+                for (var i = 0; i < this.settings.keys.length; i++) {
+                    var key = this.settings.keys[i];
+
+                    if (data[key]) {
+                        if (1 == data[key] ||'true' == data[key]) {
+                            $slide.addClass('slide-' + key);
+
+                            this.$element.addClass('window-' + key);
+                        } else {
+                            this.$element.removeClass('window-' + key);
+                        }
+                    } else {
+                        this.$element.removeClass('window-' + key);
+                    }
                 }
 
                 $slide.hide().fadeIn(this.settings.animationTime * 1000);
@@ -874,12 +991,15 @@ $(document).ready(function() {
                 if ($current = this.$slides.shift()) {
                     $current.show().fadeOut(this.settings.animationTime * 1000, $.proxy(function() {
                         if (!data.fullscreen) {
-                            this.$element.removeClass('slide-fullscreen');
-                            $slide.removeClass('slide-fullscreen');
+                            this.$element.removeClass('window-fullscreen');
                         }
 
                         $current.remove();
+
+                        this.enableDevTools(true);
                     }, this));
+                } else {
+                    this.enableDevTools(true);
                 }
 
                 this.$slides.push($slide);
@@ -894,7 +1014,7 @@ $(document).ready(function() {
     /**
      * Skips the current slide and animate next slide.
      * @public.
-     * @param {Message} string - The message of skip.
+     * @param {String} message - The message of skip.
      */
     DigitalSignage.prototype.skipSlide = function(message) {
         this.setLog('[Core] skipSlide: (message: ' + message + ')');
@@ -905,9 +1025,14 @@ $(document).ready(function() {
     /**
      * Gets the plugin name of the slide.
      * @public.
+     * @param {$slide} HTMLElement - The slide.
      * @param {Type} string - The type of the slide.
      */
-    DigitalSignage.prototype.getSlidePlugin = function(type) {
+    DigitalSignage.prototype.getSlidePlugin = function($slide, type) {
+        if (undefined !== (plugin = $slide.attr('data-plugin'))) {
+            return plugin;
+        }
+
         var plugin = ('slide-' + type).replace('_', '-').split('-');
 
         for (var i = 0 ; i < plugin.length ; i++) {
@@ -915,6 +1040,37 @@ $(document).ready(function() {
         }
 
         return plugin.join('');
+    };
+
+    /**
+     * Converts XML data to a readable Array.
+     * @public.
+     * @param {Input} string - The XML data.
+     * @param {Element} string - The elements.
+     */
+    DigitalSignage.prototype.parseXML = function(input, element) {
+        var data = new Array(),
+            $xml = $($.parseXML(input));
+
+        if (0 < $(element, $xml).length) {
+            $(element, $xml).each($.proxy(function(index, value) {
+                var item = {};
+
+                $(value).children().each(function(index, value) {
+                    var type = $(this).prop('tagName');
+
+                    if ('enclosure' == type) {
+                        item['image'] = $(this).attr('url');
+                    } else {
+                        item[type] = $(this).text();
+                    }
+                });
+
+                data.push(item);
+            }, this));
+        }
+
+        return data;
     };
 
     /**
@@ -1284,21 +1440,21 @@ $(document).ready(function() {
 })(window.Zepto || window.jQuery, window, document);
 
 /* ----------------------------------------------------------------------------------------- */
-/* ----- Newsticker ------------------------------------------------------------------------ */
+/* ----- Ticker Plugin --------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------- */
 
 ;(function($, window, document, undefined) {
     /**
-     * Creates a Newsticker Plugin.
-     * @class Newsticker Plugin.
+     * Creates a Ticker Plugin.
+     * @class Ticker Plugin.
      * @public.
-     * @param {Element} HTMLElement|jQuery - The element of the Newsticker Plugin.
-     * @param {Options} array - The options of the Newsticker Plugin.
-     * @param {Core} Object - The DigitalSignage object for the Newsticker Plugin.
+     * @param {HTMLElement} element - The element of the Ticker Plugin.
+     * @param {Array} options - The options of the Ticker Plugin.
+     * @param {Object} core - The DigitalSignage object for the Ticker Plugin.
      */
-    function NewstickerPlugin(element, options, core) {
+    function TickerPlugin(element, options, core) {
         /**
-         * The DigitalSignage object for the Newsticker Plugin.
+         * The DigitalSignage object for the Ticker Plugin.
          * @public.
          */
         this.core = core;
@@ -1310,10 +1466,10 @@ $(document).ready(function() {
         this.$element = $(element);
 
         /**
-         * Current settings for the Newsticker Plugin.
+         * Current settings for the Ticker Plugin.
          * @public.
          */
-        this.settings = $.extend({}, NewstickerPlugin.Defaults, options, this.core.loadCustomPluginSettings(this.$element));
+        this.settings = $.extend({}, TickerPlugin.Defaults, options, this.core.loadCustomPluginSettings(this.$element));
 
         /**
          * Currently suppressed events to prevent them from beeing retriggered.
@@ -1322,45 +1478,33 @@ $(document).ready(function() {
         this._supress = {};
 
         /**
-         * All templates of the Newsticker Plugin.
+         * All templates of the Ticker Plugin.
          * @protected.
          */
         this.$templates = this.core.getTemplates(this.$element);
 
         /**
-         * The data of the Newsticker Plugin.
+         * All elements of the Ticker Plugin.
          * @protected.
          */
-        this.data = [];
-
-        /**
-         * The number of times that the data of the Newsticker Plugin is loaded.
-         * @protected.
-         */
-        this.dataRefresh = 0;
-
-        /**
-         * All elements of the Newsticker Plugin.
-         * @protected.
-         */
-        this.$elements = [];
+        this.$items = [];
 
         this.initialize();
     }
 
     /**
-     * Default options for the Newsticker Plugin.
+     * Default options for the Ticker Plugin.
      * @public.
      */
-    NewstickerPlugin.Defaults = {
-        'feed': null,
-        'feedType': 'JSON',
-        'feedInterval': 900,
+    TickerPlugin.Defaults = {
+        'feed'          : null,
+        'feedType'      : 'JSON',
+        'feedInterval'  : 900,
 
-        'vars': {
-            'player': null,
-            'broadcast': null,
-            'preview': false
+        'vars'          : {
+            'player'        : null,
+            'broadcast'     : null,
+            'preview'       : false
         }
     };
 
@@ -1370,19 +1514,19 @@ $(document).ready(function() {
      * @readonly.
      * @enum {String}.
      */
-    NewstickerPlugin.Type = {
+    TickerPlugin.Type = {
         'Event': 'event'
     };
 
     /**
-     * Initializes the Newsticker Plugin.
+     * Initializes the Ticker Plugin.
      * @protected.
      */
-    NewstickerPlugin.prototype.initialize = function() {
-        this.core.setLog('[NewstickerPlugin] initialize');
+    TickerPlugin.prototype.initialize = function() {
+        this.core.setLog('[TickerPlugin] initialize');
 
         if (null === this.settings.feed) {
-            this.core.setError('[NewstickerPlugin] feed is not defined.');
+            this.core.setError('[TickerPlugin] feed is not defined.');
         } else {
             this.loadData();
 
@@ -1395,53 +1539,55 @@ $(document).ready(function() {
     };
 
     /**
-     * Loads the data for the Newsticker Plugin.
+     * Loads the data for the Ticker Plugin.
      * @protected.
      */
-    NewstickerPlugin.prototype.loadData = function() {
-        this.core.setLog('[NewstickerPlugin] loadData');
+    TickerPlugin.prototype.loadData = function() {
+        this.core.setLog('[TickerPlugin] loadData');
 
         $.ajax({
-            'url'		: this.settings.feed + this.getUrlParameters(),
-            'dataType'	: this.settings.feedType.toUpperCase(),
-            'complete'	: $.proxy(function(result) {
+            'url'       : this.core.getAjaxUrl(this.settings.feed, this.settings.feedInterval, ['type=ticker', 'data=true']),
+            'dataType'  : this.settings.feedType.toUpperCase(),
+            'complete'  : $.proxy(function(result) {
                 if (200 == result.status) {
                     switch (this.settings.feedType.toUpperCase()) {
                         case 'JSON':
                             if (result.responseJSON) {
                                 if (0 < result.responseJSON.items.length) {
-                                    this.data = new Array();
+                                    var data = [];
 
                                     for (var i = 0; i < result.responseJSON.items.length; i++) {
-                                        this.data.push(result.responseJSON.items[i]);
+                                        data.push(result.responseJSON.items[i]);
                                     }
+
+                                    this.core.setData('tickerplugin', data);
                                 } else {
                                     this.loadData();
                                 }
 
-                                this.core.setLog('[NewstickerPlugin] loadData: (slides: ' + result.responseJSON.items.length + ')');
+                                this.core.setLog('[TickerPlugin] loadData: (slides: ' + result.responseJSON.items.length + ')');
                             } else {
-                                this.core.setError('[NewstickerPlugin] feed could not be read (Format: ' + this.settings.feedType.toUpperCase() + ').');
+                                this.core.setError('[TickerPlugin] feed could not be read (Format: ' + this.settings.feedType.toUpperCase() + ').');
                             }
 
                             break;
                         default:
-                            this.core.setError('[NewstickerPlugin] feed could not be read because the format is not supported (Format: ' + this.settings.feedType.toUpperCase() + ').');
+                            this.core.setError('[TickerPlugin] feed could not be read because the format is not supported (Format: ' + this.settings.feedType.toUpperCase() + ').');
 
                             break;
                     }
-
-                    if (0 == this.dataRefresh) {
-                        this.setData();
-                        this.setData();
-
-                        this.start();
-                    }
                 } else {
-                    this.core.setError('[NewstickerPlugin] feed could not be loaded (HTTP status: ' + result.status + ').');
+                    this.core.setError('[TickerPlugin] feed could not be loaded (HTTP status: ' + result.status + ').');
                 }
 
-                this.dataRefresh++;
+                if (0 == this.$items.length) {
+                    if (0 < this.core.getData('tickerplugin', 'length')) {
+                        this.addItem();
+                        this.addItem();
+
+                        this.nextItem();
+                    }
+                }
             }, this)
         });
     };
@@ -1450,7 +1596,7 @@ $(document).ready(function() {
      * Returns all the URL parameters.
      * @public.
      */
-    NewstickerPlugin.prototype.getUrlParameters = function() {
+    TickerPlugin.prototype.getUrlParameters = function() {
         var parameters = new Array('type=ticker', 'data=true');
 
         $.each(this.settings.vars, $.proxy(function(index, value) {
@@ -1487,51 +1633,51 @@ $(document).ready(function() {
      * Sets the data.
      * @protected.
      */
-    NewstickerPlugin.prototype.setData = function() {
-        var $element = this.core.getTemplate('ticker', this.$templates);
+    TickerPlugin.prototype.addItem = function() {
+        if ($item = this.core.getTemplate('ticker', this.$templates)) {
+            var data = this.core.getData('tickerplugin', 'data');
 
-        if ($element) {
-            for (var i = 0; i < this.data.length; i++) {
-                var $template = this.core.getTemplate('item', this.$templates);
-
-                if ($template) {
-                    this.core.setPlaceholders($template, this.data[i]).appendTo($element);
+            //for (var i = 0; i < data.length; i++) {
+                for (var i = 0; i < 3; i++) {
+                if ($subItem = this.core.getTemplate('item', this.$templates)) {
+                    this.core.setPlaceholders($subItem, data[i]).appendTo($item);
                 }
             }
 
-            this.core.getPlaceholder('ticker', this.$element).append($element);
+            this.core.getPlaceholder('ticker', this.$element).append($item);
 
-            this.$elements.push($element);
+            this.$items.push($item);
         }
-    }
+    };
 
     /**
      * Starts the animation.
      * @protected.
      */
-    NewstickerPlugin.prototype.start = function() {
-        if ($element = this.$elements.shift()) {
-            $element.animate({'margin-left': '-' + $element.outerWidth(true) + 'px'}, {
-                'easing' 	: 'linear',
-                'duration' 	: 40000 * ($element.outerWidth(true) / 2100),
-                'complete' 	: $.proxy(function(event) {
-                    $element.remove();
+    TickerPlugin.prototype.nextItem = function() {
+        if ($item = this.$items.shift()) {
+            var proxy = this;
+            
+            $item.animate({'margin-left': '-' + $item.outerWidth(true) + 'px'}, {
+                'easing'    : 'linear',
+                'duration'  : 40000 * ($item.outerWidth(true) / 2100),
+                'complete'  : function() {
+                    $(this).remove();
 
-                    this.setData();
-
-                    this.start();
-                }, this)
+                    proxy.addItem();
+                    proxy.nextItem();
+                }
             });
         }
-    }
+    };
 
     /**
      * Registers an event or state.
      * @public.
      * @param {Object} object - The event or state to register.
      */
-    NewstickerPlugin.prototype.register = function(object) {
-        if (object.type === NewstickerPlugin.Type.Event) {
+    TickerPlugin.prototype.register = function(object) {
+        if (object.type === TickerPlugin.Type.Event) {
             if (!$.event.special[object.name]) {
                 $.event.special[object.name] = {};
             }
@@ -1557,7 +1703,7 @@ $(document).ready(function() {
      * @protected.
      * @param {Array.<String>} events - The events to suppress.
      */
-    NewstickerPlugin.prototype.suppress = function(events) {
+    TickerPlugin.prototype.suppress = function(events) {
         $.each(events, $.proxy(function(index, event) {
             this._supress[event] = true;
         }, this));
@@ -1568,32 +1714,32 @@ $(document).ready(function() {
      * @protected.
      * @param {Array.<String>} events - The events to release.
      */
-    NewstickerPlugin.prototype.release = function(events) {
+    TickerPlugin.prototype.release = function(events) {
         $.each(events, $.proxy(function(index, event) {
             delete this._supress[event];
         }, this));
     };
 
     /**
-     * The jQuery Plugin for the Newsticker Plugin.
+     * The jQuery Plugin for the Ticker Plugin.
      * @public.
      */
-    $.fn.NewstickerPlugin = function(core, option) {
+    $.fn.TickerPlugin = function(core, option) {
         var args = Array.prototype.slice.call(arguments, 1);
 
         return this.each(function() {
             var $this = $(this),
-                data = $this.data('digitalsignage.newstickerplugin');
+                data = $this.data('digitalsignage.tickerplugin');
 
             if (!data) {
-                data = new NewstickerPlugin(this, typeof option == 'object' && option, core);
+                data = new TickerPlugin(this, typeof option == 'object' && option, core);
 
-                $this.data('digitalsignage.newstickerplugin', data);
+                $this.data('digitalsignage.tickerplugin', data);
 
                 $.each([], function(i, event) {
-                    data.register({ type: NewstickerPlugin.Type.Event, name: event });
+                    data.register({ type: TickerPlugin.Type.Event, name: event });
 
-                    data.$element.on(event + '.digitalsignage.newstickerplugin.core', $.proxy(function(e) {
+                    data.$element.on(event + '.digitalsignage.tickerplugin.core', $.proxy(function(e) {
                         if (e.namespace && this !== e.relatedTarget) {
                             this.suppress([event]);
 
@@ -1615,6 +1761,6 @@ $(document).ready(function() {
      * The constructor for the jQuery Plugin.
      * @public.
      */
-    $.fn.NewstickerPlugin.Constructor = NewstickerPlugin;
+    $.fn.TickerPlugin.Constructor = TickerPlugin;
 
 })(window.Zepto || window.jQuery, window, document);

@@ -41,36 +41,36 @@
 	        return $this->digitalsignage->config['templates_path'].'home.tpl';
 	    }
 	    
-	    /**
-		 * @access public.
-		 * @param Array $scriptProperties.
-		 */
-		public function process(array $scriptProperties = array()) {
-			if ($this->modx->getOption('use_editor') && $richtext = $this->modx->getOption('which_editor')) {
-				if ('TinyMCE RTE' == $richtext) {
-					$tinymcerte = $this->modx->getService('tinymcerte', 'TinyMCERTE', $this->modx->getOption('tinymcerte.core_path', null, $this->modx->getOption('core_path') . 'components/tinymcerte/') . 'model/tinymcerte/');
-					
-					if ($tinymcerte instanceof TinyMCERTE) {
-						$this->addJavascript($tinymcerte->getOption('jsUrl') . 'vendor/tinymce/tinymce.min.js');
-						$this->addJavascript($tinymcerte->getOption('jsUrl') . 'vendor/autocomplete.js');
-						$this->addJavascript($tinymcerte->getOption('jsUrl') . 'mgr/tinymcerte.js');
-					}
-				}
-				
-				$properties = array(
-					'editor' 	=> $richtext,
-					'elements' 	=> array()
-				);
-				
-				$onRichTextEditorInit = $this->modx->invokeEvent('OnRichTextEditorInit', $properties);
-	            
-	            if (is_array($onRichTextEditorInit)) {
-					$onRichTextEditorInit = implode('', $onRichTextEditorInit);
-            	}
-            	
-            	$this->addHtml($onRichTextEditorInit);
-			}
-		}
-	}
-	
+        /**
+         * @access public.
+         * @param Array $scriptProperties.
+         */
+        public function process(array $scriptProperties = array()) {
+            if ($this->modx->getOption('use_editor') && $richtext = $this->modx->getOption('which_editor')) {
+                if ('TinyMCE RTE' == $richtext) {
+                    $tinymcerte = $this->modx->getService('tinymcerte', 'TinyMCERTE', $this->modx->getOption('tinymcerte.core_path', null, $this->modx->getOption('core_path') . 'components/tinymcerte/') . 'model/tinymcerte/');
+
+                    if ($tinymcerte instanceof TinyMCERTE) {
+                        $this->addJavascript($tinymcerte->getOption('jsUrl') . 'vendor/tinymce/tinymce.min.js');
+                        $this->addJavascript($tinymcerte->getOption('jsUrl') . 'vendor/autocomplete.js');
+                        $this->addJavascript($tinymcerte->getOption('jsUrl') . 'mgr/tinymcerte.js');
+                        }
+                }
+
+                $properties = array(
+                    'editor'    => $richtext,
+                    'elements'  => array()
+                );
+
+                $onRichTextEditorInit = $this->modx->invokeEvent('OnRichTextEditorInit', $properties);
+
+                if (is_array($onRichTextEditorInit)) {
+                    $onRichTextEditorInit = implode('', $onRichTextEditorInit);
+                }
+
+                $this->addHtml($onRichTextEditorInit);
+            }
+        }
+    }
+
 ?>

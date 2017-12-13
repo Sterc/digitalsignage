@@ -71,9 +71,21 @@
          */
         public function prepareRow(xPDOObject $object) {
             $array = array_merge($object->toArray(), array(
-                'name'			=> $this->modx->lexicon('digitalsignage.feed_'.str_replace('-', '_', $object->key)),
-                'description'	=> $this->modx->lexicon('digitalsignage.feed_'.str_replace('-', '_', $object->key).'_desc')
+                'name'          => $object->key,
+                'description'   => $object->key
             ));
+
+            $translationKey = 'digitalsignage.feed_'.str_replace('-', '_', $object->key);
+
+            if ($translationKey !== ($translation = $this->modx->lexicon($translationKey))) {
+                $array['name'] = $translation;
+            }
+
+            $translationKey = 'digitalsignage.feed_'.str_replace('-', '_', $object->key).'_desc';
+
+            if ($translationKey !== ($translation = $this->modx->lexicon($translationKey))) {
+                $array['description'] = $translation;
+            }
 
             if (in_array($array['editedon'], array('-001-11-30 00:00:00', '-1-11-30 00:00:00', '0000-00-00 00:00:00', null))) {
                 $array['editedon'] = '';

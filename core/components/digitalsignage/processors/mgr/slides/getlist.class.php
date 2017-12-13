@@ -17,7 +17,7 @@
          * @access public.
          * @var String.
          */
-        public $defaultSortField = 'id';
+        public $defaultSortField = 'DigitalSignageSlides.id';
 
         /**
          * @access public.
@@ -57,11 +57,23 @@
          * @return Object.
          */
         public function prepareQueryBeforeCount(xPDOQuery $c) {
+            $broadcast = $this->getProperty('broadcast_id');
+
+            if (!empty($broadcast)) {
+                $c->innerJoin('DigitalSignageBroadcastsSlides', 'DigitalSignageBroadcastsSlides', array(
+                    'DigitalSignageBroadcastsSlides.slide_id = DigitalSignageSlides.id'
+                ));
+
+                $c->where(array(
+                    'DigitalSignageBroadcastsSlides.broadcast_id' => $broadcast
+                ));
+            }
+
             $query = $this->getProperty('query');
 
             if (!empty($query)) {
                 $c->where(array(
-                    'name:LIKE' => '%'.$query.'%'
+                    'DigitalSignageSlides.name:LIKE' => '%'.$query.'%'
                 ));
             }
 
@@ -75,12 +87,17 @@
          */
         public function prepareRow(xPDOObject $object) {
             $array = array_merge($object->toArray(), array(
-                'data'				=> unserialize($object->data),
+                'data'              => unserialize($object->data),
+                'icon'              => 'file',
                 'type_formatted' 	=> $object->type,
                 'broadcasts'        => array()
             ));
 
             if (null !== ($type = $object->getOne('getSlideType'))) {
+                if (!empty($type->icon)) {
+                    $array['icon'] = $type->icon;
+                }
+
                 $array['type_formatted'] = $type->name;
 
                 $translationKey = 'digitalsignage.slide_'.$type->key;

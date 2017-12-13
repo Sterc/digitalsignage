@@ -1,5 +1,5 @@
 <?php
 
-	class DigitalSignageBroadcastsSlides extends xPDOSimpleObject {}
-	
+    class DigitalSignageBroadcastsSlides extends xPDOSimpleObject {}
+
 ?>

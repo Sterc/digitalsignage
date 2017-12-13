@@ -501,16 +501,17 @@ DigitalSignage.window.CreateBroadcast = function(config) {
             html		: _('digitalsignage.label_broadcast_description_desc'),
             cls			: 'desc-under'
         }, {
-            xtype		: 'digitalsignage-combo-templates',
-            fieldLabel	: _('digitalsignage.label_broadcast_template'),
-            description	: MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_template_desc'),
-            name		: 'template',
-            anchor		: '100%',
-            allowBlank	: false
+            xtype       : 1 == DigitalSignage.config.templates.length ? 'hidden' : 'digitalsignage-combo-templates',
+            fieldLabel  : _('digitalsignage.label_broadcast_template'),
+            description : MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_template_desc'),
+            name        : 'template',
+            anchor      : '100%',
+            allowBlank  : false,
+            value       : DigitalSignage.config.templates[0]
         }, {
-        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
-            html		: _('digitalsignage.label_broadcast_template_desc'),
-            cls			: 'desc-under'
+            xtype       : 1 == DigitalSignage.config.templates.length ? 'hidden' : (MODx.expandHelp ? 'label' : 'hidden'),
+            html        : _('digitalsignage.label_broadcast_template_desc'),
+            cls         : 'desc-under'
         }, {
         	xtype		: 'textfield',
         	fieldLabel	: _('digitalsignage.label_broadcast_ticker_url'),
@@ -569,16 +570,16 @@ DigitalSignage.window.UpdateBroadcast = function(config) {
             html		: _('digitalsignage.label_broadcast_description_desc'),
             cls			: 'desc-under'
         }, {
-            xtype		: 'digitalsignage-combo-templates',
-            fieldLabel	: _('digitalsignage.label_broadcast_template'),
-            description	: MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_template_desc'),
-            name		: 'template',
-            anchor		: '100%',
-            allowBlank	: false
+            xtype       : 1 == DigitalSignage.config.templates.length ? 'hidden' : 'digitalsignage-combo-templates',
+            fieldLabel  : _('digitalsignage.label_broadcast_template'),
+            description : MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_template_desc'),
+            name        : 'template',
+            anchor      : '100%',
+            allowBlank  : false
         }, {
-        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
-            html		: _('digitalsignage.label_broadcast_template_desc'),
-            cls			: 'desc-under'
+            xtype       : 1 == DigitalSignage.config.templates.length ? 'hidden' : (MODx.expandHelp ? 'label' : 'hidden'),
+            html        : _('digitalsignage.label_broadcast_template_desc'),
+            cls         : 'desc-under'
         }, {
         	xtype		: 'textfield',
         	fieldLabel	: _('digitalsignage.label_broadcast_ticker_url'),
@@ -834,27 +835,26 @@ Ext.reg('digitalsignage-window-broadcast-feeds', DigitalSignage.window.Feeds);
 
 DigitalSignage.combo.Broadcasts = function(config) {
     config = config || {};
-    
+
     Ext.applyIf(config, {
-        url			: DigitalSignage.config.connector_url,
-        baseParams 	: {
-            action		: 'mgr/broadcasts/getnodes'
+        url         : DigitalSignage.config.connector_url,
+        baseParams  : {
+            action      : 'mgr/broadcasts/getnodes'
         },
-        fields		: ['id', 'name', 'calendar'],
-        hiddenName	: 'broadcast_id',
-        pageSize	: 15,
-        valueField	: 'id',
+        fields      : ['id', 'name', 'calendar'],
+        hiddenName  : 'broadcast_id',
+        valueField  : 'id',
         displayField: 'name',
-        tpl			: new Ext.XTemplate('<tpl for=".">' + 
-        	'<div class="x-combo-list-item">' + 
-        		'<span class="x-cal-combo x-cal-{calendar}">' + 
-        			'<span class="ext-cal-picker-icon"></span>' + 
-        		'</span> {name}' + 
-			'</div>' + 
-		'</tpl>')
+        tpl         : new Ext.XTemplate('<tpl for=".">' +
+            '<div class="x-combo-list-item">' +
+                '<span class="x-cal-combo x-cal-{calendar}">' +
+                    '<span class="ext-cal-picker-icon"></span>' +
+                '</span> {name}' +
+            '</div>' +
+        '</tpl>')
     });
-    
-    DigitalSignage.combo.Broadcasts.superclass.constructor.call(this,config);
+
+    DigitalSignage.combo.Broadcasts.superclass.constructor.call(this, config);
 };
 
 Ext.extend(DigitalSignage.combo.Broadcasts, MODx.combo.ComboBox);
@@ -863,25 +863,24 @@ Ext.reg('digitalsignage-combo-broadcasts', DigitalSignage.combo.Broadcasts);
 
 DigitalSignage.combo.Templates = function(config) {
     config = config || {};
-    
+
     Ext.applyIf(config, {
-        url			: DigitalSignage.config.connector_url,
-        baseParams 	: {
-            action		: 'mgr/broadcasts/templates/getnodes'
+        url         : DigitalSignage.config.connector_url,
+        baseParams  : {
+            action      : 'mgr/broadcasts/templates/getnodes'
         },
-        fields		: ['id', 'templatename', 'description', 'category_name'],
-        hiddenName	: 'template',
-        pageSize	: 15,
-        valueField	: 'id',
+        fields      : ['id', 'templatename', 'description', 'category_name'],
+        hiddenName  : 'template',
+        valueField  : 'id',
         displayField: 'templatename',
-        tpl			: new Ext.XTemplate('<tpl for=".">' + 
-        	'<div class="x-combo-list-item">' + 
-        		'<span style="font-weight: bold">{templatename}</span><br />{description}' + 
-			'</div>' + 
-		'</tpl>')
+        tpl         : new Ext.XTemplate('<tpl for=".">' +
+            '<div class="x-combo-list-item">' +
+                '<span style="font-weight: bold">{templatename}</span><br />{description}' +
+            '</div>' +
+        '</tpl>')
     });
-    
-    DigitalSignage.combo.Templates.superclass.constructor.call(this,config);
+
+    DigitalSignage.combo.Templates.superclass.constructor.call(this, config);
 };
 
 Ext.extend(DigitalSignage.combo.Templates, MODx.combo.ComboBox);
@@ -894,9 +893,9 @@ DigitalSignage.combo.DigitalSignageBroadcastsCheckbox = function(config) {
     Ext.applyIf(config, {
         value       : '',
         columns     : 1,
-        id			: 'digitalsignage-checkboxgroup-fixed',
-        cls			: 'digitalsignage-checkboxgroup-fixed x-form-item',
-        store   : new Ext.data.JsonStore({
+        id          : 'digitalsignage-checkboxgroup-fixed',
+        cls         : 'digitalsignage-checkboxgroup-fixed x-form-item',
+        store       : new Ext.data.JsonStore({
             url         : DigitalSignage.config.connector_url,
             baseParams  : {
                 action      : 'mgr/broadcasts/getlist',
@@ -916,7 +915,7 @@ DigitalSignage.combo.DigitalSignageBroadcastsCheckbox = function(config) {
                     scope       : this
                 },
                 'loadexception' : {
-                    fn : function(o, trans, resp) {
+                    fn          : function(o, trans, resp) {
                         var status = _('code') + ': ' + resp.status + ' ' + resp.statusText + '<br/>';
 
                         MODx.msg.alert(_('error'), status + resp.responseText);
@@ -926,7 +925,7 @@ DigitalSignage.combo.DigitalSignageBroadcastsCheckbox = function(config) {
         })
     });
 
-    DigitalSignage.combo.DigitalSignageBroadcastsCheckbox.superclass.constructor.call(this,config);
+    DigitalSignage.combo.DigitalSignageBroadcastsCheckbox.superclass.constructor.call(this, config);
 };
 
 Ext.extend(DigitalSignage.combo.DigitalSignageBroadcastsCheckbox, Ext.Panel, {

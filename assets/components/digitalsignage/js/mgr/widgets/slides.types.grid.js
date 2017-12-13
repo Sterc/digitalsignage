@@ -46,52 +46,53 @@ DigitalSignage.grid.SlideTypes = function(config) {
         )
     });
 
-    columns = new Ext.grid.ColumnModel({
-        columns: [expander, {
-            header		: _('digitalsignage.label_slide_type_key'),
-            dataIndex	: 'key',
-            sortable	: true,
-            editable	: false,
-            width		: 125,
-            fixed		: true
+    var columns = new Ext.grid.ColumnModel({
+        columns     : [expander, {
+            header      : _('digitalsignage.label_slide_type_key'),
+            dataIndex   : 'key',
+            sortable    : true,
+            editable    : false,
+            width       : 125,
+            fixed       : true,
+            renderer    : this.renderKey
         }, {
-            header		: _('digitalsignage.label_slide_type_name'),
-            dataIndex	: 'name_formatted',
-            sortable	: true,
-            editable	: false,
-            width		: 250
+            header      : _('digitalsignage.label_slide_type_name'),
+            dataIndex   : 'name_formatted',
+            sortable    : true,
+            editable    : false,
+            width       : 250
         }, {
-            header		: _('digitalsignage.label_slide_type_data'),
-            dataIndex	: 'data',
-            sortable	: true,
-            editable	: false,
-            width		: 125,
-            fixed		: true,
-			renderer	: this.renderData
+            header      : _('digitalsignage.label_slide_type_data'),
+            dataIndex   : 'data',
+            sortable    : true,
+            editable    : false,
+            width       : 125,
+            fixed       : true,
+            renderer    : this.renderData
         }, {
-            header		: _('last_modified'),
-            dataIndex	: 'editedon',
-            sortable	: true,
-            editable	: false,
-            fixed		: true,
-			width		: 200,
-			renderer	: this.renderDate
+            header      : _('last_modified'),
+            dataIndex   : 'editedon',
+            sortable    : true,
+            editable    : false,
+            fixed       : true,
+            width       : 200,
+            renderer    : this.renderDate
         }]
     });
 
     Ext.applyIf(config, {
-    	cm			: columns,
-        id			: 'digitalsignage-grid-slide-types',
-        url			: DigitalSignage.config.connector_url,
-        baseParams	: {
-        	action		: 'mgr/slides/types/getlist'
+        cm          : columns,
+        id          : 'digitalsignage-grid-slide-types',
+        url         : DigitalSignage.config.connector_url,
+        baseParams  : {
+            action      : 'mgr/slides/types/getlist'
         },
-        fields		: ['key', 'name', 'description', 'icon', 'time', 'data', 'editedon', 'name_formatted', 'description_formatted'],
-        paging		: true,
-        pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
-        sortBy		: 'key',
-        primaryKey	: 'key',
-        plugins		: expander
+        fields      : ['key', 'name', 'description', 'icon', 'time', 'data', 'editedon', 'name_formatted', 'description_formatted'],
+        paging      : true,
+        pageSize    : MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
+        sortBy      : 'key',
+        primaryKey  : 'key',
+        plugins     : expander
     });
 
     DigitalSignage.grid.SlideTypes.superclass.constructor.call(this, config);
@@ -203,14 +204,17 @@ Ext.extend(DigitalSignage.grid.SlideTypes, MODx.grid.Grid, {
 
         this.slideTypeDataWindow.show(e.target);
     },
-	renderData: function(d, c) {
-    	return Object.keys(d).length;
-	},
+    renderKey: function(d, c, e) {
+        return String.format('<i class="icon icon-slide-type icon-{0}"></i> {1}', e.json.icon, d);
+    },
+    renderData: function(d, c) {
+        return Object.keys(d).length;
+    },
     renderBoolean: function(d, c) {
-    	c.css = 1 == parseInt(d) || d ? 'green' : 'red';
+        c.css = 1 == parseInt(d) || d ? 'green' : 'red';
 
-    	return 1 == parseInt(d) || d ? _('yes') : _('no');
-	},
+        return 1 == parseInt(d) || d ? _('yes') : _('no');
+    },
     renderDate: function(a) {
         if (Ext.isEmpty(a)) {
             return '—';

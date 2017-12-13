@@ -44,7 +44,7 @@
                 'css_url' 				=> $assetsUrl.'css/',
                 'assets_url' 			=> $assetsUrl,
                 'connector_url'			=> $assetsUrl.'connector.php',
-                'version'				=> '1.1.1',
+                'version'				=> '1.1.2',
                 'branding_url'			=> $this->modx->getOption('digitalsignage.branding_url', null, ''),
                 'branding_help_url'		=> $this->modx->getOption('digitalsignage.branding_url_help', null, ''),
                 'has_permission'		=> $this->hasPermission(),
@@ -126,10 +126,15 @@
         public function initializeContext($scriptProperties = array()) {
             if ('OnHandleRequest' == $this->modx->event->name) {
                 if ('mgr' != $this->modx->context->key) {
-                    $key = $this->modx->getOption('digitalsignage.context', null, 'nc');
-                    $base = '/nc/';
+                    $key = $this->modx->getOption('digitalsignage.context', null, 'dc');
+                    $base = '/dc/';
 
-                    if (null !== ($object = $this->modx->getObject('modContextSetting', array('context_key' => $key, 'key' => 'base_url')))) {
+                    $c = array(
+                        'context_key' => $key,
+                        'key' => 'base_url'
+                    );
+
+                    if (null !== ($object = $this->modx->getObject('modContextSetting', $c))) {
                         $base = $object->value;
                     }
 
@@ -308,11 +313,12 @@
                     if (0 >= count($slides)) {
                         foreach ($broadcast->getSlides() as $key => $slide) {
                             $slides[] = array_merge(array(
-                                'time'  	=> $slide->time,
-                                'slide' 	=> $slide->type,
-                                'source'	=> 'intern',
-                                'title' 	=> $slide->name,
-                                'image' 	=> null
+                                'id'        => $slide->get('id'),
+                                'time'      => $slide->get('time'),
+                                'slide'     => $slide->get('type'),
+                                'source'    => 'intern',
+                                'title'     => $slide->get('name'),
+                                'image'     => null
                             ), unserialize($slide->data));
                         }
 

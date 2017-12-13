@@ -37,11 +37,7 @@ a img {
 }
 
 * {
-	cursor: none;
-}
-
-select {
-	cursor: pointer;
+    cursor: none;
 }
 
 select::-ms-expand {

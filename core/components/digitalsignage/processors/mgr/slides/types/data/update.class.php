@@ -44,10 +44,6 @@
          * @return Mixed.
          */
         public function process() {
-            $criteria = array(
-                'key' => $this->getProperty('key')
-            );
-
             if (null !== ($object = $this->modx->getObject($this->classKey, $this->getProperty('id')))) {
                 if (!preg_match('/^([a-zA-Z0-9\_\-]+)$/si', $this->getProperty('key'))) {
                     $this->addFieldError('key', $this->modx->lexicon('digitalsignage.error_slide_type_data_character'));
@@ -60,26 +56,24 @@
 
                     $object->fromArray(array(
                         'data' => serialize(array_merge($data, array(
-                            $this->getProperty('key') => array(
-                                'xtype'         => $this->getProperty('xtype'),
-                                'value'         => $this->getProperty('value'),
-                                'label'         => $this->getProperty('label'),
-                                'description'   => $this->getProperty('description')
-                            )
+                            $this->getProperty('key') => array_merge($data[$this->getProperty('key')], array(
+                                'xtype'          => $this->getProperty('xtype'),
+                                'default_value'  => $this->getProperty('default_value'),
+                                'label'          => $this->getProperty('label'),
+                                'description'    => $this->getProperty('description')
+                            ))
                         )))
                     ));
 
                     if (!$object->save()) {
-                        $this->addFieldError('key', $this->modx->lexicon('digitalsignage.error_slide_type_not_exists'));
+                        $this->addFieldError('key', $this->modx->lexicon('digitalsignage.error_slide_type_data'));
                     } else {
                         return $this->success('', $object);
                     }
                 }
-            } else {
-                $this->addFieldError('key', $this->modx->lexicon('digitalsignage.error_slide_type_not_exists'));
             }
 
-            return $this->failure();
+            return $this->failure($this->modx->lexicon('digitalsignage.error_slide_type_not_exists'));
         }
     }
 

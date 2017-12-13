@@ -2,88 +2,101 @@ DigitalSignage.grid.Slides = function(config) {
     config = config || {};
 
     config.tbar = [{
-        text		: _('digitalsignage.slide_create'),
-        cls			:'primary-button',
-        handler		: this.createSlide,
-        scope		: this
+        text        : _('digitalsignage.slide_create'),
+        cls         : 'primary-button',
+        handler     : this.createSlide,
+        scope       : this
     }, '->', {
-        xtype		: 'textfield',
-        name 		: 'digitalsignage-filter-search-slides',
-        id			: 'digitalsignage-filter-search-slides',
-        emptyText	: _('search')+'...',
-        listeners	: {
-            'change'	: {
-                fn			: this.filterSearch,
-                scope		: this
+        xtype       : 'digitalsignage-combo-broadcasts',
+        name        : 'digitalsignage-filter-broadcasts-slides',
+        id          : 'digitalsignage-filter-broadcasts-slides',
+        emptyText   : _('digitalsignage.filter_broadcast'),
+        listeners   : {
+            'select'    : {
+                fn          : this.filterBroadcast,
+                scope       : this
+            }
+        },
+        width       : 200
+    }, '-', {
+        xtype       : 'textfield',
+        name        : 'digitalsignage-filter-slides-search',
+        id          : 'digitalsignage-filter-slides-search',
+        emptyText   : _('search') + '...',
+        listeners   : {
+            'change'    : {
+                fn          : this.filterSearch,
+                scope       : this
             },
-            'render'	: {
-                fn			: function(cmp) {
+            'render'    : {
+                fn          : function(cmp) {
                     new Ext.KeyMap(cmp.getEl(), {
-                        key		: Ext.EventObject.ENTER,
-                        fn		: this.blur,
-                        scope	: cmp
+                        key     : Ext.EventObject.ENTER,
+                        fn      : this.blur,
+                        scope   : cmp
                     });
                 },
-                scope		: this
+                scope       : this
             }
         }
     }, {
-        xtype		: 'button',
-        cls			: 'x-form-filter-clear',
-        id			: 'digitalsignage-filter-clear-slides',
-        text		: _('filter_clear'),
-        listeners	: {
-            'click'		: {
-                fn			: this.clearFilter,
-                scope		: this
+        xtype       : 'button',
+        cls         : 'x-form-filter-clear',
+        id          : 'digitalsignage-filter-clear-slides',
+        text        : _('filter_clear'),
+        listeners   : {
+            'click'     : {
+                fn          : this.clearFilter,
+                scope       : this
             }
         }
     }];
 
-    columns = new Ext.grid.ColumnModel({
-        columns: [{
-            header		: _('digitalsignage.label_slide_name'),
-            dataIndex	: 'name',
-            sortable	: true,
-            editable	: false,
-            width		: 250
+    var columns = new Ext.grid.ColumnModel({
+        columns     : [{
+            header      : _('digitalsignage.label_slide_name'),
+            dataIndex   : 'name',
+            sortable    : true,
+            editable    : false,
+            width       : 250
         }, {
-            header		: _('digitalsignage.label_slide_type'),
-            dataIndex	: 'type_formatted',
-            sortable	: true,
-            editable	: false,
-            width		: 200,
-            fixed 		: true
+            header      : _('digitalsignage.label_slide_type'),
+            dataIndex   : 'type_formatted',
+            sortable    : true,
+            editable    : false,
+            width       : 200,
+            fixed       : true,
+            renderer    : this.renderType
         }, {
-            header		: _('digitalsignage.label_slide_published'),
-            dataIndex	: 'published',
-            sortable	: true,
-            editable	: true,
-            width		: 100,
-            fixed		: true,
-            renderer	: this.renderBoolean
+            header      : _('digitalsignage.label_slide_published'),
+            dataIndex   : 'published',
+            sortable    : true,
+            editable    : true,
+            width       : 100,
+            fixed       : true,
+            renderer    : this.renderBoolean
         }, {
-            header		: _('last_modified'),
-            dataIndex	: 'editedon',
-            sortable	: true,
-            editable	: false,
-            fixed		: true,
-            width		: 200,
-            renderer	: this.renderDate
+            header      : _('last_modified'),
+            dataIndex   : 'editedon',
+            sortable    : true,
+            editable    : false,
+            fixed       : true,
+            width       : 200,
+            renderer    : this.renderDate
         }]
     });
 
     Ext.applyIf(config, {
-        cm			: columns,
-        id			: 'digitalsignage-grid-slides',
-        url			: DigitalSignage.config.connector_url,
-        baseParams	: {
-            action		: 'mgr/slides/getlist'
+        cm          : columns,
+        id          : 'digitalsignage-grid-slides',
+        url         : DigitalSignage.config.connector_url,
+        baseParams  : {
+            action      : 'mgr/slides/getlist'
         },
-        fields		: ['id', 'type', 'name', 'time', 'data', 'published', 'editedon', 'type_formatted', 'broadcasts'],
-        paging		: true,
-        pageSize	: MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
-        sortBy		: 'id',
+        fields      : ['id', 'type', 'name', 'icon', 'time', 'data', 'published', 'editedon', 'type_formatted', 'broadcasts'],
+        paging      : true,
+        pageSize    : MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
+        sortBy      : 'id',
         refreshGrid : []
     });
 
@@ -91,15 +104,22 @@ DigitalSignage.grid.Slides = function(config) {
 };
 
 Ext.extend(DigitalSignage.grid.Slides, MODx.grid.Grid, {
+    filterBroadcast: function(tf, nv, ov) {
+        this.getStore().baseParams.broadcast_id = tf.getValue();
+
+        this.getBottomToolbar().changePage(1);
+    },
     filterSearch: function(tf, nv, ov) {
         this.getStore().baseParams.query = tf.getValue();
 
         this.getBottomToolbar().changePage(1);
     },
     clearFilter: function() {
+        this.getStore().baseParams.broadcast_id = '';
         this.getStore().baseParams.query = '';
 
-        Ext.getCmp('digitalsignage-filter-search-slides').reset();
+        Ext.getCmp('digitalsignage-filter-broadcasts-slides').reset();
+        Ext.getCmp('digitalsignage-filter-slides-search').reset();
 
         this.getBottomToolbar().changePage(1);
     },
@@ -220,6 +240,9 @@ Ext.extend(DigitalSignage.grid.Slides, MODx.grid.Grid, {
             }
         });
     },
+    renderType: function(d, c, e) {
+        return String.format('<i class="icon icon-slide-type icon-{0}"></i> {1}', e.json.icon, d);
+    },
     renderBoolean: function(d, c) {
         c.css = 1 == parseInt(d) || d ? 'green' : 'red';
 
@@ -240,7 +263,7 @@ DigitalSignage.window.CreateSlide = function(config) {
     config = config || {};
 
     Ext.applyIf(config, {
-        width		: 1000,
+        width		: 800,
         autoHeight	: true,
         title 		: _('digitalsignage.slide_create'),
         url			: DigitalSignage.config.connector_url,
@@ -255,7 +278,7 @@ DigitalSignage.window.CreateSlide = function(config) {
                 labelSeparator : ''
             },
             items		: [{
-                columnWidth	: .3,
+                columnWidth	: .4,
                 items   : [{
                     layout		: 'column',
                     border		: false,
@@ -336,14 +359,15 @@ DigitalSignage.window.CreateSlide = function(config) {
                 }, {
                     xtype       : 'digitalsignage-checkbox-broadcasts',
                     fieldLabel  : _('digitalsignage.label_slide_broadcasts'),
-                    description : MODx.expandHelp ? '' : _('digitalsignage.label_slide_broadcasts_desc')
+                    description : MODx.expandHelp ? '' : _('digitalsignage.label_slide_broadcasts_desc'),
+                    id          : 'digitalsignage-checkbox-broadcasts-create'
                 }, {
                     xtype		: MODx.expandHelp ? 'label' : 'hidden',
                     html		: _('digitalsignage.label_slide_broadcasts_desc'),
                     cls			: 'desc-under'
                 }]
             }, {
-                columnWidth	: .7,
+                columnWidth	: .6,
                 style		: 'margin-right: 0;',
                 items 		: [{
                     xtype		: 'container',
@@ -410,17 +434,21 @@ Ext.extend(DigitalSignage.window.CreateSlide, MODx.Window, {
                     }
 
                     switch (record.xtype) {
+                        case 'radio':
                         case 'checkbox':
                             record = Ext.apply(record, {
-                                hideLabel	: true,
-                                boxLabel	: label,
-                                inputValue  : record.value
+                                hideLabel   : true,
+                                boxLabel    : label,
+                                inputValue  : record.default_value
                             });
 
                             break;
-                        case 'textarea':
+                        case 'richtext':
                             record = Ext.apply(record, {
-                                listeners	: {
+                                xtype       : 'textarea',
+                                value       : record.default_value,
+                                cls         : 'richtext',
+                                listeners   : {
                                     'afterrender': {
                                         fn : function(data) {
                                             if (MODx.loadRTE) {
@@ -434,21 +462,76 @@ Ext.extend(DigitalSignage.window.CreateSlide, MODx.Window, {
                             });
 
                             break;
+                        case 'combo':
+                            var results = new Array(),
+                                values  = record.default_value.split('||');
+
+                            for (var i = 0; i < values.length; i++) {
+                                results.push(values[i].split('=='));
+                            }
+
+                            record = Ext.apply(record, {
+                                store       : new Ext.data.ArrayStore({
+                                    mode        : 'local',
+                                    fields      : ['label', 'value'],
+                                    data        : results
+                                }),
+                                hiddenName  : 'data_' + name,
+                                valueField  : 'value',
+                                displayField: 'label',
+                                mode        : 'local',
+                                triggerAction: 'all'
+                            });
+
+                            break;
+                        case 'radiogroup':
+                        case 'checkboxgroup':
+                            var results = new Array(),
+                                values  = record.default_value.split('||');
+
+                            for (var i = 0; i < values.length; i++) {
+                                var item  = values[i].split('==');
+
+                                results.push({
+                                    boxLabel    : item[0],
+                                    inputValue  : item[1],
+                                    name        : 'checkboxgroup' == record.xtype ? ('data_' + name + '[]') : ('data_' + name)
+                                });
+                            }
+
+                            record = Ext.apply(record, {
+                                columns : 1,
+                                items   : results
+                            });
+
+                            break;
+                        case 'modx-combo-browser':
+                            record = Ext.apply(record, {
+                                source  :  MODx.config['digitalsignage.media_source'] || MODX.config.default_media_source
+                            });
+
+                            break;
+                        default:
+                            record = Ext.apply(record, {
+                                value   : record.default_value
+                            });
+
+                            break;
                     }
 
                     container.add(Ext.applyIf(record, {
-                        xtype 		: 'textarea',
-                        fieldLabel	: label,
-                        description	: MODx.expandHelp ? '' : desc,
-                        name		: 'data_' + name,
-                        anchor		: '100%',
-                        allowBlank	: true
+                        xtype       : 'textarea',
+                        fieldLabel  : label,
+                        description : MODx.expandHelp ? '' : desc,
+                        name        : 'data_' + name,
+                        anchor      : '100%',
+                        allowBlank  : true
                     }));
 
                     container.add({
-                        xtype		: MODx.expandHelp ? 'label' : 'hidden',
-                        html		: desc,
-                        cls			: 'desc-under'
+                        xtype       : MODx.expandHelp ? 'label' : 'hidden',
+                        html        : desc,
+                        cls         : 'desc-under'
                     });
                 }, this);
 
@@ -464,7 +547,7 @@ DigitalSignage.window.UpdateSlide = function(config) {
     config = config || {};
 
     Ext.applyIf(config, {
-        width		: 1000,
+        width		: 800,
         autoHeight	: true,
         title 		: _('digitalsignage.slide_update'),
         url			: DigitalSignage.config.connector_url,
@@ -482,7 +565,7 @@ DigitalSignage.window.UpdateSlide = function(config) {
                 labelSeparator : ''
             },
             items		: [{
-                columnWidth	: .3,
+                columnWidth	: .4,
                 items   : [{
                     layout		: 'column',
                     border		: false,
@@ -563,6 +646,7 @@ DigitalSignage.window.UpdateSlide = function(config) {
                     xtype       : 'digitalsignage-checkbox-broadcasts',
                     fieldLabel  : _('digitalsignage.label_slide_broadcasts'),
                     description : MODx.expandHelp ? '' : _('digitalsignage.label_slide_broadcasts_desc'),
+                    id          : 'digitalsignage-checkbox-broadcasts-update',
                     value       : config.record.broadcasts
                 }, {
                     xtype		: MODx.expandHelp ? 'label' : 'hidden',
@@ -570,7 +654,7 @@ DigitalSignage.window.UpdateSlide = function(config) {
                     cls			: 'desc-under'
                 }]
             }, {
-                columnWidth	: .7,
+                columnWidth	: .6,
                 style		: 'margin-right: 0;',
                 items 		: [{
                     xtype		: 'container',
@@ -637,19 +721,22 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                     }
 
                     switch (record.xtype) {
+                        case 'radio':
                         case 'checkbox':
                             record = Ext.apply(record, {
                                 hideLabel	: true,
                                 boxLabel	: label,
-                                inputValue	: record.value,
-                                checked		: this.config.record.data[name] == record.value
+                                inputValue	: record.default_value,
+                                checked		: this.config.record.data[name] == record.default_value
                             });
 
                             break;
-                        case 'textarea':
+                        case 'richtext':
                             record = Ext.apply(record, {
-                                value 		: this.config.record.data[name],
-                                listeners	: {
+                                xtype       : 'textarea',
+                                value       : this.config.record.data[name],
+                                cls         : 'richtext',
+                                listeners   : {
                                     'afterrender': {
                                         fn : function(data) {
                                             if (MODx.loadRTE) {
@@ -663,28 +750,78 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                             });
 
                             break;
+                        case 'combo':
+                            var results = new Array(),
+                                values  = record.default_value.split('||');
+
+                            for (var i = 0; i < values.length; i++) {
+                                results.push(values[i].split('=='));
+                            }
+
+                            record = Ext.apply(record, {
+                                store       : new Ext.data.ArrayStore({
+                                    mode        : 'local',
+                                    fields      : ['label', 'value'],
+                                    data        : results
+                                }),
+                                hiddenName  : 'data_' + name,
+                                valueField  : 'value',
+                                displayField: 'label',
+                                mode        : 'local',
+                                triggerAction: 'all'
+                            });
+
+                            break;
+                        case 'radiogroup':
+                        case 'checkboxgroup':
+                            var results = new Array(),
+                                values  = record.default_value.split('||');
+
+                            for (var i = 0; i < values.length; i++) {
+                                var item  = values[i].split('==');
+
+                                results.push({
+                                    boxLabel    : item[0],
+                                    inputValue  : item[1],
+                                    name        : 'checkboxgroup' == record.xtype ? ('data_' + name + '[]') : ('date_' + name),
+                                    checked     : 'checkboxgroup' == record.xtype ? (-1 != this.config.record.data[name].indexOf(item[1])) : (this.config.record.data[name] == item[1])
+                                });
+                            }
+
+                            record = Ext.apply(record, {
+                                columns : 1,
+                                items   : results
+                            });
+
+                            break;
+                        case 'modx-combo-browser':
+                            record = Ext.apply(record, {
+                                source  :  MODx.config['digitalsignage.media_source'] || MODX.config.default_media_source
+                            });
+
+                            break;
                         default:
                             record = Ext.apply(record, {
-                                value 		: this.config.record.data[name]
+                                value   : this.config.record.data[name]
                             });
 
                             break;
                     }
 
                     container.add(Ext.applyIf(record, {
-                        xtype 		: 'textarea',
-                        fieldLabel	: label,
-                        description	: MODx.expandHelp ? '' : desc,
-                        name		: 'data_' + name,
-                        anchor		: '100%',
-                        allowBlank	: true,
-                        value 		: this.config.record.data[name]
+                        xtype       : 'textarea',
+                        fieldLabel  : label,
+                        description : MODx.expandHelp ? '' : desc,
+                        name        : 'data_' + name,
+                        anchor      : '100%',
+                        allowBlank  : true,
+                        value       : this.config.record.data[name]
                     }));
 
                     container.add({
-                        xtype		: MODx.expandHelp ? 'label' : 'hidden',
-                        html		:  desc,
-                        cls			: 'desc-under'
+                        xtype       : MODx.expandHelp ? 'label' : 'hidden',
+                        html        :  desc,
+                        cls         : 'desc-under'
                     });
 
                 }, this);
