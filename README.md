@@ -1,13 +1,8 @@
 # LET OP #
-Ik heb heel wat features + BUG fixes door gevoerd, maar heb nog geen tijd gehad om een goede install te maken. De bestanden in deze repo zijn is de meest recente Digital Signage versie maar hier is nog geen package install install val. Deze wil ik z.s.m maken zodra ik hier ooit een taakje voor krijg.
-
-
-
-
-
+Ik heb heel wat features + BUG fixes door gevoerd, maar heb nog geen tijd gehad om een goede install te maken. De bestanden in deze repo zijn is de meest recente Digital Signage versie maar hier is nog geen package install install van. Op https://demo.sterc.com draait momenteel deze nieuwste Digital Signage versie. Zodra ik een nieuw taakje heb zal ik een nieuwe package install maken.
 
 # README #
-Make sure this file is not deployed by DeployHQ.
+Zorg er voor dat dit bestand niet gedeployed wordt door DeployHQ.
 
 ### Project details ###
 
@@ -21,16 +16,23 @@ Make sure this file is not deployed by DeployHQ.
 | **JIRA Board**        | https://stercbv.atlassian.net/secure/RapidBoard.jspa?rapidView=33&view=detail&selectedIssue=XS-210&quickFilter=264 |
 | **Development branch**| development                                                        |
 
+### Subpackages ###
+
+Digital Signage heeft een aan subpackages zoals widgets en slides. Momenteel moet je deze nog zelf kopieren en instellen, de bedoeling is dat er voor deze subpackages ook losse installs komen.
+
+* Digital Signage Social Media (voorheen Facebook Widget)
+* Digital Signage Bitbucket (voorheen successrate/commitment leaderboard)
+
 ### TinymceWrapper ###
 
-To make TinymceWrapper work with Digital Signage change the following TinymceWrapper plugin properties:
+Om TinymceWrapper werkend te krijgen met Digital Signage moet je de volgende TinymceWrapper plugin properties wijzigen:
 
 ```
 customJS: true
 customJSchunks: DigitalSignage
 ```
 
-After that create a chunk with the name 'TinymceWrapperDigitalSignage' and the following code:
+Vervolgens maak je een nieuwe chunk aan met de naam 'TinymceWrapperDigitalSignage' en de volgende code:
 
 ```
 MODx.loadRTE = function(id, config) {
@@ -44,6 +46,6 @@ MODx.loadRTE = function(id, config) {
                 e.target.save();
             });
         }
-    }, config))
+    }, config));
 };
 ```
