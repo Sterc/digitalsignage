@@ -1,3 +1,11 @@
+# LET OP #
+Ik heb heel wat features + BUG fixes door gevoerd, maar heb nog geen tijd gehad om een goede install te maken. De bestanden in deze repo zijn is de meest recente Digital Signage versie maar hier is nog geen package install install val. Deze wil ik z.s.m maken zodra ik hier ooit een taakje voor krijg.
+
+
+
+
+
+
 # README #
 Make sure this file is not deployed by DeployHQ.
 
