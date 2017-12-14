@@ -447,7 +447,7 @@ Ext.extend(DigitalSignage.window.CreateSlide, MODx.Window, {
                             record = Ext.apply(record, {
                                 xtype       : 'textarea',
                                 value       : record.default_value,
-                                cls         : 'richtext',
+                                cls         : 'digitalsignage-richtext',
                                 listeners   : {
                                     'afterrender': {
                                         fn : function(data) {
@@ -735,7 +735,7 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                             record = Ext.apply(record, {
                                 xtype       : 'textarea',
                                 value       : this.config.record.data[name],
-                                cls         : 'richtext',
+                                cls         : 'digitalsignage-richtext',
                                 listeners   : {
                                     'afterrender': {
                                         fn : function(data) {
