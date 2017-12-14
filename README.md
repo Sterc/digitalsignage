@@ -52,16 +52,20 @@ Vervolgens maak je een nieuwe chunk aan met de naam 'TinymceWrapperDigitalSignag
 
 ```
 MODx.loadRTE = function(id, config) {
-    tinymce.init(Ext.applyIf({
-        selector: '#' + id,
-        [[$TinymceWrapperCommonCode]],
-        setup: function(editor) {
-            editor.on('init', function(e) {
-                e.target.save();
-            }).on('change', function(e) {
-                e.target.save();
-            });
+    if (element = Ext.get(id)) {
+        if (-1 != element.dom.className.search('digitalsignage-richtext')) {
+            tinymce.init(Ext.applyIf({
+                selector: '#' + id,
+                [[$TinymceWrapperCommonCode]],
+                setup: function(editor) {
+                    editor.on('init', function(e) {
+                        e.target.save();
+                    }).on('change', function(e) {
+                        e.target.save();
+                    });
+                }
+            }, config))
         }
-    }, config));
+    }
 };
 ```
