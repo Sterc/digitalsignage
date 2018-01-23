@@ -27,8 +27,8 @@ Na dat Digital Signage package geinstalleerd is zou ik de aangemaakte 'Digital S
 
 Digital Signage heeft een aan subpackages zoals widgets en slides. Momenteel moet je deze nog zelf kopieren en instellen, de bedoeling is dat er voor deze subpackages ook losse installs komen.
 
-* Digital Signage Social Media (voorheen Facebook Widget)
-* Digital Signage Bitbucket (voorheen successrate/commitment leaderboard)
+* Digital Signage Social Media (voorheen Facebook Widget, hier is een losse install van)
+* Digital Signage Bitbucket (voorheen successrate/commitment leaderboard, hier is nog geen losse install van)
 
 ### Digital Signage Social Media ###
 
