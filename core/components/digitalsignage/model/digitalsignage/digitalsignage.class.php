@@ -22,39 +22,39 @@
         public function __construct(modX &$modx, array $config = array()) {
             $this->modx =& $modx;
 
-            $corePath 		= $this->modx->getOption('digitalsignage.core_path', $config, $this->modx->getOption('core_path').'components/digitalsignage/');
-            $assetsUrl 		= $this->modx->getOption('digitalsignage.assets_url', $config, $this->modx->getOption('assets_url').'components/digitalsignage/');
-            $assetsPath 	= $this->modx->getOption('digitalsignage.assets_path', $config, $this->modx->getOption('assets_path').'components/digitalsignage/');
+            $corePath       = $this->modx->getOption('digitalsignage.core_path', $config, $this->modx->getOption('core_path').'components/digitalsignage/');
+            $assetsUrl      = $this->modx->getOption('digitalsignage.assets_url', $config, $this->modx->getOption('assets_url').'components/digitalsignage/');
+            $assetsPath     = $this->modx->getOption('digitalsignage.assets_path', $config, $this->modx->getOption('assets_path').'components/digitalsignage/');
 
             $this->config = array_merge(array(
-                'namespace'				=> $this->modx->getOption('namespace', $config, 'digitalsignage'),
-                'lexicons'				=> array('digitalsignage:default', 'digitalsignage:slides', 'site:digitalsignage'),
-                'base_path'				=> $corePath,
-                'core_path' 			=> $corePath,
-                'model_path' 			=> $corePath.'model/',
-                'processors_path' 		=> $corePath.'processors/',
-                'elements_path' 		=> $corePath.'elements/',
-                'chunks_path' 			=> $corePath.'elements/chunks/',
-                'cronjobs_path' 		=> $corePath.'elements/cronjobs/',
-                'plugins_path' 			=> $corePath.'elements/plugins/',
-                'snippets_path' 		=> $corePath.'elements/snippets/',
-                'templates_path' 		=> $corePath.'templates/',
-                'assets_path' 			=> $assetsPath,
-                'js_url' 				=> $assetsUrl.'js/',
-                'css_url' 				=> $assetsUrl.'css/',
-                'assets_url' 			=> $assetsUrl,
-                'connector_url'			=> $assetsUrl.'connector.php',
-                'version'				=> '1.1.2',
-                'branding_url'			=> $this->modx->getOption('digitalsignage.branding_url', null, ''),
-                'branding_help_url'		=> $this->modx->getOption('digitalsignage.branding_url_help', null, ''),
-                'has_permission'		=> $this->hasPermission(),
-                'request_id'			=> $this->modx->getOption('digitalsignage.request_resource'),
-                'request_url'			=> $this->modx->makeUrl($this->modx->getOption('digitalsignage.request_resource'), $this->modx->getOption('digitalsignage.context', null, 'nc'), null, 'full'),
-                'export_id'				=> $this->modx->getOption('digitalsignage.export_resource'),
-                'export_url'			=> $this->modx->makeUrl($this->modx->getOption('digitalsignage.export_resource'), $this->modx->getOption('digitalsignage.context', null, 'nc'), null, 'full'),
-                'request_param_player'	=> $this->modx->getOption('digitalsignage.request_param_player', null, 'pl'),
+                'namespace'             => $this->modx->getOption('namespace', $config, 'digitalsignage'),
+                'lexicons'              => array('digitalsignage:default', 'digitalsignage:slides', 'site:digitalsignage'),
+                'base_path'             => $corePath,
+                'core_path'             => $corePath,
+                'model_path'            => $corePath.'model/',
+                'processors_path'       => $corePath.'processors/',
+                'elements_path'         => $corePath.'elements/',
+                'chunks_path'           => $corePath.'elements/chunks/',
+                'cronjobs_path'         => $corePath.'elements/cronjobs/',
+                'plugins_path'          => $corePath.'elements/plugins/',
+                'snippets_path'         => $corePath.'elements/snippets/',
+                'templates_path'        => $corePath.'templates/',
+                'assets_path'           => $assetsPath,
+                'js_url'                => $assetsUrl.'js/',
+                'css_url'               => $assetsUrl.'css/',
+                'assets_url'            => $assetsUrl,
+                'connector_url'         => $assetsUrl.'connector.php',
+                'version'               => '1.1.3',
+                'branding_url'          => $this->modx->getOption('digitalsignage.branding_url', null, ''),
+                'branding_help_url'     => $this->modx->getOption('digitalsignage.branding_url_help', null, ''),
+                'has_permission'        => $this->hasPermission(),
+                'request_id'            => $this->modx->getOption('digitalsignage.request_resource'),
+                'request_url'           => $this->modx->makeUrl($this->modx->getOption('digitalsignage.request_resource'), $this->modx->getOption('digitalsignage.context', null, 'nc'), null, 'full'),
+                'export_id'             => $this->modx->getOption('digitalsignage.export_resource'),
+                'export_url'            => $this->modx->makeUrl($this->modx->getOption('digitalsignage.export_resource'), $this->modx->getOption('digitalsignage.context', null, 'nc'), null, 'full'),
+                'request_param_player'  => $this->modx->getOption('digitalsignage.request_param_player', null, 'pl'),
                 'request_param_broadcast' => $this->modx->getOption('digitalsignage.request_param_broadcast', null, 'bc'),
-                'templates'				=> explode(',', $this->modx->getOption('digitalsignage.templates'))
+                'templates'             => $this->getTemplates()
             ), $config);
 
             $this->modx->addPackage('digitalsignage', $this->config['model_path']);
@@ -95,6 +95,26 @@
          */
         public function hasPermission() {
             return $this->modx->hasPermission('digitalsignage_admin');
+        }
+
+        /**
+         * @access public.
+         * @return Array.
+         */
+        public function getTemplates() {
+            $templates = array_filter(explode(',', $this->modx->getOption('digitalsignage.templates')));
+
+            foreach ($templates as $key => $template) {
+               $c = array(
+                   'id' => $template
+               );
+
+               if (null === $this->modx->getObject('modTemplate', $c)) {
+                   unset($templates[$key]);
+               }
+            }
+
+            return $templates;
         }
 
         /**

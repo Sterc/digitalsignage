@@ -200,49 +200,49 @@ Ext.extend(DigitalSignage.grid.Broadcasts, MODx.grid.Grid, {
     },
     createBroadcast: function(btn, e) {
         if (this.createBroadcastWindow) {
-	        this.createBroadcastWindow.destroy();
+            this.createBroadcastWindow.destroy();
         }
-        
+
         this.createBroadcastWindow = MODx.load({
-	        xtype		: 'digitalsignage-window-broadcast-create',
-	        closeAction	: 'close',
-	        listeners	: {
-		        'success'	: {
-		        	fn			: function() {
+            xtype       : 'digitalsignage-window-broadcast-create',
+            closeAction : 'close',
+            listeners   : {
+                'success'   : {
+                    fn          : function() {
                         this.getSelectionModel().clearSelections(true);
 
                         this.refreshGrids();
                         this.refresh();
                     },
                     scope       : this
-		        }
-	         }
+                }
+            }
         });
         
         this.createBroadcastWindow.show(e.target);
     },
     updateBroadcast: function(btn, e) {
         if (this.updateBroadcastWindow) {
-	        this.updateBroadcastWindow.destroy();
+            this.updateBroadcastWindow.destroy();
         }
-        
+
         this.updateBroadcastWindow = MODx.load({
-	        xtype		: 'digitalsignage-window-broadcast-update',
-	        record		: this.menu.record,
-	        closeAction	: 'close',
-	        listeners	: {
-		        'success'	: {
-                    fn			: function() {
+            xtype       : 'digitalsignage-window-broadcast-update',
+            record      : this.menu.record,
+            closeAction : 'close',
+            listeners   : {
+                'success'   : {
+                    fn          : function() {
                         this.getSelectionModel().clearSelections(true);
 
                         this.refreshGrids();
                         this.refresh();
                     },
                     scope       : this
-		        }
-	        }
+                }
+            }
         });
-        
+
         this.updateBroadcastWindow.setValues(this.menu.record);
         this.updateBroadcastWindow.show(e.target);
     },
@@ -258,12 +258,12 @@ Ext.extend(DigitalSignage.grid.Broadcasts, MODx.grid.Grid, {
         }, this.menu.record);
 
         this.duplicateBroadcastWindow = MODx.load({
-            xtype		: 'digitalsignage-window-broadcast-duplicate',
-            record		: record,
-            closeAction	: 'close',
-            listeners	: {
-                'success'	: {
-                    fn			: function() {
+            xtype       : 'digitalsignage-window-broadcast-duplicate',
+            record      : record,
+            closeAction : 'close',
+            listeners   : {
+                'success'   : {
+                    fn          : function() {
                         this.getSelectionModel().clearSelections(true);
 
                         this.refreshGrids();
@@ -278,64 +278,64 @@ Ext.extend(DigitalSignage.grid.Broadcasts, MODx.grid.Grid, {
         this.duplicateBroadcastWindow.show(e.target);
     },
     removeBroadcast: function() {
-    	MODx.msg.confirm({
-        	title 		: _('digitalsignage.broadcast_remove'),
-        	text		: _('digitalsignage.broadcast_remove_confirm'),
-        	url			: DigitalSignage.config.connector_url,
-        	params		: {
-            	action		: 'mgr/broadcasts/remove',
-            	id			: this.menu.record.id
+        MODx.msg.confirm({
+            title       : _('digitalsignage.broadcast_remove'),
+            text        : _('digitalsignage.broadcast_remove_confirm'),
+            url         : DigitalSignage.config.connector_url,
+                params      : {
+                action      : 'mgr/broadcasts/remove',
+                id          : this.menu.record.id
             },
-            listeners	: {
-            	'success'	: {
-                    fn			: function() {
+            listeners   : {
+                'success'   : {
+                    fn          : function() {
                         this.getSelectionModel().clearSelections(true);
 
                         this.refreshGrids();
                         this.refresh();
                     },
                     scope       : this
-            	}
+                }
             }
-    	});
+        });
     },
     previewBroadcast: function(btn, e) {
         if (this.previewBroadcastWindow) {
-	        this.previewBroadcastWindow.destroy();
+            this.previewBroadcastWindow.destroy();
         }
-        
-        this.previewBroadcastWindow = MODx.load({
-	        xtype		: 'digitalsignage-window-broadcast-preview',
-	        record		: this.menu.record,
-	        closeAction	: 'close',
-	        saveBtnText	: _('digitalsignage.show_broadcast_preview'),
-	        listeners	: {
-            	'success'	: {
-            		fn			: function(data) {
-                        this.getSelectionModel().clearSelections(true);
 
-	            		this.showPreviewBroadcast(data.a.result.object);
-					},
-		        	scope		: this
-            	}
+        this.previewBroadcastWindow = MODx.load({
+            xtype       : 'digitalsignage-window-broadcast-preview',
+            record      : this.menu.record,
+            closeAction : 'close',
+            saveBtnText : _('digitalsignage.show_broadcast_preview'),
+            listeners   : {
+                'success'   : {
+                    fn          : function(data) {
+                    this.getSelectionModel().clearSelections(true);
+
+                    this.showPreviewBroadcast(data.a.result.object);
+                    },
+                    scope       : this
+                }
             }
         });
-        
+
         this.previewBroadcastWindow.setValues(this.menu.record);
         this.previewBroadcastWindow.show(e.target);
     },
     showPreviewBroadcast: function(record) {
-	     if (this.showPreviewBroadcastWindow) {
-	        this.showPreviewBroadcastWindow.destroy();
+        if (this.showPreviewBroadcastWindow) {
+            this.showPreviewBroadcastWindow.destroy();
         }
-        
+
         this.showPreviewBroadcastWindow = MODx.load({
-	        modal 		: true,
-	        xtype		: 'digitalsignage-window-broadcast-preview-show',
-	        record		: record,
-	        closeAction	: 'close'
+            modal       : true,
+            xtype       : 'digitalsignage-window-broadcast-preview-show',
+            record      : record,
+            closeAction : 'close'
         });
-        
+
         this.showPreviewBroadcastWindow.show();
     },
     syncBroadcast: function(btn, e) {
@@ -388,75 +388,75 @@ Ext.extend(DigitalSignage.grid.Broadcasts, MODx.grid.Grid, {
     },
     viewSlides: function(btn, e) {
         if (this.viewSlidesWindow) {
-	        this.viewSlidesWindow.destroy();
+            this.viewSlidesWindow.destroy();
         }
-        
+
         this.viewSlidesWindow = MODx.load({
-	        modal 		: true,
-	        xtype		: 'digitalsignage-window-broadcast-slides',
-	        record		: this.menu.record,
-	        closeAction	: 'close',
-            listeners	: {
-            	'close'		: {
-                    fn			: function() {
+            modal       : true,
+            xtype       : 'digitalsignage-window-broadcast-slides',
+            record      : this.menu.record,
+            closeAction : 'close',
+            listeners   : {
+                'close'     : {
+                    fn          : function() {
                         this.getSelectionModel().clearSelections(true);
 
                         this.refreshGrids();
                         this.refresh();
                     },
                     scope       : this
-            	}
+                }
             }
         });
-        
+
         this.viewSlidesWindow.setValues(this.menu.record);
         this.viewSlidesWindow.show(e.target);
     },
     viewFeeds: function(btn, e) {
         if (this.viewFeedsWindow) {
-	        this.viewFeedsWindow.destroy();
+            this.viewFeedsWindow.destroy();
         }
-        
+
         this.viewFeedsWindow = MODx.load({
-	        modal 		: true,
-	        xtype		: 'digitalsignage-window-broadcast-feeds',
-	        record		: this.menu.record,
-	        closeAction	: 'close',
-            listeners	: {
-            	'close'		: {
-                    fn			: function() {
+            modal       : true,
+            xtype       : 'digitalsignage-window-broadcast-feeds',
+            record      : this.menu.record,
+            closeAction : 'close',
+            listeners   : {
+                'close'     : {
+                    fn          : function() {
                         this.refreshGrids();
                         this.refresh();
                     },
                     scope       : this
-            	}
+                }
             }
         });
-        
+
         this.viewFeedsWindow.setValues(this.menu.record);
         this.viewFeedsWindow.show(e.target);
     },
     renderPlayers: function(d, c, e) {
-	    var players = new Array();
-	    
-	    for (var i = 0; i < e.data.players.length; i++) {
-		    var player = e.data.players[i];
-		    
-		    players.push(String.format('<i class="icon icon-circle icon-broadcast-state {0}"></i>{1}', 1 == parseInt(player.online) || player.online ? 'green' : 'red', player.name));
-	    }
+        var players = new Array();
 
-    	return players.join(', ');
+        for (var i = 0; i < e.data.players.length; i++) {
+            var player = e.data.players[i];
+
+            players.push(String.format('<i class="icon icon-circle icon-broadcast-state {0}"></i>{1}', 1 == parseInt(player.online) || player.online ? 'green' : 'red', player.name));
+        }
+
+        return players.join(', ');
     },
     renderSync: function(a) {
-	    if (!a.valid) {
-		    if (Ext.isEmpty(a.timestamp)) {
-				return _('digitalsignage.sync_never');
-			}
-			
-			return String.format('<i class="icon icon-exclamation-triangle icon-broadcast-sync red"></i>{0}', a.timestamp);
-		}
-		
-		return a.timestamp;  
+        if (!a.valid) {
+            if (Ext.isEmpty(a.timestamp)) {
+                return _('digitalsignage.sync_never');
+            }
+
+            return String.format('<i class="icon icon-exclamation-triangle icon-broadcast-sync red"></i>{0}', a.timestamp);
+        }
+
+        return a.timestamp;
     },
     renderDate: function(a) {
         if (Ext.isEmpty(a)) {
@@ -471,35 +471,37 @@ Ext.reg('digitalsignage-grid-broadcasts', DigitalSignage.grid.Broadcasts);
 
 DigitalSignage.window.CreateBroadcast = function(config) {
     config = config || {};
-    
+
+    console.log(DigitalSignage.config.templates.length);
+
     Ext.applyIf(config, {
-    	autoHeight	: true,
-        title 		: _('digitalsignage.broadcast_create'),
-        url			: DigitalSignage.config.connector_url,
-        baseParams	: {
-            action		: 'mgr/broadcasts/create'
+    	autoHeight  : true,
+        title       : _('digitalsignage.broadcast_create'),
+        url         : DigitalSignage.config.connector_url,
+        baseParams  : {
+            action      : 'mgr/broadcasts/create'
         },
-        fields		: [{
-        	xtype		: 'textfield',
-        	fieldLabel	: _('digitalsignage.label_broadcast_name'),
-        	description	: MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_name_desc'),
-        	name		: 'name',
-        	anchor		: '100%',
-        	allowBlank	: false
+        fields      : [{
+            xtype       : 'textfield',
+            fieldLabel  : _('digitalsignage.label_broadcast_name'),
+            description : MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_name_desc'),
+            name        : 'name',
+            anchor      : '100%',
+            allowBlank  : false
         }, {
-        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
-            html		: _('digitalsignage.label_broadcast_name_desc'),
-            cls			: 'desc-under'
+            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+            html        : _('digitalsignage.label_broadcast_name_desc'),
+            cls         : 'desc-under'
         }, {
-        	xtype		: 'textarea',
-        	fieldLabel	: _('digitalsignage.label_broadcast_description'),
-        	description	: MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_description_desc'),
-        	name		: 'description',
-        	anchor		: '100%'
+            xtype       : 'textarea',
+            fieldLabel  : _('digitalsignage.label_broadcast_description'),
+            description : MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_description_desc'),
+            name        : 'description',
+            anchor      : '100%'
         }, {
-        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
-            html		: _('digitalsignage.label_broadcast_description_desc'),
-            cls			: 'desc-under'
+            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+            html        : _('digitalsignage.label_broadcast_description_desc'),
+            cls         : 'desc-under'
         }, {
             xtype       : 1 == DigitalSignage.config.templates.length ? 'hidden' : 'digitalsignage-combo-templates',
             fieldLabel  : _('digitalsignage.label_broadcast_template'),
@@ -513,15 +515,15 @@ DigitalSignage.window.CreateBroadcast = function(config) {
             html        : _('digitalsignage.label_broadcast_template_desc'),
             cls         : 'desc-under'
         }, {
-        	xtype		: 'textfield',
-        	fieldLabel	: _('digitalsignage.label_broadcast_ticker_url'),
-        	description	: MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_ticker_url_desc'),
-        	name		: 'ticker_url',
-        	anchor		: '100%'
+            xtype       : 'textfield',
+            fieldLabel  : _('digitalsignage.label_broadcast_ticker_url'),
+            description : MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_ticker_url_desc'),
+            name        : 'ticker_url',
+            anchor      : '100%'
         }, {
-        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
-            html		: _('digitalsignage.label_broadcast_ticker_url_desc'),
-            cls			: 'desc-under'
+            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+            html        : _('digitalsignage.label_broadcast_ticker_url_desc'),
+            cls         : 'desc-under'
         }]
     });
     
@@ -536,39 +538,39 @@ DigitalSignage.window.UpdateBroadcast = function(config) {
     config = config || {};
     
     Ext.applyIf(config, {
-    	autoHeight	: true,
-        title 		: _('digitalsignage.broadcast_update'),
-        url			: DigitalSignage.config.connector_url,
-        baseParams	: {
-            action		: 'mgr/broadcasts/update'
+    	autoHeight  : true,
+        title       : _('digitalsignage.broadcast_update'),
+        url         : DigitalSignage.config.connector_url,
+        baseParams  : {
+            action      : 'mgr/broadcasts/update'
         },
-        fields		: [{
-            xtype		: 'hidden',
-            name		: 'id'
+        fields      : [{
+            xtype       : 'hidden',
+            name        : 'id'
         }, {
-            xtype		: 'hidden',
-            name		: 'resource_id'
+            xtype       : 'hidden',
+            name        : 'resource_id'
         }, {
-        	xtype		: 'textfield',
-        	fieldLabel	: _('digitalsignage.label_broadcast_name'),
-        	description	: MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_name_desc'),
-        	name		: 'name',
-        	anchor		: '100%',
-        	allowBlank	: false
+            xtype       : 'textfield',
+            fieldLabel  : _('digitalsignage.label_broadcast_name'),
+            description : MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_name_desc'),
+            name        : 'name',
+            anchor      : '100%',
+            allowBlank  : false
         }, {
-        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
-            html		: _('digitalsignage.label_broadcast_name_desc'),
-            cls			: 'desc-under'
+            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+            html        : _('digitalsignage.label_broadcast_name_desc'),
+            cls         : 'desc-under'
         }, {
-        	xtype		: 'textarea',
-        	fieldLabel	: _('digitalsignage.label_broadcast_description'),
-        	description	: MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_description_desc'),
-        	name		: 'description',
-        	anchor		: '100%'
+            xtype       : 'textarea',
+            fieldLabel  : _('digitalsignage.label_broadcast_description'),
+            description : MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_description_desc'),
+            name        : 'description',
+            anchor      : '100%'
         }, {
-        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
-            html		: _('digitalsignage.label_broadcast_description_desc'),
-            cls			: 'desc-under'
+            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+            html        : _('digitalsignage.label_broadcast_description_desc'),
+            cls         : 'desc-under'
         }, {
             xtype       : 1 == DigitalSignage.config.templates.length ? 'hidden' : 'digitalsignage-combo-templates',
             fieldLabel  : _('digitalsignage.label_broadcast_template'),
@@ -581,15 +583,15 @@ DigitalSignage.window.UpdateBroadcast = function(config) {
             html        : _('digitalsignage.label_broadcast_template_desc'),
             cls         : 'desc-under'
         }, {
-        	xtype		: 'textfield',
-        	fieldLabel	: _('digitalsignage.label_broadcast_ticker_url'),
-        	description	: MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_ticker_url_desc'),
-        	name		: 'ticker_url',
-        	anchor		: '100%'
+            xtype       : 'textfield',
+            fieldLabel  : _('digitalsignage.label_broadcast_ticker_url'),
+            description : MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_ticker_url_desc'),
+            name        : 'ticker_url',
+            anchor      : '100%'
         }, {
-        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
-            html		: _('digitalsignage.label_broadcast_ticker_url_desc'),
-            cls			: 'desc-under'
+            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+            html        : _('digitalsignage.label_broadcast_ticker_url_desc'),
+            cls         : 'desc-under'
         }]
     });
     
@@ -604,26 +606,26 @@ DigitalSignage.window.DuplicateBroadcast = function(config) {
     config = config || {};
 
     Ext.applyIf(config, {
-        autoHeight	: true,
-        title 		: _('digitalsignage.broadcast_duplicate'),
-        url			: DigitalSignage.config.connector_url,
-        baseParams	: {
-            action		: 'mgr/broadcasts/duplicate'
+        autoHeight  : true,
+        title       : _('digitalsignage.broadcast_duplicate'),
+        url         : DigitalSignage.config.connector_url,
+        baseParams  : {
+            action      : 'mgr/broadcasts/duplicate'
         },
-        fields		: [{
-            xtype		: 'hidden',
-            name		: 'id'
+        fields      : [{
+            xtype       : 'hidden',
+            name        : 'id'
         },{
-            xtype		: 'textfield',
-            fieldLabel	: _('digitalsignage.label_broadcast_name'),
-            description	: MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_name_desc'),
-            name		: 'name',
-            anchor		: '100%',
-            allowBlank	: false
+            xtype       : 'textfield',
+            fieldLabel  : _('digitalsignage.label_broadcast_name'),
+            description : MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_name_desc'),
+            name        : 'name',
+            anchor      : '100%',
+            allowBlank  : false
         }, {
-            xtype		: MODx.expandHelp ? 'label' : 'hidden',
-            html		: _('digitalsignage.label_broadcast_name_desc'),
-            cls			: 'desc-under'
+            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+            html        : _('digitalsignage.label_broadcast_name_desc'),
+            cls         : 'desc-under'
         }]
     });
 
@@ -638,26 +640,26 @@ DigitalSignage.window.PreviewBroadcast = function(config) {
     config = config || {};
     
     Ext.applyIf(config, {
-    	autoHeight	: true,
-        title 		: _('digitalsignage.broadcast_preview'),
-        url			: DigitalSignage.config.connector_url,
-        baseParams	: {
-            action		: 'mgr/broadcasts/preview'
+        autoHeight  : true,
+        title       : _('digitalsignage.broadcast_preview'),
+        url         : DigitalSignage.config.connector_url,
+        baseParams  : {
+            action      : 'mgr/broadcasts/preview'
         },
-        fields		: [{
-            xtype		: 'hidden',
-            name		: 'id'
+        fields      : [{
+            xtype       : 'hidden',
+            name        : 'id'
         }, {
-            xtype		: 'digitalsignage-combo-players',
-            fieldLabel	: _('digitalsignage.label_broadcast_preview_player'),
-            description	: MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_preview_player_desc'),
-            name		: 'player',
-            anchor		: '100%',
-            allowBlank	: false
+            xtype       : 'digitalsignage-combo-players',
+            fieldLabel  : _('digitalsignage.label_broadcast_preview_player'),
+            description : MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_preview_player_desc'),
+            name        : 'player',
+            anchor      : '100%',
+            allowBlank  : false
         }, {
-        	xtype		: MODx.expandHelp ? 'label' : 'hidden',
-            html		: _('digitalsignage.label_broadcast_preview_player_desc'),
-            cls			: 'desc-under'
+            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+            html        : _('digitalsignage.label_broadcast_preview_player_desc'),
+            cls         : 'desc-under'
         }]
     });
     
@@ -719,19 +721,19 @@ DigitalSignage.window.ShowPreviewBroadcast = function(config) {
 };
 
 Ext.extend(DigitalSignage.window.ShowPreviewBroadcast, MODx.Window, {
-	setResolutionSize: function() {
-		var width 		= this.config.record.width,
-			height 		= this.config.record.height,
-			maxWidth	= parseInt(this.getEl().select('.x-window-body').first().getWidth()),
-			maxHeight 	= parseInt(this.getEl().select('.x-window-body').first().getHeight());
+    setResolutionSize: function() {
+        var width       = this.config.record.width,
+            height      = this.config.record.height,
+            maxWidth    = parseInt(this.getEl().select('.x-window-body').first().getWidth()),
+            maxHeight   = parseInt(this.getEl().select('.x-window-body').first().getHeight());
 
-		var ratio 		= maxHeight / (height / 100),
-			newWidth 	= (width / 100) * ratio,
-			newHeight 	= maxHeight;
-		
-		this.getEl().select('iframe').setWidth(newWidth);
-		this.getEl().select('iframe').setHeight(newHeight);
-	}
+        var ratio       = maxHeight / (height / 100),
+            newWidth    = (width / 100) * ratio,
+            newHeight   = maxHeight;
+
+        this.getEl().select('iframe').setWidth(newWidth);
+        this.getEl().select('iframe').setHeight(newHeight);
+    }
 });
 
 Ext.reg('digitalsignage-window-broadcast-preview-show', DigitalSignage.window.ShowPreviewBroadcast);

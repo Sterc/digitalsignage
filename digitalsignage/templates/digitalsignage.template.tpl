@@ -123,9 +123,6 @@
         <!-- Begin Buienradar Slide -->
         <div data-template="buienradar">
             <div class="slide slide-buienradar">
-                <video class="background-video" autoplay>
-                    <source src="/digitalsignage/assets/interface/images/buienradar/buienradar.mp4" type="video/mp4">
-                </video>
                 <div class="slide-inner">
                     <div class="image">
                         <img src="" data-placeholder="radar" data-placeholder-wrapper="image" />

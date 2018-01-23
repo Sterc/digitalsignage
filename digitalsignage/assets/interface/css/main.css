@@ -571,6 +571,7 @@ p, ul {
 
 .slide-buienradar {
     left: 20vw;
+    background: #85a8d6 url('../images/buienradar/background.png') no-repeat right center;
 }
 
 .slide-fullscreen .slide-buienradar {

@@ -1,0 +1,85 @@
+{
+    "name": "Digital Signage",
+    "namespace": "digitalsignage",
+    "signature": "digitalsignage",
+    "description": "",
+    "version": "1.1.3-pl",
+    "menu": [{
+        "text": "digitalsignage",
+        "description": "digitalsignage.desc",
+        "action": "home",
+        "icon": "",
+        "permissions": "digitalsignage",
+        "parent": "topnav"
+    }],
+    "elements": {
+        "plugins": [{
+            "name": "DigitalSignage",
+            "description": "DigitalSignage 1.1.3-pl plugin for MODx Revolution",
+            "resolver": "elements/plugins/digitalsignage.plugin.php",
+            "events": ["OnHandleRequest", "OnLoadWebDocument", "OnWebPagePrerender"]
+        }],
+        "snippets": [{
+            "name": "DigitalSignage",
+            "description": "DigitalSignage 1.1.3-pl snippet for MODx Revolution",
+            "resolver": "elements/snippets/digitalsignage.snippet.php"
+        }, {
+            "name": "DigitalSignageFeedExport",
+            "description": "DigitalSignage 1.1.3-pl snippet for MODx Revolution",
+            "resolver": "elements/snippets/digitalsignagefeedexport.snippet.php"
+        }],
+        "templates": [{
+            "name": "Digital Signage (1.1.3-pl original)",
+            "description": "DigitalSignage 1.1.3-pl template for MODx Revolution",
+            "resolver": "elements/templates/digitalsignage.template.tpl"
+        }]
+    },
+    "settings": [{
+        "key": "auto_create_sync",
+        "value": "1",
+        "xtype": "combo-boolean"
+    }, {
+        "key": "branding_url",
+        "value": "http://www.sterc.com"
+    }, {
+        "key": "branding_url_help",
+        "value": ""
+    }, {
+        "key": "context",
+        "value": "ds"
+    }, {
+        "key": "export_resource",
+        "value": ""
+    }, {
+        "key": "media_source",
+        "value": "1",
+        "xtype": "modx-combo-source"
+    }, {
+        "key": "request_param_broadcast",
+        "value": "bc"
+    }, {
+        "key": "request_param_player",
+        "value": "pl"
+    }, {
+        "key": "request_resource",
+        "value": ""
+    }, {
+        "key": "templates",
+        "value": ""
+    }],
+    "build": {
+        "directories": ["digitalsignage"],
+        "resolvers": [
+            "resolvers/resolve.tables.php",
+            "resolvers/stercextra.resolver.php",
+            "resolvers/setupoptions.resolver.php",
+            "resolvers/digitalsignage.resolver.php"
+        ],
+        "attributes": {
+            "license": "docs/license.txt",
+            "readme": "docs/readme.txt",
+            "changelog": "docs/changelog.txt"
+        },
+        "setup-options": "setup.options.php"
+    }
+}

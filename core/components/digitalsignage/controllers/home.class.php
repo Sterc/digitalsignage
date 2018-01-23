@@ -1,46 +1,47 @@
 <?php
 
-	class DigitalSignageHomeManagerController extends DigitalSignageManagerController {
-	
-	    /**
-	     * @access public.
-	     */
-	    public function loadCustomCssJs() {
-	        $this->addCss($this->digitalsignage->config['css_url'].'mgr/digitalsignage.css');
-	        $this->addCss($this->digitalsignage->config['assets_url'].'libs/extensible/css/extensible-all.css');
-	        $this->addCss($this->digitalsignage->config['assets_url'].'libs/extensible/css/extensible-default.css');
-	
-	        $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/home.panel.js');
-	        $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/broadcasts.grid.js');
-	        $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/broadcasts.feeds.grid.js');
-	        $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/slides.grid.js');
-	        $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/players.grid.js');
-	        $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/players.schedules.grid.js');
-	        $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/slides.tree.js');
-	        
-	        $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/slides.types.grid.js');
-	
-	        $this->addJavascript($this->digitalsignage->config['assets_url'].'libs/extensible/js/extensible-all.js');
-	
-	        $this->addLastJavascript($this->digitalsignage->config['js_url'].'mgr/sections/home.js');
-	    }
-	
-	    /**
-	     * @acces public.
-	     * @return String.
-	     */
-	    public function getPageTitle() {
-	        return $this->modx->lexicon('digitalsignage');
-	    }
-	
-	    /**
-	    * @acces public.
-	    * @return String.
-	    */
-	    public function getTemplateFile() {
-	        return $this->digitalsignage->config['templates_path'].'home.tpl';
-	    }
-	    
+    require_once dirname(dirname(__FILE__)).'/index.class.php';
+
+    class DigitalSignageHomeManagerController extends DigitalSignageManagerController {
+        /**
+         * @access public.
+         */
+        public function loadCustomCssJs() {
+            $this->addCss($this->digitalsignage->config['css_url'].'mgr/digitalsignage.css');
+            $this->addCss($this->digitalsignage->config['assets_url'].'libs/extensible/css/extensible-all.css');
+            $this->addCss($this->digitalsignage->config['assets_url'].'libs/extensible/css/extensible-default.css');
+
+            $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/home.panel.js');
+            $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/broadcasts.grid.js');
+            $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/broadcasts.feeds.grid.js');
+            $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/slides.grid.js');
+            $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/players.grid.js');
+            $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/players.schedules.grid.js');
+            $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/slides.tree.js');
+
+            $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/widgets/slides.types.grid.js');
+
+            $this->addJavascript($this->digitalsignage->config['assets_url'].'libs/extensible/js/extensible-all.js');
+
+            $this->addLastJavascript($this->digitalsignage->config['js_url'].'mgr/sections/home.js');
+        }
+
+        /**
+         * @acces public.
+         * @return String.
+         */
+        public function getPageTitle() {
+            return $this->modx->lexicon('digitalsignage');
+        }
+
+        /**
+         * @acces public.
+         * @return String.
+         */
+        public function getTemplateFile() {
+            return $this->digitalsignage->config['templates_path'].'home.tpl';
+        }
+
         /**
          * @access public.
          * @param Array $scriptProperties.
@@ -54,7 +55,7 @@
                         $this->addJavascript($tinymcerte->getOption('jsUrl') . 'vendor/tinymce/tinymce.min.js');
                         $this->addJavascript($tinymcerte->getOption('jsUrl') . 'vendor/autocomplete.js');
                         $this->addJavascript($tinymcerte->getOption('jsUrl') . 'mgr/tinymcerte.js');
-                        }
+                    }
                 }
 
                 $properties = array(

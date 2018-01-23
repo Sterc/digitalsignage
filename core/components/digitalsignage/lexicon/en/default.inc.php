@@ -216,6 +216,7 @@
     $_lang['digitalsignage.schedule_time_format_set']                = '(from [[+start_time]] till [[+end_time]])';
     $_lang['digitalsignage.schedule_date_format_set']                = '[[+start_date]] till [[+end_date]]';
     $_lang['digitalsignage.schedule_date_format_set_long']           = '[[+start_date]] (van [[+start_time]]) tot [[+end_date]] (tot [[+end_time]])';
+    $_lang['digitalsignage.error_broadcast_templates']               = '<strong>Important:</strong> There are no templates available for the digital signage. This will casuse problems.';
     $_lang['digitalsignage.error_broadcast_sync']                    = 'An error has occurred during synchronizing the broadcast.';
     $_lang['digitalsignage.error_broadcast_player_exists']           = 'This player is already connected to this broadcast. Specify another player.';
     $_lang['digitalsignage.error_broadcast_schedule_exists']         = 'There is already a schedule for this day: [[+schedule]]. Specify another schedule.';

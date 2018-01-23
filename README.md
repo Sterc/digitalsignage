@@ -1,17 +1,4 @@
 # LET OP #
-Ik heb heel wat features + BUG fixes door gevoerd, maar heb nog geen tijd gehad om een goede install te maken. De bestanden in deze repo zijn van de meest recente Digital Signage versie maar hier is nog geen package install install van. In de 'oud' map zitten de oudere versies van de Digital Signage package. Op https://demo.sterc.com draait momenteel deze nieuwste Digital Signage versie. Zodra ik een nieuw taakje heb zal ik een nieuwe package install maken.
-
-De volgende issues zijn gefixt:
-
-* [XS-195](https://stercbv.atlassian.net/browse/XS-195)
-* [XS-196](https://stercbv.atlassian.net/browse/XS-196)
-* [XS-197](https://stercbv.atlassian.net/browse/XS-197)
-* [XS-199](https://stercbv.atlassian.net/browse/XS-199)
-* [XS-200](https://stercbv.atlassian.net/browse/XS-200)
-* [XS-201](https://stercbv.atlassian.net/browse/XS-201)
-* [XS-207](https://stercbv.atlassian.net/browse/XS-207)
-* [XS-210](https://stercbv.atlassian.net/browse/XS-210)
-
 De volgende issues zijn gefixt maar worden nog getest/door ontwikkeld:
 
 * [XS-165](https://stercbv.atlassian.net/browse/XS-165)
