@@ -79,7 +79,7 @@ $resources = [
         'setting'       => 'export_resource'
     ],
     [
-        'pagetitle'     => 'Feed export',
+        'pagetitle'     => 'Export (feed)',
         'content'       => '[[!DigitalSignageFeedExport]]',
         'content_type'  => 7,
         'uri'           => 'feed-export.json',

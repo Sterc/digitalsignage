@@ -1,0 +1,37 @@
+{
+    "name": "Digital Signage Social Media",
+    "namespace": "digitalsignagesocialmedia",
+    "signature": "digitalsignagesocialmedia",
+    "description": "",
+    "version": "1.0.0-pl",
+    "elements": {
+        "snippets": [{
+            "name": "DigitalSignageSocialMedia",
+            "description": "DigitalSignageSocialMedia 1.0.0-pl snippet for MODx Revolution",
+            "resolver": "elements/snippets/digitalsignagesocialmedia.snippet.php"
+        }]
+    },
+    "settings": [{
+        "key": "facebook_app_id",
+        "value": ""
+    }, {
+        "key": "facebook_app_secret",
+        "value": ""
+    }, {
+        "key": "facebook_page",
+        "value": ""
+    }],
+    "build": {
+        "resolvers": [
+            "resolvers/stercextra.resolver.php",
+            "resolvers/setupoptions.resolver.php",
+            "resolvers/digitalsignagesocialmedia.resolver.php"
+        ],
+        "attributes": {
+            "license": "docs/license.txt",
+            "readme": "docs/readme.txt",
+            "changelog": "docs/changelog.txt"
+        },
+        "setup-options": "setup.options.php"
+    }
+}
