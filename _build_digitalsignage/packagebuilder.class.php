@@ -81,7 +81,7 @@
                 $this->path['core'] = dirname(dirname(dirname(__FILE__))).'/core/';
             }
 
-            if (null !== $public) {
+            if (null !== $assets) {
                 $this->path['assets'] = rtrim($assets, '/').'/';
             } else {
                 $this->path['assets'] = dirname(dirname(__FILE__)).'/assets/';

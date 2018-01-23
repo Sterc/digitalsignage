@@ -229,6 +229,7 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
                 'deleted'       => 0,
                 'hidemenu'      => 0,
                 'richtext'      => 0,
+                'cacheable'     => 0,
                 'template'      => '',
                 'menuindex'     => $key
             ], $resource);

@@ -70,7 +70,7 @@
     "build": {
         "directories": ["digitalsignage"],
         "resolvers": [
-            "resolvers/resolve.tables.php",
+            "resolvers/tables.resolver.php",
             "resolvers/stercextra.resolver.php",
             "resolvers/setupoptions.resolver.php",
             "resolvers/digitalsignage.resolver.php"
