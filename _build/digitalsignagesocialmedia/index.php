@@ -21,7 +21,7 @@
 
     require_once dirname(__FILE__).'/packagebuilder.class.php';
 
-    $package = new PackageBuilder(null, dirname(dirname(__FILE__)).'/core/', dirname(dirname(__FILE__)).'/assets/');
+    $package = new PackageBuilder();
 
     $package->createPackageZip();
 
