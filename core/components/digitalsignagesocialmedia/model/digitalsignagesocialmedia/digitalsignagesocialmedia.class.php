@@ -136,7 +136,7 @@
 
                         if (!empty($value->message)) {
                             $value = array(
-                                'name'      => '',
+                                'name'      => $value->from->name,
                                 'link'      => $value->link,
                                 'content'   => $value->message,
                                 'image'     => $value->full_picture,

@@ -10,7 +10,7 @@ $success = false;
 $resources = [
     [
         'pagetitle'     => 'Export (social media)',
-        'content'       => '[[!DigitalSignageSocialMedia? toJson=`1`]]',
+        'content'       => '[[!DigitalSignageSocialMedia? &toJson=`1`]]',
         'content_type'  => 7,
         'uri'           => 'social-media-export.json',
         'uri_override'  => 1,

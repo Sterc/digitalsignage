@@ -9,6 +9,13 @@
             "name": "DigitalSignageSocialMedia",
             "description": "DigitalSignageSocialMedia 1.0.0-pl snippet for MODx Revolution",
             "resolver": "elements/snippets/digitalsignagesocialmedia.snippet.php"
+        }],
+        "chunks": [{
+            "name": "dsFacebookItemTpl",
+            "resolver": "elements/chunks/dsfacebookitemtpl.chunk.tpl"
+        }, {
+            "name": "dsFacebookWrapperTpl",
+            "resolver": "elements/chunks/dsfacebookwrappertpl.chunk.tpl"
         }]
     },
     "settings": [{
