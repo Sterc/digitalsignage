@@ -106,7 +106,6 @@
                         <div class="item"  data-template="item" data-placeholder-class="source">
                             <div class="image">
                                 <img src="" data-placeholder="image" data-placeholder-wrapper="image" />
-                                <div class="icon"></div>
                             </div>
                             <div class="content">
                                 <div class="content-mask">
