@@ -49,6 +49,30 @@
     transform: translateY(-50%);
 }
 
+.social-media .social-media-item .image:after {
+    position: absolute;
+    top: 1.7vh;
+    left: 0.7vw;
+    display: block;
+    width: 4.2vw;
+    height: 4.4vh;
+    content: '';
+    background: url('/digitalsignage/assets/interface/images/news-icons.svg') no-repeat -80px 0;
+    background-size: 100%;
+}
+
+.social-media .social-media-item.facebook .image:after {
+    background-position: 0 0;
+}
+
+.social-media .social-media-item.twitter .image:after {
+    background-position: 0 -47px;
+}
+
+.social-media .social-media-item.instagram .image:after {
+    background-position: 0 -94px;
+}
+
 .social-media .social-media-item .content {
     height: 50%;
     font-size: 2vh;

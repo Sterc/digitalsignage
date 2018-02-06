@@ -84,7 +84,7 @@
             if (null !== $assets) {
                 $this->path['assets'] = rtrim($assets, '/').'/';
             } else {
-                $this->path['assets'] = dirname(dirname(__FILE__)).'/assets/';
+                $this->path['assets'] = dirname(dirname(dirname(__FILE__))).'/assets/';
             }
 
             require_once $this->path['core'].'config/config.inc.php';

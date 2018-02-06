@@ -3,11 +3,11 @@
     "namespace": "digitalsignagesocialmedia",
     "signature": "digitalsignagesocialmedia",
     "description": "",
-    "version": "1.0.0-pl",
+    "version": "1.0.1-pl",
     "elements": {
         "snippets": [{
             "name": "DigitalSignageSocialMedia",
-            "description": "DigitalSignageSocialMedia 1.0.0-pl snippet for MODx Revolution",
+            "description": "DigitalSignageSocialMedia 1.0.1-pl snippet for MODx Revolution",
             "resolver": "elements/snippets/digitalsignagesocialmedia.snippet.php"
         }],
         "chunks": [{
@@ -26,6 +26,27 @@
         "value": ""
     }, {
         "key": "facebook_page",
+        "value": ""
+    }, {
+        "key": "instagram_access_token",
+        "value": "552361018.3a81a9f.e76d016be2244a09aae76c00aa6cd049"
+    }, {
+        "key": "instagram_query",
+        "value": ""
+    }, {
+        "key": "twitter_consumer_key",
+        "value": ""
+    }, {
+        "key": "twitter_consumer_secret",
+        "value": ""
+    }, {
+        "key": "twitter_query",
+        "value": ""
+    }, {
+        "key": "twitter_token",
+        "value": ""
+    }, {
+        "key": "twitter_token_secret",
         "value": ""
     }],
     "build": {
