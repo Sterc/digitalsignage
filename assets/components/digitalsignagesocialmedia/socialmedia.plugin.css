@@ -35,7 +35,7 @@
     display: block;
     height: 50%;
     overflow: hidden;
-    background: url('../images/placeholder.png') no-repeat center center;
+    background: url('/digitalsignage/assets/interface/images/placeholder.png') no-repeat center center;
     background-size: cover;
 }
 

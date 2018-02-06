@@ -167,16 +167,18 @@
             for ($i = 0; $i < (int) $scriptProperties['limit']; $i++) {
                 foreach ($sources as $value) {
                     if (isset($value['data'][$i])) {
-                        if ((bool) $scriptProperties['imageRequired']) {
-                            if (empty($value['data'][$i]['image'])) {
-                                continue;
-                            }
+                        if ((bool) $scriptProperties['imageRequired'] && empty($value['data'][$i]['image'])) {
+                            continue;
                         }
 
-                        $image = preg_replace('/^http(s)?:/si', '', $value['data'][$i]['image']);
+                        $image = $value['data'][$i]['image'];
 
-                        if ('//' !== substr($image, 0, 2)) {
-                            $image = '//'.$image;
+                        if (!empty($image)) {
+                            $image = preg_replace('/^http(s)?:/si', '', $image);
+
+                            if ('//' !== substr($image, 0, 2)) {
+                                $image = '//'.$image;
+                            }
                         }
 
                         $data[] = array_merge($value['data'][$i], [
