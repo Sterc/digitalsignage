@@ -85,7 +85,7 @@
         </div>
         <!-- End Media Slide -->
         <!-- Begin Payoff Slide -->
-        <div data-template="payoff">
+        <div data-template="payoff" data-slide-fullscreen="true">
             <div class="slide slide-payoff" data-placeholder-class="color">
                 <div class="slide-inner">
                     <div class="logo">

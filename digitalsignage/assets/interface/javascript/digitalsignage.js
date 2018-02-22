@@ -6,20 +6,20 @@
 
 $(document).ready(function() {
     $('.window').DigitalSignage({
-        'debug'     : settings.debug,
+                                    'debug'     : settings.debug,
 
-        'callback'  : settings.callback,
+                                    'callback'  : settings.callback,
 
-        'feed'      : settings.broadcast.feed,
+                                    'feed'      : settings.broadcast.feed,
 
-        'vars'      : {
-            'player'    : settings.player,
-            'broadcast' : settings.broadcast.id,
-            'preview'   : settings.preview
-        },
+                                    'vars'      : {
+                                        'player'    : settings.player,
+                                        'broadcast' : settings.broadcast.id,
+                                        'preview'   : settings.preview
+                                    },
 
-        'domain'    : document.location.origin
-    });
+                                    'domain'    : document.location.origin
+                                });
 });
 
 /* ----------------------------------------------------------------------------------------- */
@@ -94,6 +94,12 @@ $(document).ready(function() {
         this.$slides = [];
 
         /**
+         * The current slides of DigitalSignage.
+         * @protected.
+         */
+        this.$currenSlides = [];
+
+        /**
          * The current plugins of DigitalSignage.
          */
         this.plugins = [];
@@ -102,9 +108,9 @@ $(document).ready(function() {
     }
 
     /**
-    * Default options for the DigitalSignage.
-    * @public.
-    */
+     * Default options for the DigitalSignage.
+     * @public.
+     */
     DigitalSignage.Defaults = {
         'debug'             : false,
 
@@ -218,42 +224,42 @@ $(document).ready(function() {
         this.setLog('[Core] loadCallback');
 
         $.ajax({
-            'url'       : this.getAjaxUrl(this.settings.callback, this.settings.callbackInterval, ['type=broadcast', 'data=true']),
-            'dataType'  : this.settings.callbackType.toUpperCase(),
-            'complete'  : $.proxy(function(result) {
-                if (200 == result.status) {
-                    switch (this.settings.callbackType.toUpperCase()) {
-                        case 'JSON':
-                            if (result.responseJSON) {
-                                if (result.responseJSON.redirect) {
-                                    var currentLocation = window.location.href.replace(this.settings.domain, '');
-                                    var redirectLocation = result.responseJSON.redirect.replace(this.settings.domain, '');
+                   'url'       : this.getAjaxUrl(this.settings.callback, this.settings.callbackInterval, ['type=broadcast', 'data=true']),
+                   'dataType'  : this.settings.callbackType.toUpperCase(),
+                   'complete'  : $.proxy(function(result) {
+                       if (200 == result.status) {
+                           switch (this.settings.callbackType.toUpperCase()) {
+                               case 'JSON':
+                                   if (result.responseJSON) {
+                                       if (result.responseJSON.redirect) {
+                                           var currentLocation = window.location.href.replace(this.settings.domain, '');
+                                           var redirectLocation = result.responseJSON.redirect.replace(this.settings.domain, '');
 
-                                    if (currentLocation != redirectLocation) {
-                                        window.location.href = redirectLocation;
-                                    }
-                                }
+                                           if (currentLocation != redirectLocation) {
+                                               window.location.href = redirectLocation;
+                                           }
+                                       }
 
-                                if (result.responseJSON.player) {
-                                    if (result.responseJSON.player.restart) {
-                                        window.location.reload(false);
-                                    }
-                                }
-                            } else {
-                                this.setError('[Core] callback could not be read (Format: ' + this.settings.callbackType.toUpperCase() + ').');
-                            }
+                                       if (result.responseJSON.player) {
+                                           if (result.responseJSON.player.restart) {
+                                               window.location.reload(false);
+                                           }
+                                       }
+                                   } else {
+                                       this.setError('[Core] callback could not be read (Format: ' + this.settings.callbackType.toUpperCase() + ').');
+                                   }
 
-                             break;
-                        default:
-                            this.setError('[Core] callback could not be read because the format is not supported (Format: ' + this.settings.callbackType.toUpperCase() + ').');
+                                   break;
+                               default:
+                                   this.setError('[Core] callback could not be read because the format is not supported (Format: ' + this.settings.callbackType.toUpperCase() + ').');
 
-                            break;
-                    }
-                } else {
-                    this.setError('[Core] callback could not be loaded (HTTP status: ' + result.status + ').');
-                }
-            }, this)
-        });
+                                   break;
+                           }
+                       } else {
+                           this.setError('[Core] callback could not be loaded (HTTP status: ' + result.status + ').');
+                       }
+                   }, this)
+               });
     };
 
     /**
@@ -263,45 +269,45 @@ $(document).ready(function() {
         this.setLog('[Core] loadData');
 
         $.ajax({
-            'url'       : this.getAjaxUrl(this.settings.feed, this.settings.feedInterval, ['type=broadcast', 'data=true']),
-            'dataType'  : this.settings.feedType.toUpperCase(),
-            'complete'  : $.proxy(function(result) {
-                if (200 == result.status) {
-                    switch (this.settings.feedType.toUpperCase()) {
-                        case 'JSON':
-                            if (result.responseJSON) {
-                                if (0 < result.responseJSON.slides.length) {
-                                    var data = [];
+                   'url'       : this.getAjaxUrl(this.settings.feed, this.settings.feedInterval, ['type=broadcast', 'data=true']),
+                   'dataType'  : this.settings.feedType.toUpperCase(),
+                   'complete'  : $.proxy(function(result) {
+                       if (200 == result.status) {
+                           switch (this.settings.feedType.toUpperCase()) {
+                               case 'JSON':
+                                   if (result.responseJSON) {
+                                       if (0 < result.responseJSON.slides.length) {
+                                           var data = [];
 
-                                    for (var i = 0; i < result.responseJSON.slides.length; i++) {
-                                        data.push(result.responseJSON.slides[i]);
-                                    }
+                                           for (var i = 0; i < result.responseJSON.slides.length; i++) {
+                                               data.push(result.responseJSON.slides[i]);
+                                           }
 
-                                    this.setData('slides', data, null);
-                                } else {
-                                    this.loadData();
-                                }
+                                           this.setData('slides', data, null);
+                                       } else {
+                                           this.loadData();
+                                       }
 
-                                this.setLog('[Core] loadData: (slides: ' + result.responseJSON.slides.length + ')');
-                            } else {
-                                this.setError('[Core] feed could not be read (Format: ' + this.settings.feedType.toUpperCase() + ').');
-                            }
+                                       this.setLog('[Core] loadData: (slides: ' + result.responseJSON.slides.length + ')');
+                                   } else {
+                                       this.setError('[Core] feed could not be read (Format: ' + this.settings.feedType.toUpperCase() + ').');
+                                   }
 
-                            break;
-                        default:
-                            this.setError('[Core] feed could not be read because the format is not supported (Format: ' + this.settings.feedType.toUpperCase() + ').');
+                                   break;
+                               default:
+                                   this.setError('[Core] feed could not be read because the format is not supported (Format: ' + this.settings.feedType.toUpperCase() + ').');
 
-                        break;
-                    }
+                                   break;
+                           }
 
-                    if (0 == this.$slides.length) {
-                        this.nextSlide();
-                    }
-                } else {
-                    this.setError('[Core] could not be loaded (HTTP status: ' + result.status + ').');
-                }
-            }, this)
-       });
+                           if (0 == this.$slides.length) {
+                               this.nextSlide();
+                           }
+                       } else {
+                           this.setError('[Core] could not be loaded (HTTP status: ' + result.status + ').');
+                       }
+                   }, this)
+               });
     };
 
     /**
@@ -805,12 +811,10 @@ $(document).ready(function() {
 
                             break;
                         case 'youtube':
-                            var parts = value.replace(/\/$/gm, '').split('/');
+                            var videoID = value.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
 
-                            if (undefined !== (value = parts[parts.length - 1])) {
-                                if (undefined !== (value = value.replace(/watch\?v=/gi, '').split(/[?#]/)[0])) {
-                                    value = '//www.youtube.com/embed/' + value + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0');
-                                }
+                            if (videoID[1]) {
+                                value = '//www.youtube.com/embed/' + videoID[1] + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0');
                             }
 
                             break;
@@ -829,23 +833,23 @@ $(document).ready(function() {
                                 format  = param ? param : '%l %d %F';
 
                             var formats = {
-                                '%h'	: hours,
-                                '%H'	: hours < 10 ? ('0' + hours) : hours,
-                                '%i'	: minutes,
-                                '%I'	: minutes < 10 ? ('0' + minutes) : minutes,
-                                '%s'	: seconds,
-                                '%S'	: seconds < 10 ? ('0' + seconds) : seconds,
-                                '%j'	: dates,
-                                '%d'	: dates < 10 ? ('0' + dates) : dates,
-                                '%D'	: this.getLexicon(day, 'days').substr(0, 3),
-                                '%l'	: this.getLexicon(day, 'days'),
-                                '%W'	: day,
-                                '%M'	: this.getLexicon(month, 'months').substr(0, 3),
-                                '%F'	: this.getLexicon(month, 'months'),
-                                '%m'	: month < 10 ? ('0' + month) : month,
-                                '%n'	: month + 1,
-                                '%y'	: year.toString().substr(2, 2),
-                                '%Y'	: year.toString(),
+                                '%h'    : hours,
+                                '%H'    : hours < 10 ? ('0' + hours) : hours,
+                                '%i'    : minutes,
+                                '%I'    : minutes < 10 ? ('0' + minutes) : minutes,
+                                '%s'    : seconds,
+                                '%S'    : seconds < 10 ? ('0' + seconds) : seconds,
+                                '%j'    : dates,
+                                '%d'    : dates < 10 ? ('0' + dates) : dates,
+                                '%D'    : this.getLexicon(day, 'days').substr(0, 3),
+                                '%l'    : this.getLexicon(day, 'days'),
+                                '%W'    : day,
+                                '%M'    : this.getLexicon(month, 'months').substr(0, 3),
+                                '%F'    : this.getLexicon(month, 'months'),
+                                '%m'    : month < 10 ? ('0' + month) : month,
+                                '%n'    : month + 1,
+                                '%y'    : year.toString().substr(2, 2),
+                                '%Y'    : year.toString(),
                                 '%q'    : this.getLexicon(days, 'dayTypes', this.getLexicon(day, 'days').toString())
                             };
 
@@ -970,6 +974,8 @@ $(document).ready(function() {
             if ($slide = this.getSlide(data)) {
                 this.enableDevTools(false);
 
+                var zIndex = null;
+
                 for (var i = 0; i < this.settings.keys.length; i++) {
                     var key = this.settings.keys[i];
 
@@ -978,6 +984,10 @@ $(document).ready(function() {
                             $slide.addClass('slide-' + key);
 
                             this.$element.addClass('window-' + key);
+
+                            if ('fullscreen' === key) {
+                                zIndex = 9999;
+                            }
                         } else {
                             this.$element.removeClass('window-' + key);
                         }
@@ -986,15 +996,29 @@ $(document).ready(function() {
                     }
                 }
 
+                if (undefined !== (fullScreen = $slide.attr('data-slide-fullscreen'))) {
+                    if (1 == fullScreen ||'true' == fullScreen) {
+                        zIndex = 9999;
+                    }
+                }
+
+                if (null !== zIndex || undefined !== (zIndex = $slide.attr('data-slide-index'))) {
+                    $slide.css({'z-index': zIndex, 'position': 'absolute', 'top': 0, 'bottom': 0, 'left': 0, 'right': 0});
+                }
+
                 $slide.hide().fadeIn(this.settings.animationTime * 1000);
 
                 if ($current = this.$slides.shift()) {
-                    $current.show().fadeOut(this.settings.animationTime * 1000, $.proxy(function() {
+                    this.$currenSlides.push($current);
+
+                    $current.show().fadeOut(this.settings.animationTime * 1000, $.proxy(function(event) {
                         if (!data.fullscreen) {
                             this.$element.removeClass('window-fullscreen');
                         }
 
-                        $current.remove();
+                        if ($current = this.$currenSlides.shift()) {
+                            $current.remove();
+                        }
 
                         this.enableDevTools(true);
                     }, this));
@@ -1546,50 +1570,50 @@ $(document).ready(function() {
         this.core.setLog('[TickerPlugin] loadData');
 
         $.ajax({
-            'url'       : this.core.getAjaxUrl(this.settings.feed, this.settings.feedInterval, ['type=ticker', 'data=true']),
-            'dataType'  : this.settings.feedType.toUpperCase(),
-            'complete'  : $.proxy(function(result) {
-                if (200 == result.status) {
-                    switch (this.settings.feedType.toUpperCase()) {
-                        case 'JSON':
-                            if (result.responseJSON) {
-                                if (0 < result.responseJSON.items.length) {
-                                    var data = [];
+                   'url'       : this.core.getAjaxUrl(this.settings.feed, this.settings.feedInterval, ['type=ticker', 'data=true']),
+                   'dataType'  : this.settings.feedType.toUpperCase(),
+                   'complete'  : $.proxy(function(result) {
+                       if (200 == result.status) {
+                           switch (this.settings.feedType.toUpperCase()) {
+                               case 'JSON':
+                                   if (result.responseJSON) {
+                                       if (0 < result.responseJSON.items.length) {
+                                           var data = [];
 
-                                    for (var i = 0; i < result.responseJSON.items.length; i++) {
-                                        data.push(result.responseJSON.items[i]);
-                                    }
+                                           for (var i = 0; i < result.responseJSON.items.length; i++) {
+                                               data.push(result.responseJSON.items[i]);
+                                           }
 
-                                    this.core.setData('tickerplugin', data);
-                                } else {
-                                    this.loadData();
-                                }
+                                           this.core.setData('tickerplugin', data);
+                                       } else {
+                                           this.loadData();
+                                       }
 
-                                this.core.setLog('[TickerPlugin] loadData: (slides: ' + result.responseJSON.items.length + ')');
-                            } else {
-                                this.core.setError('[TickerPlugin] feed could not be read (Format: ' + this.settings.feedType.toUpperCase() + ').');
-                            }
+                                       this.core.setLog('[TickerPlugin] loadData: (slides: ' + result.responseJSON.items.length + ')');
+                                   } else {
+                                       this.core.setError('[TickerPlugin] feed could not be read (Format: ' + this.settings.feedType.toUpperCase() + ').');
+                                   }
 
-                            break;
-                        default:
-                            this.core.setError('[TickerPlugin] feed could not be read because the format is not supported (Format: ' + this.settings.feedType.toUpperCase() + ').');
+                                   break;
+                               default:
+                                   this.core.setError('[TickerPlugin] feed could not be read because the format is not supported (Format: ' + this.settings.feedType.toUpperCase() + ').');
 
-                            break;
-                    }
-                } else {
-                    this.core.setError('[TickerPlugin] feed could not be loaded (HTTP status: ' + result.status + ').');
-                }
+                                   break;
+                           }
+                       } else {
+                           this.core.setError('[TickerPlugin] feed could not be loaded (HTTP status: ' + result.status + ').');
+                       }
 
-                if (0 == this.$items.length) {
-                    if (0 < this.core.getData('tickerplugin', 'length')) {
-                        this.addItem();
-                        this.addItem();
+                       if (0 == this.$items.length) {
+                           if (0 < this.core.getData('tickerplugin', 'length')) {
+                               this.addItem();
+                               this.addItem();
 
-                        this.nextItem();
-                    }
-                }
-            }, this)
-        });
+                               this.nextItem();
+                           }
+                       }
+                   }, this)
+               });
     };
 
     /**
@@ -1638,7 +1662,7 @@ $(document).ready(function() {
             var data = this.core.getData('tickerplugin', 'data');
 
             //for (var i = 0; i < data.length; i++) {
-                for (var i = 0; i < 3; i++) {
+            for (var i = 0; i < 3; i++) {
                 if ($subItem = this.core.getTemplate('item', this.$templates)) {
                     this.core.setPlaceholders($subItem, data[i]).appendTo($item);
                 }
@@ -1657,7 +1681,7 @@ $(document).ready(function() {
     TickerPlugin.prototype.nextItem = function() {
         if ($item = this.$items.shift()) {
             var proxy = this;
-            
+
             $item.animate({'margin-left': '-' + $item.outerWidth(true) + 'px'}, {
                 'easing'    : 'linear',
                 'duration'  : 40000 * ($item.outerWidth(true) / 2100),
