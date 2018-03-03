@@ -42,12 +42,14 @@ Installeer de Social Media widget (digitalsignagesocialmedia-1.0.0-pl.transport.
 
 Om de standaard Digital Signage lexicons te overschrijven kun je de onderstaande functie gebruiken (na de digitalsignage.js).
 
+```
 <script type="text/javascript">
     $.extend($.fn.DigitalSignage.lexicons, {
         prevSlide : 'Volgende slide',
         nextSlide : 'Vorige slide'
     });
 </script>
+```
 
 ### TinymceWrapper ###
 
