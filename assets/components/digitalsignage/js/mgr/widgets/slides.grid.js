@@ -296,7 +296,7 @@ DigitalSignage.window.CreateSlide = function(config) {
                             anchor      : '100%',
                             allowBlank  : false,
                             listeners   : {
-                                'click'     : {
+                                'select'    : {
                                     fn          : this.getTypeFields,
                                     scope       : this
                                 },
