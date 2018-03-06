@@ -38,6 +38,19 @@ Installeer de Social Media widget (digitalsignagesocialmedia-1.0.0-pl.transport.
 * socialmedia.plugin.css, voeg dit CSS bestand toe aan de head van de Digital Signage template.
 * socialmedia.plugin.js, voeg dit JavaScript bestand toe bij de rest van de JavaScript bestanden (voor de digitalsignage.js).
 
+### Digital Signage lexicons ###
+
+Om de standaard Digital Signage lexicons te overschrijven kun je de onderstaande functie gebruiken (na de digitalsignage.js).
+
+```
+<script type="text/javascript">
+    $.extend($.fn.DigitalSignage.lexicons, {
+        prevSlide : 'Volgende slide',
+        nextSlide : 'Vorige slide'
+    });
+</script>
+```
+
 ### TinymceWrapper ###
 
 Om TinymceWrapper werkend te krijgen met Digital Signage moet je de volgende TinymceWrapper plugin properties wijzigen:
