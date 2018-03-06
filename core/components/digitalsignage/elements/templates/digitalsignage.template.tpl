@@ -84,7 +84,7 @@
             </div>
             <!-- End Media Slide -->
         </div>
-        <div data-template="payoff">
+        <div data-template="payoff" data-slide-fullscreen="true">
             <!-- Begin Payoff Slide -->
             <div class="slide slide-payoff" data-placeholder-class="color">
                 <div class="slide-inner">
@@ -127,7 +127,7 @@
                         <img src="" data-placeholder="radar" data-placeholder-wrapper="image" />
                     </div>
                     <div class="content">
-                        <h1 data-placeholder="title"></h1>
+                        <h1 data-placeholder="title" data-placeholder-renders="striptags,ellipsis:150"></h1>
                         <ul class="forecasts" data-placeholder="forecasts">
                             <li data-template="forecast">
                                 <div class="forecast-inner">

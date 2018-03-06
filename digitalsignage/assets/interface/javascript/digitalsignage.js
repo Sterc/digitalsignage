@@ -729,7 +729,7 @@ $(document).ready(function() {
                     case 'IMG':
                     case 'IFRAME':
                         if (isEmpty) {
-                            if (reset !== undefined && reset) {
+                            if (reset === undefined || reset) {
                                 $placeholder.attr('src', '').hide();
                             }
                         } else {
@@ -739,7 +739,7 @@ $(document).ready(function() {
                         break;
                     default:
                         if (isEmpty) {
-                            if (reset !== undefined && reset) {
+                            if (reset === undefined || reset) {
                                 $placeholder.html('').hide();
                             }
                         } else {
@@ -752,7 +752,7 @@ $(document).ready(function() {
                 if (wrapper) {
                     if ($placeholder.parents('.' + wrapper)) {
                         if (isEmpty) {
-                            if (reset !== undefined && reset) {
+                            if (reset === undefined || reset) {
                                 $placeholder.parents('.' + wrapper).addClass('is-empty');
                             }
                         } else {
@@ -846,12 +846,10 @@ $(document).ready(function() {
 
                             break;
                         case 'youtube':
-                            var parts = value.replace(/\/$/gm, '').split('/');
+                            var videoID = value.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
 
-                            if (undefined !== (value = parts[parts.length - 1])) {
-                                if (undefined !== (value = value.replace(/watch\?v=/gi, '').split(/[?#]/)[0])) {
-                                    value = '//www.youtube.com/embed/' + value + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0');
-                                }
+                            if (videoID[1]) {
+                                value = '//www.youtube.com/embed/' + videoID[1] + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0');
                             }
 
                             break;
@@ -1012,6 +1010,8 @@ $(document).ready(function() {
                 if ($slide = this.getSlide(data)) {
                     this.enableDevTools(false);
 
+                    var zIndex = null;
+
                     for (var i = 0; i < this.settings.keys.length; i++) {
                         var key = this.settings.keys[i];
 
@@ -1020,12 +1020,26 @@ $(document).ready(function() {
                                 $slide.addClass('slide-' + key);
 
                                 this.$element.addClass('window-' + key);
+
+                                if ('fullscreen' === key) {
+                                    zIndex = 9999;
+                                }
                             } else {
                                 this.$element.removeClass('window-' + key);
                             }
                         } else {
                             this.$element.removeClass('window-' + key);
                         }
+                    }
+
+                    if (undefined !== (fullScreen = $slide.attr('data-slide-fullscreen'))) {
+                        if (1 == fullScreen ||'true' == fullScreen) {
+                            zIndex = 9999;
+                        }
+                    }
+
+                    if (zIndex !== null || undefined !== (zIndex = $slide.attr('data-slide-index'))) {
+                        $slide.css({'z-index': zIndex, 'position': 'absolute', 'top': 0, 'bottom': 0, 'left': 0, 'right': 0});
                     }
 
                     $slide.hide().fadeIn(this.settings.animationTime * 1000);

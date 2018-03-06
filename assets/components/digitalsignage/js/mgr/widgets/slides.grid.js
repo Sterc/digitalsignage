@@ -296,7 +296,7 @@ DigitalSignage.window.CreateSlide = function(config) {
                             anchor      : '100%',
                             allowBlank  : false,
                             listeners   : {
-                                'select'    : {
+                                'click'     : {
                                     fn          : this.getTypeFields,
                                     scope       : this
                                 },
@@ -876,7 +876,7 @@ DigitalSignage.combo.SlidesTypes = function(config) {
         hiddenName  : 'type',
         pageSize    : 15,
         valueField  : 'key',
-        displayFiel : 'name_formatted',
+        displayField: 'name_formatted',
         tpl         : new Ext.XTemplate('<tpl for=".">' +
             '<div class="x-combo-list-item">' +
                 '<span style="font-weight: bold">{name_formatted}</span><br />{description_formatted}' +
