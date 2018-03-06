@@ -6,20 +6,16 @@
 
 $(document).ready(function() {
     $('.window').DigitalSignage({
-                                    'debug'     : settings.debug,
-
-                                    'callback'  : settings.callback,
-
-                                    'feed'      : settings.broadcast.feed,
-
-                                    'vars'      : {
-                                        'player'    : settings.player,
-                                        'broadcast' : settings.broadcast.id,
-                                        'preview'   : settings.preview
-                                    },
-
-                                    'domain'    : document.location.origin
-                                });
+        debug       : settings.debug,
+        callback    : settings.callback,
+        feed        : settings.broadcast.feed,
+        vars        : {
+            player      : settings.player,
+            broadcast   : settings.broadcast.id,
+            preview     : settings.preview
+        },
+        domain      : document.location.origin
+    });
 });
 
 /* ----------------------------------------------------------------------------------------- */
@@ -27,321 +23,364 @@ $(document).ready(function() {
 /* ----------------------------------------------------------------------------------------- */
 
 ;(function($, window, document, undefined) {
+    /**
+     * Creates a Digital Signage.
+     * @class DigitalSignage.
+     * @param {HTMLElement} element - The element of the Digital Signage.
+     * @param {Array} options - The options of the Digital Signage.
+     * @param {Object} core - The DigitalSignage object for the Digital Signage.
+     */
     function DigitalSignage(element, options) {
         /**
-         * Current settings for the DigitalSignage.
-         * @public.
-         */
-        this.settings = $.extend({}, DigitalSignage.Defaults, options);
-
-        /**
-         * Plugin element.
-         * @public.
-         */
-        this.$element = $(element);
-
-        /**
          * Currently suppressed events to prevent them from beeing retriggered.
-         * @protected.
          */
         this._supress = {};
 
         /**
-         * All templates of the DigitalSignage.
-         * @protected.
+         * Plugin element of the Digital Signage.
+         */
+        this.$element = $(element);
+
+        /**
+         * Current settings of the Digital Signage.
+         */
+        this.settings = $.extend({}, DigitalSignage.Defaults, options);
+
+        /**
+         * All templates of the Digital Signage.
          */
         this.$templates = this.getTemplates(this.getPlaceholder('slides', this.$element), true);
 
         /**
-         * All error templates of the DigitalSignage.
-         * @protected.
+         * All error templates of the Digital Signage.
          */
         this.$errorTemplates = this.getTemplates(this.getPlaceholder('errors', this.$element), true);
 
         /**
-         * All special templates of the DigitalSignage.
-         * @protected.
+         * All special templates of the Digital Signage.
          */
         this.$specialTemplates = this.getTemplates(this.$element, true);
 
         /**
-         * All errors.
-         * @protected.
+         * All errors of the Digital Signage.
          */
         this.$errors = [];
 
         /**
-         * The data.
-         * @protected.
-         */
-        this.data = [];
-
-        /**
-         * The timer.
-         * @protected.
-         */
-        this.timer = null;
-
-        /**
-         * The state of the dev tools.
+         * The state of the dev tools of the Digital Signage.
          */
         this.devTools = true;
 
         /**
-         * The current slides of DigitalSignage.
-         * @protected.
+         * The timer of the Digital Signage.
          */
-        this.$slides = [];
+        this.timer = null;
 
         /**
-         * The current slides of DigitalSignage.
-         * @protected.
-         */
-        this.$currenSlides = [];
-
-        /**
-         * The current plugins of DigitalSignage.
+         * The current plugins of the Digital Signage.
          */
         this.plugins = [];
+
+        /**
+         * The data of the Digital Signage.
+         */
+        this.data = [];
+
+        /**
+         * The state of the data of the Digital Signage.
+         */
+        this.isLoaded = false;
+
+        /**
+         * The current slides of the Digital Signage.
+         */
+        this.$slides = [];
 
         this.initialize();
     }
 
     /**
-     * Default options for the DigitalSignage.
-     * @public.
-     */
+    * Default options for the DigitalSignage.
+    * @public.
+    */
     DigitalSignage.Defaults = {
-        'debug'             : false,
+        debug               : false,
+        showErrors          : true,
 
-        'timer'             : true,
-        'timerType'         : 'vertical',
-        'timerClass'        : 'timer',
+        timer               : true,
+        timerType           : 'vertical',
+        timerClass          : 'timer',
 
-        'animation'         : 'fade',
-        'animationTime'     : 1,
+        animation           : 'fade',
+        animationTime       : 1,
 
-        'callback'          : null,
-        'callbackType'      : 'JSON',
-        'callbackInterval'  : 300,
+        syncInterval        : 120,
 
-        'feed'              : null,
-        'feedType'          : 'JSON',
-        'feedInterval'      : 300,
+        feed                : null,
+        feedType            : 'JSON',
 
-        'vars'              : {
-            'player'            : null,
-            'broadcast'         : null,
-            'preview'           : false
+        callback            : null,
+        callbackType        : 'JSON',
+
+        vars                : {
+            player              : null,
+            broadcast           : null,
+            preview             : false
         },
 
-        'domain'            : '',
+        domain              : document.location.origin,
 
-        'keys'              : ['fullscreen', 'header', 'ticker'],
-
-        'lexicons'          : {
-            'prevSlide'         : 'Vorige slide',
-            'nextSlide'         : 'Volgende slide',
-            'days'              : ['Zondag', 'Maandag', 'Dinsdag', 'Woensdag', 'Donderdag', 'Vrijdag', 'Zaterdag'],
-            'months'            : ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'],
-            'dayTypes'          : ['Vandaag', 'Morgen', 'Overmorgen']
-        }
+        keys                : ['fullscreen', 'header', 'ticker']
     };
 
     /**
      * Enumeration for types.
-     * @public.
-     * @readonly.
      * @enum {String}.
      */
     DigitalSignage.Type = {
-        'Event': 'event'
+        Event: 'event'
     };
 
     /**
-     * Initializes the DigitalSignage.
+     * Initializes the Digital Signage.
      */
     DigitalSignage.prototype.initialize = function() {
-        this.setLog('[Core] initialize');
+        this.setLog('[' + this.constructor.name + '] initialize');
 
-        if (this.getRequirements()) {
+        if (this.checkRequirements()) {
+            this.loadFeed();
             this.loadCallback();
 
-            if (0 < this.settings.callbackInterval) {
-                setInterval($.proxy(function(event) {
-                    this.loadCallback();
-                }, this), this.settings.callbackInterval * 1000);
-            }
-
-            this.loadData();
-
-            if (0 < this.settings.feedInterval) {
-                setInterval($.proxy(function(event) {
-                    this.loadData();
-                }, this), this.settings.feedInterval * 1000);
-            }
-
-            this.setDevTools();
+            this.loadDevTools();
             this.loadCustomPlugins();
+
+            var syncIntervals = this.getIntervalTimes(parseInt(this.settings.syncInterval));
+
+            setInterval($.proxy(function(event) {
+                var currentTime = new Date();
+
+                if (syncIntervals.indexOf(currentTime.getMinutes()) !== -1) {
+                    this.loadFeed();
+                }
+            }, this), 60 * 1000);
         }
     };
 
     /**
-     * Checks the the DigitalSignage.
+     * Checks requirements of the Digital Signage.
      */
-    DigitalSignage.prototype.getRequirements = function() {
-        this.setLog('[Core] getRequirements');
+    DigitalSignage.prototype.checkRequirements = function() {
+        this.setLog('[' + this.constructor.name + '] checkRequirements');
 
-        if (0 == (preview = parseInt(this.settings.vars.preview))) {
-            if (-1 !== ['', null, undefined].indexOf(this.settings.vars.player)) {
-                return this.setError('[Core] player is not defined.', true);
-            }
-
-            if (-1 !== ['', null, undefined].indexOf(this.settings.vars.broadcast)) {
-                return this.setError('[Core] broadcast is not defined.', true);
-            }
-
+        if (parseInt(this.settings.vars.preview) === 0) {
             this.settings.vars.preview = false;
+
+            if (!this.settings.vars.player || this.settings.vars.player === '') {
+                return this.setError('[' + this.constructor.name + '] checkRequirements: ' + this.getLexicon('error_player'), true);
+            }
+
+            if (!this.settings.vars.broadcast || this.settings.vars.broadcast === '') {
+                return this.setError('[' + this.constructor.name + '] checkRequirements: ' + this.getLexicon('error_broadcast'), true);
+            }
         } else {
             this.settings.vars.preview = true;
         }
 
-        if (null === this.settings.callback) {
-            return this.setError('[Core] callback is not defined.', true);
+        if (this.settings.feed === null) {
+            return this.setError('[' + this.constructor.name + '] checkRequirements: ' + this.getLexicon('error_feed'), true);
         }
 
-        if (null === this.settings.feed) {
-            return this.setError('[Core] feed is not defined.', true);
+        if (this.settings.callback === null) {
+            return this.setError('[' + this.constructor.name + '] checkRequirements: ' + this.getLexicon('error_callback'), true);
         }
 
         return true;
     };
 
     /**
-     * Loads the callback data for the DigitalSignage.
+     * Get the interval times for the feed and callback data calls.
+     * @param {Integer} time - The interval time in minutes.
+     */
+    DigitalSignage.prototype.getIntervalTimes = function(time) {
+        var intervals   = [],
+            interval    = Math.ceil(time / 60);
+
+        if (interval > 0) {
+            for (var i = 0; i < (60 / interval); i++) {
+                intervals.push(i * interval);
+            }
+        }
+
+        return intervals;
+    };
+
+    /**
+     * Loads the data of the Digital Signage.
+     */
+    DigitalSignage.prototype.loadFeed = function() {
+        this.setLog('[' + this.constructor.name + '] loadFeed');
+
+        $.ajax({
+            url         : this.getAjaxUrl(this.settings.feed, ['type=broadcast', 'data=true']),
+            dataType    : this.settings.feedType.toUpperCase(),
+            complete    : $.proxy(function(result) {
+                if (parseInt(result.status) === 200) {
+                    switch (this.settings.feedType.toUpperCase()) {
+                        case 'JSON':
+                            if (result.responseJSON) {
+                                if (result.responseJSON.slides.length > 0) {
+                                    var data = [];
+
+                                    for (var i = 0; i < result.responseJSON.slides.length; i++) {
+                                        data.push(result.responseJSON.slides[i]);
+                                    }
+
+                                    this.setData('slides', data, null);
+
+                                    this.setLog('[' + this.constructor.name + '] loadFeed: ' + this.getLexicon('feed_loaded', {
+                                        items : result.responseJSON.slides.length
+                                    }));
+                                } else {
+                                    this.setLog('[' + this.constructor.name + '] loadFeed: ' + this.getLexicon('error_feed_empty', {
+                                        items : result.responseJSON.slides.length
+                                    }));
+                                }
+                            } else {
+                                this.setError('[' + this.constructor.name + '] loadFeed: ' + this.getLexicon('error_feed_format', {
+                                    format : this.settings.feedType.toUpperCase()
+                                }));
+                            }
+
+                            break;
+                        default:
+                            this.setError('[' + this.constructor.name + '] loadFeed: ' + this.getLexicon('error_feed_format', {
+                                format : this.settings.feedType.toUpperCase()
+                            }));
+
+                            break;
+                    }
+
+                    if (this.getData('slides', 'length') > 0) {
+                        if (!this.isLoaded) {
+                            this.nextSlide();
+                        }
+
+                        this.isLoaded = true;
+                    }
+                } else {
+                    this.setError('[' + this.constructor.name + '] loadFeed: ' + this.getLexicon('error_feed_http', {
+                        status : result.status
+                    }));
+                }
+            }, this)
+        });
+    };
+
+    /**
+     * Loads the callback data of the Digital Signage.
      */
     DigitalSignage.prototype.loadCallback = function() {
-        this.setLog('[Core] loadCallback');
+        this.setLog('[' + this.constructor.name + '] loadCallback');
 
         $.ajax({
-                   'url'       : this.getAjaxUrl(this.settings.callback, this.settings.callbackInterval, ['type=broadcast', 'data=true']),
-                   'dataType'  : this.settings.callbackType.toUpperCase(),
-                   'complete'  : $.proxy(function(result) {
-                       if (200 == result.status) {
-                           switch (this.settings.callbackType.toUpperCase()) {
-                               case 'JSON':
-                                   if (result.responseJSON) {
-                                       if (result.responseJSON.redirect) {
-                                           var currentLocation = window.location.href.replace(this.settings.domain, '');
-                                           var redirectLocation = result.responseJSON.redirect.replace(this.settings.domain, '');
+            url         : this.getAjaxUrl(this.settings.callback, ['type=broadcast', 'data=true']),
+            dataType    : this.settings.callbackType.toUpperCase(),
+            complete    : $.proxy(function(result) {
+                if (parseInt(result.status) === 200) {
+                    switch (this.settings.callbackType.toUpperCase()) {
+                        case 'JSON':
+                            if (result.responseJSON) {
+                                if (result.responseJSON.redirect) {
+                                    var currentLocation = window.location.href.replace(this.settings.domain, '');
+                                    var redirectLocation = result.responseJSON.redirect.replace(this.settings.domain, '');
 
-                                           if (currentLocation != redirectLocation) {
-                                               window.location.href = redirectLocation;
-                                           }
-                                       }
+                                    if (currentLocation != redirectLocation) {
+                                        window.location.href = redirectLocation;
+                                    }
+                                }
 
-                                       if (result.responseJSON.player) {
-                                           if (result.responseJSON.player.restart) {
-                                               window.location.reload(false);
-                                           }
-                                       }
-                                   } else {
-                                       this.setError('[Core] callback could not be read (Format: ' + this.settings.callbackType.toUpperCase() + ').');
-                                   }
+                                if (result.responseJSON.player) {
+                                    if (result.responseJSON.player.restart) {
+                                        window.location.reload(false);
+                                    }
+                                }
+                            } else {
+                                this.setError('[' + this.constructor.name + '] loadCallback: ' + this.getLexicon('error_callback_format', {
+                                    format : this.settings.callbackType.toUpperCase()
+                                }));
+                            }
 
-                                   break;
-                               default:
-                                   this.setError('[Core] callback could not be read because the format is not supported (Format: ' + this.settings.callbackType.toUpperCase() + ').');
+                             break;
+                        default:
+                            this.setError('[' + this.constructor.name + '] loadCallback: ' + this.getLexicon('error_callback_format', {
+                                format : this.settings.callbackType.toUpperCase()
+                            }));
 
-                                   break;
-                           }
-                       } else {
-                           this.setError('[Core] callback could not be loaded (HTTP status: ' + result.status + ').');
-                       }
-                   }, this)
-               });
+                            break;
+                    }
+                } else {
+                    this.setError('[' + this.constructor.name + '] loadCallback: ' + this.getLexicon('error_callback_http', {
+                        status : result.status
+                    }));
+                }
+            }, this)
+        });
     };
 
     /**
-     * Loads the data for the DigitalSignage.
-     */
-    DigitalSignage.prototype.loadData = function() {
-        this.setLog('[Core] loadData');
-
-        $.ajax({
-                   'url'       : this.getAjaxUrl(this.settings.feed, this.settings.feedInterval, ['type=broadcast', 'data=true']),
-                   'dataType'  : this.settings.feedType.toUpperCase(),
-                   'complete'  : $.proxy(function(result) {
-                       if (200 == result.status) {
-                           switch (this.settings.feedType.toUpperCase()) {
-                               case 'JSON':
-                                   if (result.responseJSON) {
-                                       if (0 < result.responseJSON.slides.length) {
-                                           var data = [];
-
-                                           for (var i = 0; i < result.responseJSON.slides.length; i++) {
-                                               data.push(result.responseJSON.slides[i]);
-                                           }
-
-                                           this.setData('slides', data, null);
-                                       } else {
-                                           this.loadData();
-                                       }
-
-                                       this.setLog('[Core] loadData: (slides: ' + result.responseJSON.slides.length + ')');
-                                   } else {
-                                       this.setError('[Core] feed could not be read (Format: ' + this.settings.feedType.toUpperCase() + ').');
-                                   }
-
-                                   break;
-                               default:
-                                   this.setError('[Core] feed could not be read because the format is not supported (Format: ' + this.settings.feedType.toUpperCase() + ').');
-
-                                   break;
-                           }
-
-                           if (0 == this.$slides.length) {
-                               this.nextSlide();
-                           }
-                       } else {
-                           this.setError('[Core] could not be loaded (HTTP status: ' + result.status + ').');
-                       }
-                   }, this)
-               });
-    };
-
-    /**
-     * Gets the debug state for the DigitalSignage.
+     * Gets the debug state of the Digital Signage.
      */
     DigitalSignage.prototype.isDebug = function() {
         return this.settings.debug;
     };
 
     /**
-     * Sets the dev tools for the DigitalSignage.
+     * Gets the debug state of the Digital Signage.
      */
-    DigitalSignage.prototype.setDevTools = function() {
+    DigitalSignage.prototype.showErrors = function() {
+        return this.settings.showErrors;
+    };
+
+    /**
+     * Gets the dev tools state of the Digital Signage.
+     */
+    DigitalSignage.prototype.isDevTools = function() {
+        return this.settings.devTools;
+    };
+
+    /**
+     * Sets the dev tools state of the Digital Signage.
+     * @param {Boolean} devTools - The state of the dev tools.
+     */
+    DigitalSignage.prototype.enableDevTools = function(devTools) {
+        return this.settings.devTools = devTools;
+    };
+
+    /**
+     * Sets the dev tools of the Digital Signage.
+     */
+    DigitalSignage.prototype.loadDevTools = function() {
         if (this.settings.vars.preview) {
             $(window).on('keyup', $.proxy(function(event) {
                 if (this.isDevTools()) {
-                    if (37 == event.keyCode) {
+                    if (parseInt(event.keyCode) === 37) {
                         this.nextSlide('prev');
-                    } else if (39 == event.keyCode) {
+                    } else if (parseInt(event.keyCode) === 39) {
                         this.nextSlide('next');
                     }
                 }
             }, this));
 
-            $('body').addClass('window-preview').append(
+            this.$element.addClass('window-preview').append(
                 $('<div>').addClass('dev-tools').append(
-                    $('<a>').attr({'href': '#', 'class': 'dev-tools-btn dev-tools-prev', 'title': this.getLexicon('prevSlide')}).html(this.getLexicon('prevSlide')).on('click', $.proxy(function(event) {
+                    $('<a>').attr({'href': '#', 'class': 'dev-tools-btn dev-tools-prev', 'title': this.getLexicon('prev_slide')}).html(this.getLexicon('prev_slide')).on('click', $.proxy(function(event) {
                         if (this.isDevTools()) {
                             this.nextSlide('prev');
                         }
 
                         return false;
                     }, this)),
-                    $('<a>').attr({'href': '#', 'class': 'dev-tools-btn dev-tools-next', 'title': this.getLexicon('nextSlide')}).html(this.getLexicon('nextSlide')).on('click', $.proxy(function(event) {
+                    $('<a>').attr({'href': '#', 'class': 'dev-tools-btn dev-tools-next', 'title': this.getLexicon('next_slide')}).html(this.getLexicon('next_slide')).on('click', $.proxy(function(event) {
                         if (this.isDevTools()) {
                             this.nextSlide('next');
                         }
@@ -354,27 +393,15 @@ $(document).ready(function() {
     };
 
     /**
-     * Gets the dev tools state for the DigitalSignage.
-     */
-    DigitalSignage.prototype.isDevTools = function() {
-        return this.settings.devTools;
-    };
-
-    /**
-     * Sets the dev tools state the DigitalSignage.
-     * @param {Boolean} enable - The state of the dev tools.
-     */
-    DigitalSignage.prototype.enableDevTools = function(enable) {
-        return this.settings.devTools = enable;
-    };
-
-    /**
      * Returns a URL with the required parameters.
      * @param {String} url - The current URL.
-     * @param {Integer} interval = The current interval time.
      * @param {Array} parameters - The current URL parameters.
      */
-    DigitalSignage.prototype.getAjaxUrl = function(url, interval, parameters) {
+    DigitalSignage.prototype.getAjaxUrl = function(url, parameters) {
+        if (undefined === parameters) {
+            parameters = [];
+        }
+
         $.each(this.settings.vars, $.proxy(function(index, value) {
             switch (index) {
                 case 'player':
@@ -394,11 +421,11 @@ $(document).ready(function() {
             }
         }).bind(this));
 
-        parameters.push('time=' + interval);
+        parameters.push('time=' + this.settings.syncInterval);
         parameters.push('hash=' + (new Date()).getTime());
 
         if (0 < parameters.length) {
-            if (-1 == url.search(/\?/i)) {
+            if (url.search(/\?/i) === -1) {
                 return url + '?' + parameters.join('&');
             } else {
                 return url + '&' + parameters.join('&');
@@ -409,19 +436,25 @@ $(document).ready(function() {
     };
 
     /**
-     * Gets all custom plugins for the DigitalSignage.
+     * Gets all custom plugins for the Digital Signage.
      */
     DigitalSignage.prototype.loadCustomPlugins = function() {
-        this.setLog('[Core] loadCustomPlugins');
+        this.setLog('[' + this.constructor.name + '] loadCustomPlugins');
 
         $('[data-plugin]', this.$element).each($.proxy(function(index, element) {
             var $element    = $(element),
-                plugin      = $element.attr('data-plugin');
+                name        = $element.attr('data-plugin');
 
-            if ($.fn[plugin]) {
-                this.setLog('[Core] loadCustomPlugins: (plugin: ' + plugin + ')');
+            if ($.fn[name]) {
+                this.setLog('[' + this.constructor.name + '] loadCustomPlugins: ' + this.getLexicon('custom_plugin', {
+                    plugin : name
+                }));
 
-                this.plugins[plugin.toLowerCase()] = $element[plugin](this);
+                this.plugins[name.toLowerCase()] = $element[name](this);
+            } else {
+                this.setError('[' + this.constructor.name + '] loadCustomPlugins: ' + this.getLexicon('error_custom_plugin', {
+                    plugin : name
+                }));
             }
         }, this));
     };
@@ -434,13 +467,13 @@ $(document).ready(function() {
         if (undefined !== (settings = $element.attr('data-plugin-settings'))) {
             if (data = JSON.parse(settings.replace(/'/g, "\""))) {
                 return $.extend({}, data, {
-                    'vars' : this.settings.vars
+                    vars : this.settings.vars
                 });
             }
         }
 
         return $.extend({}, {
-            'vars' : this.settings.vars
+            vars : this.settings.vars
         });
     };
 
@@ -463,20 +496,20 @@ $(document).ready(function() {
     };
 
     /**
-     * Display an error.
+     * Display an error message.
      * @param {String} message - The error to display.
      * @param {Boolean} fatal - If the error is fatal or not.
      */
     DigitalSignage.prototype.setError = function(message, fatal) {
         this.setLog(message, true, fatal);
 
-        if (this.isDebug() || fatal) {
+        if (this.showErrors() || fatal) {
             if ($error = this.getTemplate('error', this.$errorTemplates)) {
                 if (typeof message === 'string') {
                     this.setPlaceholders($error, {
-                        'title'     : fatal ? 'Error' : 'Warning',
-                        'error'     : fatal ? 'error' : 'warning',
-                        'message'   : message
+                        title   : fatal ? this.getLexicon('error') : this.getLexicon('warning'),
+                        error   : fatal ? 'error' : 'warning',
+                        message : message
                     }).appendTo(this.getPlaceholder('errors', this.$element));
                 } else {
                     this.setPlaceholders($error, message).appendTo(this.getPlaceholder('errors', this.$element));
@@ -524,7 +557,7 @@ $(document).ready(function() {
      * @param {String} index - The index of the data type.
      */
     DigitalSignage.prototype.getData = function(key, index) {
-        if ('current' == index) {
+        if (index === 'current') {
             if (this.data[key]) {
                 if (this.data[key]['current']) {
                     return this.data[key]['current'];
@@ -532,7 +565,7 @@ $(document).ready(function() {
             }
 
             return -1;
-        } else if ('data' == index) {
+        } else if (index === 'data') {
             if (this.data[key]) {
                 if (this.data[key]['output']) {
                     return this.data[key]['output'];
@@ -540,7 +573,7 @@ $(document).ready(function() {
             }
 
             return [];
-        } else if ('length' == index) {
+        } else if (index === 'length') {
             if (this.data[key]) {
                 if (this.data[key]['output']) {
                     return this.data[key]['output'].length;
@@ -570,11 +603,11 @@ $(document).ready(function() {
             var current = this.data[key]['current'],
                 length  = max;
 
-            if (null == length || length > this.data[key]['output'].length) {
+            if (null === length || length > this.data[key]['output'].length) {
                 length = this.data[key]['output'].length;
             }
 
-            if ('prev' == type) {
+            if (type === 'prev') {
                 if ((current - 1) >= 0) {
                     current = current - 1;
                 } else {
@@ -595,7 +628,7 @@ $(document).ready(function() {
     };
 
     /**
-     * Sets all the templates of a DigitalSignage object.
+     * Sets all the templates of a Digital Signage.
      * @param {HTMLElement} $element - The HTML object.
      * @param {Boolean} level - Get templates from level.
      */
@@ -623,7 +656,7 @@ $(document).ready(function() {
     };
 
     /**
-     * Gets a templates of a DigitalSignage object.
+     * Gets a templates of the DigitalSignage.
      * @param {String} template - The name of the template.
      * @param {Array} $templates - The available templates.
      */
@@ -638,35 +671,31 @@ $(document).ready(function() {
     /**
      * Gets the translated text.
      * @param {String} key - The key of the lexicon.
-     * @param {String|Object} category - The type lexicon.
-     * @param {String} lexicon - The default return.
+     * @param {Object} data - The data of the lexicon.
+     * @param {String} emptyLexicon - The default return.
      */
-    DigitalSignage.prototype.getLexicon = function(key, category, lexicon) {
-        var lexicons = [];
+    DigitalSignage.prototype.getLexicon = function(key, data, emptyLexicon) {
+        var lexicon = 'undefined';
 
-        if (typeof category == 'object') {
-            if (category[key]) {
-                return category[key];
-            }
-        } else {
-            if (this.settings.lexicons[category]) {
-                if (this.settings.lexicons[category][key]) {
-                    return this.settings.lexicons[category][key];
-                }
-            } else if (this.settings.lexicons[key]) {
-                return this.settings.lexicons[key];
-            }
+        if (emptyLexicon !== undefined) {
+            lexicon = emptyLexicon;
         }
 
-        if (undefined !== lexicon) {
-            return lexicon;
+        if ($.fn.DigitalSignage.lexicons[key]) {
+            lexicon = $.fn.DigitalSignage.lexicons[key];
         }
 
-        return 'undefined';
+        if (data !== null && 'object' === typeof data) {
+            $.each(data, function(key, value) {
+                lexicon = lexicon.replace('%' + key + '%', value);
+            });
+        }
+
+        return lexicon;
     };
 
     /**
-     * Gets a placeholder of a DigitalSignage object.
+     * Gets a placeholder of a template.
      * @param {String} placeholder - The name of the placeholder.
      * @param {HTMLElement} $element - The HTML object.
      */
@@ -679,27 +708,30 @@ $(document).ready(function() {
     };
 
     /**
-     * Sets the placeholder of a DigitalSignage object.
-     * @param {HTMLElement} $template - The HTML object.
+     * Sets the placeholder of a template.
+     * @param {HTMLElement} $template - The template.
      * @param {Object} data - The data of the placeholders.
+     * @param {Boolean} reset - Reset all placeholders if empty.
      */
-    DigitalSignage.prototype.setPlaceholders = function($template, data) {
+    DigitalSignage.prototype.setPlaceholders = function($template, data, reset) {
         var placeholders = $('[data-placeholder]', $template);
 
         for (var i = 0; i < placeholders.length; i++) {
             if ($placeholder = $(placeholders[i])) {
-                var type    = $placeholder.prop('tagName'),
+                var type    = $placeholder.prop('tagName').toUpperCase(),
                     name    = $placeholder.attr('data-placeholder'),
                     wrapper = $placeholder.attr('data-placeholder-wrapper'),
                     renders = $placeholder.attr('data-placeholder-renders'),
                     value   = this.getPlaceholderValue(name, data, renders),
-                    isEmpty = null === value || undefined === value || '' === value;
+                    isEmpty = value === null || value === undefined || value === '';
 
                 switch (type) {
                     case 'IMG':
                     case 'IFRAME':
                         if (isEmpty) {
-                            $placeholder.attr('src', '').hide();
+                            if (reset !== undefined && reset) {
+                                $placeholder.attr('src', '').hide();
+                            }
                         } else {
                             $placeholder.attr('src', value).show();
                         }
@@ -707,7 +739,9 @@ $(document).ready(function() {
                         break;
                     default:
                         if (isEmpty) {
-                            $placeholder.html('').hide();
+                            if (reset !== undefined && reset) {
+                                $placeholder.html('').hide();
+                            }
                         } else {
                             $placeholder.html(value).show();
                         }
@@ -718,7 +752,9 @@ $(document).ready(function() {
                 if (wrapper) {
                     if ($placeholder.parents('.' + wrapper)) {
                         if (isEmpty) {
-                            $placeholder.parents('.' + wrapper).addClass('is-empty');
+                            if (reset !== undefined && reset) {
+                                $placeholder.parents('.' + wrapper).addClass('is-empty');
+                            }
                         } else {
                             $placeholder.parents('.' + wrapper).removeClass('is-empty');
                         }
@@ -729,7 +765,7 @@ $(document).ready(function() {
 
         var placeholders = $('[data-placeholder-class]', $template);
 
-        if (undefined != $template.attr('data-placeholder-class')) {
+        if ($template.attr('data-placeholder-class') !== undefined) {
             placeholders.push($template);
         }
 
@@ -753,12 +789,12 @@ $(document).ready(function() {
      * @param {String|Array} renders - The renders of the placeholder.
      */
     DigitalSignage.prototype.getPlaceholderValue = function(name, data, renders) {
-        if (typeof name == 'string') {
+        if (typeof name === 'string') {
             name = name.split('.');
         }
 
         if (value = data[name.shift()]) {
-            if (typeof value == 'object') {
+            if (typeof value === 'object') {
                 value = this.getPlaceholderValue(name, value);
             }
         }
@@ -768,17 +804,16 @@ $(document).ready(function() {
 
     /**
      * Gets the placeholder value.
-     * @public.
-     * @param {Value} string|null - The value of the placeholder.
-     * @param {Renders} string|array - The renders of the placeholder.
+     * @param {String|Null} value - The value of the placeholder.
+     * @param {String|Array} renders - The renders of the placeholder.
      */
     DigitalSignage.prototype.getPlaceholderValueRenders = function(value, renders) {
         if (renders) {
-            if (typeof renders == 'string') {
+            if (typeof renders === 'string') {
                 renders = renders.split(',');
             }
 
-            if (typeof value == 'string' && '' != value) {
+            if (typeof value === 'string' && value !== '') {
                 for (var i = 0; i < renders.length; i++) {
                     var param   = null,
                         render  = renders[i];
@@ -799,11 +834,11 @@ $(document).ready(function() {
                             var ellipsis = param ? parseInt(param) : 100;
 
                             if (value.length > ellipsis) {
-                                var firstPart 	= value.substring(0, ellipsis);
-                                var secondPart	= value.substring(ellipsis);
+                                var firstPart   = value.substring(0, ellipsis);
+                                var secondPart  = value.substring(ellipsis);
 
                                 if (-1 === (secondSpace = secondPart.indexOf(' '))) {
-                                    secondSpace = secondPart.lenght - 1;
+                                    secondSpace = secondPart.length - 1;
                                 }
 
                                 value = firstPart + (secondPart.substr(0, secondSpace)) + '...';
@@ -811,10 +846,12 @@ $(document).ready(function() {
 
                             break;
                         case 'youtube':
-                            var videoID = value.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
+                            var parts = value.replace(/\/$/gm, '').split('/');
 
-                            if (videoID[1]) {
-                                value = '//www.youtube.com/embed/' + videoID[1] + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0');
+                            if (undefined !== (value = parts[parts.length - 1])) {
+                                if (undefined !== (value = value.replace(/watch\?v=/gi, '').split(/[?#]/)[0])) {
+                                    value = '//www.youtube.com/embed/' + value + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0');
+                                }
                             }
 
                             break;
@@ -834,23 +871,23 @@ $(document).ready(function() {
 
                             var formats = {
                                 '%h'    : hours,
-                                '%H'    : hours < 10 ? ('0' + hours) : hours,
+                                '%H'    : ('0' + hours).slice(-2),
                                 '%i'    : minutes,
-                                '%I'    : minutes < 10 ? ('0' + minutes) : minutes,
+                                '%I'    : ('0' + minutes).slice(-2),
                                 '%s'    : seconds,
-                                '%S'    : seconds < 10 ? ('0' + seconds) : seconds,
+                                '%S'    : ('0' + seconds).slice(-2),
                                 '%j'    : dates,
-                                '%d'    : dates < 10 ? ('0' + dates) : dates,
-                                '%D'    : this.getLexicon(day, 'days').substr(0, 3),
-                                '%l'    : this.getLexicon(day, 'days'),
+                                '%d'    : ('0' + dates).slice(-2),
+                                '%D'    : this.getLexicon('day_' + day).substr(0, 3),
+                                '%l'    : this.getLexicon('day_' + day),
                                 '%W'    : day,
-                                '%M'    : this.getLexicon(month, 'months').substr(0, 3),
-                                '%F'    : this.getLexicon(month, 'months'),
-                                '%m'    : month < 10 ? ('0' + month) : month,
-                                '%n'    : month + 1,
+                                '%M'    : this.getLexicon('month_' + month).substr(0, 3),
+                                '%F'    : this.getLexicon('month_' + month),
+                                '%m'    : ('0' + month).slice(-2),
+                                '%n'    : month,
                                 '%y'    : year.toString().substr(2, 2),
                                 '%Y'    : year.toString(),
-                                '%q'    : this.getLexicon(days, 'dayTypes', this.getLexicon(day, 'days').toString())
+                                '%q'    : this.getLexicon('day_replace_' + days, null, this.getLexicon('day_' + day).toString())
                             };
 
                             if (dateFormats = format.match(/%[a-z]/gi)) {
@@ -897,21 +934,21 @@ $(document).ready(function() {
      * @param {Integer} time - The time of the slide.
      */
     DigitalSignage.prototype.setTimer = function(time) {
-        this.setLog('[Core] setTimer: (time: ' + time + ')');
+        this.setLog('[' + this.constructor.name + '] setTimer: (time: ' + time + ')');
 
         if ($timer = this.getTimer('progress')) {
-            if ('vertical' == this.settings.timerType) {
-                var startPosition   = {'height': '0px'};
-                var endPosition     = {'height': '100%'};
+            if (this.settings.timerType === 'vertical') {
+                var pos1    = {height: '0px'};
+                var pos2    = {height: '100%'};
             } else {
-                var startPosition   = {'width': '0px'};
-                var endPosition     = {'width': '100%'};
+                var pos1    = {width: '0px'};
+                var pos2    = {width: '100%'};
             }
 
-            $timer.css(startPosition).stop().animate(endPosition, {
-                'easing'    : 'linear',
-                'duration'  : time * 1000,
-                'complete'  : $.proxy(function(event) {
+            $timer.css(pos1).stop().animate(pos2, {
+                easing      : 'linear',
+                duration    : time * 1000,
+                complete    : $.proxy(function(event) {
                     this.nextSlide();
                 }, this)
             });
@@ -923,13 +960,13 @@ $(document).ready(function() {
      * @param {Object} data - The slide data.
      */
     DigitalSignage.prototype.getSlide = function(data) {
-        this.setLog('[Core] getSlide: (title: ' + data.title + ')');
+        this.setLog('[' + this.constructor.name + '] getSlide: (title: ' + data.title + ')');
 
         if (null === ($slide = this.getTemplate(data.slide.replace('_', '-'), this.$templates))) {
             $slide = this.getTemplate('default', this.$templates);
         }
 
-        if (null !== $slide) {
+        if ($slide !== null) {
             $slide.prependTo($(this.getPlaceholder('slides', this.$element)));
 
             if (plugin = this.getSlidePlugin($slide, data.slide)) {
@@ -963,94 +1000,72 @@ $(document).ready(function() {
     DigitalSignage.prototype.nextSlide = function(type) {
         var next = this.getCurrentDataIndex('slides', type, null);
 
-        this.setLog('[Core] nextSlide: (next: ' + next + ')');
+        this.setLog('[' + this.constructor.name + '] nextSlide: (next: ' + next + ')');
 
-        if (null !== (data = this.getData('slides', next))) {
-            var data = $.extend({}, {
-                'slide'         : 'default',
-                'fullscreen'    : false
-            }, data);
+        if (next !== null) {
+            if (null !== (data = this.getData('slides', next))) {
+                var data = $.extend({}, {
+                    slide       : 'default',
+                    fullscreen  : false
+                }, data);
 
-            if ($slide = this.getSlide(data)) {
-                this.enableDevTools(false);
+                if ($slide = this.getSlide(data)) {
+                    this.enableDevTools(false);
 
-                var zIndex = null;
+                    for (var i = 0; i < this.settings.keys.length; i++) {
+                        var key = this.settings.keys[i];
 
-                for (var i = 0; i < this.settings.keys.length; i++) {
-                    var key = this.settings.keys[i];
+                        if (data[key]) {
+                            if (parseInt(data[key]) === 1 || data[key] === 'true') {
+                                $slide.addClass('slide-' + key);
 
-                    if (data[key]) {
-                        if (1 == data[key] ||'true' == data[key]) {
-                            $slide.addClass('slide-' + key);
-
-                            this.$element.addClass('window-' + key);
-
-                            if ('fullscreen' === key) {
-                                zIndex = 9999;
+                                this.$element.addClass('window-' + key);
+                            } else {
+                                this.$element.removeClass('window-' + key);
                             }
                         } else {
                             this.$element.removeClass('window-' + key);
                         }
+                    }
+
+                    $slide.hide().fadeIn(this.settings.animationTime * 1000);
+
+                    if ($current = this.$slides.shift()) {
+                        $current.show().fadeOut(this.settings.animationTime * 1000, $.proxy(function () {
+                            if (!data.fullscreen) {
+                                this.$element.removeClass('window-fullscreen');
+                            }
+
+                            if ($current) {
+                                $current.remove();
+                            }
+
+                            this.enableDevTools(true);
+                        }, this));
                     } else {
-                        this.$element.removeClass('window-' + key);
-                    }
-                }
-
-                if (undefined !== (fullScreen = $slide.attr('data-slide-fullscreen'))) {
-                    if (1 == fullScreen ||'true' == fullScreen) {
-                        zIndex = 9999;
-                    }
-                }
-
-                if (null !== zIndex || undefined !== (zIndex = $slide.attr('data-slide-index'))) {
-                    $slide.css({'z-index': zIndex, 'position': 'absolute', 'top': 0, 'bottom': 0, 'left': 0, 'right': 0});
-                }
-
-                $slide.hide().fadeIn(this.settings.animationTime * 1000);
-
-                if ($current = this.$slides.shift()) {
-                    this.$currenSlides.push($current);
-
-                    $current.show().fadeOut(this.settings.animationTime * 1000, $.proxy(function(event) {
-                        if (!data.fullscreen) {
-                            this.$element.removeClass('window-fullscreen');
-                        }
-
-                        if ($current = this.$currenSlides.shift()) {
-                            $current.remove();
-                        }
-
                         this.enableDevTools(true);
-                    }, this));
-                } else {
-                    this.enableDevTools(true);
-                }
+                    }
 
-                this.$slides.push($slide);
+                    this.$slides.push($slide);
+                } else {
+                    this.setError('[' + this.constructor.name + '] nextSlide: ' + this.core.getLexicon('error_no_slide'));
+
+                    this.nextSlide();
+                }
             } else {
-                this.skipSlide('No slide available.');
+                this.setError('[' + this.constructor.name + '] nextSlide: ' + this.core.getLexicon('error_no_slide_data'));
+
+                this.nextSlide();
             }
         } else {
-            this.skipSlide('No slide data available.');
+            this.setError('[' + this.constructor.name + '] nextSlide: ' + this.core.getLexicon('error_no_data'));
         }
     };
 
     /**
-     * Skips the current slide and animate next slide.
-     * @public.
-     * @param {String} message - The message of skip.
-     */
-    DigitalSignage.prototype.skipSlide = function(message) {
-        this.setLog('[Core] skipSlide: (message: ' + message + ')');
-
-        this.nextSlide();
-    };
-
-    /**
      * Gets the plugin name of the slide.
-     * @public.
-     * @param {$slide} HTMLElement - The slide.
-     * @param {Type} string - The type of the slide.
+     * @param {HTMLElement} $slide - The slide.
+     * @param {String} type - The type of the slide.
      */
     DigitalSignage.prototype.getSlidePlugin = function($slide, type) {
         if (undefined !== (plugin = $slide.attr('data-plugin'))) {
@@ -1068,12 +1083,11 @@ $(document).ready(function() {
 
     /**
      * Converts XML data to a readable Array.
-     * @public.
-     * @param {Input} string - The XML data.
-     * @param {Element} string - The elements.
+     * @param {String} input - The XML data.
+     * @param {String} element - The elements.
      */
     DigitalSignage.prototype.parseXML = function(input, element) {
-        var data = new Array(),
+        var data = [],
             $xml = $($.parseXML(input));
 
         if (0 < $(element, $xml).length) {
@@ -1083,7 +1097,7 @@ $(document).ready(function() {
                 $(value).children().each(function(index, value) {
                     var type = $(this).prop('tagName');
 
-                    if ('enclosure' == type) {
+                    if ('enclosure' === type) {
                         item['image'] = $(this).attr('url');
                     } else {
                         item[type] = $(this).text();
@@ -1163,7 +1177,7 @@ $(document).ready(function() {
                 $this.data('digitalsignage', data);
 
                 $.each([], function(i, event) {
-                    data.register({ type: DigitalSignage.Type.Event, name: event });
+                    data.register({type: DigitalSignage.Type.Event, name: event});
 
                     data.$element.on(event + '.digitalsignage.core', $.proxy(function(e) {
                         if (e.namespace && this !== e.relatedTarget) {
@@ -1177,7 +1191,7 @@ $(document).ready(function() {
                 });
             }
 
-            if (typeof option == 'string' && '_' !== option.charAt(0)) {
+            if (typeof option === 'string' && '_' !== option.charAt(0)) {
                 data[option].apply(data, args);
             }
         });
@@ -1189,6 +1203,62 @@ $(document).ready(function() {
      */
     $.fn.DigitalSignage.Constructor = DigitalSignage;
 
+    /**
+     * The lexicons for the jQuery Plugin.
+     * @public.
+     */
+    $.fn.DigitalSignage.lexicons = {
+        error                   : 'Fout',
+        warning                 : 'Waarschuwing',
+
+        error_player            : 'Digital Signage kon niet geladen worden omdat de mediaspeler niet gedefinieerd is.',
+        error_broadcast         : 'Digital Signage kon niet geladen worden omdat de uitzending niet gedefinieerd is.',
+
+        error_feed              : 'Feed kon niet geladen worden omdat deze niet gedefinieerd is.',
+        error_feed_http         : 'Feed kon niet geladen worden (HTTP status: %status%).',
+        error_feed_format       : 'Feed kon niet geladen worden omdat het formaat niet ondersteund word (Formaat: %format%).',
+        error_feed_empty        : 'Feed kon niet geladen worden omdat het geen items bevat.',
+        feed_loaded             : 'Feed geladen met %items% items.',
+
+        error_callback          : 'Callback kon niet geladen worden omdat deze niet gedefinieerd is.',
+        error_callback_http     : 'Callback kon niet geladen worden (HTTP status: %status%).',
+        error_callback_format   : 'Callback kon niet geladen worden omdat het formaat niet ondersteund word (Formaat: %format%).',
+
+        error_custom_plugin     : 'Plugin "%plugin%" kon niet gevonden worden.',
+        custom_plugin           : 'Plugin "%plugin%" gevonden.',
+
+        error_no_data           : 'Geen data beschikbaar.',
+        error_no_slide          : 'Geen slide beschikbaar.',
+        error_no_slide_data     : 'Geen slide data beschikbaar.',
+
+        prev_slide              : 'Vorige slide',
+        next_slide              : 'Volgende slide',
+
+        day_0                   : 'Zondag',
+        day_1                   : 'Maandag',
+        day_2                   : 'Dinsdag',
+        day_3                   : 'Woensdag',
+        day_4                   : 'Donderdag',
+        day_5                   : 'Vrijdag',
+        day_6                   : 'Zaterdag',
+
+        month_1                 : 'januari',
+        month_2                 : 'februari',
+        month_3                 : 'maart',
+        month_4                 : 'april',
+        month_5                 : 'mei',
+        month_6                 : 'juni',
+        month_7                 : 'juli',
+        month_8                 : 'augustus',
+        month_9                 : 'september',
+        month_10                : 'oktober',
+        month_11                : 'november',
+        month_12                : 'december',
+
+        day_replace_0           : 'Vandaag',
+        day_replace_1           : 'Morgen',
+        day_replace_2           : 'Overmorgen'
+    };
 })(window.Zepto || window.jQuery, window, document);
 
 /* ----------------------------------------------------------------------------------------- */
@@ -1199,69 +1269,53 @@ $(document).ready(function() {
     /**
      * Creates a Default Slide.
      * @class SlideDefault.
-     * @public.
-     * @param {Element} HTMLElement|jQuery - The element of the Default Slide.
-     * @param {Options} array - The options of the Default Slide.
-     * @param {Core} Object - The DigitalSignage object for the Default Slide.
+     * @param {HTMLElement} element - The element of the Clock Plugin.
+     * @param {Array} options - The options of the Clock Plugin.
+     * @param {Object} core - The DigitalSignage object for the Clock Plugin.
      */
     function SlideDefault(element, options, core) {
         /**
          * The DigitalSignage object for the Default Slide.
-         * @public.
          */
         this.core = core;
 
         /**
-         * Current settings for the Default Slide.
-         * @public.
-         */
-        this.settings = $.extend({}, SlideDefault.Defaults, options);
-
-        /**
-         * Plugin element.
-         * @public.
-         */
-        this.$element = $(element);
-
-        /**
          * Currently suppressed events to prevent them from beeing retriggered.
-         * @protected.
          */
         this._supress = {};
 
         /**
-         * The data.
-         * @protected.
+         * Plugin element of the Default Slide.
          */
-        this.data = {};
+        this.$element = $(element);
+
+        /**
+         * Current settings of the Default Slide.
+         */
+        this.settings = $.extend({}, SlideDefault.Defaults, options);
 
         this.initialize();
     }
 
     /**
      * Default options for the Default Slide.
-     * @public.
      */
     SlideDefault.Defaults = {
-        'time': 15
+        time : 15
     };
 
     /**
      * Enumeration for types.
-     * @public.
-     * @readonly.
-     * @enum {String}.
      */
     SlideDefault.Type = {
-        'Event': 'event'
+        Event : 'event'
     };
 
     /**
      * Initializes the Default Slide.
-     * @protected.
      */
     SlideDefault.prototype.initialize = function() {
-        this.core.setLog('[SlideDefault] initialize');
+        this.core.setLog('[' + this.constructor.name + '] initialize');
 
         this.core.setPlaceholders(this.$element, this.settings);
 
@@ -1270,7 +1324,6 @@ $(document).ready(function() {
 
     /**
      * Registers an event or state.
-     * @public.
      * @param {Object} object - The event or state to register.
      */
     SlideDefault.prototype.register = function(object) {
@@ -1283,7 +1336,7 @@ $(document).ready(function() {
                 var _default = $.event.special[object.name]._default;
 
                 $.event.special[object.name]._default = function(e) {
-                    if (_default && _default.apply && (!e.namespace || -1 === e.namespace.indexOf('digitalsignage'))) {
+                    if (_default && _default.apply && (!e.namespace || e.namespace.indexOf('digitalsignage') === -1)) {
                         return _default.apply(this, arguments);
                     }
 
@@ -1297,8 +1350,7 @@ $(document).ready(function() {
 
     /**
      * Suppresses events.
-     * @protected.
-     * @param {Array.<String>} events - The events to suppress.
+     * @param {Array} events - The events to suppress.
      */
     SlideDefault.prototype.suppress = function(events) {
         $.each(events, $.proxy(function(index, event) {
@@ -1308,8 +1360,7 @@ $(document).ready(function() {
 
     /**
      * Releases suppressed events.
-     * @protected.
-     * @param {Array.<String>} events - The events to release.
+     * @param {Array} events - The events to release.
      */
     SlideDefault.prototype.release = function(events) {
         $.each(events, $.proxy(function(index, event) {
@@ -1329,12 +1380,12 @@ $(document).ready(function() {
                 data = $this.data('digitalsignage.slidedefault');
 
             if (!data) {
-                data = new SlideDefault(this, typeof option == 'object' && option, core);
+                data = new SlideDefault(this, typeof option === 'object' && option, core);
 
                 $this.data('digitalsignage.slidedefault', data);
 
                 $.each([], function(i, event) {
-                    data.register({ type: SlideDefault.Type.Event, name: event });
+                    data.register({type: SlideDefault.Type.Event, name: event});
 
                     data.$element.on(event + '.digitalsignage.slidedefault.core', $.proxy(function(e) {
                         if (e.namespace && this !== e.relatedTarget) {
@@ -1348,18 +1399,17 @@ $(document).ready(function() {
                 });
             }
 
-            if (typeof option == 'string' && '_' !== option.charAt(0)) {
+            if (typeof option === 'string' && option.charAt(0) !== '_') {
                 data[option].apply(data, args);
             }
         });
     };
 
     /**
-     * The constructor for the jQuery Plugin.
+     * The constructor for the Default Slide.
      * @public.
      */
     $.fn.SlideDefault.Constructor = SlideDefault;
-
 })(window.Zepto || window.jQuery, window, document);
 
 /* ----------------------------------------------------------------------------------------- */
@@ -1369,72 +1419,43 @@ $(document).ready(function() {
 ;(function($, window, document, undefined) {
     /**
      * Creates a Clock Plugin.
-     * @class Clock Plugin.
-     * @public.
-     * @param {Element} HTMLElement|jQuery - The element of the Clock Plugin.
-     * @param {Options} array - The options of the Clock Plugin.
-     * @param {Core} Object - The DigitalSignage object for the Clock Plugin.
+     * @class ClockPlugin.
+     * @param {HTMLElement} element - The element of the Clock Plugin.
+     * @param {Array} options - The options of the Clock Plugin.
+     * @param {Object} core - The DigitalSignage object for the Clock Plugin.
      */
     function ClockPlugin(element, options, core) {
         /**
          * The DigitalSignage object for the Clock Plugin.
-         * @public.
          */
         this.core = core;
 
         /**
-         * Plugin element.
-         * @public.
+         * Plugin element of the Clock Plugin.
          */
         this.$element = $(element);
-
-        /**
-         * Current settings for the Clock Plugin.
-         * @public.
-         */
-        this.settings = $.extend({}, ClockPlugin.Defaults, options, this.core.loadCustomPluginSettings(this.$element));
 
         this.initialize();
     }
 
     /**
-     * Default options for the Clock Plugin.
-     * @public.
-     */
-    ClockPlugin.Defaults = {
-
-    };
-
-    /**
-     * Enumeration for types.
-     * @public.
-     * @readonly.
-     * @enum {String}.
-     */
-    ClockPlugin.Type = {
-        'Event': 'event'
-    };
-
-    /**
      * Initializes the Clock Plugin.
-     * @protected.
      */
     ClockPlugin.prototype.initialize = function() {
-        this.core.setLog('[ClockPlugin] initialize');
+        this.core.setLog('[' + this.constructor.name + '] initialize');
 
         setInterval($.proxy(function() {
             var date = new Date();
 
             this.core.setPlaceholders(this.$element, {
-                'time' : date.toString(),
-                'date' : date.toString()
+                time : date.toString(),
+                date : date.toString()
             });
         }, this), 1000);
     };
 
     /**
-     * The jQuery Plugin for the ClockPlugin.
-     * @public.
+     * The jQuery Plugin for the Clock Plugin.
      */
     $.fn.ClockPlugin = function(core, option) {
         var args = Array.prototype.slice.call(arguments, 1);
@@ -1444,23 +1465,21 @@ $(document).ready(function() {
                 data = $this.data('digitalsignage.clockplugin');
 
             if (!data) {
-                data = new ClockPlugin(this, typeof option == 'object' && option, core);
+                data = new ClockPlugin(this, typeof option === 'object' && option, core);
 
                 $this.data('digitalsignage.clockplugin', data);
             }
 
-            if (typeof option == 'string' && '_' !== option.charAt(0)) {
+            if (typeof option === 'string' && option.charAt(0) !== '_') {
                 data[option].apply(data, args);
             }
         });
     };
 
     /**
-     * The constructor for the jQuery Plugin.
-     * @public.
+     * The constructor for the Clock Plugin.
      */
     $.fn.ClockPlugin.Constructor = ClockPlugin;
-
 })(window.Zepto || window.jQuery, window, document);
 
 /* ----------------------------------------------------------------------------------------- */
@@ -1470,8 +1489,7 @@ $(document).ready(function() {
 ;(function($, window, document, undefined) {
     /**
      * Creates a Ticker Plugin.
-     * @class Ticker Plugin.
-     * @public.
+     * @class TickerPlugin.
      * @param {HTMLElement} element - The element of the Ticker Plugin.
      * @param {Array} options - The options of the Ticker Plugin.
      * @param {Object} core - The DigitalSignage object for the Ticker Plugin.
@@ -1479,37 +1497,36 @@ $(document).ready(function() {
     function TickerPlugin(element, options, core) {
         /**
          * The DigitalSignage object for the Ticker Plugin.
-         * @public.
          */
         this.core = core;
 
         /**
-         * Plugin element.
-         * @public.
-         */
-        this.$element = $(element);
-
-        /**
-         * Current settings for the Ticker Plugin.
-         * @public.
-         */
-        this.settings = $.extend({}, TickerPlugin.Defaults, options, this.core.loadCustomPluginSettings(this.$element));
-
-        /**
          * Currently suppressed events to prevent them from beeing retriggered.
-         * @protected.
          */
         this._supress = {};
 
         /**
+         * Plugin element of the Ticker Plugin.
+         */
+        this.$element = $(element);
+
+        /**
+         * Current settings of the Ticker Plugin.
+         */
+        this.settings = $.extend({}, TickerPlugin.Defaults, options, this.core.loadCustomPluginSettings(this.$element));
+
+        /**
          * All templates of the Ticker Plugin.
-         * @protected.
          */
         this.$templates = this.core.getTemplates(this.$element);
 
         /**
+         * The state of data of the Ticker Plugin.
+         */
+        this.isLoaded = false;
+
+        /**
          * All elements of the Ticker Plugin.
-         * @protected.
          */
         this.$items = [];
 
@@ -1518,45 +1535,40 @@ $(document).ready(function() {
 
     /**
      * Default options for the Ticker Plugin.
-     * @public.
      */
     TickerPlugin.Defaults = {
-        'feed'          : null,
-        'feedType'      : 'JSON',
-        'feedInterval'  : 900,
+        feed            : null,
+        feedType        : 'JSON',
+        feedInterval    : 900,
 
-        'vars'          : {
-            'player'        : null,
-            'broadcast'     : null,
-            'preview'       : false
+        vars            : {
+            player          : null,
+            broadcast       : null,
+            preview         : false
         }
     };
 
     /**
      * Enumeration for types.
-     * @public.
-     * @readonly.
-     * @enum {String}.
      */
     TickerPlugin.Type = {
-        'Event': 'event'
+        Event : 'event'
     };
 
     /**
      * Initializes the Ticker Plugin.
-     * @protected.
      */
     TickerPlugin.prototype.initialize = function() {
-        this.core.setLog('[TickerPlugin] initialize');
+        this.core.setLog('[' + this.constructor.name + '] initialize');
 
-        if (null === this.settings.feed) {
-            this.core.setError('[TickerPlugin] feed is not defined.');
+        if (this.settings.feed === null) {
+            this.core.setError('[' + this.constructor.name + '] initialize: ' + this.core.getLexicon('tickerplugin_error_feed'));
         } else {
-            this.loadData();
+            this.loadFeed();
 
             if (0 < this.settings.feedInterval) {
                 setInterval($.proxy(function(event) {
-                    this.loadData();
+                    this.loadFeed();
                 }, this), this.settings.feedInterval * 1000);
             }
         }
@@ -1564,105 +1576,84 @@ $(document).ready(function() {
 
     /**
      * Loads the data for the Ticker Plugin.
-     * @protected.
      */
-    TickerPlugin.prototype.loadData = function() {
-        this.core.setLog('[TickerPlugin] loadData');
+    TickerPlugin.prototype.loadFeed = function() {
+        this.core.setLog('[' + this.constructor.name + '] loadFeed');
 
         $.ajax({
-                   'url'       : this.core.getAjaxUrl(this.settings.feed, this.settings.feedInterval, ['type=ticker', 'data=true']),
-                   'dataType'  : this.settings.feedType.toUpperCase(),
-                   'complete'  : $.proxy(function(result) {
-                       if (200 == result.status) {
-                           switch (this.settings.feedType.toUpperCase()) {
-                               case 'JSON':
-                                   if (result.responseJSON) {
-                                       if (0 < result.responseJSON.items.length) {
-                                           var data = [];
+            url         : this.core.getAjaxUrl(this.settings.feed, ['type=ticker', 'data=true']),
+            dataType    : this.settings.feedType.toUpperCase(),
+            complete    : $.proxy(function(result) {
+                if (parseInt(result.status) === 200) {
+                    switch (this.settings.feedType.toUpperCase()) {
+                        case 'JSON':
+                            if (result.responseJSON) {
+                                if (result.responseJSON.items.length > 0) {
+                                    var data = [];
 
-                                           for (var i = 0; i < result.responseJSON.items.length; i++) {
-                                               data.push(result.responseJSON.items[i]);
-                                           }
+                                    for (var i = 0; i < result.responseJSON.items.length; i++) {
+                                        data.push(result.responseJSON.items[i]);
+                                    }
 
-                                           this.core.setData('tickerplugin', data);
-                                       } else {
-                                           this.loadData();
-                                       }
+                                    this.core.setData(this.constructor.name.toLowerCase(), data);
 
-                                       this.core.setLog('[TickerPlugin] loadData: (slides: ' + result.responseJSON.items.length + ')');
-                                   } else {
-                                       this.core.setError('[TickerPlugin] feed could not be read (Format: ' + this.settings.feedType.toUpperCase() + ').');
-                                   }
+                                    this.core.setLog('[' + this.constructor.name + '] loadFeed: ' + this.core.getLexicon('tickerplugin_feed_loaded', {
+                                        items : result.responseJSON.items.length
+                                    }));
+                                } else {
+                                    this.core.setLog('[' + this.constructor.name + '] loadFeed: ' + this.core.getLexicon('tickerplugin_error_feed_empty', {
+                                        items : result.responseJSON.items.length
+                                    }));
+                                }
+                            } else {
+                                this.core.setError('[' + this.constructor.name + '] loadFeed: ' + this.core.getLexicon('tickerplugin_error_feed_format', {
+                                    format : this.settings.feedType.toUpperCase()
+                                }));
+                            }
 
-                                   break;
-                               default:
-                                   this.core.setError('[TickerPlugin] feed could not be read because the format is not supported (Format: ' + this.settings.feedType.toUpperCase() + ').');
+                            break;
+                        default:
+                            this.core.setError('[' + this.constructor.name + '] loadFeed: ' + this.core.getLexicon('tickerplugin_error_feed_format', {
+                                format : this.settings.feedType.toUpperCase()
+                            }));
 
-                                   break;
-                           }
-                       } else {
-                           this.core.setError('[TickerPlugin] feed could not be loaded (HTTP status: ' + result.status + ').');
-                       }
-
-                       if (0 == this.$items.length) {
-                           if (0 < this.core.getData('tickerplugin', 'length')) {
-                               this.addItem();
-                               this.addItem();
-
-                               this.nextItem();
-                           }
-                       }
-                   }, this)
-               });
-    };
-
-    /**
-     * Returns all the URL parameters.
-     * @public.
-     */
-    TickerPlugin.prototype.getUrlParameters = function() {
-        var parameters = new Array('type=ticker', 'data=true');
-
-        $.each(this.settings.vars, $.proxy(function(index, value) {
-            switch (index) {
-                case 'player':
-                    parameters.push('pl=' + value);
-
-                    break;
-                case 'broadcast':
-                    parameters.push('bc=' + value);
-
-                    break;
-                case 'preview':
-                    if (this.settings.vars.preview) {
-                        parameters.push('preview=true');
+                            break;
                     }
+                } else {
+                    this.core.setError('[' + this.constructor.name + '] loadFeed: ' + this.core.getLexicon('tickerplugin_error_feed_http', {
+                        status : result.status
+                    }));
+                }
 
-                    break;
-            }
-        }).bind(this));
-
-        if (0 < parameters.length) {
-            if (-1 == this.settings.feed.search(/\?/i)) {
-                return '?' + parameters.join('&');
-            } else {
-                return '&' + parameters.join('&');
-            }
-        }
-
-        return '';
+                this.start();
+            }, this)
+        });
     };
 
     /**
-     * Sets the data.
-     * @protected.
+     * Sets the first item when the feed is loaded.
+     */
+    TickerPlugin.prototype.start = function() {
+        if (this.core.getData(this.constructor.name.toLowerCase(), 'length') > 0) {
+            if (!this.isLoaded) {
+                this.addItem();
+                this.addItem();
+
+                this.nextItem();
+            }
+
+            this.isLoaded = true;
+        }
+    },
+
+    /**
+     * Sets the current item
      */
     TickerPlugin.prototype.addItem = function() {
         if ($item = this.core.getTemplate('ticker', this.$templates)) {
-            var data = this.core.getData('tickerplugin', 'data');
+            var data = this.core.getData(this.constructor.name.toLowerCase(), 'data');
 
-            //for (var i = 0; i < data.length; i++) {
-            for (var i = 0; i < 3; i++) {
+            for (var i = 0; i < data.length; i++) {
                 if ($subItem = this.core.getTemplate('item', this.$templates)) {
                     this.core.setPlaceholders($subItem, data[i]).appendTo($item);
                 }
@@ -1675,17 +1666,16 @@ $(document).ready(function() {
     };
 
     /**
-     * Starts the animation.
-     * @protected.
+     * Animate the current item.
      */
     TickerPlugin.prototype.nextItem = function() {
         if ($item = this.$items.shift()) {
             var proxy = this;
-
+            
             $item.animate({'margin-left': '-' + $item.outerWidth(true) + 'px'}, {
-                'easing'    : 'linear',
-                'duration'  : 40000 * ($item.outerWidth(true) / 2100),
-                'complete'  : function() {
+                easing      : 'linear',
+                duration    : 40000 * ($item.outerWidth(true) / 2100),
+                complete    : function() {
                     $(this).remove();
 
                     proxy.addItem();
@@ -1697,7 +1687,6 @@ $(document).ready(function() {
 
     /**
      * Registers an event or state.
-     * @public.
      * @param {Object} object - The event or state to register.
      */
     TickerPlugin.prototype.register = function(object) {
@@ -1710,7 +1699,7 @@ $(document).ready(function() {
                 var _default = $.event.special[object.name]._default;
 
                 $.event.special[object.name]._default = function(e) {
-                    if (_default && _default.apply && (!e.namespace || -1 === e.namespace.indexOf('digitalsignage'))) {
+                    if (_default && _default.apply && (!e.namespace || e.namespace.indexOf('digitalsignage') === -1)) {
                         return _default.apply(this, arguments);
                     }
 
@@ -1724,8 +1713,7 @@ $(document).ready(function() {
 
     /**
      * Suppresses events.
-     * @protected.
-     * @param {Array.<String>} events - The events to suppress.
+     * @param {Array} events - The events to suppress.
      */
     TickerPlugin.prototype.suppress = function(events) {
         $.each(events, $.proxy(function(index, event) {
@@ -1735,8 +1723,7 @@ $(document).ready(function() {
 
     /**
      * Releases suppressed events.
-     * @protected.
-     * @param {Array.<String>} events - The events to release.
+     * @param {Array} events - The events to release.
      */
     TickerPlugin.prototype.release = function(events) {
         $.each(events, $.proxy(function(index, event) {
@@ -1746,7 +1733,6 @@ $(document).ready(function() {
 
     /**
      * The jQuery Plugin for the Ticker Plugin.
-     * @public.
      */
     $.fn.TickerPlugin = function(core, option) {
         var args = Array.prototype.slice.call(arguments, 1);
@@ -1756,12 +1742,12 @@ $(document).ready(function() {
                 data = $this.data('digitalsignage.tickerplugin');
 
             if (!data) {
-                data = new TickerPlugin(this, typeof option == 'object' && option, core);
+                data = new TickerPlugin(this, typeof option === 'object' && option, core);
 
                 $this.data('digitalsignage.tickerplugin', data);
 
                 $.each([], function(i, event) {
-                    data.register({ type: TickerPlugin.Type.Event, name: event });
+                    data.register({type: TickerPlugin.Type.Event, name: event});
 
                     data.$element.on(event + '.digitalsignage.tickerplugin.core', $.proxy(function(e) {
                         if (e.namespace && this !== e.relatedTarget) {
@@ -1775,16 +1761,25 @@ $(document).ready(function() {
                 });
             }
 
-            if (typeof option == 'string' && '_' !== option.charAt(0)) {
+            if (typeof option === 'string' && option.charAt(0) !== '_') {
                 data[option].apply(data, args);
             }
         });
     };
 
     /**
-     * The constructor for the jQuery Plugin.
-     * @public.
+     * The constructor for the Ticker Plugin.
      */
     $.fn.TickerPlugin.Constructor = TickerPlugin;
 
+    /**
+     * The lexicons for the Ticker Plugin.
+     */
+    $.extend($.fn.DigitalSignage.lexicons, {
+        tickerplugin_error_feed             : 'Ticker kon niet geladen worden omdat de feed niet gedefinieerd is.',
+        tickerplugin_error_feed_http        : 'Feed kon niet geladen worden (HTTP status: %status%).',
+        tickerplugin_error_feed_format      : 'Feed kon niet geladen worden omdat het formaat niet ondersteund word (Formaat: %format%).',
+        tickerplugin_error_feed_empty       : 'Feed kon niet geladen worden omdat het geen items bevat.',
+        tickerplugin_feed_loaded            : 'Feed geladen met %items% items.'
+    });
 })(window.Zepto || window.jQuery, window, document);

@@ -55,8 +55,8 @@
 
     <!-- Begin Slides -->
     <div class="slides" data-placeholder="slides">
-        <!-- Begin Default Slide -->
         <div data-template="default">
+            <!-- Begin Default Slide -->
             <div class="slide slide-default" data-placeholder-class="source">
                 <div class="slide-inner">
                     <div class="image">
@@ -70,10 +70,10 @@
                     </div>
                 </div>
             </div>
+            <!-- End Default Slide -->
         </div>
-        <!-- End Default Slide -->
-        <!-- Begin Media Slide -->
         <div data-template="media">
+            <!-- Begin Media Slide -->
             <div class="slide slide-media">
                 <div class="slide-inner">
                     <div class="content">
@@ -82,10 +82,10 @@
                     </div>
                 </div>
             </div>
+            <!-- End Media Slide -->
         </div>
-        <!-- End Media Slide -->
-        <!-- Begin Payoff Slide -->
-        <div data-template="payoff" data-slide-fullscreen="true">
+        <div data-template="payoff">
+            <!-- Begin Payoff Slide -->
             <div class="slide slide-payoff" data-placeholder-class="color">
                 <div class="slide-inner">
                     <div class="logo">
@@ -96,10 +96,10 @@
                     </div>
                 </div>
             </div>
+            <!-- End Payoff Slide -->
         </div>
-        <!-- End Payoff Slide -->
-        <!-- Begin Feed Slide -->
         <div data-template="feed" data-plugin-settings="{'feed': '/ds/feed-export.json', 'feedType': 'JSON'}">
+            <!-- Begin Feed Slide -->
             <div class="slide slide-feed">
                 <div class="slide-inner">
                     <div class="items" data-placeholder="items">
@@ -117,16 +117,17 @@
                     </div>
                 </div>
             </div>
+            <!-- End Feed Slide -->
         </div>
-        <!-- End Feed Slide -->
-        <!-- Begin Buienradar Slide -->
         <div data-template="buienradar">
+            <!-- Begin Buienradar Slide -->
             <div class="slide slide-buienradar">
                 <div class="slide-inner">
                     <div class="image">
                         <img src="" data-placeholder="radar" data-placeholder-wrapper="image" />
                     </div>
                     <div class="content">
+                        <h1 data-placeholder="title"></h1>
                         <ul class="forecasts" data-placeholder="forecasts">
                             <li data-template="forecast">
                                 <div class="forecast-inner">
@@ -157,8 +158,8 @@
                     </div>
                 </div>
             </div>
+            <!-- End Buienradar Slide -->
         </div>
-        <!-- End Buienradar Slide -->
     </div>
     <!-- End Slides -->
 </div>
@@ -179,9 +180,10 @@
 
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 
+<script type="text/javascript" src="/digitalsignage/assets/interface/javascript/digitalsignage.js?hash=[[!+digitalsignage.hash]]"></script>
+
 <script type="text/javascript" src="/digitalsignage/assets/interface/javascript/feed.slide.js?hash=[[!+digitalsignage.hash]]"></script>
 <script type="text/javascript" src="/digitalsignage/assets/interface/javascript/buienradar.slide.js?hash=[[!+digitalsignage.hash]]"></script>
-<script type="text/javascript" src="/digitalsignage/assets/interface/javascript/digitalsignage.js?hash=[[!+digitalsignage.hash]]"></script>
 
 </body>
 </html>

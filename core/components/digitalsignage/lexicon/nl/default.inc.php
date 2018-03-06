@@ -41,7 +41,8 @@
     $_lang['digitalsignage.broadcasts_sync_selected_confirm']       = 'Weet je zeker dat je de geselecteerde uitzendingen wilt synchroniseren?';
     $_lang['digitalsignage.broadcast_slides']                       = 'Slides wijzigen (interne slides)';
     $_lang['digitalsignage.broadcast_slides_desc']                  = 'Hier kun je alle slides (interne slides) van de uitzending beheren. Sleep & Drop slides van de "beschikbare slides" naar "geselecteerde slides" om slides aan de uitzending toe te voegen.';
-    $_lang['digitalsignage.broadcast_slide_remove']                 = 'Verwijder slide';
+    $_lang['digitalsignage.broadcast_slide_remove']                 = 'Slide deselecteren';
+    $_lang['digitalsignage.broadcast_slide_remove_confirm']         = 'Weet je zeker dat je deze slide wilt deselecteren van de uitzending?';
     $_lang['digitalsignage.broadcast_feeds']                        = 'Feeds wijzigen (externe slides)';
     $_lang['digitalsignage.broadcast_feeds_desc']                   = 'Hier kun je alle feeds (externe slides) van de uitzending beheren.';
     $_lang['digitalsignage.broadcast_feed_create']                  = 'Nieuwe feed';
@@ -95,7 +96,7 @@
     $_lang['digitalsignage.label_slide_type']                       = 'Type';
     $_lang['digitalsignage.label_slide_type_desc']                  = 'De type van de slide.';
     $_lang['digitalsignage.label_slide_time']                       = 'Looptijd';
-    $_lang['digitalsignage.label_slide_time_desc']                  = 'De looptijd van de slide in seconden of minuten.';
+    $_lang['digitalsignage.label_slide_time_desc']                  = 'De looptijd van de slide in seconden.';
     $_lang['digitalsignage.label_slide_published']                  = 'Gepubliceerd';
     $_lang['digitalsignage.label_slide_published_desc']             = '';
     $_lang['digitalsignage.label_slide_broadcasts']                 = 'Uitzendingen';

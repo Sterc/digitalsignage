@@ -198,8 +198,9 @@ p, ul {
 
 .clock {
     position: absolute;
+    left: 2.6vw;
     right: 2.6vw;
-    bottom: 11vh;
+    bottom: 52vh;
     color: #ffffff;
     text-align: right;
 }
@@ -287,6 +288,7 @@ p, ul {
     left: 0;
     width: 100vw;
     height: 100vh;
+    z-index: 10;
 }
 
 .slide {
@@ -356,16 +358,28 @@ p, ul {
     background-size: 100%;
 }
 
-.slide-default.nos .slide-inner .image:after {
+.slide-default.facebook .slide-inner .image:after {
     background-position: 0 0;
 }
 
-.slide-default.facebook .slide-inner .image:after {
+.slide-default.twitter .slide-inner .image:after {
     background-position: 0 -47px;
 }
 
-.slide-default.nu .slide-inner .image:after {
+.slide-default.instagram .slide-inner .image:after {
     background-position: 0 -94px;
+}
+
+.slide-default.facebook .slide-inner .image:after {
+    background-position: 0 -141px;
+}
+
+.slide-default.nu .slide-inner .image:after {
+    background-position: 0 -188px;
+}
+
+.slide-default.nu .slide-inner .image:after {
+    background-position: 0 -188px;
 }
 
 .slide-default .slide-inner .image img {
@@ -394,7 +408,7 @@ p, ul {
 /* ----------------------------------------------------------------------------------------- */
 
 .slide-media {
-    left: 0;
+    left: 20vw;
 }
 
 .slide-fullscreen .slide-media {
@@ -544,16 +558,20 @@ p, ul {
     left: 0.8vw;
 }
 
-.slide-feed .slide-inner .items .item.nos .image:after {
+.slide-feed .slide-inner .items .item.facebook .image:after {
     background-position: 0 0;
 }
 
-.slide-feed .slide-inner .items .item.facebook .image:after {
+.slide-feed .slide-inner .items .item.twitter .image:after {
     background-position: 0 -47px;
 }
 
-.slide-feed .slide-inner .items .item.nu .image:after {
+.slide-feed .slide-inner .items .item.instagram .image:after {
     background-position: 0 -94px;
+}
+
+.slide-feed .slide-inner .items .item.nos .image:after {
+    background-position: 0 -141px;
 }
 
 .slide-feed .slide-inner .items .item .content {
@@ -616,7 +634,7 @@ p, ul {
 }
 
 .slide-buienradar .slide-inner {
-    padding: 6vh 2.6vw;
+    padding: 4vh 2.6vw 6vh;
 }
 
 .slide-buienradar .slide-inner .image {
@@ -647,6 +665,10 @@ p, ul {
     overflow: hidden;
 }
 
+.slide-buienradar .slide-inner .content h1 {
+    color: #ffffff;
+}
+
 .slide-buienradar .forecasts {
     padding: 0;
     margin: 0 -2vw;
@@ -675,13 +697,13 @@ p, ul {
 }
 
 .slide-buienradar .forecasts li .forecast-inner .icon {
-    height: 28.5vh;
+    height: 24.3vh;
     padding: 3vh;
     background: rgba(255, 255, 255, 0.6);
 }
 
 .slide-ticker .slide-buienradar .forecasts li .forecast-inner .icon {
-    height: 24vh;
+    height: 20vh;
 }
 
 .slide-buienradar .forecasts li .forecast-inner .icon img {

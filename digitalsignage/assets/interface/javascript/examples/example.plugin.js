@@ -7,40 +7,34 @@
 ;(function($, window, document, undefined) {
     /**
      * Creates a Example Plugin.
-     * @class Example Plugin.
-     * @public.
-     * @param {Element} HTMLElement|jQuery - The element of the Example Plugin.
-     * @param {Options} array - The options of the Example Plugin.
-     * @param {Core} Object - The DigitalSignage object for the Example Plugin.
+     * @class ExamplePlugin.
+     * @param {HTMLElement} element - The element of the Example Plugin.
+     * @param {Array} options - The options of the Example Plugin.
+     * @param {Object} core - The DigitalSignage object for the SExample Plugin.
      */
     function ExamplePlugin(element, options, core) {
         /**
          * The DigitalSignage object for the Example Plugin.
-         * @public.
          */
         this.core = core;
 
         /**
-         * Plugin element.
-         * @public.
+         * Currently suppressed events to prevent them from beeing retriggered.
+         */
+        this._supress = {};
+
+        /**
+         * Plugin element of the Example Plugin.
          */
         this.$element = $(element);
 
         /**
          * Current settings for the Example Plugin.
-         * @public.
          */
         this.settings = $.extend({}, ExamplePlugin.Defaults, options, this.core.loadCustomPluginSettings(this.$element));
 
         /**
-         * Currently suppressed events to prevent them from beeing retriggered.
-         * @protected.
-         */
-        this._supress = {};
-
-        /**
          * All templates of the Example Plugin.
-         * @protected.
          */
         this.$templates = this.core.getTemplates(this.$element);
 
@@ -49,34 +43,28 @@
 
     /**
      * Default options for the Example Plugin.
-     * @public.
      */
     ExamplePlugin.Defaults = {
-        'setting1': 'value-1',
-        'setting2': 'value-2'
+        setting1    : 'value-1',
+        setting2    : 'value-2'
     };
 
     /**
      * Enumeration for types.
-     * @public.
-     * @readonly.
-     * @enum {String}.
      */
     ExamplePlugin.Type = {
-        'Event': 'event'
+        Event : 'event'
     };
 
     /**
      * Initializes the Example Plugin.
-     * @protected.
      */
     ExamplePlugin.prototype.initialize = function() {
-        this.core.setLog('[ExamplePlugin] initialize');
+        this.core.setLog('[' + this.constructor.name + '] initialize');
     };
 
     /**
      * Registers an event or state.
-     * @public.
      * @param {Object} object - The event or state to register.
      */
     ExamplePlugin.prototype.register = function(object) {
@@ -89,7 +77,7 @@
                 var _default = $.event.special[object.name]._default;
 
                 $.event.special[object.name]._default = function(e) {
-                    if (_default && _default.apply && (!e.namespace || -1 === e.namespace.indexOf('digitalsignage'))) {
+                    if (_default && _default.apply && (!e.namespace || e.namespace.indexOf('digitalsignage') === -1)) {
                         return _default.apply(this, arguments);
                     }
 
@@ -103,8 +91,7 @@
 
     /**
      * Suppresses events.
-     * @protected.
-     * @param {Array.<String>} events - The events to suppress.
+     * @param {Array} events - The events to suppress.
      */
     ExamplePlugin.prototype.suppress = function(events) {
         $.each(events, $.proxy(function(index, event) {
@@ -114,8 +101,7 @@
 
     /**
      * Releases suppressed events.
-     * @protected.
-     * @param {Array.<String>} events - The events to release.
+     * @param {Array} events - The events to release.
      */
     ExamplePlugin.prototype.release = function(events) {
         $.each(events, $.proxy(function(index, event) {
@@ -125,7 +111,6 @@
 
     /**
      * The jQuery Plugin for the Example Plugin.
-     * @public.
      */
     $.fn.ExamplePlugin = function(core, option) {
         var args = Array.prototype.slice.call(arguments, 1);
@@ -135,12 +120,12 @@
                 data = $this.data('digitalsignage.exampleplugin');
 
             if (!data) {
-                data = new ExamplePlugin(this, typeof option == 'object' && option, core);
+                data = new ExamplePlugin(this, typeof option === 'object' && option, core);
 
                 $this.data('digitalsignage.exampleplugin', data);
 
                 $.each([], function(i, event) {
-                    data.register({ type: ExamplePlugin.Type.Event, name: event });
+                    data.register({type: ExamplePlugin.Type.Event, name: event});
 
                     data.$element.on(event + '.digitalsignage.exampleplugin.core', $.proxy(function(e) {
                         if (e.namespace && this !== e.relatedTarget) {
@@ -154,16 +139,24 @@
                 });
             }
 
-            if (typeof option == 'string' && '_' !== option.charAt(0)) {
+            if (typeof option === 'string' && option.charAt(0) !== '_') {
                 data[option].apply(data, args);
             }
         });
     };
 
     /**
-     * The constructor for the jQuery Plugin.
+     * The constructor for the Example Plugin.
      * @public.
      */
     $.fn.ExamplePlugin.Constructor = ExamplePlugin;
 
+    /**
+     * The lexicons for the Example Plugin.
+     */
+    $.extend($.fn.DigitalSignage.lexicons, {
+        exampleplugin_lexicon1          : 'Lexicon 1',
+        exampleplugin_lexicon2          : 'Lexicon 2',
+        exampleplugin_lexicon3          : 'Lexicon 3',
+    });
 })(window.Zepto || window.jQuery, window, document);

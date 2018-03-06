@@ -11,7 +11,7 @@
          * @access public.
          * @var Array.
          */
-        public $languageTopics = array('digitalsignage:default');
+        public $languageTopics = ['digitalsignage:default'];
 
         /**
          * @access public.
@@ -42,44 +42,43 @@
          * @return Mixed.
          */
         public function initialize() {
-            $this->digitalsignage = $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/');
+            $this->digitalsignage = $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
-            $this->setDefaultProperties(array(
+            $this->setDefaultProperties([
                 'limit' => 0
-            ));
+            ]);
 
             return parent::initialize();
         }
 
         /**
          * @access public.
-         * @param Object $query.
+         * @param Object $object.
          * @return Array.
          */
         public function prepareRow(xPDOObject $object) {
-            $class 	= array();
-            $icon	= '';
-
-            if (0 == $object->published) {
-                $class[] = 'unpublished';
-            }
+            $icon       = 'icon-file';
+            $classes    = [];
 
             if (null !== ($type = $object->getOne('getSlideType'))) {
-                if (!empty($type->icon)) {
-                    $icon = 'icon-'.$type->icon;
+                if (!empty($type->get('icon'))) {
+                    $icon = 'icon-' . $type->get('icon');
                 }
             }
 
-            return array(
-                'id' 		=> 'n_slide:'.$object->id,
-                'text' 		=> $object->name,
-                'cls' 		=> implode(' ', $class),
-                'iconCls' 	=> empty($icon) ? 'icon-file' : $icon,
-                'loaded'	=> true,
-                'leaf'		=> true,
-                'data' 		=> $object->toArray(),
-                'pk'		=> $this->getProperty('broadcast_id')
-            );
+            if ((int) $object->get('published') === 0) {
+                $classes[] = 'unpublished';
+            }
+
+            return [
+                'id'        => 'create:' . $object->get('id'),
+                'text'      => $object->get('name'),
+                'pk'        => $this->getProperty('broadcast_id'),
+                'cls'       => implode(' ', $classes),
+                'iconCls'   => $icon,
+                'loaded'    => true,
+                'leaf'      => true
+            ];
         }
 
         /**

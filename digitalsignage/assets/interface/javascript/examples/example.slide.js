@@ -8,39 +8,33 @@
     /**
      * Creates a Example Slide.
      * @class SlideExample.
-     * @public.
-     * @param {Element} HTMLElement|jQuery - The element of the Example Slide.
-     * @param {Options} array - The options of the Example Slide.
-     * @param {Core} Object - The DigitalSignage object for the Example Slide.
+     * @param {HTMLElement} element - The element of the Example Slide.
+     * @param {Array} options - The options of the Example Slide.
+     * @param {Object} core - The DigitalSignage object for the Example Slide.
      */
     function SlideExample(element, options, core) {
         /**
          * The DigitalSignage object for the Example Slide.
-         * @public.
          */
         this.core = core;
 
         /**
-         * Current settings for the Example Slide.
-         * @public.
-         */
-        this.settings = $.extend({}, SlideExample.Defaults, options);
-
-        /**
-         * Plugin element.
-         * @public.
-         */
-        this.$element = $(element);
-
-        /**
          * Currently suppressed events to prevent them from beeing retriggered.
-         * @protected.
          */
         this._supress = {};
 
         /**
-         * The data.
-         * @protected.
+         * Plugin element of the Example Slide.
+         */
+        this.$element = $(element);
+
+        /**
+         * Current settings for the Example Slide.
+         */
+        this.settings = $.extend({}, SlideExample.Defaults, options);
+
+        /**
+         * The data of the Example Slide.
          */
         this.data = {};
 
@@ -49,31 +43,26 @@
 
     /**
      * Default options for the Example Slide.
-     * @public.
      */
     SlideExample.Defaults = {
-        'time': 15,
+        time        : 15,
 
-        'setting1': 'value-1',
-        'setting2': 'value-2'
+        setting1    : 'value-1',
+        setting2    : 'value-2'
     };
 
     /**
      * Enumeration for types.
-     * @public.
-     * @readonly.
-     * @enum {String}.
      */
     SlideExample.Type = {
-        'Event': 'event'
+        Event : 'event'
     };
 
     /**
      * Initializes the Example Slide.
-     * @protected.
      */
     SlideExample.prototype.initialize = function() {
-        this.core.setLog('[SlideExample] initialize');
+        this.core.setLog('[' + this.constructor.name + '] initialize');
 
         this.core.setPlaceholders(this.$element, this.settings);
 
@@ -82,7 +71,6 @@
 
     /**
      * Registers an event or state.
-     * @public.
      * @param {Object} object - The event or state to register.
      */
     SlideExample.prototype.register = function(object) {
@@ -95,7 +83,7 @@
                 var _default = $.event.special[object.name]._default;
 
                 $.event.special[object.name]._default = function(e) {
-                    if (_default && _default.apply && (!e.namespace || -1 === e.namespace.indexOf('digitalsignage'))) {
+                    if (_default && _default.apply && (!e.namespace || e.namespace.indexOf('digitalsignage') === -1)) {
                         return _default.apply(this, arguments);
                     }
 
@@ -109,8 +97,7 @@
 
     /**
      * Suppresses events.
-     * @protected.
-     * @param {Array.<String>} events - The events to suppress.
+     * @param {Array} events - The events to suppress.
      */
     SlideExample.prototype.suppress = function(events) {
         $.each(events, $.proxy(function(index, event) {
@@ -120,8 +107,7 @@
 
     /**
      * Releases suppressed events.
-     * @protected.
-     * @param {Array.<String>} events - The events to release.
+     * @param {Array} events - The events to release.
      */
     SlideExample.prototype.release = function(events) {
         $.each(events, $.proxy(function(index, event) {
@@ -131,7 +117,6 @@
 
     /**
      * The jQuery Plugin for the Example Slide.
-     * @public.
      */
     $.fn.SlideExample = function(option, core) {
         var args = Array.prototype.slice.call(arguments, 1);
@@ -141,12 +126,12 @@
                 data = $this.data('digitalsignage.slideexample');
 
             if (!data) {
-                data = new SlideExample(this, typeof option == 'object' && option, core);
+                data = new SlideExample(this, typeof option === 'object' && option, core);
 
                 $this.data('digitalsignage.slideexample', data);
 
                 $.each([], function(i, event) {
-                    data.register({ type: SlideExample.Type.Event, name: event });
+                    data.register({type: SlideExample.Type.Event, name: event});
 
                     data.$element.on(event + '.digitalsignage.slideexample.core', $.proxy(function(e) {
                         if (e.namespace && this !== e.relatedTarget) {
@@ -160,16 +145,23 @@
                 });
             }
 
-            if (typeof option == 'string' && '_' !== option.charAt(0)) {
+            if (typeof option === 'string' && option.charAt(0) !== '_') {
                 data[option].apply(data, args);
             }
         });
     };
 
     /**
-     * The constructor for the jQuery Plugin.
-     * @public.
+     * The constructor for the Example Slide.
      */
     $.fn.SlideExample.Constructor = SlideExample;
 
+    /**
+     * The lexicons for the Example Slide.
+     */
+    $.extend($.fn.DigitalSignage.lexicons, {
+        slideexample_lexicon1           : 'Lexicon 1',
+        slideexample_lexicon2           : 'Lexicon 2',
+        slideexample_lexicon3           : 'Lexicon 3',
+    });
 })(window.Zepto || window.jQuery, window, document);

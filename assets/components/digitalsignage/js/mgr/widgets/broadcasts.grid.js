@@ -1,9 +1,9 @@
 DigitalSignage.grid.Broadcasts = function(config) {
     config = config || {};
 
-	config.tbar = [{
+    config.tbar = [{
         text        : _('digitalsignage.broadcast_create'),
-        cls	        :'primary-button',
+        cls         :'primary-button',
         handler     : this.createBroadcast,
         scope       : this
     }, {
@@ -11,7 +11,7 @@ DigitalSignage.grid.Broadcasts = function(config) {
         menu        : [{
             text        : _('digitalsignage.broadcasts_sync_selected'),
             handler     : this.syncSelectedBroadcasts,
-            scope		: this
+            scope       : this
         }]
     }, {
         xtype       : 'checkbox',
@@ -63,9 +63,9 @@ DigitalSignage.grid.Broadcasts = function(config) {
         }
     }];
 
-	sm = new Ext.grid.CheckboxSelectionModel();
+    var sm = new Ext.grid.CheckboxSelectionModel();
     
-    columns = new Ext.grid.ColumnModel({
+    var columns = new Ext.grid.ColumnModel({
         columns: [sm, {
             header      : _('digitalsignage.label_broadcast_name'),
             dataIndex   : 'name_formatted',
@@ -674,65 +674,59 @@ DigitalSignage.window.ShowPreviewBroadcast = function(config) {
     config = config || {};
     
     Ext.applyIf(config, {
-		maximized	: true,
-        title 		: _('digitalsignage.broadcast_preview') + _('digitalsignage.preview_resolution', {
+        maximized   : true,
+        title       : _('digitalsignage.broadcast_preview') + _('digitalsignage.preview_resolution', {
             resolution  : config.record.resolution
         }),
-        cls			: 'digitalsignage-window-preview',
-        items		: [{
-        	xtype		: 'container',
-			layout		: {
-            	type		: 'vbox',
-				align		: 'stretch'
-			},
-			width		: '100%',
-			height		: '100%',
-			items		:[{
-				autoEl 		: {
-	                tag 		: 'iframe',
-	                src			: config.record.url,
-	                width		: '100%',
-					height		: '100%',
-					frameBorder	: 0,
-				}
-			}]
-		}],
-        buttons 	: [{
-            text		: _('ok'),
-            cls			: 'primary-button',
-            handler		: function() {
-	            if ('close' !== config.closeAction) {
-		        	this.hide();
-		        } else {
-			        this.close(); 
-			    }
-	        },
-            scope		: this
+        cls         : 'digitalsignage-window-preview',
+        items       : [{
+            xtype       : 'container',
+            layout      : {
+                type        : 'vbox',
+                align       : 'stretch'
+            },
+            width       : '100%',
+            height      : '100%',
+            items       : [{
+                autoEl      : {
+                    tag         : 'iframe',
+                    src         : config.record.url,
+                    width       : '100%',
+                    height      : '100%',
+                    frameBorder : 0,
+                }
+            }]
         }],
-        listeners	: {
-			'bodyresize' : {
-				fn 			: this.setResolutionSize,
-				scope 		: this
-			}
-		}
+        buttons     : [{
+            text        : _('ok'),
+            cls         : 'primary-button',
+            handler     : function() {
+                if ('close' !== config.closeAction) {
+                    this.hide();
+                } else {
+                    this.close();
+                }
+            },
+            scope       : this
+        }],
+        listeners   : {
+            bodyresize  : {
+                fn          : this.onResolutionSize,
+                scope       : this
+            }
+        }
     });
     
     DigitalSignage.window.ShowPreviewBroadcast.superclass.constructor.call(this, config);
 };
 
 Ext.extend(DigitalSignage.window.ShowPreviewBroadcast, MODx.Window, {
-    setResolutionSize: function() {
-        var width       = this.config.record.width,
-            height      = this.config.record.height,
-            maxWidth    = parseInt(this.getEl().select('.x-window-body').first().getWidth()),
+    onResolutionSize: function() {
+        var maxWidth    = parseInt(this.getEl().select('.x-window-body').first().getWidth()),
             maxHeight   = parseInt(this.getEl().select('.x-window-body').first().getHeight());
 
-        var ratio       = maxHeight / (height / 100),
-            newWidth    = (width / 100) * ratio,
-            newHeight   = maxHeight;
-
-        this.getEl().select('iframe').setWidth(newWidth);
-        this.getEl().select('iframe').setHeight(newHeight);
+        this.getEl().select('iframe').setWidth((parseInt(this.config.record.width) / 100) * (maxHeight / (parseInt(this.config.record.height) / 100)));
+        this.getEl().select('iframe').setHeight(maxHeight);
     }
 });
 
@@ -742,50 +736,49 @@ DigitalSignage.window.Slides = function(config) {
     config = config || {};
     
     Ext.applyIf(config, {
-    	width		: 600,
-    	height 		: 500,
-        title 		: _('digitalsignage.broadcast_slides'),
-        cls			: 'digitalsignage-window-padding',
-        items		: [{
-	    	html 		: '<p>' + _('digitalsignage.broadcast_slides_desc') + '</p>',
-	    	cls			: 'panel-desc'
-	    }, {
-        	layout		: 'column',
-        	border		: false,
-            defaults	: {
-                layout		: 'form',
+        width       : 600,
+        height      : 500,
+        title       : _('digitalsignage.broadcast_slides'),
+        cls         : 'digitalsignage-window-padding',
+        items       : [{
+            html        : '<p>' + _('digitalsignage.broadcast_slides_desc') + '</p>',
+            cls         : 'panel-desc'
+        }, {
+            layout      : 'column',
+            border      : false,
+            defaults    : {
+                layout      : 'form',
                 labelSeparator : ''
             },
-        	items		: [{
-	        	columnWidth	: .5,
-				items 		: [{
-		            xtype		: 'digitalsignage-tree-broadcast-slides',
-		            broadcast 	: config.record.id,
-		            enableDD	: true
-		        }]
-	        }, {
-		        columnWidth	: .5,
-		        style		: 'margin-right: 0;',
-				items 		: [{
-		            xtype		: 'digitalsignage-tree-available-slides',
-		            broadcast 	: config.record.id,
-		            enableDD	: true
-		        }]
-			}]
+            items       : [{
+                columnWidth : .5,
+                items       : [{
+                    xtype       : 'digitalsignage-tree-broadcast-slides',
+                    broadcast   : config.record.id,
+                    enableDD    : true
+                }]
+            }, {
+                columnWidth : .5,
+                items       : [{
+                    xtype       : 'digitalsignage-tree-available-slides',
+                    broadcast   : config.record.id,
+                    enableDD    : true
+                }]
+            }]
         }],
-        buttons 	: [{
-            text		: _('ok'),
-            cls			: 'primary-button',
-            handler		: function() {
-	            this.fireEvent('sucesss');
-	            
-	            if ('close' !== config.closeAction) {
-		        	this.hide();
-		        } else {
-			        this.close(); 
-			    }
-	        },
-            scope		: this
+        buttons     : [{
+            text        : _('ok'),
+            cls         : 'primary-button',
+            handler     : function() {
+                this.fireEvent('sucesss');
+
+                if ('close' !== config.closeAction) {
+                    this.hide();
+                } else {
+                    this.close();
+                }
+            },
+            scope       : this
         }]
     });
     
@@ -912,11 +905,11 @@ DigitalSignage.combo.DigitalSignageBroadcastsCheckbox = function(config) {
             autoDestroy : true,
             autoLoad    : true,
             listeners   : {
-                'load'      : {
+                load        : {
                     fn          : this.setData,
                     scope       : this
                 },
-                'loadexception' : {
+                loadexception : {
                     fn          : function(o, trans, resp) {
                         var status = _('code') + ': ' + resp.status + ' ' + resp.statusText + '<br/>';
 

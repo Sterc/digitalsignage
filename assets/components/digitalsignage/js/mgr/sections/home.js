@@ -46,13 +46,7 @@ Ext.extend(DigitalSignage.page.Home, MODx.Component, {
         window.open(DigitalSignage.config.branding_url);
     },
     toAdminView: function() {
-        var request = MODx.request || {};
-
-        Ext.apply(request, {
-            'a' : 'admin'
-        });
-
-        MODx.loadPage('?' + Ext.urlEncode(request));
+        MODx.loadPage('?a=admin&namespace=' + DigitalSignage.config.namespace);
     }
 });
 

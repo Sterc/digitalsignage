@@ -8,7 +8,6 @@
     /**
      * Creates a Feed Slide.
      * @class SlideFeed.
-     * @public.
      * @param {HTMLElement} element - The element of the Feed Slide.
      * @param {Array} options - The options of the Feed Slide.
      * @param {Object} core - The DigitalSignage object for the Feed Slide.
@@ -16,37 +15,31 @@
     function SlideFeed(element, options, core) {
         /**
          * The DigitalSignage object for the Feed Slide.
-         * @public.
          */
         this.core = core;
 
         /**
-         * Current settings for the Feed Slide.
-         * @public.
-         */
-        this.settings = $.extend({}, SlideFeed.Defaults, options);
-
-        /**
-         * Plugin element.
-         * @public.
-         */
-        this.$element = $(element);
-
-        /**
          * Currently suppressed events to prevent them from beeing retriggered.
-         * @protected.
          */
         this._supress = {};
 
         /**
+         * Plugin element of the Feed Slide.
+         */
+        this.$element = $(element);
+
+        /**
+         * Current settings for the Feed Slide.
+         */
+        this.settings = $.extend({}, SlideFeed.Defaults, options);
+
+        /**
          * All templates of the Feed Slide.
-         * @protected.
          */
         this.$templates = this.core.getTemplates(this.$element);
 
         /**
          * All items of the Feed Slide.
-         * @protected.
          */
         this.$items = [];
 
@@ -55,45 +48,40 @@
 
     /**
      * Default options for the Feed Slide.
-     * @public.
      */
     SlideFeed.Defaults = {
-        'time'          : 15,
+        time            : 15,
 
-        'animationTime' : 1,
+        animationTime   : 1,
 
-        'feed'          : null,
-        'feedType'      : 'JSON',
+        feed            : null,
+        feedType        : 'JSON',
 
-        'limit'         : 3
+        limit           : 3
     };
 
     /**
      * Enumeration for types.
-     * @public.
-     * @readonly.
-     * @enum {String}.
      */
     SlideFeed.Type = {
-        'Event': 'event'
+        Event : 'event'
     };
 
     /**
      * Initializes the Feed Slide.
-     * @protected.
      */
     SlideFeed.prototype.initialize = function() {
-        this.core.setLog('[SlideFeed] initialize');
+        this.core.setLog('[' + this.constructor.name + '] initialize');
 
         this.core.setData('slide-' + this.settings.id, null, null);
 
         this.core.setPlaceholders(this.$element, this.settings);
         this.core.getPlaceholder('items', this.$element).addClass('feed-limit-' + this.settings.limit);
 
-        if (null === this.settings.feed) {
-            this.core.setError('[SlideFeed] feed is not defined.');
+        if (this.settings.feed === null) {
+            this.core.setError('[' + this.constructor.name + '] initialize: ' + this.core.getLexicon('slidefeed_error_feed'));
         } else {
-            this.loadData();
+            this.loadFeed();
         }
 
         this.core.setTimer(this.settings.time);
@@ -101,20 +89,19 @@
 
     /**
      * Loads the data for the Feed Slide.
-     * @protected.
      */
-    SlideFeed.prototype.loadData = function() {
-        this.core.setLog('[SlideFeed] loadData');
+    SlideFeed.prototype.loadFeed = function() {
+        this.core.setLog('[' + this.constructor.name + '] loadData');
 
         $.ajax({
-            'url'       : this.core.getAjaxUrl(this.settings.feed, 0, ['url=' + this.settings.url]),
-            'dataType'  : this.settings.feedType.toUpperCase(),
-            'complete'  : $.proxy(function(result) {
-               if (200 == result.status) {
+            url         : this.core.getAjaxUrl(this.settings.feed, ['url=' + this.settings.url]),
+            dataType    : this.settings.feedType.toUpperCase(),
+            complete    : $.proxy(function(result) {
+               if (parseInt(result.status) === 200) {
                    switch (this.settings.feedType.toUpperCase()) {
                        case 'JSON':
                            if (result.responseJSON) {
-                               if (0 < result.responseJSON.items.length) {
+                               if (result.responseJSON.items.length > 0) {
                                    var data = [];
 
                                    for (var i = 0; i < result.responseJSON.items.length; i++) {
@@ -122,13 +109,19 @@
                                    }
 
                                    this.core.setData('slide-' + this.settings.id, data, null);
-                               } else {
-                                   this.loadData();
-                               }
 
-                               this.core.setLog('[SlideFeed] loadData: (items: ' + result.responseJSON.items.length + ')');
+                                   this.core.setLog('[' + this.constructor.name + '] loadFeed: ' + this.core.getLexicon('slidefeed_error_feed_loaded', {
+                                       items : result.responseJSON.items.length
+                                   }));
+                               } else {
+                                   this.core.setLog('[' + this.constructor.name + '] loadFeed: ' + this.core.getLexicon('slidefeed_error_feed_empty', {
+                                       items : result.responseJSON.items.length
+                                   }));
+                               }
                            } else {
-                               this.core.setError('[SlideFeed] feed could not be read (Format: ' + this.settings.feedType.toUpperCase() + ')');
+                               this.core.setError('[' + this.constructor.name + '] loadFeed: ' + this.core.getLexicon('slidefeed_error_feed_format', {
+                                   format : this.settings.feedType.toUpperCase()
+                               }));
                            }
 
                            break;
@@ -136,7 +129,7 @@
                             if (result.responseText) {
                                 var xml = this.core.parseXML(result.responseText, 'item');
 
-                                if (0 < xml.length) {
+                                if (xml.length > 0) {
                                     var data = [];
 
                                     for (var i = 0; i < xml.length; i++) {
@@ -144,41 +137,55 @@
                                     }
 
                                     this.core.setData('slide-' + this.settings.id, data, null);
-                                } else {
-                                    this.loadData();
-                                }
 
-                               this.core.setLog('[SlideFeed] loadData: (items: ' + xml.length + ')');
+                                    this.core.setLog('[' + this.constructor.name + '] loadFeed: ' + this.core.getLexicon('slidefeed_error_feed_loaded', {
+                                        items : xml.length
+                                    }));
+                                } else {
+                                    this.core.setLog('[' + this.constructor.name + '] loadFeed: ' + this.core.getLexicon('slidefeed_error_feed_empty', {
+                                        items : xml.length
+                                    }));
+                                }
                            } else {
-                               this.core.setError('[SlideFeed] feed could not be read (Format: ' + this.settings.feedType.toUpperCase() + ')');
+                                this.core.setError('[' + this.constructor.name + '] loadFeed: ' + this.core.getLexicon('slidefeed_error_feed_format', {
+                                    format : this.settings.feedType.toUpperCase()
+                                }));
                            }
 
                            break;
                        default:
-                           this.core.setError('[SlideFeed] feed could not be read because the format is not supported (Format: ' + this.settings.feedType.toUpperCase() + ')');
+                           this.core.setError('[' + this.constructor.name + '] loadFeed: ' + this.core.getLexicon('slidefeed_error_feed_format', {
+                               format : this.settings.feedType.toUpperCase()
+                           }));
 
                            break;
                    }
                } else {
-                   this.core.setError('[SlideFeed] feed could not be loaded (HTTP status: ' + result.status + ')');
+                   this.core.setError('[' + this.constructor.name + '] loadFeed: ' + this.core.getLexicon('slidefeed_error_feed_http', {
+                       status : result.status
+                   }));
                }
 
-                if (0 == this.$items.length) {
-                    if (0 < this.core.getData('slide-' + this.settings.id, 'length')) {
-                        this.nextItem();
-                    }
-                }
+                this.start();
             }, this)
         });
     };
 
     /**
+     * Sets the first item when the feed is loaded.
+     */
+    SlideFeed.prototype.start = function() {
+        if (this.core.getData('slide-' + this.settings.id, 'length') > 0) {
+            this.nextItem();
+        }
+    },
+
+    /**
      * Gets an item template and initializes the item.
-     * @public.
      * @param {Array} data - The item data.
      */
     SlideFeed.prototype.getItem = function(data) {
-        this.core.setLog('[SlideFeed] getItem: (date: ' + data.title + ')');
+        this.core.setLog('[' + this.constructor.name + '] getItem: (date: ' + data.title + ')');
 
         if ($item = this.core.getTemplate('item', this.$templates)) {
             $item.appendTo(this.core.getPlaceholder('items', this.$element));
@@ -193,48 +200,43 @@
 
     /**
      * Sets the item and animate current en next item.
-     * @public.
      */
     SlideFeed.prototype.nextItem = function() {
         var next = this.core.getCurrentDataIndex('slide-' + this.settings.id, 'next', null);
 
-        this.core.setLog('[SlideFeed] nextItem: (next: ' + next + ')');
+        this.core.setLog('[' + this.constructor.name + '] nextItem: (next: ' + next + ')');
 
-        if (this.settings.limit > this.$items.length) {
-            if (null !== (data = this.core.getData('slide-' + this.settings.id, next))) {
-                var data = $.extend({}, data, {
-                    'idx' : next + 1
-                });
+        if (next !== null) {
+            if (this.settings.limit > this.$items.length) {
+                if (null !== (data = this.core.getData('slide-' + this.settings.id, next))) {
+                    var data = $.extend({}, data, {
+                        idx : next + 1
+                    });
 
-                if ($item = this.getItem(data)) {
-                    $item.hide().fadeIn(this.settings.animationTime * 1000, $.proxy(function() {
+                    if ($item = this.getItem(data)) {
+                        $item.hide().fadeIn(this.settings.animationTime * 1000, $.proxy(function() {
+                            this.nextItem();
+                        }, this));
+
+                        this.$items.push($item);
+                    } else {
+                        this.core.setLog('[' + this.constructor.name + '] nextItem: ' + this.core.getLexicon('slidefeed_error_no_item'));
+
                         this.nextItem();
-                    }, this));
-
-                    this.$items.push($item);
+                    }
                 } else {
-                    this.skipItem('no data available.');
+                    this.core.setLog('[' + this.constructor.name + '] nextItem: ' + this.core.getLexicon('slidefeed_error_no_item_data'));
+
+                    this.nextItem();
                 }
-            } else {
-                this.skipItem('no data available.');
             }
+        } else {
+            this.core.setError('[' + this.constructor.name + '] nextItem: ' + this.core.getLexicon('slidefeed_error_no_data'));
         }
     };
 
     /**
-     * Skips the current item and animate next item.
-     * @public.
-     * @param {Message} string - The message of skip.
-     */
-    SlideFeed.prototype.skipItem = function(message) {
-        this.core.setLog('[SlideFeed] skipItem: (message: ' + message + ')');
-
-        this.nextItem();
-    };
-
-    /**
      * Registers an event or state.
-     * @public.
      * @param {Object} object - The event or state to register.
      */
     SlideFeed.prototype.register = function(object) {
@@ -247,7 +249,7 @@
                 var _default = $.event.special[object.name]._default;
 
                 $.event.special[object.name]._default = function(e) {
-                    if (_default && _default.apply && (!e.namespace || -1 === e.namespace.indexOf('digitalsignage'))) {
+                    if (_default && _default.apply && (!e.namespace || e.namespace.indexOf('digitalsignage') === -1)) {
                         return _default.apply(this, arguments);
                     }
 
@@ -261,8 +263,7 @@
 
     /**
      * Suppresses events.
-     * @protected.
-     * @param {Array.<String>} events - The events to suppress.
+     * @param {Array} events - The events to suppress.
      */
     SlideFeed.prototype.suppress = function(events) {
         $.each(events, $.proxy(function(index, event) {
@@ -272,8 +273,7 @@
 
     /**
      * Releases suppressed events.
-     * @protected.
-     * @param {Array.<String>} events - The events to release.
+     * @param {Array} events - The events to release.
      */
     SlideFeed.prototype.release = function(events) {
         $.each(events, $.proxy(function(index, event) {
@@ -283,7 +283,6 @@
 
     /**
      * The jQuery Plugin for the Feed Slide.
-     * @public.
      */
     $.fn.SlideFeed = function(option, core) {
         var args = Array.prototype.slice.call(arguments, 1);
@@ -293,12 +292,12 @@
                 data = $this.data('digitalsignage.slidefeed');
 
             if (!data) {
-                data = new SlideFeed(this, typeof option == 'object' && option, core);
+                data = new SlideFeed(this, typeof option === 'object' && option, core);
 
                 $this.data('digitalsignage.slidefeed', data);
 
                 $.each([], function(i, event) {
-                    data.register({ type: SlideFeed.Type.Event, name: event });
+                    data.register({type: SlideFeed.Type.Event, name: event});
 
                     data.$element.on(event + '.digitalsignage.slidefeed.core', $.proxy(function(e) {
                         if (e.namespace && this !== e.relatedTarget) {
@@ -312,16 +311,30 @@
                 });
             }
 
-            if (typeof option == 'string' && '_' !== option.charAt(0)) {
+            if (typeof option === 'string' && option.charAt(0) !== '_') {
                 data[option].apply(data, args);
             }
         });
     };
 
     /**
-     * The constructor for the jQuery Plugin.
+     * The constructor for the Feed Slide.
      * @public.
      */
     $.fn.SlideFeed.Constructor = SlideFeed;
 
+    /**
+     * The lexicons for the Feed Slide.
+     */
+    $.extend($.fn.DigitalSignage.lexicons, {
+        slidefeed_error_feed            : 'Feed kon niet geladen worden omdat de feed niet gedefinieerd is.',
+        slidefeed_error_feed_http       : 'Feed kon niet geladen worden (HTTP status: %status%).',
+        slidefeed_error_feed_format     : 'Feed kon niet geladen worden omdat het formaat niet ondersteund word (Formaat: %format%).',
+        slidefeed_error_feed_empty      : 'Feed kon niet geladen worden omdat het geen items bevat.',
+        slidefeed_feed_loaded           : 'Feed geladen met %items% items.',
+
+        slidefeed_error_no_data         : 'Geen data beschikbaar.',
+        slidefeed_error_no_item         : 'Geen item beschikbaar.',
+        slidefeed_error_no_item_data    : 'Geen item data beschikbaar.'
+    });
 })(window.Zepto || window.jQuery, window, document);

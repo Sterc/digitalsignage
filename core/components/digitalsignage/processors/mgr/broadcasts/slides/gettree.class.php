@@ -11,7 +11,7 @@
          * @access public.
          * @var Array.
          */
-        public $languageTopics = array('digitalsignage:default');
+        public $languageTopics = ['digitalsignage:default'];
 
         /**
          * @access public.
@@ -42,11 +42,11 @@
          * @return Mixed.
          */
         public function initialize() {
-            $this->digitalsignage = $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/');
+            $this->digitalsignage = $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
-            $this->setDefaultProperties(array(
+            $this->setDefaultProperties([
                 'limit' => 0
-            ));
+            ]);
 
             return parent::initialize();
         }
@@ -58,17 +58,16 @@
          */
         public function prepareQueryBeforeCount(xPDOQuery $c) {
             $c->select($this->modx->getSelectColumns('DigitalSignageBroadcastsSlides', 'DigitalSignageBroadcastsSlides'));
-            $c->select($this->modx->getSelectColumns('DigitalSignageSlides', 'DigitalSignageSlides', null, array('name', 'type', 'published')));
+            $c->select($this->modx->getSelectColumns('DigitalSignageSlides', 'DigitalSignageSlides', null, ['name', 'type', 'published']));
 
-            //$c->innerjoin('DigitalSignageBroadcastsSlides', 'DigitalSignageBroadcastsSlides', array('DigitalSignageSlides.id = DigitalSignageBroadcastsSlides.slide_id'));
-            $c->innerjoin('DigitalSignageSlides', 'DigitalSignageSlides', array('DigitalSignageBroadcastsSlides.slide_id = DigitalSignageSlides.id'));
+            $c->innerJoin('DigitalSignageSlides', 'DigitalSignageSlides', 'DigitalSignageBroadcastsSlides.slide_id = DigitalSignageSlides.id');
 
-            $broadcast = $this->getProperty('broadcast_id');
+            $broadcastID = $this->getProperty('broadcast_id');
 
-            if (!empty($broadcast)) {
-                $c->where(array(
-                    'DigitalSignageBroadcastsSlides.broadcast_id' => $broadcast
-                ));
+            if (!empty($broadcastID)) {
+                $c->where([
+                    'DigitalSignageBroadcastsSlides.broadcast_id' => $broadcastID
+                ]);
             }
 
             return $c;
@@ -76,37 +75,35 @@
 
         /**
          * @access public.
-         * @param Object $query.
+         * @param Object $object.
          * @return Array.
          */
         public function prepareRow(xPDOObject $object) {
-            $class 	= array();
-            $icon 	= '';
-
-            if (0 == $object->published) {
-                $class[] = 'unpublished';
-            }
+            $icon       = 'icon-file';
+            $classes    = [];
 
             if (null !== ($slide = $object->getOne('getSlide'))) {
                 if (null !== ($type = $slide->getOne('getSlideType'))) {
-                    if (!empty($type->icon)) {
-                        $icon = 'icon-'.$type->icon;
+                    if (!empty($type->get('icon'))) {
+                        $icon = 'icon-' . $type->get('icon');
                     }
                 }
             }
 
-            return array(
-                'id' 		=> 'n_slide:'.$object->slide_id.'_id:'.$object->id,
-                'text' 		=> $object->name,
-                'cls' 		=> implode(' ', $class),
-                'iconCls' 	=> empty($icon) ? 'icon-file' : $icon,
-                'loaded'	=> true,
-                'leaf'		=> true,
-                'data' 		=> array_merge($object->toArray(), array(
-                    'c_id'		=> $object->id
-                )),
-                'pk'		=> $this->getProperty('broadcast_id')
-            );
+            if ((int) $object->get('published') === 0) {
+                $classes[] = 'unpublished';
+            }
+
+            return [
+                'id'        => 'update:' . $object->get('id'),
+                'clean_id'  => $object->get('id'),
+                'text'      => $object->get('name'),
+                'pk'        => $this->getProperty('broadcast_id'),
+                'cls'       => implode(' ', $classes),
+                'iconCls'   => $icon,
+                'loaded'    => true,
+                'leaf'      => true
+            ];
         }
 
         /**

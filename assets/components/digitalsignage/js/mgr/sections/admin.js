@@ -44,13 +44,7 @@ Ext.extend(DigitalSignage.page.Admin, MODx.Component, {
         window.open(DigitalSignage.config.branding_url);
     },
     toDefaultView: function() {
-        var request = MODx.request || {};
-
-        Ext.apply(request, {
-            'a' : 'home'
-        });
-
-        MODx.loadPage('?' + Ext.urlEncode(request));
+        MODx.loadPage('?a=home&namespace=' + DigitalSignage.config.namespace);
     }
 });
 
