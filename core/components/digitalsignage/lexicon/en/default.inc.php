@@ -42,6 +42,7 @@
     $_lang['digitalsignage.broadcast_slides']                       = 'Update slides (internal slides)';
     $_lang['digitalsignage.broadcast_slides_desc']                  = 'Here you can manage all the internal slides of the broadcast. Drag & Drop slides from the "available slides" to "selected slide" to add slides.';
     $_lang['digitalsignage.broadcast_slide_remove']                 = 'Delete slide';
+    $_lang['digitalsignage.broadcast_slide_remove_confirm']         = 'Are you sure you want to remove this slide?';
     $_lang['digitalsignage.broadcast_feeds']                        = 'Update feeds (external slides)';
     $_lang['digitalsignage.broadcast_feeds_desc']                   = 'Here you can manage all the external slides of the broadcast.';
     $_lang['digitalsignage.broadcast_feed_create']                  = 'Create new feed';
@@ -215,8 +216,8 @@
     $_lang['digitalsignage.schedule_time_format_entire_day']         = '(entire day)';
     $_lang['digitalsignage.schedule_time_format_set']                = '(from [[+start_time]] till [[+end_time]])';
     $_lang['digitalsignage.schedule_date_format_set']                = '[[+start_date]] till [[+end_date]]';
-    $_lang['digitalsignage.schedule_date_format_set_long']           = '[[+start_date]] (van [[+start_time]]) tot [[+end_date]] (tot [[+end_time]])';
-    $_lang['digitalsignage.error_broadcast_templates']               = '<strong>Important:</strong> There are no templates available for the digital signage. This will casuse problems.';
+    $_lang['digitalsignage.schedule_date_format_set_long']           = '[[+start_date]] (from [[+start_time]]) till [[+end_date]] (till [[+end_time]])';
+    $_lang['digitalsignage.error_broadcast_templates']               = '<strong>Important:</strong> There are no templates available for the digital signage. This will cause problems.';
     $_lang['digitalsignage.error_broadcast_sync']                    = 'An error has occurred during synchronizing the broadcast.';
     $_lang['digitalsignage.error_broadcast_player_exists']           = 'This player is already connected to this broadcast. Specify another player.';
     $_lang['digitalsignage.error_broadcast_schedule_exists']         = 'There is already a schedule for this day: [[+schedule]]. Specify another schedule.';
@@ -231,6 +232,6 @@
     $_lang['digitalsignage.broadcast_name_duplicate']                = 'Copy from [[+name]]';
     $_lang['digitalsignage.slide_name_duplicate']                    = 'Copy from [[+name]]';
     $_lang['digitalsignage.next_sync']                               = '[[+time]] minutes';
-    $_lang['digitalsignage.preview_resolution']                      = ' (resolutie [[+resolution]])';
+    $_lang['digitalsignage.preview_resolution']                      = ' (resolution [[+resolution]])';
 
 ?>

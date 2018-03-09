@@ -139,42 +139,21 @@
                         $builder->createPackage($this->package['namespace'], $version, $release);
                         $builder->registerNamespace($this->package['namespace'], false, true, '{core_path}components/'.$this->package['namespace'].'/', '{assets_path}components/'.$this->package['namespace'].'/');
 
-                        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaging menu.');
-
-                        if (null !== ($menu = $this->getMenu())) {
-                            $vehicle = array(
-                                xPDOTransport::PRESERVE_KEYS    => true,
-                                xPDOTransport::UPDATE_OBJECT    => true,
-                                xPDOTransport::UNIQUE_KEY       => 'text',
-                                xPDOTransport::RELATED_OBJECTS  => true
-                            );
-
-                            if (null !== ($vehicle = $builder->createVehicle($menu, $vehicle))) {
-                                $builder->putVehicle($vehicle);
-
-                                $this->modx->log(modX::LOG_LEVEL_INFO, 'Packed menu.');
-                            } else {
-                                $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not create the package menu vehicle.');
-                            }
+                        if (defined('PKG_ENCODE_KEY')) {
+                            require_once $this->getPath('core') . 'model/encryptedvehicle.class.php';
+                            $builder->package->put(array(
+                                'source' => $this->getPath('core'),
+                                'target' => "return MODX_CORE_PATH . 'components/';",
+                            ), array(
+                                'vehicle_class' => 'xPDOFileVehicle',
+                                'resolve' => array(
+                                    array(
+                                        'type' => 'php',
+                                        'source' => 'resolvers/encryption.resolver.php',
+                                    ),
+                                ),
+                            ));
                         }
-
-                        $settings = $this->getSystemSettings();
-
-                        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaging system settings.');
-
-                        foreach ($settings as $setting) {
-                            $vehicle = array(
-                                xPDOTransport::PRESERVE_KEYS    => true,
-                                xPDOTransport::UPDATE_OBJECT    => false,
-                                xPDOTransport::UNIQUE_KEY       => 'key'
-                            );
-
-                            if (null !== ($vehicle = $builder->createVehicle($setting, $vehicle))) {
-                                $builder->putVehicle($vehicle);
-                            }
-                        }
-
-                        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packed '.count($settings).' system settings.');
 
                         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaging category.');
 
@@ -226,6 +205,10 @@
                                     )
                                 )
                             );
+                            if (defined('PKG_ENCODE_KEY')) {
+                                $vehicle['vehicle_class'] = 'encryptedVehicle';
+                                $vehicle[xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL] = true;
+                            }
 
                             if (null !== ($vehicle = $builder->createVehicle($category, $vehicle))) {
                                 foreach ($this->getBuildResolvers() as $key => $resolver) {
@@ -260,14 +243,59 @@
                             }
 
                             $this->modx->log(xPDO::LOG_LEVEL_INFO, 'Create package transport ZIP.');
-
-                            if ($builder->pack()) {
-                                $this->modx->log(xPDO::LOG_LEVEL_INFO, 'Package transport ZIP created.');
-                            } else {
-                                $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not create package transport ZIP.');
-                            }
                         } else {
                             $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not create the package category.');
+                        }
+
+                        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaging menu.');
+
+                        if (null !== ($menu = $this->getMenu())) {
+                            $vehicle = array(
+                                xPDOTransport::PRESERVE_KEYS    => true,
+                                xPDOTransport::UPDATE_OBJECT    => true,
+                                xPDOTransport::UNIQUE_KEY       => 'text',
+                                xPDOTransport::RELATED_OBJECTS  => true
+                            );
+
+                            if (null !== ($vehicle = $builder->createVehicle($menu, $vehicle))) {
+                                $builder->putVehicle($vehicle);
+
+                                $this->modx->log(modX::LOG_LEVEL_INFO, 'Packed menu.');
+                            } else {
+                                $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not create the package menu vehicle.');
+                            }
+                        }
+
+                        $settings = $this->getSystemSettings();
+
+                        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaging system settings.');
+
+                        foreach ($settings as $setting) {
+                            $vehicle = array(
+                                xPDOTransport::PRESERVE_KEYS    => true,
+                                xPDOTransport::UPDATE_OBJECT    => false,
+                                xPDOTransport::UNIQUE_KEY       => 'key'
+                            );
+
+                            if (null !== ($vehicle = $builder->createVehicle($setting, $vehicle))) {
+                                $builder->putVehicle($vehicle);
+                            }
+                        }
+
+                        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packed '.count($settings).' system settings.');
+
+                        if (defined('PKG_ENCODE_KEY')) {
+                            $builder->putVehicle($builder->createVehicle(array(
+                                'source' => 'resolvers/encryption.resolver.php',
+                            ), array(
+                                'vehicle_class' => 'xPDOScriptVehicle',
+                            )));
+                        }
+
+                        if ($builder->pack()) {
+                            $this->modx->log(xPDO::LOG_LEVEL_INFO, 'Package transport ZIP created.');
+                        } else {
+                            $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not create package transport ZIP.');
                         }
                     } else {
                         $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not create the package.');
@@ -444,7 +472,7 @@
         public function getBuildResolvers() {
             $output = array();
 
-            if (is_dir($this->getPath('core'))) {
+            if (!defined('PKG_ENCODE_KEY') && is_dir($this->getPath('core'))) {
                 $output['core'] = array(
                     'source'    => $this->getPath('core'),
                     'target'    => 'return MODX_CORE_PATH.\'components/\';'

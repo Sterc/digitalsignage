@@ -64,6 +64,9 @@ Ext.extend(DigitalSignage.tree.BroadcastSlides, MODx.tree.Tree, {
         var tree = this;
 
         Ext.Msg.confirm(_('digitalsignage.broadcast_slide_remove'), _('digitalsignage.broadcast_slide_remove_confirm'), function(confirm) {
+            if (confirm != 'yes') {
+                return;
+            }
             MODx.Ajax.request({
                 url         : DigitalSignage.config.connector_url,
                 params      : {
