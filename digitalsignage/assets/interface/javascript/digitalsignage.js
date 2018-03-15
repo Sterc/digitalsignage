@@ -860,7 +860,7 @@ $(document).ready(function() {
                                 seconds = date.getSeconds(),
                                 dates   = date.getDate(),
                                 day     = date.getDay(),
-                                month   = date.getMonth(),
+                                month   = date.getMonth() + 1,
                                 year    = date.getFullYear(),
                                 now     = new Date(),
                                 today   = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0, 0),
