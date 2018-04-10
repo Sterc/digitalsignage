@@ -937,12 +937,14 @@ Ext.extend(DigitalSignage.combo.DigitalSignageBroadcastsCheckbox, Ext.Panel, {
             });
         }, this);
 
-        this.add({
-            xtype     : 'checkboxgroup',
-            hideLabel : true,
-            columns   : this.columns,
-            items     : items
-        });
+        if (items.length > 0) {
+            this.add({
+                xtype       : 'checkboxgroup',
+                hideLabel   : true,
+                columns     : this.columns,
+                items       : items
+            });
+        }
 
         this.doLayout();
     }
