@@ -1,9 +1,3 @@
-# LET OP #
-De volgende issues zijn gefixt maar worden nog getest/door ontwikkeld:
-
-* [XS-165](https://stercbv.atlassian.net/browse/XS-165)
-* [XS-205](https://stercbv.atlassian.net/browse/XS-205)
-
 # README #
 Zorg er voor dat dit bestand niet gedeployed wordt door DeployHQ.
 
@@ -81,3 +75,9 @@ MODx.loadRTE = function(id, config) {
     }
 };
 ```
+
+### Intel PC Stick (windows 10) ###
+
+```"C:\Program Files\Google\Chrome\Application\chrome.exe" -kiosk --disable-popup-blocking --disable-infobars --disable-session-crashed-bubble --remote-debugging-port=9222 "URL VAN DE MEDIASPELER"```
+
+```C:\Gebruikers\Gebruiker\AppData\Roaming\Microsoft\Windows\Menu Start\Programma's\Opstarten\```
