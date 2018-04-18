@@ -217,6 +217,7 @@
     $_lang['digitalsignage.schedule_time_format_set']                = '(van [[+start_time]] tot [[+end_time]])';
     $_lang['digitalsignage.schedule_date_format_set']                = '[[+start_date]] tot [[+end_date]]';
     $_lang['digitalsignage.schedule_date_format_set_long']           = '[[+start_date]] (van [[+start_time]]) tot [[+end_date]] (tot [[+end_time]])';
+    $_lang['digitalsignage.error_broadcast_resource_object']         = 'Er is een fout opgetreden tijdens het opslaan van de resource.';
     $_lang['digitalsignage.error_broadcast_templates']               = '<strong>Belangrijk:</strong> Er zijn geen templates beschikbaar voor de narrowcasting. Dit zal voor problemen zorgen.';
     $_lang['digitalsignage.error_broadcast_sync']                    = 'Er is een fout opgetreden tijdens het synchroniseren van de uitzending.';
     $_lang['digitalsignage.error_broadcast_player_exists']           = 'Deze mediaspeler is al gekoppeld met deze uitzending. Kies een andere mediabox.';

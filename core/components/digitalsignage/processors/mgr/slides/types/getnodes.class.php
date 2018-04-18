@@ -11,7 +11,7 @@
          * @access public.
          * @var Array.
          */
-        public $languageTopics = array('digitalsignage:default', 'digitalsignage:slides');
+        public $languageTopics = ['digitalsignage:default', 'digitalsignage:slides'];
 
         /**
          * @access public.
@@ -33,16 +33,10 @@
 
         /**
          * @access public.
-         * @var Object.
-         */
-        public $digitalsignage;
-
-        /**
-         * @access public.
          * @return Mixed.
          */
         public function initialize() {
-            $this->digitalsignage = $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/');
+            $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
             return parent::initialize();
         }
@@ -53,33 +47,33 @@
          * @return Array.
          */
         public function prepareRow(xPDOObject $object) {
-            $array = array_merge($object->toArray(), array(
-                'name_formatted'            => $object->name,
-                'description_formatted'     => $object->description,
-                'data'                      => array()
-            ));
+            $array = array_merge($object->toArray(), [
+                'name_formatted'        => $object->get('name'),
+                'description_formatted' => $object->get('description'),
+                'data'                  => []
+            ]);
 
-            if (empty($object->name)) {
-                $translationKey = 'digitalsignage.slide_'.$object->key;
+            if (empty($object->get('name'))) {
+                $translationKey = 'digitalsignage.slide_' . $object->get('key');
 
                 if ($translationKey !== ($translation = $this->modx->lexicon($translationKey))) {
                     $array['name_formatted'] = $translation;
                 }
             }
 
-            if (empty($object->description)) {
-                $translationKey = 'digitalsignage.slide_'.$object->key.'_desc';
+            if (empty($object->get('description'))) {
+                $translationKey = 'digitalsignage.slide_' . $object->get('key') . '_desc';
 
                 if ($translationKey !== ($translation = $this->modx->lexicon($translationKey))) {
                     $array['description_formatted'] = $translation;
                 }
             }
 
-            $sort   = array();
-            $data   = unserialize($object->data);
+            $sort   = [];
+            $data   = unserialize($object->get('data'));
 
             if (!is_array($data)) {
-                $data = array();
+                $data = [];
             }
 
             foreach ($data as $key => $row) {

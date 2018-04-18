@@ -78,6 +78,7 @@
                 'dbtype'        => 'int',
                 'precision'     => '11',
                 'phptype'       => 'integer',
+                'null'          => true,
                 'default'       => 0
             ],
             'editedon'          => [

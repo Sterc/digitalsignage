@@ -1,24 +1,17 @@
 <?php
 
-// Allow frontend usage of connector
-if (isset($_REQUEST['action']) && substr($_REQUEST['action'], 0, 4) === 'web/') {
-    define('MODX_REQP', false);
+    require_once dirname(dirname(dirname(__DIR__))) . '/config.core.php';
 
-    $_SERVER['HTTP_MODAUTH']  = 0;
-    $_REQUEST['HTTP_MODAUTH'] = 0;
-    $_REQUEST['ctx']          = 'web';
-}
+    require_once MODX_CORE_PATH . 'config/'.MODX_CONFIG_KEY . '.inc.php';
+    require_once MODX_CONNECTORS_PATH . 'index.php';
 
-require_once dirname(dirname(dirname(dirname(__FILE__)))).'/config.core.php';
+    $modx->getService('digitalsignage', 'DigitalSignage', $modx->getOption('digitalsignage.core_path', null, $modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
-require_once MODX_CORE_PATH.'config/'.MODX_CONFIG_KEY.'.inc.php';
-require_once MODX_CONNECTORS_PATH.'index.php';
+    if ($modx->digitalsignage instanceof DigitalSignage) {
+        $modx->request->handleRequest([
+            'processors_path'   => $modx->digitalsignage->config['processors_path'],
+            'location'          => ''
+        ]);
+    }
 
-$instance = $modx->getService('digitalsignage', 'DigitalSignage', $modx->getOption('digitalsignage.core_path', null, $modx->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/');
-
-if ($instance instanceOf DigitalSignage) {
-    $modx->request->handleRequest(array(
-        'processors_path' => $instance->config['processors_path'],
-        'location' => ''
-    ));
-}
+?>

@@ -11,7 +11,7 @@
          * @access public.
          * @var Array.
          */
-        public $languageTopics = array('digitalsignage:default');
+        public $languageTopics = ['digitalsignage:default'];
 
         /**
          * @access public.
@@ -20,17 +20,11 @@
         public $objectType = 'digitalsignage.slides';
 
         /**
-         * @access public.
-         * @var Object.
-         */
-        public $digitalsignage;
-
-        /**
          * @acces public.
          * @return Mixed.
          */
         public function initialize() {
-            $this->digitalsignage = $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/');
+            $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
             if (null === $this->getProperty('published')) {
                 $this->setProperty('published', 0);
@@ -44,10 +38,10 @@
          * @return Mixed.
          */
         public function beforeSave() {
-            $data = array();
+            $data = [];
 
             foreach ($this->getProperties() as $key => $value) {
-                if (false !== strstr($key, 'data_')) {
+                if (false !== strpos($key, 'data_')) {
                     $data[substr($key, 5, strlen($key))] = $value;
                 }
             }
@@ -55,7 +49,7 @@
             $this->object->set('data', serialize($data));
 
             if (null === ($broadcasts = $this->getProperty('broadcasts'))) {
-                $broadcasts = array();
+                $broadcasts = [];
             }
 
             $currentBroadcastIDs = $this->getBroadcasts(null, true);
@@ -71,10 +65,10 @@
 
                 if (0 == count($this->getBroadcasts($broadcastID, true))) {
                     if (null !== ($broadcast = $this->modx->newObject('DigitalSignageBroadcastsSlides'))) {
-                        $broadcast->fromArray(array(
-                              'broadcast_id'  => $broadcastID,
-                              'sortindex'     => $sortIndex + 1
-                        ));
+                        $broadcast->fromArray([
+                            'broadcast_id'  => $broadcastID,
+                            'sortindex'     => $sortIndex + 1
+                        ]);
 
                         $this->object->addMany($broadcast);
                     }
@@ -92,25 +86,25 @@
 
         /**
          * @access protected.
-         * @param Int $id.
+         * @param Integer $id.
          * @param Boolean $unique;
          * @return Array.
          */
         protected function getBroadcasts($id = null, $unique = false) {
-            $broadcasts = array();
+            $broadcasts = [];
 
-            $c = array();
+            $c = [];
 
             if (null !== $id) {
-                $c = array_merge($c, array(
+                $c = array_merge($c, [
                     'broadcast_id' => $id
-                ));
+                ]);
             }
 
             if ($unique) {
-                $c = array_merge($c, array(
+                $c = array_merge($c, [
                     'slide_id' => $this->object->get('id')
-                ));
+                ]);
             }
 
             foreach ($this->modx->getCollection('DigitalSignageBroadcastsSlides', $c) as $broadcast) {

@@ -48,7 +48,7 @@ Ext.extend(DigitalSignage.tree.BroadcastSlides, MODx.tree.Tree, {
     getMenu: function() {
         if ('n_root' != this.cm.activeNode.id) {
             return [{
-                text    : _('digitalsignage.broadcast_slide_remove'),
+                text    : '<i class="x-menu-item-icon icon icon-times"></i>' + _('digitalsignage.broadcast_slide_remove'),
                 handler : this.removeSlide,
                 scope   : this
             }];

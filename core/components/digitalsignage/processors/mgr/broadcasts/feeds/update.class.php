@@ -11,7 +11,7 @@
          * @access public.
          * @var Array.
          */
-        public $languageTopics = array('digitalsignage:default');
+        public $languageTopics = ['digitalsignage:default'];
 
         /**
          * @access public.
@@ -20,17 +20,11 @@
         public $objectType = 'digitalsignage.broadcasts';
 
         /**
-         * @access public.
-         * @var Object.
-         */
-        public $digitalsignage;
-
-        /**
          * @acces public.
          * @return Mixed.
          */
         public function initialize() {
-            $this->digitalsignage = $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/');
+            $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
             if (null === $this->getProperty('published')) {
                 $this->setProperty('published', 0);
@@ -45,7 +39,7 @@
          */
         public function beforeSave() {
             if (!preg_match('/^(http|https)/si', $this->getProperty('url'))) {
-                $this->setProperty('url', 'http://'.$this->getProperty('url'));
+                $this->setProperty('url', 'http://' . $this->getProperty('url'));
             }
 
             return parent::beforeSave();
@@ -56,14 +50,14 @@
          * @return Mixed.
          */
         public function afterSave() {
-            $c = array(
-                'id' => $this->object->broadcast_id
-            );
+            $c = [
+                'id' => $this->object->get('broadcast_id')
+            ];
 
             if (null !== ($broadcast = $this->modx->getObject('DigitalSignageBroadcasts', $c))) {
-                $broadcast->fromArray(array(
+                $broadcast->fromArray([
                     'hash' => time()
-                ));
+                ]);
 
                 $broadcast->save();
             }

@@ -5,10 +5,7 @@ DigitalSignage.panel.Home = function(config) {
         id          : 'digitalsignage-panel-home',
         cls         : 'container',
         defaults    : {
-            collapsible : false,
-            autoHeight  : true,
-            autoWidth   : true,
-            border      : false
+            autoHeight  : true
         },
         items       : [{
             html        : '<h2>' + _('digitalsignage') + '</h2>',
@@ -19,9 +16,7 @@ DigitalSignage.panel.Home = function(config) {
                 layout      : 'form',
                 title       : _('digitalsignage.broadcasts'),
                 defaults    : {
-                    autoHeight  : true,
-                    autoWidth   : true,
-                    border      : false
+                    autoHeight  : true
                 },
                 items       : [{
                     html            : '<p>' + _('digitalsignage.broadcasts_desc') + '</p>',
@@ -36,9 +31,7 @@ DigitalSignage.panel.Home = function(config) {
                 layout      : 'form',
                 title       : _('digitalsignage.slides'),
                 defaults    : {
-                    autoHeight  : true,
-                    autoWidth   : true,
-                    border      : false
+                    autoHeight  : true
                 },
                 items       : [{
                     html            : '<p>' + _('digitalsignage.slides_desc') + '</p>',
@@ -53,9 +46,7 @@ DigitalSignage.panel.Home = function(config) {
                 layout      : 'form',
                 title       : _('digitalsignage.players'),
                 defaults    : {
-                    autoHeight  : true,
-                    autoWidth   : true,
-                    border      : false
+                    autoHeight  : true
                 },
                 items       : [{
                     html            : '<p>' + _('digitalsignage.players_desc') + '</p>',

@@ -500,7 +500,7 @@ DigitalSignage.window.UpdatePlayerSchedule = function(config) {
             checked     : true,
             forId       : 'digitalsignage-schedule-update-time',
             listeners   : {
-                'select'    : {
+                'check'     : {
                     fn          : this.setEntireDay,
                     scope       : this
                 },

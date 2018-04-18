@@ -41,7 +41,8 @@
     $_lang['digitalsignage.broadcasts_sync_selected_confirm']       = 'Are you sure you want to sync the selected broadcasts?';
     $_lang['digitalsignage.broadcast_slides']                       = 'Update slides (internal slides)';
     $_lang['digitalsignage.broadcast_slides_desc']                  = 'Here you can manage all the internal slides of the broadcast. Drag & Drop slides from the "available slides" to "selected slide" to add slides.';
-    $_lang['digitalsignage.broadcast_slide_remove']                 = 'Delete slide';
+    $_lang['digitalsignage.broadcast_slide_remove']                 = 'Deselect slide';
+    $_lang['digitalsignage.broadcast_slide_remove_confirm']         = 'Are you sure you want to deselect this slide from the broadcast?';
     $_lang['digitalsignage.broadcast_feeds']                        = 'Update feeds (external slides)';
     $_lang['digitalsignage.broadcast_feeds_desc']                   = 'Here you can manage all the external slides of the broadcast.';
     $_lang['digitalsignage.broadcast_feed_create']                  = 'Create new feed';
@@ -216,6 +217,7 @@
     $_lang['digitalsignage.schedule_time_format_set']                = '(from [[+start_time]] till [[+end_time]])';
     $_lang['digitalsignage.schedule_date_format_set']                = '[[+start_date]] till [[+end_date]]';
     $_lang['digitalsignage.schedule_date_format_set_long']           = '[[+start_date]] (van [[+start_time]]) tot [[+end_date]] (tot [[+end_time]])';
+    $_lang['digitalsignage.error_broadcast_resource_object']         = 'An error has occurred during saving the resource.';
     $_lang['digitalsignage.error_broadcast_templates']               = '<strong>Important:</strong> There are no templates available for the digital signage. This will casuse problems.';
     $_lang['digitalsignage.error_broadcast_sync']                    = 'An error has occurred during synchronizing the broadcast.';
     $_lang['digitalsignage.error_broadcast_player_exists']           = 'This player is already connected to this broadcast. Specify another player.';

@@ -49,6 +49,7 @@
             'data'          => [
                 'dbtype'        => 'text',
                 'phptype'       => 'string',
+                'null'          => true,
                 'default'       => ''
             ],
             'editedon'      => [

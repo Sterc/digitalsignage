@@ -11,7 +11,7 @@
          * @access public.
          * @var Array.
          */
-        public $languageTopics = array('digitalsignage:default', 'digitalsignage:slides');
+        public $languageTopics = ['digitalsignage:default', 'digitalsignage:slides'];
 
         /**
          * @access public.
@@ -33,25 +33,19 @@
 
         /**
          * @access public.
-         * @var Object.
-         */
-        public $digitalsignage;
-
-        /**
-         * @access public.
          * @return Mixed.
          */
         public function initialize() {
-            $this->digitalsignage = $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/');
+            $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
-            $this->setDefaultProperties(array(
-                'start'     => 0,
-                'limit'     => 20,
-                'sort'      => $this->defaultSortField,
-                'dir'       => $this->defaultSortDirection,
-                'combo'     => false,
-                'query'     => ''
-            ));
+            $this->setDefaultProperties([
+                'start' => 0,
+                'limit' => 20,
+                'sort'  => $this->defaultSortField,
+                'dir'   => $this->defaultSortDirection,
+                'combo' => false,
+                'query' => ''
+            ]);
 
             return parent::initialize();
         }
@@ -62,13 +56,13 @@
          */
         public function process() {
             if (null !== ($object = $this->modx->getObject($this->classKey, $this->getProperty('id')))) {
-                $output = array();
-                $sort   = array();
-                $data   = unserialize($object->data);
+                $output = [];
+                $sort   = [];
+                $data   = unserialize($object->get('data'));
                 $query  = $this->getProperty('query');
 
                 if (!is_array($data)) {
-                    $data = array();
+                    $data = [];
                 }
 
                 foreach ($data as $key => $row) {
@@ -87,15 +81,15 @@
 
                 foreach ($data as $key => $value) {
                     if (!empty($query)) {
-                        if (preg_match('/'.$query.'/', $key)) {
-                            $output[] = array_merge(array(
+                        if (preg_match('/' . $query . '/', $key)) {
+                            $output[] = array_merge([
                                 'key' => $key
-                            ), $value);
+                            ], $value);
                         }
                     } else {
-                        $output[] = array_merge(array(
+                        $output[] = array_merge([
                             'key' => $key
-                        ), $value);
+                        ], $value);
                     }
                 }
 

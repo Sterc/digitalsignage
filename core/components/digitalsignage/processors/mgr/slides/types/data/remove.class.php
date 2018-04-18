@@ -11,7 +11,7 @@
          * @acces public.
          * @var Array.
          */
-        public $languageTopics = array('digitalsignage:default');
+        public $languageTopics = ['digitalsignage:default'];
 
         /**
          * @acces public.
@@ -30,7 +30,7 @@
          * @return Mixed.
          */
         public function initialize() {
-            $this->digitalsignage = $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/');
+            $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
             return parent::initialize();
         }
@@ -41,19 +41,19 @@
          */
         public function process() {
             if (null !== ($object = $this->modx->getObject($this->classKey, $this->getProperty('id')))) {
-                $data = unserialize($object->data);
+                $data = unserialize($object->get('data'));
 
                 if (!is_array($data)) {
-                    $data = array();
+                    $data = [];
                 }
 
                 if (isset($data[$this->getProperty('key')])) {
                     unset($data[$this->getProperty('key')]);
                 }
 
-                $object->fromArray(array(
+                $object->fromArray([
                     'data' => serialize($data)
-                ));
+                ]);
 
                 if (!$object->save()) {
                     $this->addFieldError('key', $this->modx->lexicon('digitalsignage.error_slide_type_data'));

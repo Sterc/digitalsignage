@@ -32,6 +32,22 @@
         public function initialize() {
             $this->digitalsignage = $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/');
 
+            if ('' === $this->getProperty('start_time')) {
+                $this->setProperty('start_time', '00:00:00');
+            }
+
+            if ('' === $this->getProperty('start_date')) {
+                $this->setProperty('start_date', '0000-00-00');
+            }
+
+            if ('' === $this->getProperty('end_time')) {
+                $this->setProperty('end_time', '00:00:00');
+            }
+
+            if ('' === $this->getProperty('end_date')) {
+                $this->setProperty('end_date', '0000-00-00');
+            }
+
             return parent::initialize();
         }
 
@@ -40,8 +56,17 @@
          * @return Mixed.
          */
         public function beforeSave() {
-            $this->object->set('start_date', date('Y-m-d', strtotime($this->getProperty('start_date'))));
-            $this->object->set('end_date', date('Y-m-d', strtotime($this->getProperty('end_date'))));
+            if ('0000-00-00' !== ($date = $this->getProperty('start_date'))) {
+                $this->object->set('start_date', date('Y-m-d', strtotime($date)));
+            } else {
+                $this->object->set('start_date', $date);
+            }
+
+            if ('0000-00-00' !== ($date = $this->getProperty('end_date'))) {
+                $this->object->set('end_date', date('Y-m-d', strtotime($date)));
+            } else {
+                $this->object->set('end_date', $date);
+            }
 
             if ($this->object->is('day')) {
                 $start = array(

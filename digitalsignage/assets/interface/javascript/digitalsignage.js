@@ -161,6 +161,7 @@ $(document).ready(function() {
 
                 if (syncIntervals.indexOf(currentTime.getMinutes()) !== -1) {
                     this.loadFeed();
+                    this.loadCallback();
                 }
             }, this), 60 * 1000);
         }

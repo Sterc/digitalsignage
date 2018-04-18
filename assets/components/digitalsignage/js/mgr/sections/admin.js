@@ -16,7 +16,7 @@ DigitalSignage.page.Admin = function(config) {
     }
 
     config.buttons.push({
-        text        : _('digitalsignage.default_view'),
+        text        : '<i class="icon icon-eye"></i>' + _('digitalsignage.default_view'),
         handler     : this.toDefaultView,
         scope       : this
     });

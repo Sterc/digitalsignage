@@ -1,7 +1,6 @@
 <?php
 
-    class DigitalSignageSlideTypesDataSortProcessor extends modProcessor
-    {
+    class DigitalSignageSlideTypesDataSortProcessor extends modProcessor {
         /**
          * @access public.
          * @var String.
@@ -22,16 +21,10 @@
 
         /**
          * @access public.
-         * @var Object.
-         */
-        public $digitalsignage;
-
-        /**
-         * @access public.
          * @return Mixed.
          */
         public function initialize() {
-            $this->digitalsignage = $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/');
+            $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') .' components/digitalsignage/') . 'model/digitalsignage/');
 
             return parent::initialize();
         }
@@ -42,14 +35,14 @@
          */
         public function process() {
             if (null !== ($sort = $this->modx->fromJSON($this->getProperty('sort')))) {
-                $newSort = array();
-                
+                $newSort = [];
+
                 foreach ($sort as $value) {
                     $newSort[$value['key']] = $value['menuindex'];
                 }
 
                 if (null !== ($object = $this->modx->getObject($this->classKey, $this->getProperty('id')))) {
-                    $data = unserialize($object->data);
+                    $data = unserialize($object->get('data'));
 
                     if (!is_array($data)) {
                         $data = [];
@@ -63,9 +56,9 @@
                         }
                     }
 
-                    $object->fromArray(array(
+                    $object->fromArray([
                         'data' => serialize($data)
-                    ));
+                    ]);
 
                     if (!$object->save()) {
                         return $this->failure($this->modx->lexicon('digitalsignage.error_slide_type_data'));

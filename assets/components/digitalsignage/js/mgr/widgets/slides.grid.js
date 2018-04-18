@@ -42,7 +42,7 @@ DigitalSignage.grid.Slides = function(config) {
     }, {
         xtype       : 'button',
         cls         : 'x-form-filter-clear',
-        id          : 'digitalsignage-filter-clear-slides',
+        id          : 'digitalsignage-clear-slides-filter',
         text        : _('filter_clear'),
         listeners   : {
             'click'     : {
@@ -125,15 +125,15 @@ Ext.extend(DigitalSignage.grid.Slides, MODx.grid.Grid, {
     },
     getMenu: function() {
         return [{
-            text    : _('digitalsignage.slide_update'),
+            text    : '<i class="x-menu-item-icon icon icon-edit"></i>' + _('digitalsignage.slide_update'),
             handler : this.updateSlide,
             scope   : this
         }, {
-            text    : _('digitalsignage.slide_duplicate'),
+            text    : '<i class="x-menu-item-icon icon icon-copy"></i>' + _('digitalsignage.slide_duplicate'),
             handler : this.duplicateSlide,
             scope   : this
         }, '-', {
-            text    : _('digitalsignage.slide_remove'),
+            text    : '<i class="x-menu-item-icon icon icon-times"></i>' + _('digitalsignage.slide_remove'),
             handler : this.removeSlide,
             scope   : this
         }];

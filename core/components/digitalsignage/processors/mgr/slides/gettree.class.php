@@ -33,19 +33,13 @@
 
         /**
          * @access public.
-         * @var Object.
-         */
-        public $digitalsignage;
-
-        /**
-         * @access public.
          * @return Mixed.
          */
         public function initialize() {
-            $this->digitalsignage = $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
+            $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
             $this->setDefaultProperties([
-                'limit' => 0
+            'limit' => 0
             ]);
 
             return parent::initialize();

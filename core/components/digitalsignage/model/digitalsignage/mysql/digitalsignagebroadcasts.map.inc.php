@@ -44,6 +44,7 @@
                 'dbtype'        => 'varchar',
                 'precision'     => '255',
                 'phptype'       => 'string',
+                'null'          => true,
                 'default'       => ''
             ],
             'editedon'      => [

@@ -3,20 +3,20 @@ DigitalSignage.grid.Broadcasts = function(config) {
 
     config.tbar = [{
         text        : _('digitalsignage.broadcast_create'),
-        cls         :'primary-button',
+        cls         : 'primary-button',
         handler     : this.createBroadcast,
         scope       : this
     }, {
         text        : _('bulk_actions'),
         menu        : [{
-            text        : _('digitalsignage.broadcasts_sync_selected'),
+            text        : '<i class="x-menu-item-icon icon icon-refresh"></i> ' + _('digitalsignage.broadcasts_sync_selected'),
             handler     : this.syncSelectedBroadcasts,
             scope       : this
         }]
     }, {
         xtype       : 'checkbox',
-        name        : 'digitalsignage-refresh-broadcasts',
-        id          : 'digitalsignage-refresh-broadcasts',
+        name        : 'digitalsignage-filter-broadcasts-refresh',
+        id          : 'digitalsignage-filter-broadcasts-refresh',
         boxLabel    : _('digitalsignage.auto_refresh_grid'),
         checked     : true,
         listeners   : {
@@ -31,8 +31,8 @@ DigitalSignage.grid.Broadcasts = function(config) {
         }
     }, '->', {
         xtype       : 'textfield',
-        name        : 'digitalsignage-filter-search-broadcasts',
-        id          : 'digitalsignage-filter-search-broadcasts',
+        name        : 'digitalsignage-filter-broadcasts-search',
+        id          : 'digitalsignage-filter-broadcasts-search',
         emptyText   : _('search') + '...',
         listeners   : {
             'change'    : {
@@ -53,7 +53,7 @@ DigitalSignage.grid.Broadcasts = function(config) {
     }, {
         xtype       : 'button',
         cls         : 'x-form-filter-clear',
-        id          : 'digitalsignage-filter-clear-broadcasts',
+        id          : 'digitalsignage-filter-broadcasts-clear',
         text        : _('filter_clear'),
         listeners   : {
             'click'     : {
@@ -163,37 +163,37 @@ Ext.extend(DigitalSignage.grid.Broadcasts, MODx.grid.Grid, {
     clearFilter: function() {
         this.getStore().baseParams.query = '';
 
-        Ext.getCmp('digitalsignage-filter-search-broadcasts').reset();
+        Ext.getCmp('digitalsignage-filter-broadcasts-search').reset();
 
         this.getBottomToolbar().changePage(1);
     },
     getMenu: function() {
         return [{
-            text    : _('digitalsignage.broadcast_preview'),
+            text    : '<i class="x-menu-item-icon icon icon-eye"></i>' + _('digitalsignage.broadcast_preview'),
             handler : this.previewBroadcast,
             scope   : this
         }, '-', {
-            text    : '<i class="icon icon-refresh"></i> ' + _('digitalsignage.broadcast_sync'),
+            text    : '<i class="x-menu-item-icon icon icon-refresh"></i> ' + _('digitalsignage.broadcast_sync'),
             handler : this.syncBroadcast,
             scope   : this
         }, '-', {
-            text    : _('digitalsignage.broadcast_slides'),
+            text    : '<i class="x-menu-item-icon icon icon-file"></i> ' + _('digitalsignage.broadcast_slides'),
             handler : this.viewSlides,
             scope   : this
         }, {
-            text    : _('digitalsignage.broadcast_feeds'),
+            text    : '<i class="x-menu-item-icon icon icon-rss"></i> ' + _('digitalsignage.broadcast_feeds'),
             handler : this.viewFeeds,
             scope   : this
         }, '-', {
-            text    : _('digitalsignage.broadcast_update'),
+            text    : '<i class="x-menu-item-icon icon icon-edit"></i>' + _('digitalsignage.broadcast_update'),
             handler : this.updateBroadcast,
             scope   : this
         }, {
-            text    : _('digitalsignage.broadcast_duplicate'),
+            text    : '<i class="x-menu-item-icon icon icon-copy"></i>' + _('digitalsignage.broadcast_duplicate'),
             handler : this.duplicateBroadcast,
             scope   : this
         }, '-', {
-            text    : _('digitalsignage.broadcast_remove'),
+            text    : '<i class="x-menu-item-icon icon icon-times"></i>' + _('digitalsignage.broadcast_remove'),
             handler : this.removeBroadcast,
             scope   : this
         }];
@@ -472,8 +472,6 @@ Ext.reg('digitalsignage-grid-broadcasts', DigitalSignage.grid.Broadcasts);
 DigitalSignage.window.CreateBroadcast = function(config) {
     config = config || {};
 
-    console.log(DigitalSignage.config.templates.length);
-
     Ext.applyIf(config, {
     	autoHeight  : true,
         title       : _('digitalsignage.broadcast_create'),
@@ -503,7 +501,7 @@ DigitalSignage.window.CreateBroadcast = function(config) {
             html        : _('digitalsignage.label_broadcast_description_desc'),
             cls         : 'desc-under'
         }, {
-            xtype       : 1 == DigitalSignage.config.templates.length ? 'hidden' : 'digitalsignage-combo-templates',
+            xtype       : 1 === parseInt(DigitalSignage.config.templates.length) ? 'hidden' : 'digitalsignage-combo-templates',
             fieldLabel  : _('digitalsignage.label_broadcast_template'),
             description : MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_template_desc'),
             name        : 'template',
@@ -511,7 +509,7 @@ DigitalSignage.window.CreateBroadcast = function(config) {
             allowBlank  : false,
             value       : DigitalSignage.config.templates[0]
         }, {
-            xtype       : 1 == DigitalSignage.config.templates.length ? 'hidden' : (MODx.expandHelp ? 'label' : 'hidden'),
+            xtype       : 1 === parseInt(DigitalSignage.config.templates.length) ? 'hidden' : (MODx.expandHelp ? 'label' : 'hidden'),
             html        : _('digitalsignage.label_broadcast_template_desc'),
             cls         : 'desc-under'
         }, {
@@ -572,14 +570,14 @@ DigitalSignage.window.UpdateBroadcast = function(config) {
             html        : _('digitalsignage.label_broadcast_description_desc'),
             cls         : 'desc-under'
         }, {
-            xtype       : 1 == DigitalSignage.config.templates.length ? 'hidden' : 'digitalsignage-combo-templates',
+            xtype       : 1 === parseInt(DigitalSignage.config.templates.length) ? 'hidden' : 'digitalsignage-combo-templates',
             fieldLabel  : _('digitalsignage.label_broadcast_template'),
             description : MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_template_desc'),
             name        : 'template',
             anchor      : '100%',
             allowBlank  : false
         }, {
-            xtype       : 1 == DigitalSignage.config.templates.length ? 'hidden' : (MODx.expandHelp ? 'label' : 'hidden'),
+            xtype       : 1 === parseInt(DigitalSignage.config.templates.length) ? 'hidden' : (MODx.expandHelp ? 'label' : 'hidden'),
             html        : _('digitalsignage.label_broadcast_template_desc'),
             cls         : 'desc-under'
         }, {
@@ -793,31 +791,31 @@ DigitalSignage.window.Feeds = function(config) {
     config = config || {};
     
     Ext.applyIf(config, {
-    	width		: 600,
-    	autoHeight	: true,
-        title 		: _('digitalsignage.broadcast_feeds'),
-        cls			: 'digitalsignage-window-padding',
-        items		: [{
-	    	html 		: '<p>' + _('digitalsignage.broadcast_feeds_desc') + '</p>',
-	    	cls			: 'panel-desc'
-	    }, {
-            xtype		: 'digitalsignage-grid-broadcast-feeds',
-            record		: config.record,
-            preventRender	: true
+        width       : 600,
+        autoHeight  : true,
+        title       : _('digitalsignage.broadcast_feeds'),
+        cls         : 'digitalsignage-window-padding',
+        items       : [{
+            html        : '<p>' + _('digitalsignage.broadcast_feeds_desc') + '</p>',
+            cls         : 'panel-desc'
+        }, {
+            xtype       : 'digitalsignage-grid-broadcast-feeds',
+            record      : config.record,
+            preventRender : true
         }],
-        buttons 	: [{
-            text		: _('ok'),
-            cls			: 'primary-button',
-            handler		: function() {
-	            this.fireEvent('sucesss');
-	            
-	            if ('close' !== config.closeAction) {
-		        	this.hide();
-		        } else {
-			        this.close(); 
-			    }
-	        },
-            scope		: this
+        buttons     : [{
+            text        : _('ok'),
+            cls         : 'primary-button',
+            handler     : function() {
+                this.fireEvent('sucesss');
+
+                if ('close' !== config.closeAction) {
+                    this.hide();
+                } else {
+                    this.close();
+                }
+            },
+            scope       : this
         }]
     });
     

@@ -5,10 +5,7 @@ DigitalSignage.panel.Admin = function(config) {
         id          : 'digitalsignage-panel-admin',
         cls         : 'container',
         defaults    : {
-            collapsible : false,
-            autoHeight  : true,
-            autoWidth   : true,
-            border      : false
+            autoHeight  : true
         },
         items       : [{
             html        : '<h2>' + _('digitalsignage') + '</h2>',
@@ -19,9 +16,7 @@ DigitalSignage.panel.Admin = function(config) {
                 layout      : 'form',
                 title       : _('digitalsignage.slide_types'),
                 defaults    : {
-                    autoHeight  : true,
-                    autoWidth   : true,
-                    border      : false
+                    autoHeight  : true
                 },
                 items       : [{
                     html            : '<p>'+_('digitalsignage.slide_types_desc')+'</p>',

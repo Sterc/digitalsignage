@@ -17,7 +17,7 @@ DigitalSignage.page.Home = function(config) {
 
     if (DigitalSignage.config.has_permission) {
         config.buttons.push({
-            text        : _('digitalsignage.admin_view'),
+            text        : '<i class="icon icon-cogs"></i>' + _('digitalsignage.admin_view'),
             handler     : this.toAdminView,
             scope       : this
         }, '-');

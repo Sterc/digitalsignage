@@ -11,7 +11,7 @@
          * @access public.
          * @var Array.
          */
-        public $languageTopics = array('digitalsignage:default');
+        public $languageTopics = ['digitalsignage:default'];
 
         /**
          * @access public.
@@ -21,27 +21,21 @@
 
         /**
          * @access public.
-         * @var Object.
-         */
-        public $digitalsignage;
-
-        /**
-         * @access public.
          * @return Mixed.
          */
         public function initialize() {
-            $this->digitalsignage = $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/');
+            $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
             if (null === ($key = $this->getProperty('key'))) {
                 $unique = false;
 
                 while (!$unique) {
-                    $criterea = array(
+                    $c = [
                         'key' => $this->generatePlayerKey()
-                    );
+                    ];
 
-                    if (null === $this->modx->getObject('DigitalSignagePlayers', $criterea)) {
-                        $this->setProperty('key', $criterea['key']);
+                    if (null === $this->modx->getObject('DigitalSignagePlayers', $c)) {
+                        $this->setProperty('key', $c['key']);
 
                         $unique = true;
                     }
