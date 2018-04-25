@@ -4,7 +4,10 @@
         'package'       => 'digitalsignage',
         'version'       => '1.0',
         'table'         => 'digitalsignage_broadcasts',
-        'extends'       => 'xPDOSimpleObject',
+        'extends'       => 'xPDOObject',
+        'tableMeta'     => [
+            'engine'        => 'InnoDB'
+        ],
         'fields'        => [
             'id'            => null,
             'resource_id'   => null,

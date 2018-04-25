@@ -5,6 +5,9 @@
         'version'       => '1.0',
         'table'         => 'digitalsignage_slides_types',
         'extends'       => 'xPDOObject',
+        'tableMeta'     => [
+            'engine'        => 'InnoDB'
+        ],
         'fields'        => [
             'key'           => null,
             'name'          => null,

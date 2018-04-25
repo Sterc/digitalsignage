@@ -59,6 +59,19 @@ $contexts = [
 ];
 
 /**
+ * The needed templates.
+ */
+$templates = [
+    [
+        'templatename'  => 'Digital Signage (1.1.3-pl original)',
+        'description'   => 'Digital Signage template for MODx Revolution',
+        'icon'          => 'icon-play-circle',
+        'content'       => file_get_contents(MODX_CORE_PATH . '/components/digitalsignage/elements/templates/digitalsignage.template.tpl'),
+        'setting'       => 'templates'
+    ]
+];
+
+/**
  * The needed resources.
  */
 $resources = [
@@ -220,6 +233,40 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
         }
 
         /**
+         * Install the needed templates.
+         */
+        foreach ($templates as $template) {
+            $c = [
+                'templatename' => $template['templatename']
+            ];
+
+            if (null === ($templateObject = $object->xpdo->getObject('modTemplate', $c))) {
+                if (null !== ($templateObject = $object->xpdo->newObject('modTemplate'))) {
+                    $templateObject->fromArray($template, '', true, true);
+                    $templateObject->save();
+
+                    if (isset($template['setting'])) {
+                        if (isset($settings[$template['setting']])) {
+                            $currentValue = explode(',', $settings[$template['setting']]['value']);
+
+                            $settings[$template['setting']]['value'] = implode(',', array_filter(array_merge($currentValue, [$templateObject->get('id')])));
+                        }
+                    }
+                } else {
+                    $object->xpdo->log(xPDO::LOG_LEVEL_ERROR, $template['templatename'] . ' template could not be created.');
+                }
+            } else {
+                if (isset($template['setting'])) {
+                    if (isset($settings[$template['setting']])) {
+                        $currentValue = explode(',', $settings[$template['setting']]['value']);
+
+                        $settings[$template['setting']]['value'] = implode(',', array_filter(array_merge($currentValue, [$templateObject->get('id')])));
+                    }
+                }
+            }
+        }
+
+        /**
          * Install the needed resources.
          */
         foreach ($resources as $key => $resource) {
@@ -250,9 +297,7 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
                         }
                     }
                 } else {
-                    $object->xpdo->log(
-                        xPDO::LOG_LEVEL_ERROR, $resource['pagetitle'] . ' resource could not be created.'
-                    );
+                    $object->xpdo->log(xPDO::LOG_LEVEL_ERROR, $resource['pagetitle'] . ' resource could not be created.');
                 }
             } else {
                 if (isset($resource['setting'])) {

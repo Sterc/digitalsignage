@@ -27,12 +27,6 @@
             "name": "DigitalSignageFeedExport",
             "description": "DigitalSignage 1.1.3-pl snippet for MODx Revolution",
             "resolver": "elements/snippets/digitalsignagefeedexport.snippet.php"
-        }],
-        "templates": [{
-            "name": "Digital Signage (1.1.3-pl original)",
-            "description": "DigitalSignage 1.1.3-pl template for MODx Revolution",
-            "icon": "icon-play-circle",
-            "resolver": "elements/templates/digitalsignage.template.tpl"
         }]
     },
     "settings": [{
