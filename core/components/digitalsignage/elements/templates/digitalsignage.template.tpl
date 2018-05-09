@@ -98,7 +98,7 @@
             </div>
             <!-- End Payoff Slide -->
         </div>
-        <div data-template="feed" data-plugin-settings="{'feed': '/ds/feed-export.json', 'feedType': 'JSON'}">
+        <div data-template="feed" data-plugin-settings="{'feed': '[[!+digitalsignage.feed.feed]]', 'feedType': 'JSON'}">
             <!-- Begin Feed Slide -->
             <div class="slide slide-feed">
                 <div class="slide-inner">

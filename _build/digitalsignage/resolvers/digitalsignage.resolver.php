@@ -25,12 +25,13 @@ $permissions = [
  * The needed settings.
  */
 $settings = [
-    'context'           => [
-        'xtype'             => 'modx-combo-context'
+    'context'               => [
+        'xtype'                 => 'modx-combo-context'
     ],
-    'request_resource'  => [],
-    'export_resource'   => [],
-    'templates'         => []
+    'request_resource'      => [],
+    'export_resource'       => [],
+    'export_feed_resource'  => [],
+    'templates'             => []
 ];
 
 /**
@@ -63,7 +64,7 @@ $contexts = [
  */
 $templates = [
     [
-        'templatename'  => 'Digital Signage (1.1.3-pl original)',
+        'templatename'  => 'Digital Signage (1.1.4-pl original)',
         'description'   => 'Digital Signage template for MODx Revolution',
         'icon'          => 'icon-play-circle',
         'content'       => file_get_contents(MODX_CORE_PATH . '/components/digitalsignage/elements/templates/digitalsignage.template.tpl'),
@@ -96,7 +97,8 @@ $resources = [
         'content'       => '[[!DigitalSignageFeedExport]]',
         'content_type'  => 7,
         'uri'           => 'feed-export.json',
-        'uri_override'  => 1
+        'uri_override'  => 1,
+        'setting'       => 'export_feed_resource'
     ]
 ];
 

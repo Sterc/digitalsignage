@@ -15,6 +15,8 @@
     $_lang['setting_digitalsignage.request_resource_desc']          = 'De ID van de resource die u als standaardverzoek wilt gebruiken.';
     $_lang['setting_digitalsignage.export_resource']                = 'Exportverzoek';
     $_lang['setting_digitalsignage.export_resource_desc']           = 'De ID van de resource die u als exportverzoek wilt gebruiken.';
+    $_lang['setting_digitalsignage.export_feed_resource']           = 'Exportverzoek voor feeds';
+    $_lang['setting_digitalsignage.export_feed_resource_desc']      = 'De ID van de resource die u als exportverzoek voor feeds wilt gebruiken.';
     $_lang['setting_digitalsignage.request_param_broadcast']        = 'Uitzending parameter';
     $_lang['setting_digitalsignage.request_param_broadcast_desc']   = 'De naam van de GET-parameter om de uitzending te identificeren.';
     $_lang['setting_digitalsignage.request_param_player']           = 'Mediaspeler parameter';
@@ -171,7 +173,7 @@
     $_lang['digitalsignage.label_slide_type_data_key']               = 'Sleutel';
     $_lang['digitalsignage.label_slide_type_data_key_desc']          = 'De sleutel van het veld.';
     $_lang['digitalsignage.label_slide_type_data_xtype']             = 'Type';
-    $_lang['digitalsignage.label_slide_type_data_xtype_desc']        = 'De xtype van het veld.';
+    $_lang['digitalsignage.label_slide_type_data_xtype_desc']        = 'De type van het veld.';
     $_lang['digitalsignage.label_slide_type_data_label']             = 'Label';
     $_lang['digitalsignage.label_slide_type_data_label_desc']        = 'De label van het veld.';
     $_lang['digitalsignage.label_slide_type_data_description']       = 'Omschrijving';

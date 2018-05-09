@@ -1,61 +1,75 @@
 <?php
 
-    class DigitalSignage {
-
+    class DigitalSignage
+    {
         /**
          * @access public.
-         * @var Object.
+         * @var modX.
          */
         public $modx;
 
         /**
          * @access public.
-         * @var Array.
+         * @var array.
          */
-        public $config = array();
+        public $config = [];
 
         /**
          * @access public.
-         * @param Object $modx.
-         * @param Array $config.
+         * @param modX $modx.
+         * @param array $config.
          */
-        public function __construct(modX &$modx, array $config = array()) {
+        public function __construct(modX &$modx, array $config = [])
+        {
             $this->modx =& $modx;
 
-            $corePath       = $this->modx->getOption('digitalsignage.core_path', $config, $this->modx->getOption('core_path').'components/digitalsignage/');
-            $assetsUrl      = $this->modx->getOption('digitalsignage.assets_url', $config, $this->modx->getOption('assets_url').'components/digitalsignage/');
-            $assetsPath     = $this->modx->getOption('digitalsignage.assets_path', $config, $this->modx->getOption('assets_path').'components/digitalsignage/');
+            $corePath       = $this->modx->getOption('digitalsignage.core_path', $config, $this->modx->getOption('core_path') . 'components/digitalsignage/');
+            $assetsUrl      = $this->modx->getOption('digitalsignage.assets_url', $config, $this->modx->getOption('assets_url') . 'components/digitalsignage/');
+            $assetsPath     = $this->modx->getOption('digitalsignage.assets_path', $config, $this->modx->getOption('assets_path') . 'components/digitalsignage/');
 
-            $this->config = array_merge(array(
-                'namespace'             => $this->modx->getOption('namespace', $config, 'digitalsignage'),
-                'lexicons'              => array('digitalsignage:default', 'digitalsignage:slides', 'site:digitalsignage'),
-                'base_path'             => $corePath,
-                'core_path'             => $corePath,
-                'model_path'            => $corePath.'model/',
-                'processors_path'       => $corePath.'processors/',
-                'elements_path'         => $corePath.'elements/',
-                'chunks_path'           => $corePath.'elements/chunks/',
-                'cronjobs_path'         => $corePath.'elements/cronjobs/',
-                'plugins_path'          => $corePath.'elements/plugins/',
-                'snippets_path'         => $corePath.'elements/snippets/',
-                'templates_path'        => $corePath.'templates/',
-                'assets_path'           => $assetsPath,
-                'js_url'                => $assetsUrl.'js/',
-                'css_url'               => $assetsUrl.'css/',
-                'assets_url'            => $assetsUrl,
-                'connector_url'         => $assetsUrl.'connector.php',
-                'version'               => '1.1.3',
-                'branding_url'          => $this->modx->getOption('digitalsignage.branding_url', null, ''),
-                'branding_help_url'     => $this->modx->getOption('digitalsignage.branding_url_help', null, ''),
-                'has_permission'        => $this->hasPermission(),
-                'request_id'            => $this->modx->getOption('digitalsignage.request_resource'),
-                'request_url'           => $this->modx->makeUrl($this->modx->getOption('digitalsignage.request_resource'), $this->modx->getOption('digitalsignage.context', null, 'nc'), null, 'full'),
-                'export_id'             => $this->modx->getOption('digitalsignage.export_resource'),
-                'export_url'            => $this->modx->makeUrl($this->modx->getOption('digitalsignage.export_resource'), $this->modx->getOption('digitalsignage.context', null, 'nc'), null, 'full'),
-                'request_param_player'  => $this->modx->getOption('digitalsignage.request_param_player', null, 'pl'),
-                'request_param_broadcast' => $this->modx->getOption('digitalsignage.request_param_broadcast', null, 'bc'),
-                'templates'             => $this->getTemplates()
-            ), $config);
+            $this->config = array_merge([
+                'namespace'                 => $this->modx->getOption('namespace', $config, 'digitalsignage'),
+                'lexicons'                  => ['digitalsignage:default', 'digitalsignage:slides', 'site:digitalsignage'],
+                'base_path'                 => $corePath,
+                'core_path'                 => $corePath,
+                'model_path'                => $corePath . 'model/',
+                'processors_path'           => $corePath . 'processors/',
+                'elements_path'             => $corePath . 'elements/',
+                'chunks_path'               => $corePath . 'elements/chunks/',
+                'plugins_path'              => $corePath . 'elements/plugins/',
+                'snippets_path'             => $corePath . 'elements/snippets/',
+                'templates_path'            => $corePath . 'templates/',
+                'assets_path'               => $assetsPath,
+                'js_url'                    => $assetsUrl . 'js/',
+                'css_url'                   => $assetsUrl . 'css/',
+                'assets_url'                => $assetsUrl,
+                'connector_url'             => $assetsUrl . 'connector.php',
+                'version'                   => '1.1.4',
+                'branding_url'              => $this->modx->getOption('digitalsignage.branding_url', null, ''),
+                'branding_help_url'         => $this->modx->getOption('digitalsignage.branding_url_help', null, ''),
+                'has_permission'            => $this->hasPermission(),
+                'request_id'                => $this->modx->getOption('digitalsignage.request_resource'),
+                'request_url'               => '',
+                'export_id'                 => $this->modx->getOption('digitalsignage.export_resource'),
+                'export_url'                => '',
+                'export_feed_id'            => $this->modx->getOption('digitalsignage.export_feed_resource'),
+                'export_feed_url'           => '',
+                'request_param_player'      => $this->modx->getOption('digitalsignage.request_param_player', null, 'pl'),
+                'request_param_broadcast'   => $this->modx->getOption('digitalsignage.request_param_broadcast', null, 'bc'),
+                'templates'                 => $this->getTemplates()
+            ], $config);
+
+            if (!empty($this->config['request_id'])) {
+                $this->config['request_url'] = $this->modx->makeUrl($this->config['request_id'], $this->modx->getOption('digitalsignage.context', null, 'ds'), null, 'full');
+            }
+
+            if (!empty($this->config['export_id'])) {
+                $this->config['export_url'] = $this->modx->makeUrl($this->config['export_id'], $this->modx->getOption('digitalsignage.context', null, 'ds'), null, 'full');
+            }
+
+            if (!empty($this->config['export_feed_id'])) {
+                $this->config['export_feed_url'] = $this->modx->makeUrl($this->config['export_feed_id'], $this->modx->getOption('digitalsignage.context', null, 'ds'), null, 'full');
+            }
 
             $this->modx->addPackage('digitalsignage', $this->config['model_path']);
 
@@ -70,46 +84,48 @@
 
         /**
          * @access public.
-         * @return String|Boolean.
+         * @return string|boolean.
          */
-        public function getHelpUrl() {
+        public function getHelpUrl()
+        {
             if (!empty($this->config['branding_help_url'])) {
-                return $this->config['branding_help_url'].'?v=' . $this->config['version'];
+                return $this->config['branding_help_url'] . '?v=' . $this->config['version'];
             }
+
             return false;
         }
         /**
          * @access public.
-         * @return String|Boolean.
+         * @return string|boolean.
          */
-        public function getBrandingUrl() {
+        public function getBrandingUrl()
+        {
             if (!empty($this->config['branding_url'])) {
                 return $this->config['branding_url'];
             }
+
             return false;
         }
 
         /**
          * @access public.
-         * @return Boolean.
+         * @return boolean.
          */
-        public function hasPermission() {
+        public function hasPermission()
+        {
             return $this->modx->hasPermission('digitalsignage_admin');
         }
 
         /**
          * @access public.
-         * @return Array.
+         * @return array.
          */
-        public function getTemplates() {
+        public function getTemplates()
+        {
             $templates = array_filter(explode(',', $this->modx->getOption('digitalsignage.templates')));
 
             foreach ($templates as $key => $template) {
-               $c = array(
-                   'id' => $template
-               );
-
-               if (null === $this->modx->getObject('modTemplate', $c)) {
+               if (null === $this->modx->getObject('modTemplate', $template)) {
                    unset($templates[$key]);
                }
             }
@@ -119,55 +135,59 @@
 
         /**
          * @access public.
-         * @param String $key.
-         * @return Null|Object.
+         * @param string $key.
+         * @return null|object.
          */
-        public function getPlayer($key) {
-            return $this->modx->getObject('DigitalSignagePlayers', array(
+        public function getPlayer($key)
+        {
+            return $this->modx->getObject('DigitalSignagePlayers', [
                 'key' => $key
-            ));
+            ]);
         }
 
         /**
          * @access public.
-         * @param String $id.
-         * @return Null|Object.
+         * @param string $id.
+         * @return null|object.
          */
-        public function getBroadcast($id) {
-            return $this->modx->getObject('DigitalSignageBroadcasts', array(
+        public function getBroadcast($id)
+        {
+            return $this->modx->getObject('DigitalSignageBroadcasts', [
                 'id' => $id
-            ));
+            ]);
         }
 
         /**
          * @access public.
-         * @param Array $scriptProperties.
+         * @param array $scriptProperties.
          */
-        public function initializeContext($scriptProperties = array()) {
-            if ('OnHandleRequest' == $this->modx->event->name) {
-                if ('mgr' != $this->modx->context->key) {
-                    $key = $this->modx->getOption('digitalsignage.context', null, 'dc');
-                    $base = '/dc/';
+        public function initializeContext($scriptProperties = [])
+        {
+            if ('OnHandleRequest' === $this->modx->event->name) {
+                if ('mgr' !== $this->modx->context->get('key')) {
+                    $contextKey     = $this->modx->getOption('digitalsignage.context', null, 'dc');
+                    $contextSetting = $this->modx->getObject('modContextSetting', [
+                        'context_key'   => $contextKey,
+                        'key'           => 'base_url'
+                    ]);
 
-                    $c = array(
-                        'context_key' => $key,
-                        'key' => 'base_url'
-                    );
-
-                    if (null !== ($object = $this->modx->getObject('modContextSetting', $c))) {
-                        $base = $object->value;
+                    if ($contextSetting) {
+                        $base = $contextSetting->get('value');
+                    } else {
+                        $base = '/ds/';
                     }
 
                     if (0 === strpos($_SERVER['REQUEST_URI'], $base)) {
-                        $this->modx->switchContext($key);
+                        $this->modx->switchContext($contextKey);
+
                         $this->modx->setOption('site_start', $this->modx->getOption('digitalsignage.request_resource'));
                         $this->modx->setOption('error_page', $this->modx->getOption('digitalsignage.request_resource'));
 
-                        if (1 == $this->modx->getOption('friendly_urls')) {
+                        if (1 === (int) $this->modx->getOption('friendly_urls')) {
                             $alias = $this->modx->getOption('request_param_alias', null, 'q');
 
                             if (isset($_REQUEST[$alias])) {
-                                $_REQUEST[$alias] = substr('/'.ltrim($_REQUEST[$alias], '/'), strlen($base));
+                                $_REQUEST[$alias] = substr('/' . ltrim($_REQUEST[$alias], '/'), strlen($base));
                             }
                         }
                     }
@@ -177,40 +197,44 @@
 
         /**
          * @access public.
-         * @param Array $scriptProperties.
+         * @param array $scriptProperties.
          */
-        public function initializePlayer($scriptProperties = array()) {
-            if ('OnLoadWebDocument' == $this->modx->event->name) {
-                if (in_array($this->modx->resource->template, $this->config['templates'])) {
+        public function initializePlayer($scriptProperties = [])
+        {
+            if ('OnLoadWebDocument' === $this->modx->event->name) {
+                if (in_array($this->modx->resource->get('template'), $this->config['templates'])) {
                     $parameters = $this->getCurrentRequestParameters();
 
                     if (null !== ($player = $this->getPlayer($parameters[$this->config['request_param_player']]))) {
                         if (null !== ($broadcast = $this->getBroadcast($parameters[$this->config['request_param_broadcast']]))) {
-                            $this->modx->toPlaceholders(array(
-                                'hash'		=> time(),
-                                'player'	=> array(
-                                    'id'			=> $player->id,
-                                    'key'			=> $player->key,
-                                    'resolution'	=> $player->resolution,
-                                    'mode'			=> $player->getMode()
-                                ),
-                                'broadcast'	=> array(
-                                    'id'			=> $broadcast->id,
-                                    'feed'			=> $this->config['export_url'],
-                                ),
-                                'callback'	=> array(
-                                    'feed'			=> $this->config['request_url']
-                                ),
-                                'preview'			=> isset($parameters['preview']) ? 1 : 0
-                            ), 'digitalsignage');
+                            $this->modx->toPlaceholders([
+                                'hash'          => time(),
+                                'player'        => [
+                                    'id'            => $player->get('id'),
+                                    'key'           => $player->get('key'),
+                                    'resolution'    => $player->get('resolution'),
+                                    'mode'          => $player->getMode()
+                                ],
+                                'broadcast'     => [
+                                    'id'            => $broadcast->get('id'),
+                                    'feed'          => $this->config['export_url'],
+                                ],
+                                'callback'      => [
+                                    'feed'          => $this->config['request_url']
+                                ],
+                                'feed'          => [
+                                    'feed'          => $this->config['export_feed_url']
+                                ],
+                                'preview'       => isset($parameters['preview']) ? 1 : 0
+                            ], 'digitalsignage');
                         }
                     }
                 }
             }
 
-            if ('OnWebPagePrerender' == $this->modx->event->name) {
-                if ($this->modx->resource->id == $this->config['request_id']) {
-                    $parameters = $this->getCurrentRequestParameters();;
+            if ('OnWebPagePrerender' === $this->modx->event->name) {
+                if ((int) $this->modx->resource->get('id') === (int) $this->config['request_id']) {
+                    $parameters = $this->getCurrentRequestParameters();
 
                     $status = array();
 
@@ -392,18 +416,19 @@
 
         /**
          * @access public.
-         * @param Null|String $request.
-         * @return Boolean|String.
+         * @param null|string $request.
+         * @return boolean|string.
          */
-        public function getCurrentRequest($request = null) {
+        public function getCurrentRequest($request = null)
+        {
             $parameters = $this->getCurrentRequestParameters();
 
-            if ('preview' == $request) {
+            if ('preview' === $request) {
                 return isset($parameters['preview']);
             }
 
             if (null !== $request) {
-                return $request == $parameters['type'];
+                return $request === $parameters['type'];
             }
 
             return $parameters['type'];
@@ -411,14 +436,18 @@
 
         /**
          * @access public.
-         * @return Array.
+         * @return array.
          */
-        public function getCurrentRequestParameters() {
+        public function getCurrentRequestParameters()
+        {
+            $playerKey      = $this->config['request_param_player'];
+            $broadcastKey   = $this->config['request_param_broadcast'];
+
             return array_merge(array(
-                'type'										=> null,
-                $this->config['request_param_player'] 		=> null,
-                $this->config['request_param_broadcast']	=> null,
-                'time'										=> 900
+                'type'          => null,
+                'time'          => 900,
+                $playerKey      => null,
+                $broadcastKey   => null
             ), $this->modx->request->getParameters());
         }
 
@@ -426,20 +455,21 @@
          * @access protected,
          * @return String.
          */
-        protected function getMediaSourceUrl() {
-            $criterea = array(
+        protected function getMediaSourceUrl()
+        {
+            $mediaSource = $this->modx->getObject('modMediaSource', [
                 'id' => $this->modx->getOption('digitalsignage.media_source')
-            );
+            ]);
 
-            if (null !== ($mediaSource = $this->modx->getObject('modMediaSource', $criterea))) {
+            if ($mediaSource) {
                 $mediaSource = $mediaSource->get('properties');
 
                 if (isset($mediaSource['baseUrl']['value'])) {
-                    return $mediaSource['baseUrl']['value'];
+                    return '/' . ltrim($mediaSource['baseUrl']['value'], '/');
                 }
             }
 
-            return '';
+            return '/';
         }
     }
 

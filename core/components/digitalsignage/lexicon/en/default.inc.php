@@ -15,6 +15,8 @@
     $_lang['setting_digitalsignage.request_resource_desc']          = 'The ID of the resource that you want to use as default request.';
     $_lang['setting_digitalsignage.export_resource']                = 'Export request';
     $_lang['setting_digitalsignage.export_resource_desc']           = 'The ID of the resource that you want to use as export request.';
+    $_lang['setting_digitalsignage.export_feed_resource']           = 'Export request for feeds';
+    $_lang['setting_digitalsignage.export_feed_resource_desc']      = 'The ID of the resource that you want to use as export request for feeds.';
     $_lang['setting_digitalsignage.request_param_broadcast']        = 'Broadcast parameter';
     $_lang['setting_digitalsignage.request_param_broadcast_desc']   = 'The name of the GET-parameter to identify the broadcast.';
     $_lang['setting_digitalsignage.request_param_player']           = 'Player parameter';
@@ -216,7 +218,7 @@
     $_lang['digitalsignage.schedule_time_format_entire_day']         = '(entire day)';
     $_lang['digitalsignage.schedule_time_format_set']                = '(from [[+start_time]] till [[+end_time]])';
     $_lang['digitalsignage.schedule_date_format_set']                = '[[+start_date]] till [[+end_date]]';
-    $_lang['digitalsignage.schedule_date_format_set_long']           = '[[+start_date]] (van [[+start_time]]) tot [[+end_date]] (tot [[+end_time]])';
+    $_lang['digitalsignage.schedule_date_format_set_long']           = '[[+start_date]] (from [[+start_time]]) till [[+end_date]] (till [[+end_time]])';
     $_lang['digitalsignage.error_broadcast_resource_object']         = 'An error has occurred during saving the resource.';
     $_lang['digitalsignage.error_broadcast_templates']               = '<strong>Important:</strong> There are no templates available for the digital signage. This will casuse problems.';
     $_lang['digitalsignage.error_broadcast_sync']                    = 'An error has occurred during synchronizing the broadcast.';
@@ -233,6 +235,6 @@
     $_lang['digitalsignage.broadcast_name_duplicate']                = 'Copy from [[+name]]';
     $_lang['digitalsignage.slide_name_duplicate']                    = 'Copy from [[+name]]';
     $_lang['digitalsignage.next_sync']                               = '[[+time]] minutes';
-    $_lang['digitalsignage.preview_resolution']                      = ' (resolutie [[+resolution]])';
+    $_lang['digitalsignage.preview_resolution']                      = ' (resolution [[+resolution]])';
 
 ?>

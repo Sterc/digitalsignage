@@ -23,8 +23,8 @@
     $_lang['digitalsignage.slide_media_desc']                       = 'A slide with an image or Youtube video.';
     $_lang['digitalsignage.slide_media_image']                      = 'Image';
     $_lang['digitalsignage.slide_media_image_desc']                 = 'The image of the slide.';
-    $_lang['digitalsignage.slide_media_youtube']                    = 'Youtube';
-    $_lang['digitalsignage.slide_media_youtube_desc']               = 'The ID or URL of the Youtube video.';
+    $_lang['digitalsignage.slide_media_youtube']                    = 'Youtube/Vimeo';
+    $_lang['digitalsignage.slide_media_youtube_desc']               = 'The URL of the Youtube or Vimeo video, or the ID of the Youtube video.';
     $_lang['digitalsignage.slide_media_fullscreen']                 = 'Play the slide fullscreen.';
     $_lang['digitalsignage.slide_media_fullscreen_desc']            = '';
     $_lang['digitalsignage.slide_media_ticker']                     = 'Show the ticker.';

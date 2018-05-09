@@ -846,11 +846,17 @@ $(document).ready(function() {
                             }
 
                             break;
+                        case 'vimeo':
                         case 'youtube':
-                            var videoID = value.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
+                            var vimeoID = value.match(/(?:https?:\/{2})?(?:w{3}\.)?vimeo.com\/(\d+)($|\/)/);
+                            var youtubeID = value.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
 
-                            if (videoID[1]) {
-                                value = '//www.youtube.com/embed/' + videoID[1] + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0');
+                            if (null !== vimeoID && vimeoID[1]) {
+                                value = '//player.vimeo.com/video/' + vimeoID[1] + (param ? param : '?autoplay=1&controls=0&title=0&byline=0&portrait=0&sidedock=0&mute=1');
+                            } else if (null !== youtubeID && youtubeID[1]) {
+                                value = '//www.youtube.com/embed/' + youtubeID[1] + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0&mute=1');
+                            } else {
+                                value = '//www.youtube.com/embed/' + value + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0&mute=1');
                             }
 
                             break;

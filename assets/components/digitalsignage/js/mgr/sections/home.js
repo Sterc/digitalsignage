@@ -9,7 +9,7 @@ DigitalSignage.page.Home = function(config) {
 
     if (DigitalSignage.config.branding_url) {
         config.buttons.push({
-            text        : 'DigitalSignage ' + DigitalSignage.config.version,
+            text        : 'Digital Signage ' + DigitalSignage.config.version,
             cls         : 'x-btn-branding',
             handler     : this.loadBranding
         });

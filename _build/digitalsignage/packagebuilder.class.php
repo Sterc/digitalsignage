@@ -4,19 +4,6 @@
      * Package Builder
      *
      * Copyright 2017 by Oene Tjeerd de Bruin <modx@oetzie.nl>
-     *
-     * Package Builder is free software; you can redistribute it and/or modify it under
-     * the terms of the GNU General Public License as published by the Free Software
-     * Foundation; either version 2 of the License, or (at your option) any later
-     * version.
-     *
-     * Package Builder is distributed in the hope that it will be useful, but WITHOUT ANY
-     * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-     * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-     *
-     * You should have received a copy of the GNU General Public License along with
-     * Package Builder; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
-     * Suite 330, Boston, MA 02111-1307 USA
      */
 
     set_time_limit(0);
@@ -139,43 +126,6 @@
                         $builder->createPackage($this->package['namespace'], $version, $release);
                         $builder->registerNamespace($this->package['namespace'], false, true, '{core_path}components/'.$this->package['namespace'].'/', '{assets_path}components/'.$this->package['namespace'].'/');
 
-                        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaging menu.');
-
-                        if (null !== ($menu = $this->getMenu())) {
-                            $vehicle = array(
-                                xPDOTransport::PRESERVE_KEYS    => true,
-                                xPDOTransport::UPDATE_OBJECT    => true,
-                                xPDOTransport::UNIQUE_KEY       => 'text',
-                                xPDOTransport::RELATED_OBJECTS  => true
-                            );
-
-                            if (null !== ($vehicle = $builder->createVehicle($menu, $vehicle))) {
-                                $builder->putVehicle($vehicle);
-
-                                $this->modx->log(modX::LOG_LEVEL_INFO, 'Packed menu.');
-                            } else {
-                                $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not create the package menu vehicle.');
-                            }
-                        }
-
-                        $settings = $this->getSystemSettings();
-
-                        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaging system settings.');
-
-                        foreach ($settings as $setting) {
-                            $vehicle = array(
-                                xPDOTransport::PRESERVE_KEYS    => true,
-                                xPDOTransport::UPDATE_OBJECT    => false,
-                                xPDOTransport::UNIQUE_KEY       => 'key'
-                            );
-
-                            if (null !== ($vehicle = $builder->createVehicle($setting, $vehicle))) {
-                                $builder->putVehicle($vehicle);
-                            }
-                        }
-
-                        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packed '.count($settings).' system settings.');
-
                         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaging category.');
 
                         if (null !== ($category = $this->modx->newObject('modCategory'))) {
@@ -260,14 +210,51 @@
                             }
 
                             $this->modx->log(xPDO::LOG_LEVEL_INFO, 'Create package transport ZIP.');
-
-                            if ($builder->pack()) {
-                                $this->modx->log(xPDO::LOG_LEVEL_INFO, 'Package transport ZIP created.');
-                            } else {
-                                $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not create package transport ZIP.');
-                            }
                         } else {
                             $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not create the package category.');
+                        }
+
+                        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaging menu.');
+
+                        if (null !== ($menu = $this->getMenu())) {
+                            $vehicle = array(
+                                xPDOTransport::PRESERVE_KEYS    => true,
+                                xPDOTransport::UPDATE_OBJECT    => true,
+                                xPDOTransport::UNIQUE_KEY       => 'text',
+                                xPDOTransport::RELATED_OBJECTS  => true
+                            );
+
+                            if (null !== ($vehicle = $builder->createVehicle($menu, $vehicle))) {
+                                $builder->putVehicle($vehicle);
+
+                                $this->modx->log(modX::LOG_LEVEL_INFO, 'Packed menu.');
+                            } else {
+                                $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not create the package menu vehicle.');
+                            }
+                        }
+
+                        $settings = $this->getSystemSettings();
+
+                        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packaging system settings.');
+
+                        foreach ($settings as $setting) {
+                            $vehicle = array(
+                                xPDOTransport::PRESERVE_KEYS    => true,
+                                xPDOTransport::UPDATE_OBJECT    => false,
+                                xPDOTransport::UNIQUE_KEY       => 'key'
+                            );
+
+                            if (null !== ($vehicle = $builder->createVehicle($setting, $vehicle))) {
+                                $builder->putVehicle($vehicle);
+                            }
+                        }
+
+                        $this->modx->log(modX::LOG_LEVEL_INFO, 'Packed '.count($settings).' system settings.');
+
+                        if ($builder->pack()) {
+                            $this->modx->log(xPDO::LOG_LEVEL_INFO, 'Package transport ZIP created.');
+                        } else {
+                            $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not create package transport ZIP.');
                         }
                     } else {
                         $this->modx->log(modX::LOG_LEVEL_ERROR, 'Could not create the package.');

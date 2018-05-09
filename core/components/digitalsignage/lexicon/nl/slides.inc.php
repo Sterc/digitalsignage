@@ -22,8 +22,8 @@
     $_lang['digitalsignage.slide_media_desc']                       = 'Een slide met een afbeelding of Youtube video.';
     $_lang['digitalsignage.slide_media_image']                      = 'Afbeelding';
     $_lang['digitalsignage.slide_media_image_desc']                 = 'De afbeelding vab de slide.';
-    $_lang['digitalsignage.slide_media_youtube']                    = 'Youtube';
-    $_lang['digitalsignage.slide_media_youtube_desc']               = 'De ID of URL van de Youtube video.';
+    $_lang['digitalsignage.slide_media_youtube']                    = 'Youtube/Vimeo';
+    $_lang['digitalsignage.slide_media_youtube_desc']               = 'De URL van de Youtube of Vimeo video, of de ID van de Youtube video.';
     $_lang['digitalsignage.slide_media_fullscreen']                 = 'Toon de slide fullscreen.';
     $_lang['digitalsignage.slide_media_fullscreen_desc']            = '';
     $_lang['digitalsignage.slide_media_ticker']                     = 'Toon de ticker.';

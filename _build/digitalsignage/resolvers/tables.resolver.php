@@ -6,7 +6,7 @@ if ($object->xpdo) {
     switch ($action) {
         case xPDOTransport::ACTION_INSTALL:
             $modx =& $object->xpdo;
-            $modx->addPackage('digitalsignage', $modx->getOption('digitalsignage.core_path', null, $modx->getOption('core_path').'components/digitalsignage/').'model/');
+            $modx->addPackage('digitalsignage', $modx->getOption('digitalsignage.core_path', null, $modx->getOption('core_path') . 'components/digitalsignage/') . 'model/');
 
             $manager = $modx->getManager();
 
