@@ -8,7 +8,10 @@
 
     require_once __DIR__ . '/packagebuilder.class.php';
 
-    $package = new PackageBuilder();
+    $package = new PackageBuilder(
+        __DIR__ . '/package.json',
+        dirname(dirname(__DIR__)) . '/core/'
+    );
 
     $package->createPackageZip();
 

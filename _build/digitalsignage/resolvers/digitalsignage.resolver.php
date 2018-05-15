@@ -133,7 +133,8 @@ switch ($options[xPDOTransport::PACKAGE_ACTION]) {
             $settings[$key] = array_merge([
                 'key'       => strtolower($package).'.'.$key,
                 'namespace' => strtolower($package),
-                'area'      => strtolower($package)
+                'area'      => strtolower($package),
+                'value'     => ''
             ], $setting);
 
             if (null !== ($settingObject = $object->xpdo->getObject('modSystemSetting', $settings[$key]['key']))) {

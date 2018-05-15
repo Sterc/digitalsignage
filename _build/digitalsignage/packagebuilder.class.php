@@ -4,19 +4,6 @@
      * Package Builder
      *
      * Copyright 2017 by Oene Tjeerd de Bruin <modx@oetzie.nl>
-     *
-     * Package Builder is free software; you can redistribute it and/or modify it under
-     * the terms of the GNU General Public License as published by the Free Software
-     * Foundation; either version 2 of the License, or (at your option) any later
-     * version.
-     *
-     * Package Builder is distributed in the hope that it will be useful, but WITHOUT ANY
-     * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
-     * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-     *
-     * You should have received a copy of the GNU General Public License along with
-     * Package Builder; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
-     * Suite 330, Boston, MA 02111-1307 USA
      */
 
     set_time_limit(0);
@@ -58,7 +45,19 @@
 
         /**
          * @access public.
-         * @var Array.
+         * @var Boolean.
+         */
+        public $encrypt = false;
+
+        /**
+         * @access public.
+         * @var Null|String.
+         */
+        public $encryptKey = null;
+
+        /**
+         * @access public.
+         * @var Null|Array.
          */
         public $package = null;
 
@@ -132,6 +131,8 @@
             $time1  = $time[1] + $time[0];
 
             if ($this->loadPackage()) {
+                $this->setPackageEncrypt();
+
                 if ($this->modx->loadClass('transport.modPackageBuilder', '', false, true)) {
                     if (null !== ($builder = new modPackageBuilder($this->modx))) {
                         list($version, $release) = explode('-', $this->package['version']);
@@ -139,19 +140,20 @@
                         $builder->createPackage($this->package['namespace'], $version, $release);
                         $builder->registerNamespace($this->package['namespace'], false, true, '{core_path}components/'.$this->package['namespace'].'/', '{assets_path}components/'.$this->package['namespace'].'/');
 
-                        if (defined('PKG_ENCODE_KEY')) {
+                        if ($this->getPackageEncrypt()) {
                             require_once $this->getPath('core') . 'model/encryptedvehicle.class.php';
+
                             $builder->package->put(array(
-                                'source' => $this->getPath('core'),
-                                'target' => "return MODX_CORE_PATH . 'components/';",
+                                'source'    => $this->getPath('core'),
+                                'target'    => "return MODX_CORE_PATH . 'components/';",
                             ), array(
                                 'vehicle_class' => 'xPDOFileVehicle',
-                                'resolve' => array(
+                                'resolve'       => array(
                                     array(
-                                        'type' => 'php',
-                                        'source' => 'resolvers/encryption.resolver.php',
-                                    ),
-                                ),
+                                        'type'      => 'php',
+                                        'source'    => 'resolvers/encryption.resolver.php',
+                                    )
+                                )
                             ));
                         }
 
@@ -205,7 +207,8 @@
                                     )
                                 )
                             );
-                            if (defined('PKG_ENCODE_KEY')) {
+
+                            if ($this->getPackageEncrypt()) {
                                 $vehicle['vehicle_class'] = 'encryptedVehicle';
                                 $vehicle[xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL] = true;
                             }
@@ -284,11 +287,11 @@
 
                         $this->modx->log(modX::LOG_LEVEL_INFO, 'Packed '.count($settings).' system settings.');
 
-                        if (defined('PKG_ENCODE_KEY')) {
+                        if ($this->getPackageEncrypt()) {
                             $builder->putVehicle($builder->createVehicle(array(
-                                'source' => 'resolvers/encryption.resolver.php',
+                                'source' => 'resolvers/encryption.resolver.php'
                             ), array(
-                                'vehicle_class' => 'xPDOScriptVehicle',
+                                'vehicle_class' => 'xPDOScriptVehicle'
                             )));
                         }
 
@@ -309,6 +312,56 @@
             $time2  = $time[1] + $time[0];
 
             $this->modx->log(modX::LOG_LEVEL_INFO, 'Package built execution time '.sprintf('%2.4f s', $time2 - $time1).'.');
+        }
+
+        /**
+         * @access public.
+         * @return String|Boolean.
+         */
+        public function setPackageEncrypt() {
+            if (isset($this->package['encrypt']) && (bool) $this->package['encrypt']) {
+                $this->encrypt = true;
+
+                if ($this->encrypt && isset($this->package['encryptProvider'])) {
+                    $provider = $this->modx->getObject('transport.modTransportProvider', $this->package['encryptProvider']);
+
+                    if ($provider) {
+                        $this->modx->setOption('contentType', 'default');
+
+                        $response = $provider->request('package/encode', 'POST', array(
+                            'package'           => $this->package['signature'],
+                            'version'           => $this->package['version'],
+                            'username'          => $provider->get('username'),
+                            'api_key'           => $provider->get('api_key'),
+                            'vehicle_version'   => '2.0.0',
+                        ));
+
+                        if ($response->isError()) {
+                            $this->modx->log(modX::LOG_LEVEL_ERROR, $response->getError());
+                        } else {
+                            $data = $response->toXml();
+
+                            if (!empty($data->key)) {
+                                define('PKG_ENCODE_KEY', (string) $data->key);
+
+                                return $this->encryptKey = (string) $data->key;
+                            }
+
+                            $this->modx->log(modX::LOG_LEVEL_ERROR, $data->message);
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /**
+         * @access public.
+         * @return Boolean.
+         */
+        public function getPackageEncrypt() {
+            return $this->encrypt && null !== $this->encryptKey && defined('PKG_ENCODE_KEY');
         }
 
         /**
@@ -472,11 +525,13 @@
         public function getBuildResolvers() {
             $output = array();
 
-            if (!defined('PKG_ENCODE_KEY') && is_dir($this->getPath('core'))) {
-                $output['core'] = array(
-                    'source'    => $this->getPath('core'),
-                    'target'    => 'return MODX_CORE_PATH.\'components/\';'
-                );
+            if (!$this->getPackageEncrypt()) {
+                if (is_dir($this->getPath('core'))) {
+                    $output['core'] = array(
+                        'source'    => $this->getPath('core'),
+                        'target'    => 'return MODX_CORE_PATH.\'components/\';'
+                    );
+                }
             }
 
             if (is_dir($this->getPath('assets'))) {

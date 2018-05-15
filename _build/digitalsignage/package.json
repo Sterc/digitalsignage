@@ -4,6 +4,8 @@
     "signature": "digitalsignage",
     "description": "",
     "version": "1.1.4-pl",
+    "encrypt": true,
+    "encryptProvider": 2,
     "menu": [{
         "text": "digitalsignage",
         "description": "digitalsignage.desc",
