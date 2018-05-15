@@ -17,6 +17,8 @@ Zorg er voor dat dit bestand niet gedeployed wordt door DeployHQ.
 
 Na dat Digital Signage package geinstalleerd is zou ik de aangemaakte 'Digital Signage (1.1.4-pl original)' template kopieren en hernoemen, zodat de template niet overschreven wordt tijdens een nieuwe install of update. Let op dat je de nieuwe template wel goed insteld bij de systeem instellingen. Doe dit ook voor alle front-end bestanden, deze zullen tijdens een nieuwe install of update overschreven worden.
 
+De 1.1.4-pl versie is beveiligd mbv modStore, als je hem lokaal wilt testen of uploaden dien je hem handmatig in de database te koppelen aan de modStore provider en een juiste key.
+
 ### Subpackages ###
 
 Digital Signage heeft een aan subpackages zoals widgets en slides. Momenteel moet je deze nog zelf kopieren en instellen, de bedoeling is dat er voor deze subpackages ook losse installs komen.
