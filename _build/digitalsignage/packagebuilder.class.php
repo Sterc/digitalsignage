@@ -86,7 +86,7 @@
                 $this->path['assets'] = dirname(dirname(dirname(__FILE__))).'/assets/';
             }
 
-            require_once $this->path['core'].'config/config.inc.php';
+            require_once $this->path['core'].'config/' . MODX_CONFIG_KEY . '.inc.php';
             require_once $this->path['core'].'model/modx/modx.class.php';
 
             $this->modx = new modX();
