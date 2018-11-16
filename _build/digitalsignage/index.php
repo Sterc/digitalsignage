@@ -7,7 +7,9 @@
      */
 
     require_once __DIR__ . '/packagebuilder.class.php';
-    require_once dirname(dirname(__DIR__)) . '/config.core.php';
+    if (!defined('MODX_CORE_PATH')) {
+        require_once dirname(dirname(__DIR__)) . '/config.core.php';
+    }
 
     $package = new PackageBuilder(
         __DIR__ . '/package.json',
