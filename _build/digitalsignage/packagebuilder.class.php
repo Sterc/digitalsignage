@@ -137,6 +137,9 @@
                     if (null !== ($builder = new modPackageBuilder($this->modx))) {
                         list($version, $release) = explode('-', $this->package['version']);
 
+                        if (defined('PKG_BUILD_TARGET')) {
+                            $builder->directory = PKG_BUILD_TARGET;
+                        }
                         $builder->createPackage($this->package['namespace'], $version, $release);
                         $builder->registerNamespace($this->package['namespace'], false, true, '{core_path}components/'.$this->package['namespace'].'/', '{assets_path}components/'.$this->package['namespace'].'/');
 
