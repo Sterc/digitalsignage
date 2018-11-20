@@ -11,9 +11,12 @@
         require_once dirname(dirname(__DIR__)) . '/config.core.php';
     }
 
+    $modx = isset($modx) ? $modx : null;
     $package = new PackageBuilder(
         __DIR__ . '/package.json',
-        MODX_CORE_PATH
+        dirname(dirname(__DIR__)) . '/core/',
+        null,
+        $modx
     );
 
     $package->createPackageZip();

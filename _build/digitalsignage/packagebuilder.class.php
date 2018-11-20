@@ -67,7 +67,7 @@
          * @param String $core.
          * @param String $assets.
          */
-        public function __construct($package = null, $core = null, $assets = null) {
+        public function __construct($package = null, $core = null, $assets = null, $modx = null) {
             if (null !== $package) {
                 $this->path['package'] = $package;
             } else {
@@ -86,16 +86,19 @@
                 $this->path['assets'] = dirname(dirname(dirname(__FILE__))).'/assets/';
             }
 
-            require_once $this->path['core'].'config/' . MODX_CONFIG_KEY . '.inc.php';
-            require_once $this->path['core'].'model/modx/modx.class.php';
+            if ($modx === null) {
+                require_once $this->path['core'].'config/' . MODX_CONFIG_KEY . '.inc.php';
+                require_once $this->path['core'].'model/modx/modx.class.php';
 
-            $this->modx = new modX();
-            $this->modx->initialize('mgr');
+                $modx = new modX();
+                $modx->initialize('mgr');
 
-            $this->modx->getService('error', 'error.modError');
+                $modx->getService('error', 'error.modError');
 
-            $this->modx->setLogLevel(modX::LOG_LEVEL_INFO);
-            $this->modx->setLogTarget(XPDO_CLI_MODE ? 'ECHO' : 'HTML');
+                $modx->setLogLevel(modX::LOG_LEVEL_INFO);
+                $modx->setLogTarget(XPDO_CLI_MODE ? 'ECHO' : 'HTML');
+            }
+            $this->modx = $modx;
 
             $this->path['root'] = $this->modx->getOption('base_path');
         }
@@ -154,7 +157,7 @@
                                 'resolve'       => array(
                                     array(
                                         'type'      => 'php',
-                                        'source'    => 'resolvers/encryption.resolver.php',
+                                        'source'    => __DIR__ . '/resolvers/encryption.resolver.php',
                                     )
                                 )
                             ));
@@ -174,7 +177,7 @@
                                     $category->addMany($element);
                                 }
 
-                                $this->modx->log(modX::LOG_LEVEL_INFO, 'Packed '.$key.' '.count($elements).' into category.');
+                                $this->modx->log(modX::LOG_LEVEL_INFO, 'Packed '.count($elements).' '.$key.' into category.');
                             }
 
                             $vehicle = array(
@@ -292,7 +295,7 @@
 
                         if ($this->getPackageEncrypt()) {
                             $builder->putVehicle($builder->createVehicle(array(
-                                'source' => 'resolvers/encryption.resolver.php'
+                                'source' => __DIR__ . '/resolvers/encryption.resolver.php'
                             ), array(
                                 'vehicle_class' => 'xPDOScriptVehicle'
                             )));
@@ -324,6 +327,11 @@
         public function setPackageEncrypt() {
             if (isset($this->package['encrypt']) && (bool) $this->package['encrypt']) {
                 $this->encrypt = true;
+
+                if (defined('PKG_ENCODE_KEY')) {
+                    $this->encryptKey = PKG_ENCODE_KEY;
+                    return;
+                }
 
                 if ($this->encrypt && isset($this->package['encryptProvider'])) {
                     $provider = $this->modx->getObject('transport.modTransportProvider', $this->package['encryptProvider']);
@@ -364,7 +372,7 @@
          * @return Boolean.
          */
         public function getPackageEncrypt() {
-            return $this->encrypt && null !== $this->encryptKey && defined('PKG_ENCODE_KEY');
+            return $this->encrypt && null !== $this->encryptKey;
         }
 
         /**
