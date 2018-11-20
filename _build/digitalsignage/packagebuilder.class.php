@@ -100,7 +100,7 @@
             }
             $this->modx = $modx;
 
-            $this->path['root'] = $this->modx->getOption('base_path');
+            $this->path['root'] = dirname(dirname(__DIR__)) . '/';
         }
 
         /**
@@ -567,9 +567,9 @@
                 foreach ($this->package['build']['resolvers'] as $resolver) {
                     $key = substr($resolver, strrpos($resolver, '/') + 1, strlen($resolver));
 
-                    if (file_exists($resolver)) {
+                    if (file_exists(__DIR__ . '/' . $resolver)) {
                         $output[$key] = array(
-                            'source' => $resolver
+                            'source' => __DIR__ . '/' . $resolver
                         );
                     }
                 }
@@ -600,9 +600,9 @@
             }
 
             if (isset($this->package['build']['setup-options'])) {
-                if (file_exists($this->package['build']['setup-options'])) {
+                if (file_exists(__DIR__ . '/' . $this->package['build']['setup-options'])) {
                     $output['setup-options'] = array(
-                        'source' => $this->package['build']['setup-options']
+                        'source' => __DIR__ . '/' . $this->package['build']['setup-options']
                     );
                 }
             }
