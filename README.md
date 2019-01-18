@@ -82,6 +82,12 @@ MODx.loadRTE = function(id, config) {
 
 ```
 "C:\Program Files\Google\Chrome\Application\chrome.exe" -kiosk --disable-popup-blocking --disable-infobars --disable-session-crashed-bubble --remote-debugging-port=9222 "URL VAN DE MEDIASPELER"```
-
+```
+In
+```
 C:\Gebruikers\Gebruiker\AppData\Roaming\Microsoft\Windows\Menu Start\Programma's\Opstarten\
+```
+Of
+```
+C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Opstarten\
 ```
