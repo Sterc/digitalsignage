@@ -81,7 +81,7 @@ MODx.loadRTE = function(id, config) {
 ### Intel PC Stick (windows 10) ###
 
 ```
-"C:\Program Files\Google\Chrome\Application\chrome.exe" -kiosk --disable-popup-blocking --disable-infobars --disable-session-crashed-bubble --remote-debugging-port=9222 "URL VAN DE MEDIASPELER"```
+"C:\Program Files\Google\Chrome\Application\chrome.exe" -kiosk --disable-popup-blocking --disable-infobars --disable-session-crashed-bubble --remote-debugging-port=9222 "URL VAN DE MEDIASPELER"
 ```
 In
 ```
