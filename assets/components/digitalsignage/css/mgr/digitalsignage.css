@@ -23,6 +23,16 @@
     color: dimgray;
 }
 
+.x-combo-list-item .icon-slide-type {
+    float: left;
+    margin: 12px 0;
+}
+
+.x-combo-list-item .icon-slide-type + span {
+    display: block;
+    padding: 0 0 0 22px;
+}
+
 .digitalsignage-window-padding .x-window-body {
     padding: 15px !important;
 }
@@ -71,7 +81,7 @@
     text-align: center;
     color: #e4e4e4;
     font-size: 100px;
-    padding: 75px 0;
+    padding: 130px 0;
 }
 
 .digitalsignage-slide-options .mce-tinymce {

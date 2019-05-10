@@ -140,9 +140,9 @@ Ext.extend(DigitalSignage.grid.BroadcastFeeds, MODx.grid.Grid, {
         return String.format('<a href="{0}" target="_blank" title="{1}">{2}</a>', d, d, d);
     },
     renderBoolean: function(d, c) {
-        c.css = 1 == parseInt(d) || d ? 'green' : 'red';
+        c.css = parseInt(d) === 1 ? 'green' : 'red';
 
-        return 1 == parseInt(d) || d ? _('yes') : _('no');
+        return parseInt(d) === 1 ? _('yes') : _('no');
     }
 });
 

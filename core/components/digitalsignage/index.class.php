@@ -1,60 +1,66 @@
 <?php
 
-    abstract class DigitalSignageManagerController extends modExtraManagerController {
-        /**
-         * @access public.
-         * @var Object.
-         */
-        public $digitalsignage;
+/**
+ * Digital Signage
+ *
+ * Copyright 2019 by Oene Tjeerd de Bruin <oenetjeerd@sterc.nl>
+ */
 
-        /**
-         * @access public.
-         * @return Mixed.
-         */
-        public function initialize() {
-            $this->digitalsignage = $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/');
+abstract class DigitalSignageManagerController extends modExtraManagerController
+{
+    /**
+     * @access public.
+     * @return Mixed.
+     */
+    public function initialize()
+    {
+        $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
-            $this->addJavascript($this->digitalsignage->config['js_url'].'mgr/digitalsignage.js');
+        $this->addCss($this->modx->digitalsignage->config['css_url'] . 'mgr/digitalsignage.css');
 
-            $this->addHtml('<script type="text/javascript">
-                Ext.onReady(function() {
-                    MODx.config.help_url = "'.$this->digitalsignage->getHelpUrl().'";
-                    
-                    DigitalSignage.config = '.$this->modx->toJSON(array_merge($this->digitalsignage->config, array(
-                        'branding_url'      => $this->digitalsignage->getBrandingUrl(),
-                        'branding_url_help' => $this->digitalsignage->getHelpUrl()
-                    ))).';
-                });
-            </script>');
+        $this->addJavascript($this->modx->digitalsignage->config['js_url'] . 'mgr/digitalsignage.js');
 
-            return parent::initialize();
-        }
+        $this->addHtml('<script type="text/javascript">
+            Ext.onReady(function() {
+                MODx.config.help_url = "' . $this->modx->digitalsignage->getHelpUrl() . '";
+                
+                DigitalSignage.config = ' . $this->modx->toJSON(array_merge($this->modx->digitalsignage->config, [
+                    'branding_url'      => $this->modx->digitalsignage->getBrandingUrl(),
+                    'branding_url_help' => $this->modx->digitalsignage->getHelpUrl()
+                ])) . ';
+            });
+        </script>');
 
-        /**
-         * @access public.
-         * @return Array.
-         */
-        public function getLanguageTopics() {
-            return $this->digitalsignage->config['lexicons'];
-        }
-
-        /**
-         * @access public.
-         * @returns Boolean.
-         */
-        public function checkPermissions() {
-            return $this->modx->hasPermission('digitalsignage');
-        }
+        return parent::initialize();
     }
 
-    class IndexManagerController extends DigitalSignageManagerController {
-        /**
-         * @access public.
-         * @return String.
-         */
-        public static function getDefaultController() {
-            return 'home';
-        }
+    /**
+     * @access public.
+     * @return Array.
+     */
+    public function getLanguageTopics()
+    {
+        return $this->modx->digitalsignage->config['lexicons'];
     }
 
-?>
+    /**
+     * @access public.
+     * @returns Boolean.
+     */
+    public function checkPermissions()
+    {
+        return $this->modx->hasPermission('digitalsignage');
+    }
+}
+
+class IndexManagerController extends DigitalSignageManagerController
+{
+    /**
+     * @access public.
+     * @return String.
+     */
+    public static function getDefaultController()
+    {
+        return 'home';
+    }
+}

@@ -64,6 +64,12 @@ DigitalSignage.grid.Broadcasts = function(config) {
     }];
 
     var sm = new Ext.grid.CheckboxSelectionModel();
+
+    var expander = new Ext.grid.RowExpander({
+        getRowClass : function(record, rowIndex, p, ds) {
+            return 1 === parseInt(record.json.protected) ? ' grid-row-inactive' : '';
+        }
+    });
     
     var columns = new Ext.grid.ColumnModel({
         columns: [sm, {
@@ -113,10 +119,11 @@ DigitalSignage.grid.Broadcasts = function(config) {
         baseParams  : {
             action      : 'mgr/broadcasts/getlist'
         },
-        fields      : ['id', 'resource_id', 'ticker_url', 'name', 'name_formatted', 'description', 'template', 'editedon', 'url', 'slides', 'feeds', 'players', 'sync'],
+        fields      : ['id', 'resource_id', 'ticker_url', 'protected', 'name', 'name_formatted', 'description', 'template', 'editedon', 'url', 'slides', 'feeds', 'players', 'sync'],
         paging      : true,
         pageSize    : MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy      : 'id',
+        plugins     : expander,
         refreshGrid : [],
         refresher   : {
             timer       : null,
@@ -436,6 +443,13 @@ Ext.extend(DigitalSignage.grid.Broadcasts, MODx.grid.Grid, {
         this.viewFeedsWindow.setValues(this.menu.record);
         this.viewFeedsWindow.show(e.target);
     },
+    renderProtected: function (d, c, e) {
+        if (parseInt(e.data.protected) === 1) {
+            return String.format('<em>{0}</em>', d);
+        }
+
+        return d;
+    },
     renderPlayers: function(d, c, e) {
         var players = new Array();
 
@@ -447,7 +461,7 @@ Ext.extend(DigitalSignage.grid.Broadcasts, MODx.grid.Grid, {
 
         return players.join(', ');
     },
-    renderSync: function(a) {
+    renderSync: function(a, c, e) {
         if (!a.valid) {
             if (Ext.isEmpty(a.timestamp)) {
                 return _('digitalsignage.sync_never');
@@ -473,7 +487,7 @@ DigitalSignage.window.CreateBroadcast = function(config) {
     config = config || {};
 
     Ext.applyIf(config, {
-    	autoHeight  : true,
+        autoHeight  : true,
         title       : _('digitalsignage.broadcast_create'),
         url         : DigitalSignage.config.connector_url,
         baseParams  : {
@@ -522,6 +536,14 @@ DigitalSignage.window.CreateBroadcast = function(config) {
             xtype       : MODx.expandHelp ? 'label' : 'hidden',
             html        : _('digitalsignage.label_broadcast_ticker_url_desc'),
             cls         : 'desc-under'
+        }, {
+            xtype       : 'checkbox',
+            hidden      : !DigitalSignage.config.permissions.admin,
+            fieldLabel  : '',
+            boxLabel    : _('digitalsignage.label_broadcast_protected_desc'),
+            name        : 'protected',
+            anchor      : '100%',
+            inputValue  : 1
         }]
     });
     
@@ -590,6 +612,14 @@ DigitalSignage.window.UpdateBroadcast = function(config) {
             xtype       : MODx.expandHelp ? 'label' : 'hidden',
             html        : _('digitalsignage.label_broadcast_ticker_url_desc'),
             cls         : 'desc-under'
+        }, {
+            xtype       : 'checkbox',
+            hidden      : !DigitalSignage.config.permissions.admin,
+            fieldLabel  : '',
+            boxLabel    : _('digitalsignage.label_broadcast_protected_desc'),
+            name        : 'protected',
+            anchor      : '100%',
+            inputValue  : 1
         }]
     });
     

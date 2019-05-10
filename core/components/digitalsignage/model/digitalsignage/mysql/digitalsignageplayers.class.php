@@ -1,9 +1,13 @@
 <?php
 
-    require_once dirname(__DIR__) . '/digitalsignageplayers.class.php';
+/**
+ * Digital Signage
+ *
+ * Copyright 2019 by Oene Tjeerd de Bruin <oenetjeerd@sterc.nl>
+ */
 
-    class DigitalSignagePlayers_mysql extends DigitalSignagePlayers
-    {
-    }
+require_once dirname(__DIR__) . '/digitalsignageplayers.class.php';
 
-?>
+class DigitalSignagePlayers_mysql extends DigitalSignagePlayers
+{
+}

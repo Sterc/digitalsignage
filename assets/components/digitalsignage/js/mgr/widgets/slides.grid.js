@@ -52,6 +52,12 @@ DigitalSignage.grid.Slides = function(config) {
         }
     }];
 
+    var expander = new Ext.grid.RowExpander({
+        getRowClass : function(record, rowIndex, p, ds) {
+            return 1 === parseInt(record.json.protected) ? ' grid-row-inactive' : '';
+        }
+    });
+
     var columns = new Ext.grid.ColumnModel({
         columns     : [{
             header      : _('digitalsignage.label_slide_name'),
@@ -93,10 +99,11 @@ DigitalSignage.grid.Slides = function(config) {
         baseParams  : {
             action      : 'mgr/slides/getlist'
         },
-        fields      : ['id', 'type', 'name', 'icon', 'time', 'data', 'published', 'editedon', 'type_formatted', 'broadcasts'],
+        fields      : ['id', 'type', 'name', 'icon', 'time', 'protected', 'data', 'published', 'editedon', 'type_formatted', 'broadcasts'],
         paging      : true,
         pageSize    : MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy      : 'id',
+        plugins     : expander,
         refreshGrid : []
     });
 
@@ -244,9 +251,9 @@ Ext.extend(DigitalSignage.grid.Slides, MODx.grid.Grid, {
         return String.format('<i class="icon icon-slide-type icon-{0}"></i> {1}', e.json.icon, d);
     },
     renderBoolean: function(d, c) {
-        c.css = 1 == parseInt(d) || d ? 'green' : 'red';
+        c.css = parseInt(d) === 1 ? 'green' : 'red';
 
-        return 1 == parseInt(d) || d ? _('yes') : _('no');
+        return parseInt(d) === 1 ? _('yes') : _('no');
     },
     renderDate: function(a) {
         if (Ext.isEmpty(a)) {
@@ -364,6 +371,14 @@ DigitalSignage.window.CreateSlide = function(config) {
                     xtype       : MODx.expandHelp ? 'label' : 'hidden',
                     html        : _('digitalsignage.label_slide_broadcasts_desc'),
                     cls         : 'desc-under'
+                }, {
+                    xtype       : 'checkbox',
+                    hidden      : !DigitalSignage.config.permissions.admin,
+                    fieldLabel  : '',
+                    boxLabel    : _('digitalsignage.label_slide_protected_desc'),
+                    name        : 'protected',
+                    anchor      : '100%',
+                    inputValue  : 1
                 }]
             }, {
                 columnWidth : .6,
@@ -391,13 +406,13 @@ Ext.extend(DigitalSignage.window.CreateSlide, MODx.Window, {
         if (-1 !== time.search(':')) {
             var res = time.split(':');
 
-            if ('0' == res[0].substr(0, 1) && res[0].length > 1) {
+            if (res[0].substr(0, 1) === '0' && res[0].length > 1) {
                 var minutes = parseInt(res[0].substr(1));
             } else {
                 var minutes = parseInt(res[0]);
             }
 
-            if ('0' == res[1].substr(0, 1) && res[1].length > 1) {
+            if (res[0].substr(0, 1) === '0' && res[1].length > 1) {
                 var seconds = parseInt(res[1].substr(1));
             } else {
                 var seconds = parseInt(res[1]);
@@ -407,51 +422,112 @@ Ext.extend(DigitalSignage.window.CreateSlide, MODx.Window, {
         }
     },
     getTypeFields: function(tf, nv, ov) {
-        var type = tf.getValue();
+        var record = record = tf.findRecord(tf.valueField, tf.getValue());
 
-        if (undefined != (record = tf.findRecord(tf.valueField, type))) {
-            if (undefined != (container = Ext.getCmp('digitalsignage-window-slide-create-time'))) {
-                if ('' == container.getValue() || 0 == container.getValue()) {
-                    container.setValue(record.data.time);
+        if (record) {
+            var type = record.data.key,
+                time = Ext.getCmp('digitalsignage-window-slide-create-time'),
+                container = Ext.getCmp('digitalsignage-window-slide-create-fields');
+
+            if (time) {
+                if (time.getValue() === '' || parseInt(time.getValue()) === 0) {
+                    time.setValue(record.data.time);
                 }
             }
 
-            if (undefined != (container = Ext.getCmp('digitalsignage-window-slide-create-fields'))) {
+            if (container) {
                 container.removeAll();
 
                 Ext.iterate(record.data.data, function(name, record) {
                     var label   = _('digitalsignage.slide_' + type + '_' + name);
-                        desc    = _('digitalsignage.slide_' + type + '_' + name + '_desc');
+                    var desc    = _('digitalsignage.slide_' + type + '_' + name + '_desc');
 
-                    if (record.label && '' != record.label) {
+                    if (record.label && record.label !== '') {
                         label = record.label;
                     }
 
-                    if (record.description && '' != record.description) {
+                    if (record.description && record.description !== '') {
                         desc = record.description;
                     }
 
                     switch (record.xtype) {
+                        case 'statictextfield':
+                            record = Ext.apply(record, {
+                                xtype       : 'statictextfield',
+                                value       : record.default_value || '',
+                                submitValue : true
+                            });
+
+                            break;
+                        case 'hidden':
+                            record = Ext.apply(record, {
+                                xtype       : 'hidden',
+                                value       : record.default_value || ''
+                            });
+
+                            break;
+                        case 'datefield':
+                            record = Ext.apply(record, {
+                                xtype       : 'datefield',
+                                format      : MODx.config.manager_date_format,
+                                startDay    : parseInt(MODx.config.manager_week_start),
+                                value       : record.default_value || ''
+                            });
+
+                            break;
+                        case 'timefield':
+                            record = Ext.apply(record, {
+                                xtype       : 'timefield',
+                                format      : MODx.config.manager_time_format,
+                                offset_time : MODx.config.server_offset_time,
+                                value       : record.default_value || ''
+                            });
+
+                            break;
+                        case 'xdatetime':
+                            record = Ext.apply(record, {
+                                xtype       : 'xdatetime',
+                                dateFormat  : MODx.config.manager_date_format,
+                                timeFormat  : MODx.config.manager_time_format,
+                                startDay    : parseInt(MODx.config.manager_week_start),
+                                offset_time : MODx.config.server_offset_time,
+                                value       : record.default_value || ''
+                            });
+
+                            break;
+                        case 'colorfield':
+                            record = Ext.apply(record, {
+                                xtype       : 'colorfield',
+                                value       : record.default_value || ''
+                            });
+
+                            break;
                         case 'radio':
                         case 'checkbox':
                             record = Ext.apply(record, {
                                 hideLabel   : true,
                                 boxLabel    : label,
-                                inputValue  : record.default_value
+                                inputValue  : record.default_value || ''
                             });
 
                             break;
                         case 'richtext':
                             record = Ext.apply(record, {
                                 xtype       : 'textarea',
-                                value       : record.default_value,
+                                value       : record.default_value || '',
                                 cls         : 'digitalsignage-richtext',
                                 listeners   : {
-                                    'afterrender': {
-                                        fn : function(data) {
-                                            if (MODx.loadRTE) {
-                                                MODx.loadRTE(data.id, {
-                                                    height : '200px'
+                                    'afterrender' : {
+                                        fn      : function(event) {
+                                            if (DigitalSignage.loadRTE) {
+                                                DigitalSignage.loadRTE(event.id, {
+                                                    plugins     : MODx.config['digitalsignage.editor_plugins'],
+                                                    menubar     : MODx.config['digitalsignage.editor_menubar'],
+                                                    statusbar   : parseInt(MODx.config['digitalsignage.editor_statusbar']) === 1,
+                                                    toolbar1    : MODx.config['digitalsignage.editor_toolbar1'],
+                                                    toolbar2    : MODx.config['digitalsignage.editor_toolbar2'],
+                                                    toolbar3    : MODx.config['digitalsignage.editor_toolbar3'],
+                                                    height      : 150
                                                 });
                                             }
                                         }
@@ -462,7 +538,7 @@ Ext.extend(DigitalSignage.window.CreateSlide, MODx.Window, {
                             break;
                         case 'combo':
                             var results = new Array(),
-                                values  = record.default_value.split('||');
+                                values  = record.values.split('||');
 
                             for (var i = 0; i < values.length; i++) {
                                 results.push(values[i].split('=='));
@@ -478,14 +554,15 @@ Ext.extend(DigitalSignage.window.CreateSlide, MODx.Window, {
                                 valueField  : 'value',
                                 displayField: 'label',
                                 mode        : 'local',
-                                triggerAction: 'all'
+                                triggerAction: 'all',
+                                value       : record.default_value || ''
                             });
 
                             break;
                         case 'radiogroup':
                         case 'checkboxgroup':
                             var results = new Array(),
-                                values  = record.default_value.split('||');
+                                values  = record.values.split('||');
 
                             for (var i = 0; i < values.length; i++) {
                                 var item  = values[i].split('==');
@@ -493,25 +570,26 @@ Ext.extend(DigitalSignage.window.CreateSlide, MODx.Window, {
                                 results.push({
                                     boxLabel    : item[0],
                                     inputValue  : item[1],
-                                    name        : 'checkboxgroup' == record.xtype ? ('data_' + name + '[]') : ('data_' + name)
+                                    name        : 'checkboxgroup' === record.xtype ? ('data_' + name + '[]') : ('data_' + name)
                                 });
                             }
 
                             record = Ext.apply(record, {
                                 columns : 1,
-                                items   : results
+                                items   : results,
+                                value   : record.default_value || ''
                             });
 
                             break;
                         case 'modx-combo-browser':
                             record = Ext.apply(record, {
-                                source  :  MODx.config['digitalsignage.media_source'] || MODX.config.default_media_source
+                                source :  MODx.config['digitalsignage.media_source'] || MODx.config.default_media_source
                             });
 
                             break;
                         default:
                             record = Ext.apply(record, {
-                                value   : record.default_value
+                                value   : record.default_value || ''
                             });
 
                             break;
@@ -520,17 +598,19 @@ Ext.extend(DigitalSignage.window.CreateSlide, MODx.Window, {
                     container.add(Ext.applyIf(record, {
                         xtype       : 'textarea',
                         fieldLabel  : label,
-                        description : MODx.expandHelp ? '' : desc,
+                        description : MODx.expandHelp ? '' : name,
                         name        : 'data_' + name,
                         anchor      : '100%',
-                        allowBlank  : true
+                        allowBlank  : !(record.required && parseInt(record.required))
                     }));
 
-                    container.add({
-                        xtype       : MODx.expandHelp ? 'label' : 'hidden',
-                        html        : desc,
-                        cls         : 'desc-under'
-                    });
+                    if (record.xtype !== 'hidden') {
+                        container.add({
+                            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+                            html        : desc,
+                            cls         : 'desc-under'
+                        });
+                    }
                 }, this);
 
                 this.doLayout();
@@ -649,6 +729,14 @@ DigitalSignage.window.UpdateSlide = function(config) {
                     xtype       : MODx.expandHelp ? 'label' : 'hidden',
                     html        : _('digitalsignage.label_slide_broadcasts_desc'),
                     cls         : 'desc-under'
+                }, {
+                    xtype       : 'checkbox',
+                    hidden      : !DigitalSignage.config.permissions.admin,
+                    fieldLabel  : '',
+                    boxLabel    : _('digitalsignage.label_slide_protected_desc'),
+                    name        : 'protected',
+                    anchor      : '100%',
+                    inputValue  : 1
                 }]
             }, {
                 columnWidth : .6,
@@ -676,13 +764,13 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
         if (-1 !== time.search(':')) {
             var res = time.split(':');
 
-            if ('0' == res[0].substr(0, 1) && res[0].length > 1) {
+            if (res[0].substr(0, 1) === '0' && res[0].length > 1) {
                 var minutes = parseInt(res[0].substr(1));
             } else {
                 var minutes = parseInt(res[0]);
             }
 
-            if ('0' == res[1].substr(0, 1) && res[1].length > 1) {
+            if (res[1].substr(0, 1) === '0' && res[1].length > 1) {
                 var seconds = parseInt(res[1].substr(1));
             } else {
                 var seconds = parseInt(res[1]);
@@ -692,38 +780,93 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
         }
     },
     getTypeFields: function(tf, nv, ov) {
-        var type = tf.getValue();
+        var record = tf.findRecord(tf.valueField, tf.getValue());
 
-        if (undefined != (record = tf.findRecord(tf.valueField, type))) {
-            if (undefined != (container = Ext.getCmp('digitalsignage-window-slide-update-time'))) {
-                if ('' == container.getValue() || 0 == container.getValue()) {
-                    container.setValue(record.data.time);
+        if (record) {
+            var type = record.data.key,
+                time = Ext.getCmp('digitalsignage-window-slide-update-time'),
+                container = Ext.getCmp('digitalsignage-window-slide-update-fields');
+
+            if (time) {
+                if (time.getValue() === '' || parseInt(time.getValue()) === 0) {
+                    time.setValue(record.data.time);
                 }
             }
 
-            if (undefined != (container = Ext.getCmp('digitalsignage-window-slide-update-fields'))) {
+            if (container) {
                 container.removeAll();
 
                 Ext.iterate(record.data.data, function(name, record) {
                     var label   = _('digitalsignage.slide_' + type + '_' + name);
-                        desc    = _('digitalsignage.slide_' + type + '_' + name + '_desc');
+                    var desc    = _('digitalsignage.slide_' + type + '_' + name + '_desc');
 
-                    if (record.label && '' != record.label) {
+                    if (record.label && record.label !== '') {
                         label = record.label;
                     }
 
-                    if (record.description && '' != record.description) {
+                    if (record.description && record.description !== '') {
                         desc = record.description;
                     }
 
                     switch (record.xtype) {
+                        case 'statictextfield':
+                            record = Ext.apply(record, {
+                                xtype       : 'statictextfield',
+                                value       : record.default_value || '',
+                                submitValue : true
+                            });
+
+                            break;
+                        case 'hidden':
+                            record = Ext.apply(record, {
+                                xtype       : 'hidden',
+                                value       : record.default_value || ''
+                            });
+
+                            break;
+                        case 'datefield':
+                            record = Ext.apply(record, {
+                                xtype       : 'datefield',
+                                format      : MODx.config.manager_date_format,
+                                startDay    : parseInt(MODx.config.manager_week_start),
+                                value       : this.config.record.data[name] || ''
+                            });
+
+                            break;
+                        case 'timefield':
+                            record = Ext.apply(record, {
+                                xtype       : 'timefield',
+                                format      : MODx.config.manager_time_format,
+                                offset_time : MODx.config.server_offset_time,
+                                value       : this.config.record.data[name] || ''
+                            });
+
+                            break;
+                        case 'xdatetime':
+                            record = Ext.apply(record, {
+                                xtype       : 'xdatetime',
+                                dateFormat  : MODx.config.manager_date_format,
+                                timeFormat  : MODx.config.manager_time_format,
+                                startDay    : parseInt(MODx.config.manager_week_start),
+                                offset_time : MODx.config.server_offset_time,
+                                value       : this.config.record.data[name] || ''
+                            });
+
+                            break;
+                        case 'colorfield':
+                            record = Ext.apply(record, {
+                                xtype       : 'colorfield',
+                                value       : this.config.record.data[name] || ''
+                            });
+
+                            break;
                         case 'radio':
                         case 'checkbox':
                             record = Ext.apply(record, {
                                 hideLabel   : true,
                                 boxLabel    : label,
                                 inputValue  : record.default_value,
-                                checked     : this.config.record.data[name] == record.default_value
+                                checked     : this.config.record.data[name] === record.default_value
                             });
 
                             break;
@@ -733,11 +876,17 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                                 value       : this.config.record.data[name],
                                 cls         : 'digitalsignage-richtext',
                                 listeners   : {
-                                    'afterrender': {
-                                        fn : function(data) {
-                                            if (MODx.loadRTE) {
-                                                MODx.loadRTE(data.id, {
-                                                    height : '200px'
+                                    'afterrender' : {
+                                        fn      : function(event) {
+                                            if (DigitalSignage.loadRTE) {
+                                                DigitalSignage.loadRTE(event.id, {
+                                                    plugins     : MODx.config['digitalsignage.editor_plugins'],
+                                                    menubar     : MODx.config['digitalsignage.editor_menubar'],
+                                                    statusbar   : parseInt(MODx.config['digitalsignage.editor_statusbar']) === 1,
+                                                    toolbar1    : MODx.config['digitalsignage.editor_toolbar1'],
+                                                    toolbar2    : MODx.config['digitalsignage.editor_toolbar2'],
+                                                    toolbar3    : MODx.config['digitalsignage.editor_toolbar3'],
+                                                    height      : 150
                                                 });
                                             }
                                         }
@@ -748,7 +897,7 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                             break;
                         case 'combo':
                             var results = new Array(),
-                                values  = record.default_value.split('||');
+                                values  = record.values.split('||');
 
                             for (var i = 0; i < values.length; i++) {
                                 results.push(values[i].split('=='));
@@ -764,14 +913,15 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                                 valueField  : 'value',
                                 displayField: 'label',
                                 mode        : 'local',
-                                triggerAction: 'all'
+                                triggerAction: 'all',
+                                value       : this.config.record.data[name] || ''
                             });
 
                             break;
                         case 'radiogroup':
                         case 'checkboxgroup':
                             var results = new Array(),
-                                values  = record.default_value.split('||');
+                                values  = record.values.split('||');
 
                             for (var i = 0; i < values.length; i++) {
                                 var item  = values[i].split('==');
@@ -779,26 +929,26 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                                 results.push({
                                     boxLabel    : item[0],
                                     inputValue  : item[1],
-                                    name        : 'checkboxgroup' == record.xtype ? ('data_' + name + '[]') : ('date_' + name),
-                                    checked     : 'checkboxgroup' == record.xtype ? (-1 != this.config.record.data[name].indexOf(item[1])) : (this.config.record.data[name] == item[1])
+                                    name        : 'checkboxgroup' === record.xtype ? ('data_' + name + '[]') : ('date_' + name)
                                 });
                             }
 
                             record = Ext.apply(record, {
                                 columns : 1,
-                                items   : results
+                                items   : results,
+                                value   : this.config.record.data[name] || ''
                             });
 
                             break;
                         case 'modx-combo-browser':
                             record = Ext.apply(record, {
-                                source  :  MODx.config['digitalsignage.media_source'] || MODX.config.default_media_source
+                                source  :  MODx.config['digitalsignage.media_source'] || MODx.config.default_media_source
                             });
 
                             break;
                         default:
                             record = Ext.apply(record, {
-                                value   : this.config.record.data[name]
+                                value : this.config.record.data[name] || ''
                             });
 
                             break;
@@ -807,19 +957,20 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                     container.add(Ext.applyIf(record, {
                         xtype       : 'textarea',
                         fieldLabel  : label,
-                        description : MODx.expandHelp ? '' : desc,
+                        description : MODx.expandHelp ? '' : name,
                         name        : 'data_' + name,
                         anchor      : '100%',
-                        allowBlank  : true,
-                        value       : this.config.record.data[name]
+                        allowBlank  : !(record.required && parseInt(record.required)),
+                        value       : this.config.record.data[name] || ''
                     }));
 
-                    container.add({
-                        xtype       : MODx.expandHelp ? 'label' : 'hidden',
-                        html        :  desc,
-                        cls         : 'desc-under'
-                    });
-
+                    if (record.xtype !== 'hidden') {
+                        container.add({
+                            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+                            html        :  desc,
+                            cls         : 'desc-under'
+                        });
+                    }
                 }, this);
 
                 this.doLayout();
@@ -872,14 +1023,15 @@ DigitalSignage.combo.SlidesTypes = function(config) {
         baseParams  : {
             action      : 'mgr/slides/types/getnodes'
         },
-        fields      : ['key', 'name', 'description', 'icon', 'time', 'data', 'name_formatted', 'description_formatted'],
+        fields      : ['id', 'key', 'name', 'description', 'icon', 'time', 'data', 'name_formatted', 'description_formatted'],
         hiddenName  : 'type',
         pageSize    : 15,
-        valueField  : 'key',
+        valueField  : 'id',
         displayField: 'name_formatted',
         tpl         : new Ext.XTemplate('<tpl for=".">' +
             '<div class="x-combo-list-item">' +
-                '<span style="font-weight: bold">{name_formatted}</span><br />{description_formatted}' +
+                '<i class="icon icon-slide-type icon-{icon}"></i>' +
+                '<span><span style="font-weight: bold;">{name_formatted}</span><br />{description_formatted}</span>' +
             '</div>' +
         '</tpl>')
     });

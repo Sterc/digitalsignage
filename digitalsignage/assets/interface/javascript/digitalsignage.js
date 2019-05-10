@@ -108,7 +108,7 @@ $(document).ready(function() {
         showErrors          : true,
 
         timer               : true,
-        timerType           : 'vertical',
+        timerType           : 'horizontal',
         timerClass          : 'timer',
 
         animation           : 'fade',
@@ -457,7 +457,7 @@ $(document).ready(function() {
                     plugin : name
                 }));
             }
-        }, this));
+        }, this)).removeAttr('data-plugin');
     };
 
     /**
@@ -466,6 +466,8 @@ $(document).ready(function() {
      */
     DigitalSignage.prototype.loadCustomPluginSettings = function($element) {
         if (undefined !== (settings = $element.attr('data-plugin-settings'))) {
+            $element.removeAttr('data-plugin-settings');
+
             if (data = JSON.parse(settings.replace(/'/g, "\""))) {
                 return $.extend({}, data, {
                     vars : this.settings.vars
@@ -718,7 +720,9 @@ $(document).ready(function() {
         var placeholders = $('[data-placeholder]', $template);
 
         for (var i = 0; i < placeholders.length; i++) {
-            if ($placeholder = $(placeholders[i])) {
+            var $placeholder = $(placeholders[i]);
+
+            if ($placeholder) {
                 var type    = $placeholder.prop('tagName').toUpperCase(),
                     name    = $placeholder.attr('data-placeholder'),
                     wrapper = $placeholder.attr('data-placeholder-wrapper'),
@@ -729,12 +733,13 @@ $(document).ready(function() {
                 switch (type) {
                     case 'IMG':
                     case 'IFRAME':
+                    case 'SOURCE':
                         if (isEmpty) {
                             if (reset === undefined || reset) {
                                 $placeholder.attr('src', '').hide();
                             }
                         } else {
-                            $placeholder.attr('src', value).show();
+                            $placeholder.attr('src', value.replace(/^(https?):/, '')).show();
                         }
 
                         break;
@@ -764,21 +769,60 @@ $(document).ready(function() {
             }
         }
 
-        var placeholders = $('[data-placeholder-class]', $template);
+        /**
+         * Style placeholders to add CSS styles to placeholders:
+         */
+        var stylePlaceholders = $('[data-placeholder-style]', $template);
+
+        if ($template.attr('data-placeholder-style') !== undefined) {
+            stylePlaceholders.push($template);
+        }
+
+        $(stylePlaceholders).each($.proxy(function(index, element) {
+            var $element  = $(element);
+
+            if ($element) {
+                $element.css($element.attr('data-placeholder-style').replace('_', '-'), this.getPlaceholderValue($element.attr('data-placeholder-style'), data));
+            }
+        }).bind(this)).removeAttr('data-placeholder-style');
+
+        /**
+         * Class placeholders to add classes to placeholders:
+         */
+        var classPlaceholders = $('[data-placeholder-class]', $template);
 
         if ($template.attr('data-placeholder-class') !== undefined) {
-            placeholders.push($template);
+            classPlaceholders.push($template);
         }
 
-        for (var i = 0; i < placeholders.length; i++) {
-            if ($placeholder = $(placeholders[i])) {
-                var type    = $placeholder.prop('tagName'),
-                    name    = $placeholder.attr('data-placeholder-class'),
-                    value   = this.getPlaceholderValue(name, data);
+        $(classPlaceholders).each($.proxy(function(index, element) {
+            var $element  = $(element);
 
-                $placeholder.addClass(value);
+            if ($element) {
+                $element.addClass(this.getPlaceholderValue($element.attr('data-placeholder-class'), data));
             }
+        }).bind(this)).removeAttr('data-placeholder-class');
+
+        /**
+         * Statement placeholders to show/hide placeholders with statements for example:
+         * data.image === ''
+         * data.content !== ''
+         */
+        var statementPlaceholders = $('[data-statement]', $template);
+
+        if ($template.attr('data-statement') !== undefined) {
+            statementPlaceholders.push($template);
         }
+
+        $(statementPlaceholders).each($.proxy(function(index, element) {
+            var $element  = $(element);
+
+            if ($element) {
+                if (!eval($element.attr('data-statement'))) {
+                    $element.remove();
+                }
+            }
+        }).bind(this)).removeAttr('data-statement');
 
         return $template;
     };
@@ -846,17 +890,18 @@ $(document).ready(function() {
                             }
 
                             break;
-                        case 'vimeo':
-                        case 'youtube':
+                        case 'nl2br':
+                            value = value.replace(/(?:\r\n|\r|\n)/g, '<br />');
+
+                            break;
+                        case 'video':
                             var vimeoID = value.match(/(?:https?:\/{2})?(?:w{3}\.)?vimeo.com\/(\d+)($|\/)/);
                             var youtubeID = value.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
 
                             if (null !== vimeoID && vimeoID[1]) {
-                                value = '//player.vimeo.com/video/' + vimeoID[1] + (param ? param : '?autoplay=1&controls=0&title=0&byline=0&portrait=0&sidedock=0&mute=1');
+                                value = '//player.vimeo.com/video/' + vimeoID[1] + (param ? param : '?autoplay=1&controls=0&title=0&byline=0&portrait=0&sidedock=0&muted=1');
                             } else if (null !== youtubeID && youtubeID[1]) {
                                 value = '//www.youtube.com/embed/' + youtubeID[1] + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0&mute=1');
-                            } else {
-                                value = '//www.youtube.com/embed/' + value + (param ? param : '?autoplay=1&controls=0&rel=0&showinfo=0&mute=1');
                             }
 
                             break;
@@ -1562,6 +1607,8 @@ $(document).ready(function() {
         feedType        : 'JSON',
         feedInterval    : 900,
 
+        animationSpeed  : 40000,
+
         vars            : {
             player          : null,
             broadcast       : null,
@@ -1695,7 +1742,7 @@ $(document).ready(function() {
             
             $item.animate({'margin-left': '-' + $item.outerWidth(true) + 'px'}, {
                 easing      : 'linear',
-                duration    : 40000 * ($item.outerWidth(true) / 2100),
+                duration    : this.settings.animationSpeed * ($item.outerWidth(true) / 3000),
                 complete    : function() {
                     $(this).remove();
 

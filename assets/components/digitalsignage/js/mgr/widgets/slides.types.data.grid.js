@@ -56,12 +56,13 @@ DigitalSignage.grid.SlideTypesData = function(config) {
             width       : 250,
             renderer    : this.renderXType
         }, {
-            header      : _('digitalsignage.label_slide_type_data_value'),
-            dataIndex   : 'default_value',
+            header      : _('digitalsignage.label_slide_type_data_required'),
+            dataIndex   : 'required',
             sortable    : false,
             editable    : false,
-            width       : 175,
-            fixed       : true
+            width       : 100,
+            fixed       : true,
+            renderer    : this.renderBoolean
         }]
     });
 
@@ -71,11 +72,11 @@ DigitalSignage.grid.SlideTypesData = function(config) {
         url         : DigitalSignage.config.connector_url,
         baseParams  : {
             action      : 'mgr/slides/types/data/getlist',
-            id          : config.record.key
+            id          : config.record.id
         },
-        fields      : ['key', 'xtype', 'label', 'description', 'default_value', 'menuindex'],
+        fields      : ['key', 'xtype', 'label', 'description', 'default_value', 'values', 'required', 'menuindex'],
         paging      : true,
-        pageSize    : 5,
+        pageSize    : 10,
         sortBy      : 'key',
         primaryKey  : 'key',
         enableDragDrop : true,
@@ -162,7 +163,7 @@ Ext.extend(DigitalSignage.grid.SlideTypesData, MODx.grid.Grid, {
         }
 
         var record = {
-            id : this.config.record.key
+            id : this.config.record.id
         };
 
         this.createSlideTypeDataWindow = MODx.load({
@@ -186,7 +187,7 @@ Ext.extend(DigitalSignage.grid.SlideTypesData, MODx.grid.Grid, {
         }
 
         var record = Ext.apply(this.menu.record, {
-            id : this.config.record.key
+            id : this.config.record.id
         });
 
         this.updateSlideTypeDataWindow = MODx.load({
@@ -204,14 +205,14 @@ Ext.extend(DigitalSignage.grid.SlideTypesData, MODx.grid.Grid, {
         this.updateSlideTypeDataWindow.setValues(record);
         this.updateSlideTypeDataWindow.show(e.target);
     },
-	removeSlideTypeData: function() {
+    removeSlideTypeData: function() {
         MODx.msg.confirm({
             title       : _('digitalsignage.slide_type_data_remove'),
             text        : _('digitalsignage.slide_type_data_remove_confirm'),
             url         : DigitalSignage.config.connector_url,
             params      : {
                 action      : 'mgr/slides/types/data/remove',
-                id          : this.config.record.key,
+                id          : this.config.record.id,
                 key         : this.menu.record.key
             },
             listeners   : {
@@ -224,24 +225,30 @@ Ext.extend(DigitalSignage.grid.SlideTypesData, MODx.grid.Grid, {
     },
     renderXType: function(d) {
         var types = {
-            'textfield'     : 'Textfield',
-            'textarea'      : 'Textarea',
-            'richtext'      : 'Textarea (editor)',
-            'modx-combo-browser' : 'Media',
-            'combo'         : 'Select',
-            'checkbox'      : 'Checkbox',
-            'checkboxgroup' : 'Checkboxgroup',
-            'radio'         : 'Radio',
-            'radiogroup'    : 'Radiogroup'
+            'textfield'             : 'Textfield',
+            'statictextfield'       : 'Textfield (static)',
+            'hidden'                : 'Textfield (hidden)',
+            'datefield'             : 'Textfield (date)',
+            'timefield'             : 'Textfield (time)',
+            'xdatetime'             : 'Textfield (date/time)',
+            'colorfield'            : 'Textfield (colorpicker)',
+            'textarea'              : 'Textarea',
+            'richtext'              : 'Textarea (editor)',
+            'modx-combo-browser'    : 'Media',
+            'combo'                 : 'Select',
+            'checkbox'              : 'Checkbox',
+            'checkboxgroup'         : 'Checkboxgroup',
+            'radio'                 : 'Radio',
+            'radiogroup'            : 'Radiogroup'
         };
 
         return types[d];
     },
     renderBoolean: function(d, c) {
-        c.css = 1 == parseInt(d) || d ? 'green' : 'red';
+        c.css = parseInt(d) === 1 ? 'green' : 'red';
 
-        return 1 == parseInt(d) || d ? _('yes') : _('no');
-}   ,
+        return parseInt(d) === 1 ? _('yes') : _('no');
+    },
     renderDate: function(a) {
         if (Ext.isEmpty(a)) {
             return '—';
@@ -282,11 +289,38 @@ DigitalSignage.window.CreateSlideTypeData = function(config) {
             fieldLabel  : _('digitalsignage.label_slide_type_data_xtype'),
             description : MODx.expandHelp ? '' : _('digitalsignage.label_slide_type_data_xtype_desc'),
             name        : 'xtype',
-            anchor      : '100%'
+            anchor      : '100%',
+            listeners   : {
+                'select'    : {
+                    fn          : this.onUpdateXType,
+                    scope       : this
+                },
+                'render'    : {
+                    fn          : this.onUpdateXType,
+                    scope       : this
+                }
+            }
         }, {
             xtype       : MODx.expandHelp ? 'label' : 'hidden',
             html        : _('digitalsignage.label_slide_type_data_xtype_desc'),
             cls         : 'desc-under'
+        }, {
+            layout      : 'form',
+            labelAlign  : 'top',
+            labelSeparator : '',
+            id          : 'digitalsignage-slide-type-values-create',
+            hidden      : true,
+            items       : [{
+                xtype       : 'textfield',
+                fieldLabel  : _('digitalsignage.label_slide_type_data_values'),
+                description : MODx.expandHelp ? '' : _('digitalsignage.label_slide_type_data_values_desc'),
+                name        : 'values',
+                anchor      : '100%'
+            }, {
+                xtype       : MODx.expandHelp ? 'label' : 'hidden',
+                html        : _('digitalsignage.label_slide_type_data_values_desc'),
+                cls         : 'desc-under'
+            }]
         }, {
             xtype       : 'textfield',
             fieldLabel  : _('digitalsignage.label_slide_type_data_label'),
@@ -317,13 +351,32 @@ DigitalSignage.window.CreateSlideTypeData = function(config) {
             xtype       : MODx.expandHelp ? 'label' : 'hidden',
             html        : _('digitalsignage.label_slide_type_data_value_desc'),
             cls         : 'desc-under'
+        }, {
+            xtype       : 'checkbox',
+            boxLabel    : _('digitalsignage.label_slide_type_data_required'),
+            description : MODx.expandHelp ? '' : _('digitalsignage.label_slide_type_data_required_desc'),
+            name        : 'required',
+            anchor      : '100%',
+            inputValue  : 1
+        }, {
+            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+            html        : _('digitalsignage.label_slide_type_data_required_desc'),
+            cls         : 'desc-under'
         }]
     });
 
     DigitalSignage.window.CreateSlideTypeData.superclass.constructor.call(this, config);
 };
 
-Ext.extend(DigitalSignage.window.CreateSlideTypeData, MODx.Window);
+Ext.extend(DigitalSignage.window.CreateSlideTypeData, MODx.Window, {
+    onUpdateXType: function(tf) {
+        if (-1 === ['combo', 'checkboxgroup', 'radiogroup'].indexOf(tf.getValue())) {
+            Ext.getCmp('digitalsignage-slide-type-values-create').hide();
+        } else {
+            Ext.getCmp('digitalsignage-slide-type-values-create').show();
+        }
+    }
+});
 
 Ext.reg('digitalsignage-window-slide-type-data-create', DigitalSignage.window.CreateSlideTypeData);
 
@@ -358,11 +411,38 @@ DigitalSignage.window.UpdateSlideTypeData = function(config) {
             fieldLabel  : _('digitalsignage.label_slide_type_data_xtype'),
             description : MODx.expandHelp ? '' : _('digitalsignage.label_slide_type_data_xtype_desc'),
             name        : 'xtype',
-            anchor      : '100%'
+            anchor      : '100%',
+            listeners   : {
+                'select'    : {
+                    fn          : this.onUpdateXType,
+                    scope       : this
+                },
+                'render'    : {
+                    fn          : this.onUpdateXType,
+                    scope       : this
+                }
+            }
         }, {
             xtype       : MODx.expandHelp ? 'label' : 'hidden',
             html        : _('digitalsignage.label_slide_type_data_xtype_desc'),
             cls         : 'desc-under'
+        }, {
+            layout      : 'form',
+            labelAlign  : 'top',
+            labelSeparator : '',
+            id          : 'digitalsignage-slide-type-values-update',
+            hidden      : true,
+            items       : [{
+                xtype       : 'textfield',
+                fieldLabel  : _('digitalsignage.label_slide_type_data_values'),
+                description : MODx.expandHelp ? '' : _('digitalsignage.label_slide_type_data_values_desc'),
+                name        : 'values',
+                anchor      : '100%'
+            }, {
+                xtype       : MODx.expandHelp ? 'label' : 'hidden',
+                html        : _('digitalsignage.label_slide_type_data_values_desc'),
+                cls         : 'desc-under'
+            }]
         }, {
             xtype       : 'textfield',
             fieldLabel  : _('digitalsignage.label_slide_type_data_label'),
@@ -393,13 +473,32 @@ DigitalSignage.window.UpdateSlideTypeData = function(config) {
             xtype       : MODx.expandHelp ? 'label' : 'hidden',
             html        : _('digitalsignage.label_slide_type_data_value_desc'),
             cls         : 'desc-under'
+        }, {
+            xtype       : 'checkbox',
+            boxLabel    : _('digitalsignage.label_slide_type_data_required'),
+            description : MODx.expandHelp ? '' : _('digitalsignage.label_slide_type_data_required_desc'),
+            name        : 'required',
+            anchor      : '100%',
+            inputValue  : 1
+        }, {
+            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+            html        : _('digitalsignage.label_slide_type_data_required_desc'),
+            cls         : 'desc-under'
         }]
     });
 
     DigitalSignage.window.UpdateSlideTypeData.superclass.constructor.call(this, config);
 };
 
-Ext.extend(DigitalSignage.window.UpdateSlideTypeData, MODx.Window);
+Ext.extend(DigitalSignage.window.UpdateSlideTypeData, MODx.Window, {
+    onUpdateXType: function(tf) {
+        if (-1 === ['combo', 'checkboxgroup', 'radiogroup'].indexOf(tf.getValue())) {
+            Ext.getCmp('digitalsignage-slide-type-values-update').hide();
+        } else {
+            Ext.getCmp('digitalsignage-slide-type-values-update').show();
+        }
+    }
+});
 
 Ext.reg('digitalsignage-window-slide-type-data-update', DigitalSignage.window.UpdateSlideTypeData);
 
@@ -412,6 +511,12 @@ DigitalSignage.combo.FieldXType = function(config) {
             fields      : ['type','label'],
             data        : [
                 ['textfield', 'Textfield'],
+                ['statictextfield', 'Textfield (static)'],
+                ['hidden', 'Textfield (hidden)'],
+                ['datefield', 'Textfield (date)'],
+                ['timefield', 'Textfield (time)'],
+                ['xdatetime', 'Textfield (date/time)'],
+                ['colorfield', 'Textfield (colorpicker)'],
                 ['textarea', 'Textarea'],
                 ['richtext', 'Textarea (editor)'],
                 ['modx-combo-browser', 'Media'],

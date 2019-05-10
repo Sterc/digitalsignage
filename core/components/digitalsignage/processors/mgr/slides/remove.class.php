@@ -1,47 +1,54 @@
 <?php
 
-    class DigitalSignageSlidesRemoveProcessor extends modObjectRemoveProcessor {
-        /**
-         * @acces public.
-         * @var String.
-         */
-        public $classKey = 'DigitalSignageSlides';
+/**
+* Digital Signage
+*
+* Copyright 2019 by Oene Tjeerd de Bruin <oenetjeerd@sterc.nl>
+*/
 
-        /**
-         * @acces public.
-         * @var Array.
-         */
-        public $languageTopics = ['digitalsignage:default'];
+class DigitalSignageSlidesRemoveProcessor extends modObjectRemoveProcessor
+{
+    /**
+     * @access public.
+     * @var String.
+     */
+    public $classKey = 'DigitalSignageSlides';
 
-        /**
-         * @acces public.
-         * @var String.
-         */
-        public $objectType = 'digitalsignage.slides';
+    /**
+     * @access public.
+     * @var Array.
+     */
+    public $languageTopics = ['digitalsignage:default'];
 
-        /**
-         * @acces public.
-         * @return Mixed.
-         */
-        public function initialize() {
-            $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
+    /**
+     * @access public.
+     * @var String.
+     */
+    public $objectType = 'digitalsignage.slides';
 
-            return parent::initialize();
-        }
+    /**
+     * @access public.
+     * @return Mixed.
+     */
+    public function initialize()
+    {
+        $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
-        /**
-         * @acces public.
-         * @return Mixed.
-         */
-        public function afterRemove() {
-            foreach ($this->object->getMany('getBroadcasts') as $broadcast) {
-                $broadcast->remove();
-            }
-
-            return parent::afterRemove();
-        }
+        return parent::initialize();
     }
 
-    return 'DigitalSignageSlidesRemoveProcessor';
+    /**
+     * @access public.
+     * @return Mixed.
+     */
+    public function afterRemove()
+    {
+        foreach ($this->object->getMany('getBroadcasts') as $broadcast) {
+            $broadcast->remove();
+        }
 
-?>
+        return parent::afterRemove();
+    }
+}
+
+return 'DigitalSignageSlidesRemoveProcessor';

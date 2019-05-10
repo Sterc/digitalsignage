@@ -1,4 +1,4 @@
-/* Stylesheet for Sterc (digitalsignage). (c) Sterc.nl. All rights reserved. */
+/* Stylesheet for Sterc (Digital Signage). (c) Sterc.nl. All rights reserved. */
 
 /* ----------------------------------------------------------------------------------------- */
 /* ----- Basic overrides and resets -------------------------------------------------------- */
@@ -6,35 +6,46 @@
 
 @import url('reset.css');
 
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Source+Sans+Pro:400,600,900');
 
 /* ----------------------------------------------------------------------------------------- */
 /* ----- Stijlen: General ------------------------------------------------------------------ */
 /* ----------------------------------------------------------------------------------------- */
 
 body {
-    font-family: 'Open Sans', Arial, Verdana, sans-serif;
+    font-family: 'Roboto Condensed', Arial, Verdana, sans-serif;
     color: #666666;
-    font-size: 3vh;
-    line-height: 5vh;
+    font-size: 3.8888888889vh;
+    line-height: 5.7407407407vh;
     font-weight: 400;
 }
 
 h1 {
-    color: #de005a;
-    font-size: 6vh;
-    line-height: 7.6vh;
-    font-weight: 600;
-    margin: 0 0 2.8vh;
-    text-transform: uppercase;
+    font-family: 'Source Sans Pro', Arial, Verdana, sans-serif;
+    color: #000000;
+    font-size: 8vh;
+    line-height: 10.7407407407vh;
+    font-weight: 900;
+    margin: 0 0 5.5555555556vh;
+}
+
+h1::after {
+    display: inline-block;
+    width: 2vh;
+    height: 2vh;
+    content: '';
+    margin: 0 0 0 15px;
+    background: #de005a;
+    border-radius: 50%;
 }
 
 h2, h3, h4 {
-    color: #de005a;
-    font-size: 3vh;
-    line-height: 4.8vh;
-    font-weight: 600;
-    margin: 0 0 2.8vh;
+    font-family: 'Roboto Condensed', Arial, Verdana, sans-serif;
+    color: #000000;
+    font-size: 3.8888888889vh;
+    line-height: 5.7407407407vh;
+    font-weight: 700;
+    margin: 0;
     text-transform: uppercase;
 }
 
@@ -69,8 +80,6 @@ p, ul {
     overflow hidden;
     text-indent: -99999px;
     background: #333333 url('../images/dev-tools.svg') no-repeat 0 0;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
     border-radius: 50%;
 }
 
@@ -141,24 +150,26 @@ p, ul {
 
 .timer {
     position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 1000 !important;
+    bottom: 0;
+    background: #c1c1c1;
+    z-index: 999999 !important;
 }
 
 .timer.timer-vertical {
-    width: 1.5vh;
+    right: 0;
+    width: 0.31vh;
     height: 100%;
 }
 
 .timer.timer-horizontal {
+    left: 0;
     width: 100%;
-    height: 2vh;
+    height: 0.55vh;
 }
 
 .timer span {
     display: block;
-    background: #161f25;
+    background: #de005a;
     overflow: hidden;
 }
 
@@ -176,79 +187,87 @@ p, ul {
 
 .header {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 20vw;
-    height: 100vh;
-    background: #2a2c33 url('../images/header-bg.svg') no-repeat center center;
-    padding: 6vh 2.6vw;
+    bottom: 0.55vh;
+    display: flex;
+    justify-content: space-between;
+    width: 100vw;
+    height: 8vh;
+    background: #f1f1f1;
     z-index: 1;
 }
 
-/* Logo */
+.header .logo {
+    height: 8vh;
+    padding: 2vh 1.5vw;
+}
 
-.logo img {
-    width: auto;
-    max-width: 100%;
-    height: auto;
-    margin: 0 auto;
+.header .logo img {
+    height: 4vh;
 }
 
 /* Clock Plugin */
 
-.clock {
-    position: absolute;
-    left: 2.6vw;
-    right: 2.6vw;
-    bottom: 52vh;
-    color: #ffffff;
-    text-align: right;
+.header .clock {
+    display: flex;
+    height: 8vh;
+    padding: 2vh 1.5vw;
+    color: #000000;
+    font-size: 3.8888888889vh;
+    line-height: 4vh;
 }
 
-.clock .time,
-.clock .date {
-    font-size: 5.5vh;
-    line-height: 6.5vh;
-}
-
-.clock .time {
-    font-weight: 300;
-    margin: 0 0 1vh;
-}
-
-.clock .date {
-    font-size: 2.5vh;
-    line-height: 3.5vh;
-    font-weight: 600;
+.header .clock .date::after {
+    display: inline-block;
+    content: ',';
+    margin: 0 10px 0 0;
 }
 
 /* Ticker Plugin */
 
-.ticker {
-    position: absolute;
-    bottom: 0;
-    width: 100vw;
-    height: 8.5vh;
-    background: #2a2c33;
+.header .ticker {
+    position: relative;
+    flex: 1;
+    height: 8vh;
+    padding: 2vh 1.5vw;
     overflow: hidden;
     z-index: 99;
     opacity: 0;
-    -webkit-transition: opacity 1s linear;
-       -moz-transition: opacity 1s linear;
-            transition: opacity 1s linear;
+    transition: opacity 1s linear;
 }
 
-.window-ticker .ticker {
+.window-ticker .header .ticker {
     opacity: 1;
 }
 
-.ticker .ticker-inner {
+.header .ticker::after,
+.header .ticker::before {
+    position: absolute;
+    top: 0;
+    display: block;
+    width: 6.5104166667vw;
+    height: 100%;
+    content: '';
+    background: url('../images/plugin-newsticker/fade.png');
+    background-size: 100%;
+    z-index: 1;
+}
+
+.header .ticker::before {
+    left: 0;
+}
+
+.header .ticker::after {
+    right: 0;
+    transform: rotate(-180deg);
+}
+
+.header .ticker .ticker-inner {
     position: absolute;
     left: 0;
     width: 10000000px;
 }
 
-.ticker ul {
+.header .ticker ul {
     position: relative;
     float: left;
     overflow: hidden;
@@ -258,9 +277,9 @@ p, ul {
 
 .ticker ul li {
     float: left;
-    color: #ffffff;
-    font-size: 3vh;
-    line-height: 8.5vh;
+    color: #000000;
+    font-size: 3.8888888889vh;
+    line-height: 4vh;
     padding: 0 2vw 0 0;
 }
 
@@ -272,10 +291,10 @@ p, ul {
 
 .ticker ul li .icons span {
     display: inline-block;
-    margin: 4vh 0.6vw 4vh 0;
+    margin: 1.5vh 0.6vw 1.5vh 0;
     width: 1vh;
     height: 1vh;
-    background: #ffffff;
+    background: #de005a;
     border-radius: 1vh;
 }
 
@@ -306,93 +325,56 @@ p, ul {
     z-index: 0;
 }
 
-.slide .slide-inner:after {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
-    content: '';
-    z-index: 9999999;
-}
-
 /* ----------------------------------------------------------------------------------------- */
 /* ----- Default Slide --------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------- */
 
 .slide-default {
-    left: 20vw;
+    bottom: 8.55vh;
 }
 
 .slide-fullscreen .slide-default {
-    left: 0;
-}
-
-.slide-ticker .slide-default {
-    bottom: 8.5vh;
+    bottom: 0.55vh;
 }
 
 .slide-default .slide-inner .image {
-    float: left;
     position: relative;
-    width: 30vw;
+    float: left;
+    width: 51.4583333333vw;
+    margin: 8vh 0 8vh 2.9166666667vw;
+}
+
+.slide-default .slide-inner .image::before {
+    position: absolute;
+    left: -1.5625vw;
+    bottom: -2.7777777778vh;
+    display: block;
+    width: 100%;
     height: 100%;
-    overflow: hidden;
+    content: '';
+    background: #f1f1f1;
 }
 
 .slide-default .slide-inner .image.is-empty {
     display: none !important;
 }
 
-.slide-default .slide-inner .image:after {
-    position: absolute;
-    top: 2.7vh;
-    left: 1.8vw;
-    display: block;
-    width: 4.2vw;
-    height: 4.4vh;
-    content: '';
-    background: url('../images/news-icons.svg') no-repeat -80px 0;
-    background-size: 100%;
+.slide-default .slide-inner .image .image-mask {
+    position: relative;
+    width: 100%;
+    max-height: 70.3703703704vh;
+    overflow: hidden;
 }
 
-.slide-default.facebook .slide-inner .image:after {
-    background-position: 0 0;
-}
-
-.slide-default.twitter .slide-inner .image:after {
-    background-position: 0 -47px;
-}
-
-.slide-default.instagram .slide-inner .image:after {
-    background-position: 0 -94px;
-}
-
-.slide-default.facebook .slide-inner .image:after {
-    background-position: 0 -141px;
-}
-
-.slide-default.nu .slide-inner .image:after {
-    background-position: 0 -188px;
-}
-
-.slide-default.nu .slide-inner .image:after {
-    background-position: 0 -188px;
-}
-
-.slide-default .slide-inner .image img {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: auto;
-    height: 100%;
-    transform: translateX(-50%);
+.slide-default .slide-inner .image .image-mask img {
+    position: relative;
+    width: 100%;
+    height: auto;
 }
 
 .slide-default .slide-inner .content {
     height: 100%;
-    padding: 4vh 3vw;
+    padding: 5vh 2.9166666667vw;
     overflow: hidden;
 }
 
@@ -407,17 +389,26 @@ p, ul {
 /* ----------------------------------------------------------------------------------------- */
 
 .slide-media {
-    left: 0;
+    bottom: 8.55vh;
 }
 
-.slide-ticker .slide-media {
-    bottom: 8.5vh;
+.slide-fullscreen .slide-media {
+    bottom: 0.55vh;
 }
 
 .slide-media .slide-inner .content {
     position: relative;
     width: 100%;
     height: 100%;
+}
+
+.slide-media .slide-inner .content h1 {
+    position: absolute;
+    left: 2.9166666667vw;
+    bottom: 6vh;
+    margin: 0;
+    color: #f1f1f1;
+    z-index: 1;
 }
 
 .slide-media .slide-inner .content img,
@@ -431,43 +422,52 @@ p, ul {
 /* ----- Payoff Slide ---------------------------------------------------------------------- */
 /* ----------------------------------------------------------------------------------------- */
 
-.slide-payoff .slide-inner {
-    color: #ffffff;
-    background: #de005a url('../images/payoff-bg.svg') no-repeat right center;
-    background-size: contain;
+.slide-payoff {
+    bottom: 8.55vh;
 }
 
-.slide-payoff.gray .slide-inner {
-    background-color: #2a2c33;
-}
-
-.slide-payoff .slide-inner .logo {
-    position: absolute;
-    top: 9.2vh;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.slide-payoff .slide-inner .logo img {
-    width: auto;
-    height: 17vh;
+.slide-fullscreen .slide-payoff {
+    bottom: 0.55vh;
 }
 
 .slide-payoff .slide-inner .content {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 90vw;
-    font-size: 12vh;
-    line-height: 14vh;
-    font-weight: 300;
-    text-align: center;
+    max-width: 75vw;
     transform: translate(-50%, -50%);
     z-index: 1;
 }
 
-.slide-payoff .slide-inner .content strong {
-    font-weight: 600;
+.slide-payoff .slide-inner .content h1::after {
+    display: inline;
+    width: auto;
+    height: auto;
+    content: '!';
+    color: #de005a;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+}
+
+.slide-payoff .slide-inner .content h1.size1 {
+    font-size: 9vh;
+    line-height: 9vh;
+}
+
+.slide-payoff .slide-inner .content h1.size2 {
+    font-size: 14vh;
+    line-height: 14vh;
+}
+
+.slide-payoff .slide-inner .content h1.size3 {
+    font-size: 19vh;
+    line-height: 19vh;
+}
+
+.slide-payoff .slide-inner .content h1.size4 {
+    font-size: 24vh;
+    line-height: 24vh;
 }
 
 /* ----------------------------------------------------------------------------------------- */
@@ -475,125 +475,95 @@ p, ul {
 /* ----------------------------------------------------------------------------------------- */
 
 .slide-feed {
-    left: 20vw;
-    background: #ebecec;
+    bottom: 8.55vh
 }
 
 .slide-fullscreen .slide-feed {
-    left: 0;
-}
-
-.slide-ticker .slide-feed {
-    bottom: 8.5vh;
+    bottom: 0.55vh;
 }
 
 .slide-feed .slide-inner {
-    padding: 6vh 2.6vw;
-    background: none;
+    padding: 5vh 2.9166666667vw;
 }
 
 .slide-feed .slide-inner .items {
-    margin: 0 -0.6vw;
+    display: flex;
+    margin: 0 -2vw;
     overflow: hidden;
 }
 
 .slide-feed .slide-inner .items .item {
-    float: left;
-    width: 33.33%;
-    padding: 0 0.6vw;
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0 2vw;
 }
 
-.slide-feed .slide-inner .items.feed-limit-6  .item {
-    margin: 0 0 6vh;
+.slide-feed .slide-inner .items.feed-limit-3 .item {
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
 }
 
 .slide-feed .slide-inner .items .item .image {
     position: relative;
-    height: 41vh;
-    overflow: hidden;
+    margin: 0 0 3.8vh;
     background: url('../images/placeholder.png') no-repeat center center;
     background-size: cover;
 }
 
-.slide-ticker .slide-feed .slide-inner .items .item .image {
-    height: 36.5vh;
-}
-
-.slide-feed .slide-inner .items.feed-limit-6 .item .image {
-    height: 19vh;
-}
-
-.slide-ticker .slide-feed .slide-inner .items.feed-limit-6 .item .image {
-    height: 16.75vh;
-}
-
-.slide-feed .slide-inner .items .item .image img {
+.slide-feed .slide-inner .items .item .image::before {
     position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: auto;
-    min-height: 100%;
-    transform: translateY(-50%);
-}
-
-.slide-feed .slide-inner .items .item .image:after {
-    position: absolute;
-    top: 2.7vh;
-    left: 1.8vw;
+    left: -1.5625vw;
+    bottom: -2.7777777778vh;
     display: block;
-    width: 4.2vw;
-    height: 4.4vh;
+    width: 100%;
+    height: 100%;
     content: '';
-    background: url('../images/news-icons.svg') no-repeat -80px 0;
-    background-size: 100%;
+    background: #f1f1f1;
 }
 
-.slide-feed .slide-inner .items.feed-limit-6 .item .image:after {
-    top: 1.7vh;
-    left: 0.8vw;
+.slide-feed .slide-inner .items .item .image .image-mask {
+    position: relative;
+    width: 100%;
+    height: 40vh;
+    overflow: hidden;
 }
 
-.slide-feed .slide-inner .items .item.facebook .image:after {
-    background-position: 0 0;
+.slide-fullscreen .slide-feed .slide-inner .items .item .image .image-mask {
+    height: 42vh;
 }
 
-.slide-feed .slide-inner .items .item.twitter .image:after {
-    background-position: 0 -47px;
+.slide-feed .slide-inner .items.feed-limit-3 .item .image .image-mask {
+    height: 32vh;
 }
 
-.slide-feed .slide-inner .items .item.instagram .image:after {
-    background-position: 0 -94px;
+.slide-fullscreen .slide-feed .slide-inner .items.feed-limit-3 .item .image .image-mask {
+    height: 34vh;
 }
 
-.slide-feed .slide-inner .items .item.nos .image:after {
-    background-position: 0 -141px;
+.slide-feed .slide-inner .items .item .image .image-mask img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: auto;
+    height: 100%;
+    transform: translateX(-50%);
 }
 
 .slide-feed .slide-inner .items .item .content {
     position: relative;
-    height: 47vh;
-    padding: 2.7vh 2.3vw;
-    background: #ffffff;
+    height: 37.65vh;
 }
 
-.slide-ticker .slide-feed .slide-inner .items .item .content {
-    height: 43vh;
+.slide-feed .slide-inner .items.feed-limit-3 .item .content {
+    height: 45.65vh;
 }
 
-.slide-feed .slide-inner .items.feed-limit-6  .item .content {
-    height: 22vh;
-    padding: 2.2vh 2vw;
-    font-size: 2.5vh;
-    line-height: 3.5vh;
+.slide-fullscreen .slide-feed .slide-inner .items .item .content {
+    height: 44.2vh;
 }
 
-.slide-ticker .slide-feed .slide-inner .items.feed-limit-6  .item .content {
-    height: 20vh;
-}
-
-.slide-feed .slide-inner .items.feed-limit-6  .item .content p {
-    margin: 0;
+.slide-fullscreen .slide-feed .slide-inner .items.feed-limit-3 .item .content {
+    height: 51.65vh;
 }
 
 .slide-feed .slide-inner .items .item .content .content-mask {
@@ -602,35 +572,16 @@ p, ul {
     overflow: hidden;
 }
 
-.slide-feed .slide-inner .items.feed-limit-6  .item .content h2 {
-    display: none !important;
-}
-
 /* ----------------------------------------------------------------------------------------- */
 /* ----- Buienradar Slide ------------------------------------------------------------------ */
 /* ----------------------------------------------------------------------------------------- */
 
 .slide-buienradar {
-    left: 20vw;
-    background: #85a8d6 url('../images/buienradar/background.png') no-repeat right center;
+    bottom: 8.55vh;
 }
 
 .slide-fullscreen .slide-buienradar {
-    left: 0;
-}
-
-.slide-ticker .slide-buienradar {
-    bottom: 8.5vh;
-}
-
-.slide-buienradar .background-video {
-    position: absolute;
-    width: auto;
-    height: 100%;
-}
-
-.slide-buienradar .slide-inner {
-    padding: 4vh 2.6vw 6vh;
+    bottom: 0.55vh;
 }
 
 .slide-buienradar .slide-inner .image {
@@ -657,86 +608,451 @@ p, ul {
 }
 
 .slide-buienradar .slide-inner .content {
+    overflow: hidden;
+    padding: 5vh 2.9166666667vw;
+}
+
+.slide-buienradar .slide-inner .content .forecasts {
+    display: flex;
+    padding: 0;
+    margin: 0 -2.5vw;
+    list-style-type: none;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li {
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+    padding: 0 2.5vw;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner {
+    text-align: center;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner h2 {
+    font-size: 3.8888888889vh;
+    line-height: 5.7407407407vh;
+    padding: 0 0 1vh;
+    margin: 0;
+    border-bottom: 2px solid #000000;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .icon {
+    padding: 4vh;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .icon img {
+    width: auto;
+    height: 20vh;
+    margin: 0 auto;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .data {
+    display: flex;
+    color: #000000;
+    justify-content: space-between;
+    padding: 2vh 0;
+    overflow: hidden;
+    border-top: 1px solid #cccccc;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .data span {
+    display: inline-block;
+    font-size: 3.5vh;
+    line-height: 6vh;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .data .temperature {
+    flex: 1;
+    text-align: center;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .data .temperature .temperature-min {
+    color: #cccccc;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .data img {
+    float: left;
+    width: auto;
+    height: 4vh;
+    margin: 0.5vh 10px 0.5vh 0;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Countdown Slide ------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+
+.slide-countdown {
+    bottom: 8.55vh;
+}
+
+.slide-fullscreen .slide-countdown {
+    bottom: 0.55vh;
+}
+
+.slide-countdown .slide-inner {
+    padding: 4vh 2.6vw 6vh;
+    text-align: center;
+}
+
+.slide-countdown .slide-inner .content {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    width: 80vw;
+    transform: translateY(-50%) translateX(-50%);
+}
+
+.slide-countdown .slide-inner .content .time {
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    height: 10vw;
+    width: 10vw;
+    margin: 0 1vw 6vh;
+    word-spacing: 0;
+    letter-spacing: normal;
+    text-rendering: auto;
+    perspective: 479px;
+    backface-visibility: hidden;
+    transform: translateZ(0) translate3d(0, 0, 0);
+}
+
+.slide-countdown .slide-inner .content .count {
+    background: #202020;
+    color: #f8f8f8;
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    top: 0;
+    width: 100%;
+    transform: translateZ(0);
+    transform-style: flat;
+}
+
+.slide-countdown .slide-inner .content .count.top {
+    border-top: 1px solid rgba(255, 255, 255, .2);
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 5px 5px 0 0;
+    height: 50%;
+    transform-origin: 50% 100%;
+}
+
+.slide-countdown .slide-inner .content .count.bottom {
+    background-image: linear-gradient(rgba(255, 255, 255, .1), transparent);
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    border-radius: 0 0 5px 5px;
+    height: 50%;
+    top: 50%;
+    transform-origin: 50% 0;
+}
+
+.slide-countdown .slide-inner .content .count span {
+    position: absolute;
+    top: 0;
+    display: block;
+    width: 10vw;
+    height: 10vw;
+    font-size: 10vh;
+    line-height: 10vw;
+}
+
+.slide-countdown .slide-inner .content .count.bottom span {
+    top: -5vw;
+}
+
+.slide-countdown .label {
+    position: absolute;
+    bottom: -6vh;
+    display: block;
+    width: 100%;
+}
+
+/* Animation start */
+
+.slide-countdown .slide-inner .content .count.curr.top {
+    transform: rotateX(0deg);
+    z-index: 3;
+}
+
+.slide-countdown .slide-inner .content .count.next.bottom {
+    transform: rotateX(90deg);
+    z-index: 2;
+}
+
+/* Animation end */
+
+.slide-countdown .slide-inner .content .flip .count.curr.top {
+    transition: all 250ms ease-in-out;
+    transform: rotateX(-90deg);
+}
+
+.slide-countdown .slide-inner .content .flip .count.next.bottom {
+    transition: all 250ms ease-in-out 250ms;
+    transform: rotateX(0deg);
+}
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Clock Slide ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+
+.slide-clock {
+    bottom: 8.55vh;
+}
+
+.slide-fullscreen .slide-clock {
+    bottom: 0.55vh;
+}
+
+.slide-clock .slide-inner {
+    padding: 5vh 2.9166666667vw;
+}
+
+.slide-clock .slide-inner .clock-analog {
+    position: relative;
+    width: 81.45vh;
+    height: 81.45vh;
+    margin: auto;
+    border: solid .5vh #000000;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.slide-fullscreen .slide-clock .slide-inner .clock-analog {
+    width: 89.45vh;
+    height: 89.45vh;
+}
+
+.slide-clock .slide-inner .clock-analog::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    opacity: .05;
+    background: url('../images/slide-clock/clock-bg.svg') no-repeat center center;
+    background-size: 100%;
+    z-index: -1;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--hour,
+.slide-clock .slide-inner .clock-analog .clock-analog--minute,
+.slide-clock .slide-inner .clock-analog .clock-analog--second,
+.slide-clock .slide-inner .clock-analog .clock-analog--center,
+.slide-clock .slide-inner .clock-analog .clock-analog--facebox {
+    position: absolute;
+    border: 0;
+    background-color: #000000;
+    transform-origin: center bottom;
+    transform: rotate(0deg);
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--hour {
+    top: 25%;
+    left: 50%;
+    width: 1.5vw;
+    height: 25%;
+    margin: 0 0 0 -.75vw;
+    border-radius: .75vw;
+    z-index: 30;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--minute {
+    top: 15%;
+    left: 50%;
+    width: 1.5vw;
+    height: 35%;
+    margin: 0 0 0 -.75vw;
+    border-radius: .75vw;
+    z-index: 20;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--second {
+    top: 10%;
+    left: 50%;
+    width: .5vw;
+    height: 40%;
+    border-radius: .25vw;
+    margin: 0 0 0 -.25vw;
+    background-color: #de005a;
+    z-index: 10;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--center {
+    position: absolute;
+    height: 5vh;
+    width: 5vh;
+    top: 50%;
+    left: 50%;
+    margin: -2.5vh 0 0 -2.5vh;
+    z-index: 50;
+    transform: rotate(0deg);
+    border-radius: 50%;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--facebox {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 50%;
+    text-align: center;
+    overflow: visible;
+    border: 0;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--facebox .tick {
+    width: .5vh;
+    height: 1.5vh;
+    margin: 0 -.25vh;
+    background: #000000;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--facebox .tick-medium {
+    width: .5vh;
+    height: 3vh;
+    margin: 0 -.25vh;
+    background-color: #000000;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--facebox .tick-large {
+    position: relative;
+    width: 1vh;
+    height: 3vh;
+    margin: 0 -.5vh;
+    background-color: #000000;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--facebox .num {
+    position: absolute;
+    top: 9vh;
+    left: -2vh;
+    color: #000000;
+    font-size: 8vh;
+    line-height: 0;
+    z-index: 1;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Dumpert Slide --------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+
+.slide-dumpert {
+    bottom: 8.55vh;
+}
+
+.slide-fullscreen .slide-dumpert {
+    bottom: 0.55vh;
+}
+
+.slide-dumpert .slide-inner {
+    display: flex;
+    padding: 5vh 2.9166666667vw;
+    background: url('../images/slide-dumpert/dumpert-bg.jpg') repeat center center;
+}
+
+.slide-dumpert .slide-inner .content {
+    flex: 1 0 64.1666666666vw;
+    max-width: 64.1666666666vw;
+    color: #ffffff;
+    font-size: 3vh;
+    line-height: 4vh;
+    padding: 0 2.9166666667vw 0 0;
+}
+
+.slide-dumpert .slide-inner .content .content-mask {
+    width: 100%;
     height: 100%;
     overflow: hidden;
 }
 
-.slide-buienradar .slide-inner .content h1 {
-    color: #ffffff;
+.slide-dumpert .slide-inner .content h1 {
+    font-family: 'Roboto Condensed', Arial, Verdana, sans-serif;
+    color: #66c221;
+    font-size: 3.8888888889vh;
+    line-height: 5.7407407407vh;
+    text-transform: uppercase;
+    margin: 0 0 2.8vh;
 }
 
-.slide-buienradar .forecasts {
+.slide-dumpert .slide-inner .content .date {
+    color: #cccccc;
+}
+
+.slide-dumpert .slide-inner .content h1::after {
+    display: none;
+}
+
+.slide-dumpert .slide-inner .top-5 {
+    flex: 1 0 30vw;
+    max-width: 30vw;
+}
+
+.slide-dumpert .slide-inner .top-5 h2 {
+    color: #000000;
+    font-size: 3.8888888889vh;
+    line-height: 5.7407407407vh;
+    padding: .5vh 1vw;
+    text-transform: uppercase;
+    background-color: #66c221;
+}
+
+.slide-dumpert .slide-inner .top-5 ul {
     padding: 0;
-    margin: 0 -2vw;
+    margin: 0;
     list-style-type: none;
+}
+
+.slide-dumpert .slide-inner .top-5 ul li {
+    position: relative;
+    padding: 1.5vh 3vw 1.5vh 1vw;
+    margin: 0;
     overflow: hidden;
+    border-bottom: 1px solid #cccccc;
 }
 
-.slide-buienradar .forecasts li {
+.slide-dumpert .slide-inner .top-5 ul li:last-of-type {
+    border-bottom: 0;
+}
+
+.slide-dumpert .slide-inner .top-5 ul li img {
     float: left;
-    width: 50%;
-    padding: 0 2vw;
-    margin: 0 0 6vh;
+    width: 10vh;
+    height: 10vh;
+    margin: 1vh 1vw 1vh 0;
 }
 
-.slide-buienradar .forecasts li .forecast-inner {
-    text-align: center;
-}
-
-.slide-buienradar .forecasts li .forecast-inner h2 {
-    color: #152b81;
-    font-size: 3vh;
-    line-height: 5.5vh;
-    font-weight: 600;
-    background: rgba(226, 239, 248, 0.8);
+.slide-dumpert .slide-inner .top-5 ul li h3 {
+    color: #66c221;
+    font-size: 3.3888888889vh;
+    line-height: 5.2407407407vh;
+    font-weight: 400;
+    text-transform: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
     margin: 0;
 }
 
-.slide-buienradar .forecasts li .forecast-inner .icon {
-    height: 24.3vh;
-    padding: 3vh;
-    background: rgba(255, 255, 255, 0.6);
+.slide-dumpert .slide-inner .top-5 ul li div {
+    display: block;
+    color: #ffffff;
+    font-size: 2vh;
+    line-height: 3vh;
 }
 
-.slide-ticker .slide-buienradar .forecasts li .forecast-inner .icon {
-    height: 20vh;
-}
-
-.slide-buienradar .forecasts li .forecast-inner .icon img {
-    width: auto;
-    max-height: 100%;
-    margin: 0 auto;
-}
-
-.slide-buienradar .forecasts li .forecast-inner .data {
-    padding: 1vh 1.5vw;
-    color: #152b81;
-    font-size: 3vh;
-    line-height: 5vh;
-    background: rgba(226, 239, 248, 0.8);
-    overflow: hidden;
-}
-
-.slide-buienradar .forecasts li .forecast-inner .temperature {
-    float: left;
-}
-
-.slide-buienradar .forecasts li .forecast-inner .temperature .temperature-min {
-    color: rgba(21, 43, 129, 0.4);
-}
-
-.slide-buienradar .forecasts li .forecast-inner .rain {
-    display: inline-block;
-}
-
-.slide-buienradar .forecasts li .forecast-inner .wind {
-    float: right;
-}
-
-.slide-buienradar .forecasts li .forecast-inner .data img {
-    float: left;
-    width: auto;
-    height: 4.5vh;
-    margin: 0 10px 0 0;
-    opacity: 0.4;
+.slide-dumpert .slide-inner .top-5 ul li .rank {
+    position: absolute;
+    right: 0.5vw;
+    bottom: 0.5vh;
+    font-size: 3.8888888889vh;
+    line-height: 5.7407407407vh;
+    font-weight: 700;
+    color: rgba(132, 132, 132, .3);
 }

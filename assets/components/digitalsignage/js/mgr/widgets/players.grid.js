@@ -335,7 +335,7 @@ Ext.extend(DigitalSignage.grid.Players, MODx.grid.Grid, {
             seconds = '0' + seconds;
         }
 
-        if (1 == parseInt(e.data.restart)) {
+        if (parseInt(e.data.restart) === 1) {
             return String.format('<span class="icon icon-power-off icon-player-restart"></span>{0}', _('digitalsignage.next_sync', {
                 time : minutes + ':' + seconds
             }));

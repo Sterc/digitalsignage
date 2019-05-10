@@ -1,47 +1,54 @@
 <?php
 
-    class DigitalSignagePlayersUpdateProcessor extends modObjectUpdateProcessor {
-        /**
-         * @access public.
-         * @var String.
-         */
-        public $classKey = 'DigitalSignagePlayers';
+/**
+ * Digital Signage
+ *
+ * Copyright 2019 by Oene Tjeerd de Bruin <oenetjeerd@sterc.nl>
+ */
 
-        /**
-         * @access public.
-         * @var Array.
-         */
-        public $languageTopics = ['digitalsignage:default'];
+class DigitalSignagePlayersUpdateProcessor extends modObjectUpdateProcessor
+{
+    /**
+     * @access public.
+     * @var String.
+     */
+    public $classKey = 'DigitalSignagePlayers';
 
-        /**
-         * @access public.
-         * @var String.
-         */
-        public $objectType = 'digitalsignage.players';
+    /**
+     * @access public.
+     * @var Array.
+     */
+    public $languageTopics = ['digitalsignage:default'];
 
-        /**
-         * @acces public.
-         * @return Mixed.
-         */
-        public function initialize() {
-            $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
+    /**
+     * @access public.
+     * @var String.
+     */
+    public $objectType = 'digitalsignage.players';
 
-            return parent::initialize();
-        }
+    /**
+     * @access public.
+     * @return Mixed.
+     */
+    public function initialize()
+    {
+        $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
-        /**
-         * @access public.
-         * @return Mixed.
-         */
-        public function beforeSave() {
-            if (!preg_match('/^(\d+)x(\d+)$/', $this->getProperty('resolution'))) {
-                $this->addFieldError('resolution', $this->modx->lexicon('digitalsignage.error_player_resolution'));
-            }
-
-            return parent::beforeSave();
-        }
+        return parent::initialize();
     }
 
-    return 'DigitalSignagePlayersUpdateProcessor';
+    /**
+     * @access public.
+     * @return Mixed.
+     */
+    public function beforeSave()
+    {
+        if (!preg_match('/^(\d+)x(\d+)$/', $this->getProperty('resolution'))) {
+            $this->addFieldError('resolution', $this->modx->lexicon('digitalsignage.error_player_resolution'));
+        }
 
-?>
+        return parent::beforeSave();
+    }
+}
+
+return 'DigitalSignagePlayersUpdateProcessor';

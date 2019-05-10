@@ -1,27 +1,28 @@
 <?php
+/**
+ * Digital Signage
+ *
+ * Copyright 2019 by Oene Tjeerd de Bruin <oenetjeerd@sterc.nl>
+ */
 
-    switch($modx->event->name) {
-        case 'OnHandleRequest':
-            if ($modx->loadClass('DigitalSignage', $modx->getOption('digitalsignage.core_path', null, $modx->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/', true, true)) {
-                $digitalsignage = new DigitalSignage($modx);
+switch($modx->event->name) {
+    case 'OnHandleRequest':
+        $instance = $modx->getService('digitalsignage', 'DigitalSignage', $modx->getOption('digitalsignage.core_path', null, $modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
-                if ($digitalsignage instanceOf DigitalSignage) {
-                    $digitalsignage->initializeContext($scriptProperties);
-                }
-            }
+        if ($instance instanceOf DigitalSignage) {
+            $instance->initializeContext($scriptProperties);
+        }
 
-            break;
-        case 'OnLoadWebDocument':
-        case 'OnWebPagePrerender':
-            if ($modx->loadClass('DigitalSignage', $modx->getOption('digitalsignage.core_path', null, $modx->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/', true, true)) {
-                $digitalsignage = new DigitalSignage($modx);
+        break;
+    case 'OnLoadWebDocument':
+    case 'OnWebPagePrerender':
+        $instance = $modx->getService('digitalsignage', 'DigitalSignage', $modx->getOption('digitalsignage.core_path', null, $modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
-                if ($digitalsignage instanceOf DigitalSignage) {
-                    $digitalsignage->initializePlayer($scriptProperties);
-                }
-            }
+        if ($instance instanceOf DigitalSignage) {
+            $instance->initializePlayer($scriptProperties);
+        }
 
-            break;
-    }
+        break;
+}
 
-    return;
+return;

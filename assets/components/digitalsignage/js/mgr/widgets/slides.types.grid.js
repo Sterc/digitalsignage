@@ -85,7 +85,7 @@ DigitalSignage.grid.SlideTypes = function(config) {
         baseParams  : {
             action      : 'mgr/slides/types/getlist'
         },
-        fields      : ['key', 'name', 'description', 'icon', 'time', 'data', 'editedon', 'name_formatted', 'description_formatted'],
+        fields      : ['id', 'key', 'name', 'description', 'icon', 'time', 'data', 'editedon', 'name_formatted', 'description_formatted'],
         paging      : true,
         pageSize    : MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy      : 'key',
@@ -115,6 +115,10 @@ Ext.extend(DigitalSignage.grid.SlideTypes, MODx.grid.Grid, {
             handler : this.updateSlideType,
             scope   : this
         }, {
+            text    : '<i class="x-menu-item-icon icon icon-copy"></i>' + _('digitalsignage.slide_type_duplicate'),
+            handler : this.duplicateSlideType,
+            scope   : this
+        }, '-', {
             text    : '<i class="x-menu-item-icon icon icon-edit"></i>' + _('digitalsignage.slide_type_data'),
             handler : this.slideTypeData,
             scope   : this
@@ -169,7 +173,7 @@ Ext.extend(DigitalSignage.grid.SlideTypes, MODx.grid.Grid, {
             url         : DigitalSignage.config.connector_url,
             params      : {
                 action      : 'mgr/slides/types/remove',
-                key         : this.menu.record.key
+                id          : this.menu.record.id
             },
             listeners   : {
                 'success'   : {
@@ -178,6 +182,32 @@ Ext.extend(DigitalSignage.grid.SlideTypes, MODx.grid.Grid, {
                 }
             }
         });
+    },
+    duplicateSlideType: function(btn, e) {
+        if (this.duplicateSlideTypeWindow) {
+            this.duplicateSlideTypeWindow.destroy();
+        }
+
+        var record = Ext.applyIf({
+            name    : _('digitalsignage.slide_type_name_duplicate', {
+                name    : this.menu.record.name
+            })
+        }, this.menu.record);
+
+        this.duplicateSlideTypeWindow = MODx.load({
+            xtype       : 'digitalsignage-window-slide-type-duplicate',
+            record      : record,
+            closeAction : 'close',
+            listeners   : {
+                'success'   : {
+                    fn          : this.refresh,
+                    scope       : this
+                }
+            }
+        });
+
+        this.duplicateSlideTypeWindow.setValues(record);
+        this.duplicateSlideTypeWindow.show(e.target);
     },
     slideTypeData: function(btn, e) {
         if (this.slideTypeDataWindow) {
@@ -209,9 +239,9 @@ Ext.extend(DigitalSignage.grid.SlideTypes, MODx.grid.Grid, {
         return Object.keys(d).length;
     },
     renderBoolean: function(d, c) {
-        c.css = 1 == parseInt(d) || d ? 'green' : 'red';
+        c.css = parseInt(d) === 1 ? 'green' : 'red';
 
-        return 1 == parseInt(d) || d ? _('yes') : _('no');
+        return parseInt(d) === 1 ? _('yes') : _('no');
     },
     renderDate: function(a) {
         if (Ext.isEmpty(a)) {
@@ -348,13 +378,15 @@ DigitalSignage.window.UpdateSlideType = function(config) {
             action      : 'mgr/slides/types/update'
         },
         fields      : [{
-            xtype       : 'statictextfield',
+            xtype       : 'hidden',
+            name        : 'id'
+        }, {
+            xtype       : 'textfield',
             fieldLabel  : _('digitalsignage.label_slide_type_key'),
             description : MODx.expandHelp ? '' : _('digitalsignage.label_slide_type_key_desc'),
             name        : 'key',
             anchor      : '100%',
-            allowBlank  : false,
-            submitValue : true
+            allowBlank  : false
         }, {
             xtype       : MODx.expandHelp ? 'label' : 'hidden',
             html        : _('digitalsignage.label_slide_type_key_desc'),
@@ -451,11 +483,44 @@ Ext.extend(DigitalSignage.window.UpdateSlideType, MODx.Window, {
 
 Ext.reg('digitalsignage-window-slide-type-update', DigitalSignage.window.UpdateSlideType);
 
+DigitalSignage.window.DuplicateSlideType = function(config) {
+    config = config || {};
+
+    Ext.applyIf(config, {
+        autoHeight  : true,
+        title       : _('digitalsignage.slide_type_duplicate'),
+        url         : DigitalSignage.config.connector_url,
+        baseParams  : {
+            action      : 'mgr/slides/types/duplicate'
+        },
+        fields      : [{
+            xtype       : 'hidden',
+            name        : 'id'
+        }, {
+            xtype       : 'textfield',
+            fieldLabel  : _('digitalsignage.label_slide_type_name'),
+            description : MODx.expandHelp ? '' : _('digitalsignage.label_slide_type_name_desc'),
+            name        : 'name',
+            anchor      : '100%'
+        }, {
+            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+            html        : _('digitalsignage.label_slide_type_name_desc'),
+            cls         : 'desc-under'
+        }]
+    });
+
+    DigitalSignage.window.DuplicateSlideType.superclass.constructor.call(this, config);
+};
+
+Ext.extend(DigitalSignage.window.DuplicateSlideType, MODx.Window);
+
+Ext.reg('digitalsignage-window-slide-type-duplicate', DigitalSignage.window.DuplicateSlideType);
+
 DigitalSignage.window.SlideTypeData = function(config) {
     config = config || {};
 
     Ext.applyIf(config, {
-        width       : 600,
+        width       : 700,
         autoHeight  : true,
         title       : _('digitalsignage.slide_type_data'),
         fields      : [{

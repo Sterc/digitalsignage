@@ -1,47 +1,48 @@
 <?php
 
-    class DigitalSignageSlideTypesRemoveProcessor extends modObjectRemoveProcessor {
-        /**
-         * @acces public.
-         * @var String.
-         */
-        public $classKey = 'DigitalSignageSlidesTypes';
 
-        /**
-         * @acces public.
-         * @var Array.
-         */
-        public $languageTopics = ['digitalsignage:default'];
+/**
+ * Digital Signage
+ *
+ * Copyright 2019 by Oene Tjeerd de Bruin <oenetjeerd@sterc.nl>
+ */
 
-        /**
-         * @access public.
-         * @var String.
-         */
-        public $primaryKeyField = 'key';
+class DigitalSignageSlideTypesRemoveProcessor extends modObjectRemoveProcessor
+{
+    /**
+     * @acces public.
+     * @var String.
+     */
+    public $classKey = 'DigitalSignageSlidesTypes';
 
-        /**
-         * @acces public.
-         * @var String.
-         */
-        public $objectType = 'digitalsignage.slidestypes';
+    /**
+     * @acces public.
+     * @var Array.
+     */
+    public $languageTopics = ['digitalsignage:default'];
 
-        /**
-         * @acces public.
-         * @var Object.
-         */
-        public $digitalsignage;
+    /**
+     * @access public.
+     * @var String.
+     */
+    public $primaryKeyField = 'id';
 
-        /**
-         * @acces public.
-         * @return Mixed.
-         */
-        public function initialize() {
-            $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
+    /**
+     * @access public.
+     * @var String.
+     */
+    public $objectType = 'digitalsignage.slidestypes';
 
-            return parent::initialize();
-        }
+    /**
+     * @access public.
+     * @return Mixed.
+     */
+    public function initialize()
+    {
+        $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
+
+        return parent::initialize();
     }
+}
 
-    return 'DigitalSignageSlideTypesRemoveProcessor';
-
-?>
+return 'DigitalSignageSlideTypesRemoveProcessor';

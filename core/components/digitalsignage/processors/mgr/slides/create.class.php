@@ -26,8 +26,18 @@
         public function initialize() {
             $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
-            if (null === $this->getProperty('published')) {
+            if ($this->getProperty('published') === null) {
                 $this->setProperty('published', 0);
+            }
+
+            if ($this->modx->hasPermission('digitalsignage_settings')) {
+                if ($this->getProperty('protected', null) === null) {
+                    $this->setProperty('protected', 0);
+                } else {
+                    $this->setProperty('protected', 1);
+                }
+            } else {
+                $this->unsetProperty('protected');
             }
 
             return parent::initialize();

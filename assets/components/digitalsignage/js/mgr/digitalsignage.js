@@ -24,6 +24,22 @@ Ext.extend(DigitalSignage, Ext.Component, {
         });
 
         this.viewCalendarWindow.show(e.target);
+    },
+    loadRTE : function(id, config) {
+        if (!Ext.isEmpty(MODx.config.which_editor)) {
+            config = config || {};
+            config.selector = '#' + id;
+
+            if (MODx.config.which_editor === 'TinyMCE RTE') {
+                config.skin = MODx.config['tinymcerte.skin'];
+
+                new TinyMCERTE.Tiny({
+                    allowDrop : true
+                }, config);
+            } else {
+                MODx.loadRTE(id, config);
+            }
+        }
     }
 });
 

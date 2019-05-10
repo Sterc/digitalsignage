@@ -26,32 +26,32 @@
     </div>
     <!-- End Error Reporting -->
     <div class="header">
-        <div class="logo">
-            <img src="/digitalsignage/assets/interface/images/logo.svg" />
-        </div>
-
         <!-- Begin Clock Plugin -->
         <div class="clock" data-plugin="ClockPlugin">
-            <div class="time" data-placeholder="time" data-placeholder-renders="date:%H:%I uur"></div>
             <div class="date" data-placeholder="date" data-placeholder-renders="date:%d %F %Y"></div>
+            <div class="time" data-placeholder="time" data-placeholder-renders="date:%H:%I uur"></div>
         </div>
         <!-- End Clock Plugin -->
-    </div>
 
-    <!-- Begin Newsticker Plugin -->
-    <div class="ticker" data-plugin="TickerPlugin" data-plugin-settings="{'feed': '[[!+digitalsignage.broadcast.feed]]', 'feedType': 'JSON'}">
-        <div class="ticker-inner" data-placeholder="ticker">
-            <ul data-template="ticker">
-                <li data-template="item" data-placeholder-class="source">
+        <!-- Begin Newsticker Plugin -->
+        <div class="ticker" data-plugin="TickerPlugin" data-plugin-settings="{'feed': '[[!+digitalsignage.broadcast.feed]]', 'feedType': 'JSON'}">
+            <div class="ticker-inner" data-placeholder="ticker">
+                <ul data-template="ticker">
+                    <li data-template="item" data-placeholder-class="source">
                         <span class="icons">
                             <span class="circle"></span>
                         </span>
-                    <span data-placeholder="title"></span>
-                </li>
-            </ul>
+                        <span data-placeholder="title"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- End Newsticker Plugin -->
+
+        <div class="logo">
+            <img src="/digitalsignage/assets/interface/images/logo.svg" />
         </div>
     </div>
-    <!-- End Newsticker Plugin -->
 
     <!-- Begin Slides -->
     <div class="slides" data-placeholder="slides">
@@ -60,7 +60,9 @@
             <div class="slide slide-default" data-placeholder-class="source">
                 <div class="slide-inner">
                     <div class="image">
-                        <img src="" data-placeholder="image" data-placeholder-wrapper="image" />
+                        <div class="image-mask">
+                            <img src="" data-placeholder="image" data-placeholder-wrapper="image" />
+                        </div>
                     </div>
                     <div class="content">
                         <div class="content-mask">
@@ -77,22 +79,20 @@
             <div class="slide slide-media">
                 <div class="slide-inner">
                     <div class="content">
+                        <h1 data-placeholder="title" data-placeholder-renders="striptags,ellipsis:150"></h1>
                         <img src="" data-placeholder="image" data-placeholder-wrapper="image" />
-                        <iframe src="" data-placeholder="youtube" data-placeholder-renders="youtube" class="video" frameborder="0" allowfullscreen></iframe>
+                        <iframe src="" data-placeholder="video_extern" data-placeholder-renders="video" class="video" frameborder="0" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
             <!-- End Media Slide -->
         </div>
-        <div data-template="payoff" data-slide-fullscreen="true">
+        <div data-template="payoff">
             <!-- Begin Payoff Slide -->
-            <div class="slide slide-payoff" data-placeholder-class="color">
+            <div class="slide slide-payoff">
                 <div class="slide-inner">
-                    <div class="logo">
-                        <img src="/digitalsignage/assets/interface/images/logo.svg" />
-                    </div>
                     <div class="content">
-                        <div data-placeholder="content" data-placeholder-renders="striptags:p|strong|em|span|br"></div>
+                        <h1 data-placeholder="content" data-placeholder-renders="striptags" data-placeholder-class="size"></h1>
                     </div>
                 </div>
             </div>
@@ -103,9 +103,11 @@
             <div class="slide slide-feed">
                 <div class="slide-inner">
                     <div class="items" data-placeholder="items">
-                        <div class="item"  data-template="item" data-placeholder-class="source">
+                        <div class="item" data-template="item" data-placeholder-class="source">
                             <div class="image">
-                                <img src="" data-placeholder="image" data-placeholder-wrapper="image" />
+                                <div class="image-mask">
+                                    <img src="" data-placeholder="image" data-placeholder-wrapper="image" />
+                                </div>
                             </div>
                             <div class="content">
                                 <div class="content-mask">
@@ -138,18 +140,28 @@
                                     <div class="data">
                                         <div class="temperature">
                                             <span class="temperature-min">
-                                                <span data-placeholder="mintemperature" data-placeholder="mintemperature"></span>°
+                                                <span data-placeholder="mintemperature" data-placeholder="mintemperature"></span>°c
                                             </span>
-                                            /
+                                            <span>/</span>
                                             <span class="temperature-max">
-                                                <span data-placeholder="maxtemperature" data-placeholder="maxtemperature"></span>°
+                                                <span data-placeholder="maxtemperature" data-placeholder="maxtemperature"></span>°c
                                             </span>
                                         </div>
+                                    </div>
+                                    <div class="data">
                                         <div class="rain">
-                                            <img src="/digitalsignage/assets/interface/images/buienradar/precipation.svg" /><span data-placeholder="precipationmm"></span> mm
+                                            <img src="/digitalsignage/assets/interface/images/slide-buienradar/precipation.svg" /><span data-placeholder="precipitationmm"></span> <span>mm</span>
                                         </div>
                                         <div class="wind">
                                             <img src="" data-placeholder="windIcon" /><span data-placeholder="winddirection"></span> <span data-placeholder="beaufort"></span>
+                                        </div>
+                                    </div>
+                                    <div class="data">
+                                        <div class="sunrise">
+                                            <img src="/digitalsignage/assets/interface/images/slide-buienradar/sunrise.svg" /><span data-placeholder="sunrise" data-placeholder-renders="date:%H:%i"></span>
+                                        </div>
+                                        <div class="sunset">
+                                            <img src="/digitalsignage/assets/interface/images/slide-buienradar/sunset.svg" /><span data-placeholder="sunset" data-placeholder-renders="date:%H:%i"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -160,11 +172,70 @@
             </div>
             <!-- End Buienradar Slide -->
         </div>
+        <div data-template="countdown">
+            <!-- Begin Countdown Slide -->
+            <div class="slide slide-countdown">
+                <div class="slide-inner">
+                    <div class="content">
+                        <h1 data-placeholder="title" data-placeholder-renders="striptags,ellipsis:150"></h1>
+                        <div data-placeholder="content" data-placeholder-renders="striptags:p|h2|h3|h4|strong|em|span|br|ul|ol|li|img"></div>
+                        <div class="countdown-container" data-date="tilldate"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Countdown Slide -->
+        </div>
+        <div data-template="clock">
+            <!-- Begin Clock Slide -->
+            <div class="slide slide-clock">
+                <div class="slide-inner">
+                    <div class="clock-analog">
+                        <div class="clock-analog--hour"></div>
+                        <div class="clock-analog--minute"></div>
+                        <div class="clock-analog--second"></div>
+                        <div class="clock-analog--center"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Clock Slide -->
+        </div>
+        <div data-template="dumpert">
+            <!-- Begin Dumpert Slide -->
+            <div class="slide slide-dumpert">
+                <div class="slide-inner">
+                    <div class="content">
+                        <div data-placeholder="videos">
+                            <div data-template="video">
+                                <video class="video" muted autoplay>
+                                    <source src="" data-placeholder="media.uri" data-placeholder-renders="video" />
+                                </video>
+                                <h1 data-placeholder="title"></h1>
+                                <p class="date" data-placeholder="date" data-placeholder-renders="date:%d %F %Y %H:%i"></p>
+                                <p data-placeholder="description"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="top-5">
+                        <h2>TOP 5</h2>
+                        <ul data-placeholder="top5s">
+                            <li data-template="top5">
+                                <img data-placeholder="thumbnail" />
+                                <h3 data-placeholder="title"></h3>
+                                <div data-placeholder="date" data-placeholder-renders="date:%d %F %Y %H:%i"></div>
+                                <div>views: <span data-placeholder="stats.views_total"></span> kudos: <span data-placeholder="stats.kudos_total"></span></div>
+                                <div class="rank">#<span data-placeholder="rank"></span></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- End Dumpert Slide -->
+        </div>
     </div>
     <!-- End Slides -->
 </div>
 
-<!-- DigitalSignage Settings -->
+<!-- Digital Signage Settings -->
 <script type="text/javascript">
     var settings = {
         'debug'     : true,
@@ -178,12 +249,26 @@
     };
 </script>
 
+<!-- Digital Signage -->
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-
 <script type="text/javascript" src="/digitalsignage/assets/interface/javascript/digitalsignage.js?hash=[[!+digitalsignage.hash]]"></script>
 
-<script type="text/javascript" src="/digitalsignage/assets/interface/javascript/feed.slide.js?hash=[[!+digitalsignage.hash]]"></script>
-<script type="text/javascript" src="/digitalsignage/assets/interface/javascript/buienradar.slide.js?hash=[[!+digitalsignage.hash]]"></script>
+<!-- Feed slide -->
+<script type="text/javascript" src="/digitalsignage/assets/interface/javascript/slides/feed.slide.js?hash=[[!+digitalsignage.hash]]"></script>
+
+<!-- Buienradar Slide -->
+<script type="text/javascript" src="/digitalsignage/assets/interface/javascript/slides/buienradar.slide.js?hash=[[!+digitalsignage.hash]]"></script>
+
+<!-- Countdown Slide -->
+<script type="text/javascript" src="/digitalsignage/assets/interface/libs/lodash.js/2.4.1/lodash.min.js"></script>
+<script type="text/javascript" src="/digitalsignage/assets/interface/libs/jquery-countdown/jquery.countdown.min.js"></script>
+<script type="text/javascript" src="/digitalsignage/assets/interface/javascript/slides/countdown.slide.js?hash=[[!+digitalsignage.hash]]"></script>
+
+<!-- Clock Slide -->
+<script type="text/javascript" src="/digitalsignage/assets/interface/javascript/slides/clock.slide.js?hash=[[!+digitalsignage.hash]]"></script>
+
+<!-- Dumpert Slide -->
+<script type="text/javascript" src="/digitalsignage/assets/interface/javascript/slides/dumpert.slide.js?hash=[[!+digitalsignage.hash]]"></script>
 
 </body>
 </html>

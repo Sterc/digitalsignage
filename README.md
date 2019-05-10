@@ -27,7 +27,7 @@
 Voor elk nieuw Digital Signage project kopieer je de default template `Digital Signage (1.2.0-pl original)`, deze template word namelijk elke keer overschreven tijdens een nieuwe install of update. Vergeet de nieuwe template niet in te stellen bij de `digitalsignage.templates` system setting.
 Doe dit ook voor alle front-end bestanden (CSS en afbeeldingen), deze worden namelijk ook elke keer overschreven tijdens een nieuwe install of update. Verplaats bijvoorbeeld de `/digitalsignage/assets/interface/css/` en `/digitalsignage/assets/interface/images/` naar een map in de `assets` map (doe dit ook voor alle nieuwe plug-ins en slides die je aan maakt). De officiële Javascript bestanden kunnen wel op de originele locatie blijven bestaan. Vergeet niet om de paden in de template aan te passen naar de nieuwe locatie.  
 
-De 1.1.4-pl versie is beveiligd mbv modStore, als je hem lokaal wilt testen of uploaden dien je hem handmatig in de database te koppelen aan de modStore provider en een juiste key.
+De 1.2.0-pl versie is beveiligd mbv modStore, als je hem lokaal wilt testen of uploaden dien je hem handmatig in de database te koppelen aan de modStore provider en een juiste key.
 
 ## Digital Signage lexicons ##
 

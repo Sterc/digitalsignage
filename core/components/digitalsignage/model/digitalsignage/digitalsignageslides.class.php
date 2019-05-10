@@ -1,20 +1,29 @@
 <?php
 
-	class DigitalSignageSlides extends xPDOSimpleObject {
-	    /**
-         * @access public.
-         * @return Array.
-         */
-	    public function getBroadcasts() {
-            $broadcasts = array();
+/**
+ * Digital Signage
+ *
+ * Copyright 2019 by Oene Tjeerd de Bruin <oenetjeerd@sterc.nl>
+ */
 
-            foreach ($this->getMany('getBroadcasts') as $broadcast) {
-                if (null !== ($broadcast = $broadcast->getOne('getBroadcast'))) {
-                    $broadcasts[] = $broadcast;
-                }
+class DigitalSignageSlides extends xPDOSimpleObject
+{
+    /**
+     * @access public.
+     * @return Array.
+     */
+    public function getBroadcasts()
+    {
+        $broadcasts = [];
+
+        foreach ($this->getMany('getBroadcasts') as $broadcast) {
+            $broadcast = $broadcast->getOne('getBroadcast');
+
+            if ($broadcast) {
+                $broadcasts[] = $broadcast;
             }
-            return $broadcasts;
         }
+
+        return $broadcasts;
     }
-	
-?>
+}
