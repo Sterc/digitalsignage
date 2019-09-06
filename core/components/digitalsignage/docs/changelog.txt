@@ -4,7 +4,7 @@ DigitalSignage
 
 ----------------------
 Version: 1.2.0
-Released: 2019-04-23
+Released: 2019-09-06
 ----------------------
 - Bug fixes
     - Friendly URL bug
@@ -13,6 +13,7 @@ Released: 2019-04-23
 - New slide types
     - Countdown
     - Analog clock
+    - iFrame
 
 ----------------------
 Version: 1.1.4

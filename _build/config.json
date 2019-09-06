@@ -87,7 +87,7 @@
             "area": "digitalsignage_editor"
         },{
             "key": "editor_plugins",
-            "value": "advlist autolink lists modximage charmap print preview anchor visualblocks searchreplace code fullscreen insertdatetime media table contextmenu paste modxlink",
+            "value": "advlist autolink code link lists paste visualblocks",
             "area": "digitalsignage_editor"
         },{
             "type": "combo-boolean",
@@ -96,7 +96,7 @@
             "area": "digitalsignage_editor"
         },{
             "key": "editor_toolbar1",
-            "value": "undo redo | bold italic | alignleft aligncenter alignright alignjustify | link",
+            "value": "undo redo | bold italic | alignleft aligncenter alignright alignjustify | link unlink | visualblocks pastetext removeformat",
             "area": "digitalsignage_editor"
         },{
             "key": "editor_toolbar2",

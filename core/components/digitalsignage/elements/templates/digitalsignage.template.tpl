@@ -199,6 +199,15 @@
             </div>
             <!-- End Clock Slide -->
         </div>
+        <div data-template="iframe">
+            <!-- Begin iFrame Slide -->
+            <div class="slide slide-iframe">
+                <div class="slide-inner">
+                    <iframe src="" data-placeholder="url" class="iframe" frameborder="0" scrolling="no" allowfullscreen></iframe>
+                </div>
+            </div>
+            <!-- End iFrame Slide -->
+        </div>
         <div data-template="dumpert">
             <!-- Begin Dumpert Slide -->
             <div class="slide slide-dumpert">

@@ -77,9 +77,18 @@ $_lang['digitalsignage.slide_countdown_fullscreen_desc']        = '';
 $_lang['digitalsignage.slide_countdown_ticker']                 = 'Show the ticker.';
 $_lang['digitalsignage.slide_countdown_ticker_desc']            = '';
 
-$_lang['digitalsignage.slide_dumpert']                          = 'Dumpert';
-$_lang['digitalsignage.slide_dumpert_desc']                     = 'A slide with a random Dumpert movie.';
-$_lang['digitalsignage.slide_dumpert_fullscreen']               = 'Play the slide fullscreen.';
-$_lang['digitalsignage.slide_dumpert_fullscreen_desc']          = '';
-$_lang['digitalsignage.slide_dumpert_ticker']                   = 'Show the ticker.';
-$_lang['digitalsignage.slide_dumpert_ticker_desc']              = '';
+$_lang['digitalsignage.slide_iframe']                           = 'iFrame';
+$_lang['digitalsignage.slide_iframe_desc']                      = 'A slide with an iFrame.';
+$_lang['digitalsignage.slide_iframe_url']                       = 'URL';
+$_lang['digitalsignage.slide_iframe_url_desc']                  = 'The URL of the iFrame.';
+$_lang['digitalsignage.slide_iframe_fullscreen']                = 'Play the slide fullscreen.';
+$_lang['digitalsignage.slide_iframe_fullscreen_desc']           = '';
+$_lang['digitalsignage.slide_iframe_ticker']                    = 'Show the ticker.';
+$_lang['digitalsignage.slide_iframe_ticker_desc']               = '';
+
+//$_lang['digitalsignage.slide_dumpert']                          = 'Dumpert';
+//$_lang['digitalsignage.slide_dumpert_desc']                     = 'A slide with a random Dumpert movie.';
+//$_lang['digitalsignage.slide_dumpert_fullscreen']               = 'Play the slide fullscreen.';
+//$_lang['digitalsignage.slide_dumpert_fullscreen_desc']          = '';
+//$_lang['digitalsignage.slide_dumpert_ticker']                   = 'Show the ticker.';
+//$_lang['digitalsignage.slide_dumpert_ticker_desc']              = '';

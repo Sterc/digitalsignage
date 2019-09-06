@@ -5,9 +5,7 @@
 /* ----------------------------------------------------------------------------------------- */
 
 $(document).ready(function() {
-    $('.window').DigitalSignage({
-        debug       : settings.debug,
-        callback    : settings.callback,
+    $('.window').DigitalSignage($.extend({}, settings, {
         feed        : settings.broadcast.feed,
         vars        : {
             player      : settings.player,
@@ -15,7 +13,7 @@ $(document).ready(function() {
             preview     : settings.preview
         },
         domain      : document.location.origin
-    });
+    }));
 });
 
 /* ----------------------------------------------------------------------------------------- */

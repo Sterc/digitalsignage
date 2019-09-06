@@ -87,6 +87,11 @@ $slidetypes = [[
     'icon'          => 'clock-o',
     'time'          => '10',
     'data'          => 'a:2:{s:6:"ticker";a:7:{s:5:"xtype";s:8:"checkbox";s:8:"required";N;s:6:"values";s:0:"";s:13:"default_value";s:1:"1";s:5:"label";s:0:"";s:11:"description";s:0:"";s:9:"menuindex";i:1;}s:10:"fullscreen";a:7:{s:5:"xtype";s:8:"checkbox";s:8:"required";N;s:6:"values";s:0:"";s:13:"default_value";s:1:"1";s:5:"label";s:0:"";s:11:"description";s:0:"";s:9:"menuindex";i:2;}}'
+], [
+    'key'           => 'iframe',
+    'icon'          => 'window-restore',
+    'time'          => '10',
+    'data'          => 'a:3:{s:3:"url";a:7:{s:5:"xtype";s:9:"textfield";s:8:"required";s:1:"1";s:6:"values";s:0:"";s:13:"default_value";s:0:"";s:5:"label";s:0:"";s:11:"description";s:0:"";s:9:"menuindex";i:1;}s:6:"ticker";a:7:{s:5:"xtype";s:8:"checkbox";s:8:"required";N;s:6:"values";s:0:"";s:13:"default_value";s:1:"1";s:5:"label";s:0:"";s:11:"description";s:0:"";s:9:"menuindex";i:2;}s:10:"fullscreen";a:7:{s:5:"xtype";s:8:"checkbox";s:8:"required";N;s:6:"values";s:0:"";s:13:"default_value";s:1:"1";s:5:"label";s:0:"";s:11:"description";s:0:"";s:9:"menuindex";i:3;}}'
 ]];
 
 $success = false;

@@ -520,15 +520,7 @@ Ext.extend(DigitalSignage.window.CreateSlide, MODx.Window, {
                                     'afterrender' : {
                                         fn      : function(event) {
                                             if (DigitalSignage.loadRTE) {
-                                                DigitalSignage.loadRTE(event.id, {
-                                                    plugins     : MODx.config['digitalsignage.editor_plugins'],
-                                                    menubar     : MODx.config['digitalsignage.editor_menubar'],
-                                                    statusbar   : parseInt(MODx.config['digitalsignage.editor_statusbar']) === 1,
-                                                    toolbar1    : MODx.config['digitalsignage.editor_toolbar1'],
-                                                    toolbar2    : MODx.config['digitalsignage.editor_toolbar2'],
-                                                    toolbar3    : MODx.config['digitalsignage.editor_toolbar3'],
-                                                    height      : 150
-                                                });
+                                                DigitalSignage.loadRTE(event.id);
                                             }
                                         }
                                     }
@@ -879,15 +871,7 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                                     'afterrender' : {
                                         fn      : function(event) {
                                             if (DigitalSignage.loadRTE) {
-                                                DigitalSignage.loadRTE(event.id, {
-                                                    plugins     : MODx.config['digitalsignage.editor_plugins'],
-                                                    menubar     : MODx.config['digitalsignage.editor_menubar'],
-                                                    statusbar   : parseInt(MODx.config['digitalsignage.editor_statusbar']) === 1,
-                                                    toolbar1    : MODx.config['digitalsignage.editor_toolbar1'],
-                                                    toolbar2    : MODx.config['digitalsignage.editor_toolbar2'],
-                                                    toolbar3    : MODx.config['digitalsignage.editor_toolbar3'],
-                                                    height      : 150
-                                                });
+                                                DigitalSignage.loadRTE(event.id);
                                             }
                                         }
                                     }

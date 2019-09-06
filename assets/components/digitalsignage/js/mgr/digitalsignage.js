@@ -28,7 +28,17 @@ Ext.extend(DigitalSignage, Ext.Component, {
     loadRTE : function(id, config) {
         if (!Ext.isEmpty(MODx.config.which_editor)) {
             config = config || {};
-            config.selector = '#' + id;
+
+            Ext.applyIf(config, {
+                selector    : '#' + id,
+                plugins     : MODx.config['digitalsignage.editor_plugins'],
+                menubar     : MODx.config['digitalsignage.editor_menubar'],
+                statusbar   : parseInt(MODx.config['digitalsignage.editor_statusbar']) === 1,
+                toolbar1    : MODx.config['digitalsignage.editor_toolbar1'],
+                toolbar2    : MODx.config['digitalsignage.editor_toolbar2'],
+                toolbar3    : MODx.config['digitalsignage.editor_toolbar3'],
+                height      : 200
+            });
 
             if (MODx.config.which_editor === 'TinyMCE RTE') {
                 config.skin = MODx.config['tinymcerte.skin'];
