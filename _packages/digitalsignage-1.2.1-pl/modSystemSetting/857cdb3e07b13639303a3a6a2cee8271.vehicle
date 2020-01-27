@@ -1,0 +1,16 @@
+<?php return array (
+  'unique_key' => 'key',
+  'preserve_keys' => true,
+  'update_object' => false,
+  'namespace' => 'digitalsignage',
+  'resolve' => NULL,
+  'validate' => NULL,
+  'vehicle_package' => 'transport',
+  'vehicle_class' => 'xPDOObjectVehicle',
+  'guid' => '8399d63557d432414ce74d9196a09b03',
+  'package' => 'modx',
+  'class' => 'modSystemSetting',
+  'signature' => '857cdb3e07b13639303a3a6a2cee8271',
+  'native_key' => 'digitalsignage.request_resource',
+  'object' => '{"key":"digitalsignage.request_resource","value":"","xtype":"textfield","namespace":"digitalsignage","area":"digitalsignage","editedon":null}',
+);

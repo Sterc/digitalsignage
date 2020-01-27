@@ -1,0 +1,16 @@
+<?php return array (
+  'unique_key' => 'key',
+  'preserve_keys' => true,
+  'update_object' => false,
+  'namespace' => 'digitalsignage',
+  'resolve' => NULL,
+  'validate' => NULL,
+  'vehicle_package' => 'transport',
+  'vehicle_class' => 'xPDOObjectVehicle',
+  'guid' => 'd4a8b64101321870c2106785f7ed307e',
+  'package' => 'modx',
+  'class' => 'modSystemSetting',
+  'signature' => '595b710e945af4b8b573c074f0c0b23c',
+  'native_key' => 'digitalsignage.media_source',
+  'object' => '{"key":"digitalsignage.media_source","value":1,"xtype":"modx-combo-source","namespace":"digitalsignage","area":"digitalsignage","editedon":null}',
+);

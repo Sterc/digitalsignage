@@ -1,0 +1,16 @@
+<?php return array (
+  'unique_key' => 'key',
+  'preserve_keys' => true,
+  'update_object' => false,
+  'namespace' => 'digitalsignage',
+  'resolve' => NULL,
+  'validate' => NULL,
+  'vehicle_package' => 'transport',
+  'vehicle_class' => 'xPDOObjectVehicle',
+  'guid' => '9943ee94bbd356f8b3d4e7b3f3f41c72',
+  'package' => 'modx',
+  'class' => 'modSystemSetting',
+  'signature' => 'ace0b4b6c9531d3a9f329092f9931e61',
+  'native_key' => 'digitalsignage.editor_toolbar2',
+  'object' => '{"key":"digitalsignage.editor_toolbar2","value":"","xtype":"textfield","namespace":"digitalsignage","area":"digitalsignage_editor","editedon":null}',
+);

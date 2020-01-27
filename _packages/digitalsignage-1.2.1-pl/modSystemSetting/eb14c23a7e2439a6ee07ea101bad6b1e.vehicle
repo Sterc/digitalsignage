@@ -1,0 +1,16 @@
+<?php return array (
+  'unique_key' => 'key',
+  'preserve_keys' => true,
+  'update_object' => false,
+  'namespace' => 'digitalsignage',
+  'resolve' => NULL,
+  'validate' => NULL,
+  'vehicle_package' => 'transport',
+  'vehicle_class' => 'xPDOObjectVehicle',
+  'guid' => '34ec05cb95dca2ec4f31ff8303fdc42f',
+  'package' => 'modx',
+  'class' => 'modSystemSetting',
+  'signature' => 'eb14c23a7e2439a6ee07ea101bad6b1e',
+  'native_key' => 'digitalsignage.editor_plugins',
+  'object' => '{"key":"digitalsignage.editor_plugins","value":"advlist autolink code link lists paste visualblocks","xtype":"textfield","namespace":"digitalsignage","area":"digitalsignage_editor","editedon":null}',
+);

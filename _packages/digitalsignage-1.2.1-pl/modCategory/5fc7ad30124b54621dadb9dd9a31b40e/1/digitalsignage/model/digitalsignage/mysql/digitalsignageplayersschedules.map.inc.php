@@ -6,19 +6,25 @@
  * Copyright 2019 by Oene Tjeerd de Bruin <oenetjeerd@sterc.nl>
  */
 
-$xpdo_meta_map['DigitalSignageBroadcastsSlides'] = [
+$xpdo_meta_map['DigitalSignagePlayersSchedules'] = [
     'package'       => 'digitalsignage',
     'version'       => '1.0',
-    'table'         => 'digitalsignage_broadcasts_slides',
+    'table'         => 'digitalsignage_players_schedules',
     'extends'       => 'xPDOObject',
     'tableMeta'     => [
         'engine'        => 'InnoDB'
     ],
     'fields'        => [
         'id'            => null,
+        'player_id'     => null,
         'broadcast_id'  => null,
-        'slide_id'      => null,
-        'sortindex'     => null
+        'description'   => null,
+        'type'          => null,
+        'start_time'    => null,
+        'start_date'    => null,
+        'end_time'      => null,
+        'end_date'      => null,
+        'day'           => null
     ],
     'fieldMeta'     => [
         'id'            => [
@@ -29,24 +35,56 @@ $xpdo_meta_map['DigitalSignageBroadcastsSlides'] = [
             'index'         => 'pk',
             'generated'     => 'native'
         ],
+        'player_id'     => [
+            'dbtype'        => 'int',
+            'precision'     => '11',
+            'phptype'       => 'integer',
+            'default'       => 0
+        ],
         'broadcast_id'  => [
             'dbtype'        => 'int',
             'precision'     => '11',
             'phptype'       => 'integer',
             'default'       => 0
         ],
-        'slide_id'      => [
+        'description'   => [
+            'dbtype'        => 'varchar',
+            'precision'     => '255',
+            'phptype'       => 'string',
+            'default'       => ''
+        ],
+        'type'          => [
+            'dbtype'        => 'varchar',
+            'precision'     => '5',
+            'phptype'       => 'string',
+            'default'       => ''
+        ],
+        'start_time'    => [
+            'dbtype'        => 'time',
+            'phptype'       => 'string',
+            'default'       => '00:00:00'
+        ],
+        'start_date'    => [
+            'dbtype'        => 'date',
+            'phptype'       => 'string',
+            'default'       => '0000-00-00'
+        ],
+        'end_time'      => [
+            'dbtype'        => 'time',
+            'phptype'       => 'string',
+            'default'       => '00:00:00'
+        ],
+        'end_date'      => [
+            'dbtype'        => 'date',
+            'phptype'       => 'string',
+            'default'       => '0000-00-00'
+        ],
+        'day'           => [
             'dbtype'        => 'int',
-            'precision'     => '11',
+            'precision'     => '1',
             'phptype'       => 'integer',
             'default'       => 0
         ],
-        'sortindex'     => [
-            'dbtype'        => 'int',
-            'precision'     => '11',
-            'phptype'       => 'integer',
-            'default'       => 0
-        ]
     ],
     'indexes'       => [
         'PRIMARY'       => [
@@ -62,14 +100,14 @@ $xpdo_meta_map['DigitalSignageBroadcastsSlides'] = [
         ]
     ],
     'aggregates'    => [
-        'getSlide'      => [
-            'local'         => 'slide_id',
-            'class'         => 'DigitalSignageSlides',
+        'getPlayer'     => [
+            'local'         => 'player_id',
+            'class'         => 'DigitalSignagePlayers',
             'foreign'       => 'id',
             'owner'         => 'foreign',
             'cardinality'   => 'one'
         ],
-        'getBroadcast'  => [
+        'getBroadcast' => [
             'local'         => 'broadcast_id',
             'class'         => 'DigitalSignageBroadcasts',
             'foreign'       => 'id',

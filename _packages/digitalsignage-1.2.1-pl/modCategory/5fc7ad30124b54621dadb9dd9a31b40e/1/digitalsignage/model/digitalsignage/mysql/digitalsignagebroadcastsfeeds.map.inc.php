@@ -6,10 +6,10 @@
  * Copyright 2019 by Oene Tjeerd de Bruin <oenetjeerd@sterc.nl>
  */
 
-$xpdo_meta_map['DigitalSignageBroadcastsSlides'] = [
+$xpdo_meta_map['DigitalSignageBroadcastsFeeds'] = [
     'package'       => 'digitalsignage',
     'version'       => '1.0',
-    'table'         => 'digitalsignage_broadcasts_slides',
+    'table'         => 'digitalsignage_broadcasts_feeds',
     'extends'       => 'xPDOObject',
     'tableMeta'     => [
         'engine'        => 'InnoDB'
@@ -17,8 +17,12 @@ $xpdo_meta_map['DigitalSignageBroadcastsSlides'] = [
     'fields'        => [
         'id'            => null,
         'broadcast_id'  => null,
-        'slide_id'      => null,
-        'sortindex'     => null
+        'key'           => null,
+        'url'           => null,
+        'time'          => null,
+        'frequency'     => null,
+        'published'     => null,
+        'editedon'      => null
     ],
     'fieldMeta'     => [
         'id'            => [
@@ -35,17 +39,41 @@ $xpdo_meta_map['DigitalSignageBroadcastsSlides'] = [
             'phptype'       => 'integer',
             'default'       => 0
         ],
-        'slide_id'      => [
-            'dbtype'        => 'int',
-            'precision'     => '11',
-            'phptype'       => 'integer',
-            'default'       => 0
+        'key'           => [
+            'dbtype'        => 'varchar',
+            'precision'     => '75',
+            'phptype'       => 'string',
+            'default'       => ''
         ],
-        'sortindex'     => [
+        'url'           => [
+            'dbtype'        => 'varchar',
+            'precision'     => '255',
+            'phptype'       => 'string',
+            'default'       => ''
+        ],
+        'time'          => [
             'dbtype'        => 'int',
-            'precision'     => '11',
+            'precision'     => '3',
             'phptype'       => 'integer',
-            'default'       => 0
+            'default'       => 15
+        ],
+        'frequency'     => [
+            'dbtype'        => 'int',
+            'precision'     => '3',
+            'phptype'       => 'integer',
+            'default'       => 2
+        ],
+        'published'     => [
+            'dbtype'        => 'int',
+            'precision'     => '3',
+            'phptype'       => 'integer',
+            'default'       => 1
+        ],
+        'editedon'      => [
+            'dbtype'        => 'timestamp',
+            'phptype'       => 'timestamp',
+            'attributes'    => 'ON UPDATE CURRENT_TIMESTAMP',
+            'null'          => false
         ]
     ],
     'indexes'       => [
@@ -62,13 +90,6 @@ $xpdo_meta_map['DigitalSignageBroadcastsSlides'] = [
         ]
     ],
     'aggregates'    => [
-        'getSlide'      => [
-            'local'         => 'slide_id',
-            'class'         => 'DigitalSignageSlides',
-            'foreign'       => 'id',
-            'owner'         => 'foreign',
-            'cardinality'   => 'one'
-        ],
         'getBroadcast'  => [
             'local'         => 'broadcast_id',
             'class'         => 'DigitalSignageBroadcasts',

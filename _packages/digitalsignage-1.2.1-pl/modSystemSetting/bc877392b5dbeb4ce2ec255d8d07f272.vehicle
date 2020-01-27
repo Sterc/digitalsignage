@@ -1,0 +1,16 @@
+<?php return array (
+  'unique_key' => 'key',
+  'preserve_keys' => true,
+  'update_object' => false,
+  'namespace' => 'digitalsignage',
+  'resolve' => NULL,
+  'validate' => NULL,
+  'vehicle_package' => 'transport',
+  'vehicle_class' => 'xPDOObjectVehicle',
+  'guid' => 'e7bcc2b328ded7a5ebf82a9d4a9c90a8',
+  'package' => 'modx',
+  'class' => 'modSystemSetting',
+  'signature' => 'bc877392b5dbeb4ce2ec255d8d07f272',
+  'native_key' => 'digitalsignage.branding_url_help',
+  'object' => '{"key":"digitalsignage.branding_url_help","value":"https:\\/\\/docs.modmore.com\\/en\\/DigitalSignage\\/v1\\/index.html","xtype":"textfield","namespace":"digitalsignage","area":"digitalsignage","editedon":null}',
+);

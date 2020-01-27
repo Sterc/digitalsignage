@@ -1,0 +1,30 @@
+<?php return array (
+  'preserve_keys' => true,
+  'update_object' => true,
+  'unique_key' => 'text',
+  'related_objects' => true,
+  'related_object_attributes' => 
+  array (
+    'Action' => 
+    array (
+      'preserve_keys' => false,
+      'update_object' => true,
+      'unique_key' => 
+      array (
+        0 => 'namespace',
+        1 => 'controller',
+      ),
+    ),
+  ),
+  'namespace' => 'digitalsignage',
+  'resolve' => NULL,
+  'validate' => NULL,
+  'vehicle_package' => 'transport',
+  'vehicle_class' => 'xPDOObjectVehicle',
+  'guid' => '50e8d3647e5bdda3ed2387b241c1b8ff',
+  'package' => 'modx',
+  'class' => 'modMenu',
+  'signature' => 'bc1a269e498eeb0293fd09899ff805b3',
+  'native_key' => 'digitalsignage',
+  'object' => '{"text":"digitalsignage","parent":"topnav","action":"home","description":"digitalsignage.desc","icon":"","menuindex":0,"params":"","handler":"","permissions":"digitalsignage","namespace":"digitalsignage"}',
+);

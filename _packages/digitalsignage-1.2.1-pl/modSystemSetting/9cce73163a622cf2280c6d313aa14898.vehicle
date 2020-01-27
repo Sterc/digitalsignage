@@ -1,0 +1,16 @@
+<?php return array (
+  'unique_key' => 'key',
+  'preserve_keys' => true,
+  'update_object' => false,
+  'namespace' => 'digitalsignage',
+  'resolve' => NULL,
+  'validate' => NULL,
+  'vehicle_package' => 'transport',
+  'vehicle_class' => 'xPDOObjectVehicle',
+  'guid' => 'cec32b18617bc9152f9e76a8f2fd35fe',
+  'package' => 'modx',
+  'class' => 'modSystemSetting',
+  'signature' => '9cce73163a622cf2280c6d313aa14898',
+  'native_key' => 'digitalsignage.branding_url',
+  'object' => '{"key":"digitalsignage.branding_url","value":"https:\\/\\/www.sterc.nl\\/modx\\/extras\\/digital-signage-voor-modx","xtype":"textfield","namespace":"digitalsignage","area":"digitalsignage","editedon":null}',
+);

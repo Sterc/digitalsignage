@@ -1,0 +1,1082 @@
+/* Stylesheet for Sterc (Digital Signage). (c) Sterc.nl. All rights reserved. */
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Basic overrides and resets -------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+
+@import url('reset.css');
+
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Source+Sans+Pro:400,600,900');
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Stijlen: General ------------------------------------------------------------------ */
+/* ----------------------------------------------------------------------------------------- */
+
+body {
+    font-family: 'Roboto Condensed', Arial, Verdana, sans-serif;
+    color: #666666;
+    font-size: 3.8888888889vh;
+    line-height: 5.7407407407vh;
+    font-weight: 400;
+}
+
+h1 {
+    font-family: 'Source Sans Pro', Arial, Verdana, sans-serif;
+    color: #000000;
+    font-size: 8vh;
+    line-height: 10.7407407407vh;
+    font-weight: 900;
+    margin: 0 0 5.5555555556vh;
+}
+
+h1::after {
+    display: inline-block;
+    width: 2vh;
+    height: 2vh;
+    content: '';
+    margin: 0 0 0 15px;
+    background: #de005a;
+    border-radius: 50%;
+}
+
+h2, h3, h4 {
+    font-family: 'Roboto Condensed', Arial, Verdana, sans-serif;
+    color: #000000;
+    font-size: 3.8888888889vh;
+    line-height: 5.7407407407vh;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+p, ul {
+    margin: 0 0 2.8vh;
+}
+
+/* Dev tools */
+
+.window-preview * {
+    cursor: default;
+}
+
+.window-preview a {
+    cursor: pointer;
+}
+
+.dev-tools {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    z-index: 9999999 !important;
+    overflow: hidden;
+}
+
+.dev-tools .dev-tools-btn {
+    float: left;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin: 0 10px;
+    overflow hidden;
+    text-indent: -99999px;
+    background: #333333 url('../images/dev-tools.svg') no-repeat 0 0;
+    border-radius: 50%;
+}
+
+.dev-tools .dev-tools-btn.dev-tools-prev {
+    background-position: 0 0;
+}
+
+.dev-tools .dev-tools-btn.dev-tools-next {
+    background-position: 0 -40px;
+}
+
+.dev-tools .dev-tools-btn.dev-tools-pause {
+    background-position: 0 -80px;
+}
+
+.dev-tools .dev-tools-btn.dev-tools-play {
+    background-position: 0 -120px;
+}
+
+/* Errors */
+
+.errors {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    width: 500px;
+    z-index: 9999999 !important;
+}
+
+.error-message {
+    display: block;
+    color: #ffffff;
+    margin: 0 0 15px;
+    overflow: hidden;
+    background: #e0414b;
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
+}
+
+.error-message h2 {
+    color: #ffffff;
+    font-size: 18px;
+    line-height: 24px;
+    border-bottom: 1px solid #d63842;
+    text-transform: uppercase;
+    padding: 10px 15px;
+    margin: 0;
+}
+
+.error-message p {
+    font-size: 16px;
+    line-height: 24px;
+    border-top: 1px solid #f8515c;
+    padding: 10px 15px;
+    margin: 0;
+}
+
+/* Window */
+
+.window {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+/* Timer */
+
+.timer {
+    position: absolute;
+    bottom: 0;
+    background: #c1c1c1;
+    z-index: 999999 !important;
+}
+
+.timer.timer-vertical {
+    right: 0;
+    width: 0.31vh;
+    height: 100%;
+}
+
+.timer.timer-horizontal {
+    left: 0;
+    width: 100%;
+    height: 0.55vh;
+}
+
+.timer span {
+    display: block;
+    background: #de005a;
+    overflow: hidden;
+}
+
+.timer.timer-vertical span {
+    width: 100%;
+    height: 0;
+}
+
+.timer.timer-horizontal span {
+    width: 0;
+    height: 100%;
+}
+
+/* Header */
+
+.header {
+    position: absolute;
+    bottom: 0.55vh;
+    display: flex;
+    justify-content: space-between;
+    width: 100vw;
+    height: 8vh;
+    background: #f1f1f1;
+    z-index: 1;
+}
+
+.header .logo {
+    height: 8vh;
+    padding: 2vh 1.5vw;
+}
+
+.header .logo img {
+    height: 4vh;
+}
+
+/* Clock Plugin */
+
+.header .clock {
+    display: flex;
+    height: 8vh;
+    padding: 2vh 1.5vw;
+    color: #000000;
+    font-size: 3.8888888889vh;
+    line-height: 4vh;
+}
+
+.header .clock .date::after {
+    display: inline-block;
+    content: ',';
+    margin: 0 10px 0 0;
+}
+
+/* Ticker Plugin */
+
+.header .ticker {
+    position: relative;
+    flex: 1;
+    height: 8vh;
+    padding: 2vh 1.5vw;
+    overflow: hidden;
+    z-index: 99;
+    opacity: 0;
+    transition: opacity 1s linear;
+}
+
+.window-ticker .header .ticker {
+    opacity: 1;
+}
+
+.header .ticker::after,
+.header .ticker::before {
+    position: absolute;
+    top: 0;
+    display: block;
+    width: 6.5104166667vw;
+    height: 100%;
+    content: '';
+    background: url('../images/plugin-newsticker/fade.png');
+    background-size: 100%;
+    z-index: 1;
+}
+
+.header .ticker::before {
+    left: 0;
+}
+
+.header .ticker::after {
+    right: 0;
+    transform: rotate(-180deg);
+}
+
+.header .ticker .ticker-inner {
+    position: absolute;
+    left: 0;
+    width: 10000000px;
+}
+
+.header .ticker ul {
+    position: relative;
+    float: left;
+    overflow: hidden;
+    list-style-type: none;
+    margin: 0;
+}
+
+.ticker ul li {
+    float: left;
+    color: #000000;
+    font-size: 3.8888888889vh;
+    line-height: 4vh;
+    padding: 0 2vw 0 0;
+}
+
+.ticker ul li .icons {
+    float: left;
+    margin: 0 1.4vw 0 0;
+    overflow: hidden;
+}
+
+.ticker ul li .icons span {
+    display: inline-block;
+    margin: 1.5vh 0.6vw 1.5vh 0;
+    width: 1vh;
+    height: 1vh;
+    background: #de005a;
+    border-radius: 1vh;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Slides ---------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+
+.slides {
+    position: relative;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #ffffff;
+}
+
+.slide .slide-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Default Slide --------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+
+.slide-default {
+    bottom: 8.55vh;
+}
+
+.slide-fullscreen .slide-default {
+    bottom: 0.55vh;
+}
+
+.slide-default .slide-inner .image {
+    position: relative;
+    float: left;
+    width: 51.4583333333vw;
+    margin: 8vh 0 8vh 2.9166666667vw;
+}
+
+.slide-default .slide-inner .image::before {
+    position: absolute;
+    left: -1.5625vw;
+    bottom: -2.7777777778vh;
+    display: block;
+    width: 100%;
+    height: 100%;
+    content: '';
+    background: #f1f1f1;
+}
+
+.slide-default .slide-inner .image.is-empty {
+    display: none !important;
+}
+
+.slide-default .slide-inner .image .image-mask {
+    position: relative;
+    width: 100%;
+    max-height: 70.3703703704vh;
+    overflow: hidden;
+}
+
+.slide-default .slide-inner .image .image-mask img {
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+.slide-default .slide-inner .content {
+    height: 100%;
+    padding: 5vh 2.9166666667vw;
+    overflow: hidden;
+}
+
+.slide-default .slide-inner .content .content-mask {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Media Slide ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+
+.slide-media {
+    bottom: 8.55vh;
+}
+
+.slide-fullscreen .slide-media {
+    bottom: 0.55vh;
+}
+
+.slide-media .slide-inner .content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.slide-media .slide-inner .content h1 {
+    position: absolute;
+    left: 2.9166666667vw;
+    bottom: 6vh;
+    margin: 0;
+    color: #f1f1f1;
+    z-index: 1;
+}
+
+.slide-media .slide-inner .content img,
+.slide-media .slide-inner .content .video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Payoff Slide ---------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+
+.slide-payoff {
+    bottom: 8.55vh;
+}
+
+.slide-fullscreen .slide-payoff {
+    bottom: 0.55vh;
+}
+
+.slide-payoff .slide-inner .content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    max-width: 75vw;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+.slide-payoff .slide-inner .content h1::after {
+    display: inline;
+    width: auto;
+    height: auto;
+    content: '!';
+    color: #de005a;
+    margin: 0;
+    background: transparent;
+    border-radius: 0;
+}
+
+.slide-payoff .slide-inner .content h1.size1 {
+    font-size: 9vh;
+    line-height: 9vh;
+}
+
+.slide-payoff .slide-inner .content h1.size2 {
+    font-size: 14vh;
+    line-height: 14vh;
+}
+
+.slide-payoff .slide-inner .content h1.size3 {
+    font-size: 19vh;
+    line-height: 19vh;
+}
+
+.slide-payoff .slide-inner .content h1.size4 {
+    font-size: 24vh;
+    line-height: 24vh;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Feed Slide ------------------------------------------------------------------------ */
+/* ----------------------------------------------------------------------------------------- */
+
+.slide-feed {
+    bottom: 8.55vh
+}
+
+.slide-fullscreen .slide-feed {
+    bottom: 0.55vh;
+}
+
+.slide-feed .slide-inner {
+    padding: 5vh 2.9166666667vw;
+}
+
+.slide-feed .slide-inner .items {
+    display: flex;
+    margin: 0 -2vw;
+    overflow: hidden;
+}
+
+.slide-feed .slide-inner .items .item {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0 2vw;
+}
+
+.slide-feed .slide-inner .items.feed-limit-3 .item {
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+}
+
+.slide-feed .slide-inner .items .item .image {
+    position: relative;
+    margin: 0 0 3.8vh;
+    background: url('../images/placeholder.png') no-repeat center center;
+    background-size: cover;
+}
+
+.slide-feed .slide-inner .items .item .image::before {
+    position: absolute;
+    left: -1.5625vw;
+    bottom: -2.7777777778vh;
+    display: block;
+    width: 100%;
+    height: 100%;
+    content: '';
+    background: #f1f1f1;
+}
+
+.slide-feed .slide-inner .items .item .image .image-mask {
+    position: relative;
+    width: 100%;
+    height: 40vh;
+    overflow: hidden;
+}
+
+.slide-fullscreen .slide-feed .slide-inner .items .item .image .image-mask {
+    height: 42vh;
+}
+
+.slide-feed .slide-inner .items.feed-limit-3 .item .image .image-mask {
+    height: 32vh;
+}
+
+.slide-fullscreen .slide-feed .slide-inner .items.feed-limit-3 .item .image .image-mask {
+    height: 34vh;
+}
+
+.slide-feed .slide-inner .items .item .image .image-mask img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: auto;
+    height: 100%;
+    transform: translateX(-50%);
+}
+
+.slide-feed .slide-inner .items .item .content {
+    position: relative;
+    height: 37.65vh;
+}
+
+.slide-feed .slide-inner .items.feed-limit-3 .item .content {
+    height: 45.65vh;
+}
+
+.slide-fullscreen .slide-feed .slide-inner .items .item .content {
+    height: 44.2vh;
+}
+
+.slide-fullscreen .slide-feed .slide-inner .items.feed-limit-3 .item .content {
+    height: 51.65vh;
+}
+
+.slide-feed .slide-inner .items .item .content .content-mask {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Buienradar Slide ------------------------------------------------------------------ */
+/* ----------------------------------------------------------------------------------------- */
+
+.slide-buienradar {
+    bottom: 8.55vh;
+}
+
+.slide-fullscreen .slide-buienradar {
+    bottom: 0.55vh;
+}
+
+.slide-buienradar .slide-inner .image {
+    position: relative;
+    float: left;
+    width: 30%;
+    height: 100%;
+    overflow: hidden;
+
+    display: none !important;
+}
+
+.slide-buienradar .slide-inner .image.is-empty {
+    display: none !important;
+}
+
+.slide-buienradar .slide-inner .image img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: auto;
+    height: 100%;
+    transform: translateX(-50%);
+}
+
+.slide-buienradar .slide-inner .content {
+    overflow: hidden;
+    padding: 5vh 2.9166666667vw;
+}
+
+.slide-buienradar .slide-inner .content .forecasts {
+    display: flex;
+    padding: 0;
+    margin: 0 -2.5vw;
+    list-style-type: none;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li {
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+    padding: 0 2.5vw;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner {
+    text-align: center;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner h2 {
+    font-size: 3.8888888889vh;
+    line-height: 5.7407407407vh;
+    padding: 0 0 1vh;
+    margin: 0;
+    border-bottom: 2px solid #000000;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .icon {
+    padding: 4vh;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .icon img {
+    width: auto;
+    height: 20vh;
+    margin: 0 auto;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .data {
+    display: flex;
+    color: #000000;
+    justify-content: space-between;
+    padding: 2vh 0;
+    overflow: hidden;
+    border-top: 1px solid #cccccc;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .data span {
+    display: inline-block;
+    font-size: 3.5vh;
+    line-height: 6vh;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .data .temperature {
+    flex: 1;
+    text-align: center;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .data .temperature .temperature-min {
+    color: #cccccc;
+}
+
+.slide-buienradar .slide-inner .content .forecasts li .forecast-inner .data img {
+    float: left;
+    width: auto;
+    height: 4vh;
+    margin: 0.5vh 10px 0.5vh 0;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Countdown Slide ------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+
+.slide-countdown {
+    bottom: 8.55vh;
+}
+
+.slide-fullscreen .slide-countdown {
+    bottom: 0.55vh;
+}
+
+.slide-countdown .slide-inner {
+    padding: 4vh 2.6vw 6vh;
+    text-align: center;
+}
+
+.slide-countdown .slide-inner .content {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    width: 80vw;
+    transform: translateY(-50%) translateX(-50%);
+}
+
+.slide-countdown .slide-inner .content .time {
+    border-radius: 5px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    height: 10vw;
+    width: 10vw;
+    margin: 0 1vw 6vh;
+    word-spacing: 0;
+    letter-spacing: normal;
+    text-rendering: auto;
+    perspective: 479px;
+    backface-visibility: hidden;
+    transform: translateZ(0) translate3d(0, 0, 0);
+}
+
+.slide-countdown .slide-inner .content .count {
+    background: #202020;
+    color: #f8f8f8;
+    display: block;
+    overflow: hidden;
+    position: absolute;
+    text-align: center;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+    top: 0;
+    width: 100%;
+    transform: translateZ(0);
+    transform-style: flat;
+}
+
+.slide-countdown .slide-inner .content .count.top {
+    border-top: 1px solid rgba(255, 255, 255, .2);
+    border-bottom: 1px solid rgba(255, 255, 255, .1);
+    border-radius: 5px 5px 0 0;
+    height: 50%;
+    transform-origin: 50% 100%;
+}
+
+.slide-countdown .slide-inner .content .count.bottom {
+    background-image: linear-gradient(rgba(255, 255, 255, .1), transparent);
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    border-radius: 0 0 5px 5px;
+    height: 50%;
+    top: 50%;
+    transform-origin: 50% 0;
+}
+
+.slide-countdown .slide-inner .content .count span {
+    position: absolute;
+    top: 0;
+    display: block;
+    width: 10vw;
+    height: 10vw;
+    font-size: 10vh;
+    line-height: 10vw;
+}
+
+.slide-countdown .slide-inner .content .count.bottom span {
+    top: -5vw;
+}
+
+.slide-countdown .label {
+    position: absolute;
+    bottom: -6vh;
+    display: block;
+    width: 100%;
+}
+
+/* Animation start */
+
+.slide-countdown .slide-inner .content .count.curr.top {
+    transform: rotateX(0deg);
+    z-index: 3;
+}
+
+.slide-countdown .slide-inner .content .count.next.bottom {
+    transform: rotateX(90deg);
+    z-index: 2;
+}
+
+/* Animation end */
+
+.slide-countdown .slide-inner .content .flip .count.curr.top {
+    transition: all 250ms ease-in-out;
+    transform: rotateX(-90deg);
+}
+
+.slide-countdown .slide-inner .content .flip .count.next.bottom {
+    transition: all 250ms ease-in-out 250ms;
+    transform: rotateX(0deg);
+}
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Clock Slide ----------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+
+.slide-clock {
+    bottom: 8.55vh;
+}
+
+.slide-fullscreen .slide-clock {
+    bottom: 0.55vh;
+}
+
+.slide-clock .slide-inner {
+    padding: 5vh 2.9166666667vw;
+}
+
+.slide-clock .slide-inner .clock-analog {
+    position: relative;
+    width: 81.45vh;
+    height: 81.45vh;
+    margin: auto;
+    border: solid .5vh #000000;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.slide-fullscreen .slide-clock .slide-inner .clock-analog {
+    width: 89.45vh;
+    height: 89.45vh;
+}
+
+.slide-clock .slide-inner .clock-analog::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: '';
+    opacity: .05;
+    background: url('../images/slide-clock/clock-bg.svg') no-repeat center center;
+    background-size: 100%;
+    z-index: -1;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--hour,
+.slide-clock .slide-inner .clock-analog .clock-analog--minute,
+.slide-clock .slide-inner .clock-analog .clock-analog--second,
+.slide-clock .slide-inner .clock-analog .clock-analog--center,
+.slide-clock .slide-inner .clock-analog .clock-analog--facebox {
+    position: absolute;
+    border: 0;
+    background-color: #000000;
+    transform-origin: center bottom;
+    transform: rotate(0deg);
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--hour {
+    top: 25%;
+    left: 50%;
+    width: 1.5vw;
+    height: 25%;
+    margin: 0 0 0 -.75vw;
+    border-radius: .75vw;
+    z-index: 30;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--minute {
+    top: 15%;
+    left: 50%;
+    width: 1.5vw;
+    height: 35%;
+    margin: 0 0 0 -.75vw;
+    border-radius: .75vw;
+    z-index: 20;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--second {
+    top: 10%;
+    left: 50%;
+    width: .5vw;
+    height: 40%;
+    border-radius: .25vw;
+    margin: 0 0 0 -.25vw;
+    background-color: #de005a;
+    z-index: 10;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--center {
+    position: absolute;
+    height: 5vh;
+    width: 5vh;
+    top: 50%;
+    left: 50%;
+    margin: -2.5vh 0 0 -2.5vh;
+    z-index: 50;
+    transform: rotate(0deg);
+    border-radius: 50%;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--facebox {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 50%;
+    text-align: center;
+    overflow: visible;
+    border: 0;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--facebox .tick {
+    width: .5vh;
+    height: 1.5vh;
+    margin: 0 -.25vh;
+    background: #000000;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--facebox .tick-medium {
+    width: .5vh;
+    height: 3vh;
+    margin: 0 -.25vh;
+    background-color: #000000;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--facebox .tick-large {
+    position: relative;
+    width: 1vh;
+    height: 3vh;
+    margin: 0 -.5vh;
+    background-color: #000000;
+}
+
+.slide-clock .slide-inner .clock-analog .clock-analog--facebox .num {
+    position: absolute;
+    top: 9vh;
+    left: -2vh;
+    color: #000000;
+    font-size: 8vh;
+    line-height: 0;
+    z-index: 1;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Clock iFrame ---------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+
+.slide-iframe {
+    bottom: 8.55vh;
+}
+
+.slide-fullscreen .slide-iframe {
+    bottom: 0.55vh;
+}
+
+.slide-iframe .slide-inner {
+    padding: 0;
+}
+
+.slide-iframe .slide-inner .iframe {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+/* ----------------------------------------------------------------------------------------- */
+/* ----- Dumpert Slide --------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------- */
+
+.slide-dumpert {
+    bottom: 8.55vh;
+}
+
+.slide-fullscreen .slide-dumpert {
+    bottom: 0.55vh;
+}
+
+.slide-dumpert .slide-inner {
+    display: flex;
+    padding: 5vh 2.9166666667vw;
+    background: url('../images/slide-dumpert/dumpert-bg.jpg') repeat center center;
+}
+
+.slide-dumpert .slide-inner .content {
+    flex: 1 0 64.1666666666vw;
+    max-width: 64.1666666666vw;
+    color: #ffffff;
+    font-size: 3vh;
+    line-height: 4vh;
+    padding: 0 2.9166666667vw 0 0;
+}
+
+.slide-dumpert .slide-inner .content .content-mask {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.slide-dumpert .slide-inner .content h1 {
+    font-family: 'Roboto Condensed', Arial, Verdana, sans-serif;
+    color: #66c221;
+    font-size: 3.8888888889vh;
+    line-height: 5.7407407407vh;
+    text-transform: uppercase;
+    margin: 0 0 2.8vh;
+}
+
+.slide-dumpert .slide-inner .content .date {
+    color: #cccccc;
+}
+
+.slide-dumpert .slide-inner .content h1::after {
+    display: none;
+}
+
+.slide-dumpert .slide-inner .top-5 {
+    flex: 1 0 30vw;
+    max-width: 30vw;
+}
+
+.slide-dumpert .slide-inner .top-5 h2 {
+    color: #000000;
+    font-size: 3.8888888889vh;
+    line-height: 5.7407407407vh;
+    padding: .5vh 1vw;
+    text-transform: uppercase;
+    background-color: #66c221;
+}
+
+.slide-dumpert .slide-inner .top-5 ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.slide-dumpert .slide-inner .top-5 ul li {
+    position: relative;
+    padding: 1.5vh 3vw 1.5vh 1vw;
+    margin: 0;
+    overflow: hidden;
+    border-bottom: 1px solid #cccccc;
+}
+
+.slide-dumpert .slide-inner .top-5 ul li:last-of-type {
+    border-bottom: 0;
+}
+
+.slide-dumpert .slide-inner .top-5 ul li img {
+    float: left;
+    width: 10vh;
+    height: 10vh;
+    margin: 1vh 1vw 1vh 0;
+}
+
+.slide-dumpert .slide-inner .top-5 ul li h3 {
+    color: #66c221;
+    font-size: 3.3888888889vh;
+    line-height: 5.2407407407vh;
+    font-weight: 400;
+    text-transform: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    margin: 0;
+}
+
+.slide-dumpert .slide-inner .top-5 ul li div {
+    display: block;
+    color: #ffffff;
+    font-size: 2vh;
+    line-height: 3vh;
+}
+
+.slide-dumpert .slide-inner .top-5 ul li .rank {
+    position: absolute;
+    right: 0.5vw;
+    bottom: 0.5vh;
+    font-size: 3.8888888889vh;
+    line-height: 5.7407407407vh;
+    font-weight: 700;
+    color: rgba(132, 132, 132, .3);
+}

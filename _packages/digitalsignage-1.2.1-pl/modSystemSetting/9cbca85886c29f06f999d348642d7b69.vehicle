@@ -1,0 +1,16 @@
+<?php return array (
+  'unique_key' => 'key',
+  'preserve_keys' => true,
+  'update_object' => false,
+  'namespace' => 'digitalsignage',
+  'resolve' => NULL,
+  'validate' => NULL,
+  'vehicle_package' => 'transport',
+  'vehicle_class' => 'xPDOObjectVehicle',
+  'guid' => '99228881be2a31ad875cdeef0b70cecd',
+  'package' => 'modx',
+  'class' => 'modSystemSetting',
+  'signature' => '9cbca85886c29f06f999d348642d7b69',
+  'native_key' => 'digitalsignage.context',
+  'object' => '{"key":"digitalsignage.context","value":"","xtype":"modx-combo-context","namespace":"digitalsignage","area":"digitalsignage","editedon":null}',
+);
