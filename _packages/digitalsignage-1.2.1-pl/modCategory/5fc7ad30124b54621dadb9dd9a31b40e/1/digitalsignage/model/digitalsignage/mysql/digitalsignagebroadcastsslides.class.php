@@ -8,6 +8,6 @@
 
 require_once dirname(__DIR__) . '/digitalsignagebroadcastsslides.class.php';
 
-class wDigitalSignageBroadcastsSlides_mysql extends DigitalSignageBroadcastsSlides
+class DigitalSignageBroadcastsSlides_mysql extends DigitalSignageBroadcastsSlides
 {
 }
