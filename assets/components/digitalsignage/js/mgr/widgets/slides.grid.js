@@ -507,7 +507,8 @@ Ext.extend(DigitalSignage.window.CreateSlide, MODx.Window, {
                             record = Ext.apply(record, {
                                 hideLabel   : true,
                                 boxLabel    : label,
-                                inputValue  : record.default_value || ''
+                                inputValue  : record.default_value || '',
+                                values      : record.values || '',
                             });
 
                             break;
@@ -572,6 +573,27 @@ Ext.extend(DigitalSignage.window.CreateSlide, MODx.Window, {
                                 value   : record.default_value || ''
                             });
 
+                            break;
+                        case 'digitalsignage-checkbox-group':
+                            var results = new Array(),
+                                values  = record.values.split('||');
+
+                            for (var i = 0; i < values.length; i++) {
+                                var item  = values[i].split('==');
+
+                                results.push({
+                                    boxLabel    : item[0],
+                                    inputValue  : item[1],
+                                    name        : 'checkboxgroup' === record.xtype ? ('data_' + name + '[]') : ('data_' + name)
+                                });
+                            }
+
+                            record = Ext.apply(record, {
+                                columns : 1,
+                                items   : results,
+                                value   : record.default_value || ''
+                            });
+                            
                             break;
                         case 'modx-combo-browser':
                             record = Ext.apply(record, {
@@ -924,6 +946,47 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                             });
 
                             break;
+                        case 'digitalsignage-checkbox-group':
+                            if (this.config.record.data[record.values].length) {
+                                MODx.Ajax.request({
+                                    url: DigitalSignage.config.connector_url,
+                                    params: {
+                                        action: 'mgr/slides/checkboxgroup/getlist',
+                                        url: this.config.record.data[record.values]
+                                    },
+                                    listeners: {
+                                        'success':{fn:function(r) {
+
+                                            var results = new Array();
+                                            if (typeof(this.config.record.data[name]) == 'undefined') {
+                                                this.config.record.data[name] = [];
+                                            }
+                                            for (var i = 0; i < r.results[0].length; i++) {
+                                                results.push({
+                                                    boxLabel    : r.results[0][i].pagetitle,
+                                                    inputValue  : r.results[0][i].id,
+                                                    name        : 'data_' + name + '[]',
+                                                    xtype       : 'checkbox',
+                                                    checked     : -1 !== this.config.record.data[name].indexOf(r.results[0][i].id + "") ? true : false
+                                                });
+                                            }
+                
+                                            record = Ext.apply(record, {
+                                                columns : 1,
+                                                xtype   : 'panel',
+                                                cls     : 'digitalsignage-checkboxgroup-fixed x-form-item',
+                                                items   : [{
+                                                    xtype       : 'checkboxgroup',
+                                                    hideLabel   : true,
+                                                    columns     : 1,
+                                                    items       : results
+                                                }],
+                                            });
+                                        },scope:this}
+                                    }
+                                });
+                            }
+                            break;
                         case 'modx-combo-browser':
                             record = Ext.apply(record, {
                                 source  :  MODx.config['digitalsignage.media_source'] || MODx.config.default_media_source
@@ -937,27 +1000,33 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
 
                             break;
                     }
+                    
+                    var wrapper = this;
 
-                    container.add(Ext.applyIf(record, {
-                        xtype       : 'textarea',
-                        fieldLabel  : label,
-                        description : MODx.expandHelp ? '' : name,
-                        name        : 'data_' + name,
-                        anchor      : '100%',
-                        allowBlank  : !(record.required && parseInt(record.required)),
-                        value       : this.config.record.data[name] || ''
-                    }));
-
-                    if (record.xtype !== 'hidden') {
-                        container.add({
-                            xtype       : MODx.expandHelp ? 'label' : 'hidden',
-                            html        :  desc,
-                            cls         : 'desc-under'
-                        });
-                    }
+                    setTimeout(function(){
+                        container.add(Ext.applyIf(record, {
+                            xtype       : 'textarea',
+                            fieldLabel  : label,
+                            description : MODx.expandHelp ? '' : name,
+                            name        : 'data_' + name,
+                            anchor      : '100%',
+                            allowBlank  : !(record.required && parseInt(record.required)),
+                            value       : wrapper.config.record.data[name] || ''
+                        }));
+    
+                        if (record.xtype !== 'hidden') {
+                            container.add({
+                                xtype       : MODx.expandHelp ? 'label' : 'hidden',
+                                html        :  desc,
+                                cls         : 'desc-under'
+                            });
+                        }
+                        
+                        wrapper.doLayout();
+                    }, 1000);
                 }, this);
 
-                this.doLayout();
+                /*this.doLayout();*/
             }
         }
     }

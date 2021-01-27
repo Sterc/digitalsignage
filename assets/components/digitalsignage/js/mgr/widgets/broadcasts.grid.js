@@ -910,20 +910,37 @@ Ext.extend(DigitalSignage.combo.Templates, MODx.combo.ComboBox);
 
 Ext.reg('digitalsignage-combo-templates', DigitalSignage.combo.Templates);
 
-DigitalSignage.combo.DigitalSignageBroadcastsCheckbox = function(config) {
+
+DigitalSignage.combo.DigitalSignageGroupCheckbox = function(config) {
     config = config || {};
 
     Ext.applyIf(config, {
         value       : '',
         columns     : 1,
-        id          : 'digitalsignage-checkboxgroup-fixed',
         cls         : 'digitalsignage-checkboxgroup-fixed x-form-item',
+        xtype       : 'panel',
+        hideLabel   : true
+    });
+
+    DigitalSignage.combo.DigitalSignageGroupCheckbox.superclass.constructor.call(this, config);
+};
+
+Ext.extend(DigitalSignage.combo.DigitalSignageGroupCheckbox, Ext.Panel);
+
+Ext.reg('digitalsignage-checkbox-group', DigitalSignage.combo.DigitalSignageGroupCheckbox);
+
+DigitalSignage.combo.DigitalSignageBroadcastsCheckbox = function(config) {
+    config = config || {};
+
+    Ext.applyIf(config, {
+        title       : '',
         store       : new Ext.data.JsonStore({
             url         : DigitalSignage.config.connector_url,
             baseParams  : {
                 action      : 'mgr/broadcasts/getlist',
                 start       : 0,
-                limit       : 0
+                limit       : 0,
+                fieldName   : 'broadcasts[]'
             },
             root        : 'results',
             totalProperty : 'total',
@@ -951,7 +968,7 @@ DigitalSignage.combo.DigitalSignageBroadcastsCheckbox = function(config) {
     DigitalSignage.combo.DigitalSignageBroadcastsCheckbox.superclass.constructor.call(this, config);
 };
 
-Ext.extend(DigitalSignage.combo.DigitalSignageBroadcastsCheckbox, Ext.Panel, {
+Ext.extend(DigitalSignage.combo.DigitalSignageBroadcastsCheckbox, DigitalSignage.combo.DigitalSignageGroupCheckbox, {
     setData: function(store, data) {
         var items = [];
 
@@ -959,7 +976,7 @@ Ext.extend(DigitalSignage.combo.DigitalSignageBroadcastsCheckbox, Ext.Panel, {
             items.push({
                 xtype      : 'checkbox',
                 boxLabel   : record.data.name_formatted,
-                name       : 'broadcasts[]',
+                name       : store.baseParams.fieldName || 'checkboxes[]',
                 inputValue : record.data.id,
                 checked    : -1 !== this.value.indexOf(record.data.id) ? true : false
             });
