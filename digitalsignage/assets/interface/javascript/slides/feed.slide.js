@@ -104,7 +104,7 @@
 
                                    for (var i = 0; i < result.responseJSON.items.length; i++) {
                                        if (typeof(this.settings.selected) != 'undefined') {
-                                            if (this.settings.selected.indexOf(result.responseJSON.items[i].id + "") >= 0) {
+                                            if (-1 == this.settings.selected.indexOf(parseInt(result.responseJSON.items[i].id))) {
                                                 data.push(result.responseJSON.items[i]);
                                             }
                                        } else {

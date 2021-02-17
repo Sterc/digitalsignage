@@ -954,7 +954,7 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                                                     inputValue  : r.results[0][i].id,
                                                     name        : 'data_' + name + '[]',
                                                     xtype       : 'checkbox',
-                                                    checked     : -1 !== this.config.record.data[name].indexOf(r.results[0][i].id + "") ? true : false
+                                                    checked     : (-1 == this.config.record.data[name].indexOf(parseInt(r.results[0][i].id)))
                                                 });
                                             }
                 

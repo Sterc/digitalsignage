@@ -3,7 +3,7 @@
     "lowCaseName": "digitalsignage",
     "description": "The most powerful and easiest Digital Signage solution for MODX.",
     "author": "Sterc",
-    "version": "1.2.3-heibel",
+    "version": "1.2.4-heibel",
     "package":{
         "menus": [{
             "text": "digitalsignage",
