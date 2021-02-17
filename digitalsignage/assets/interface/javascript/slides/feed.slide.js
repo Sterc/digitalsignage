@@ -103,7 +103,13 @@
                                    var data = [];
 
                                    for (var i = 0; i < result.responseJSON.items.length; i++) {
-                                       data.push(result.responseJSON.items[i]);
+                                       if (typeof(this.settings.selected) != 'undefined') {
+                                            if (this.settings.selected.indexOf(result.responseJSON.items[i].id + "") >= 0) {
+                                                data.push(result.responseJSON.items[i]);
+                                            }
+                                       } else {
+                                           data.push(result.responseJSON.items[i]);
+                                       }
                                    }
 
                                    this.core.setData('slide-' + this.settings.id, data, null);
