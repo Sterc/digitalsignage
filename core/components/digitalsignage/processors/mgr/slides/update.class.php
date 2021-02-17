@@ -65,6 +65,13 @@
                     $data[substr($key, 5, strlen($key))] = $value;
                 }
             }
+            if (!empty($data['url']) && empty($this->getProperty('data_selected'))) {
+                $data['selected'] = [];
+                $results = json_decode(file_get_contents($data['url']), true);
+                foreach ($results['items'] as $item) {
+                    $data['selected'][] = $item['id'];
+                }
+            }
 
             $this->object->set('data', serialize($data));
 
