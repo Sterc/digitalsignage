@@ -257,7 +257,7 @@ Ext.extend(DigitalSignage.grid.Slides, MODx.grid.Grid, {
     },
     renderDate: function(a) {
         if (Ext.isEmpty(a)) {
-            return '—';
+            return 'вЂ”';
         }
 
         return a;
@@ -575,25 +575,10 @@ Ext.extend(DigitalSignage.window.CreateSlide, MODx.Window, {
 
                             break;
                         case 'digitalsignage-checkbox-group':
-                            var results = new Array(),
-                                values  = record.values.split('||');
-
-                            for (var i = 0; i < values.length; i++) {
-                                var item  = values[i].split('==');
-
-                                results.push({
-                                    boxLabel    : item[0],
-                                    inputValue  : item[1],
-                                    name        : 'checkboxgroup' === record.xtype ? ('data_' + name + '[]') : ('data_' + name)
-                                });
-                            }
-
                             record = Ext.apply(record, {
-                                columns : 1,
-                                items   : results,
-                                value   : record.default_value || ''
+                                xtype       : 'panel',
+                                fieldLabel  : '',
                             });
-                            
                             break;
                         case 'modx-combo-browser':
                             record = Ext.apply(record, {
@@ -961,9 +946,11 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                                             if (typeof(this.config.record.data[name]) == 'undefined') {
                                                 this.config.record.data[name] = [];
                                             }
+                                            var city = '';
                                             for (var i = 0; i < r.results[0].length; i++) {
+                                                city = r.results[0][i].address_city;
                                                 results.push({
-                                                    boxLabel    : r.results[0][i].pagetitle,
+                                                    boxLabel    : r.results[0][i].pagetitle + (city ? ', ' + city : ''),
                                                     inputValue  : r.results[0][i].id,
                                                     name        : 'data_' + name + '[]',
                                                     xtype       : 'checkbox',
@@ -972,17 +959,71 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                                             }
                 
                                             record = Ext.apply(record, {
-                                                columns : 1,
                                                 xtype   : 'panel',
-                                                cls     : 'digitalsignage-checkboxgroup-fixed x-form-item',
-                                                items   : [{
-                                                    xtype       : 'checkboxgroup',
-                                                    hideLabel   : true,
-                                                    columns     : 1,
-                                                    items       : results
-                                                }],
+                                                items: [{
+                                                    xtype       : 'textfield',
+                                                    name        : 'digitalsignage-checkboxgroup-items-search',
+                                                    id          : 'digitalsignage-checkboxgroup-items-search',
+                                                    emptyText   : _('search') + '...',
+                                                    anchor      : '100%',
+                                                    style       : {
+                                                        width           : 'calc(100% - 12px)',
+                                                        'margin-bottom' : '-1px',
+                                                    },
+                                                    enableKeyEvents : true,
+                                                    listeners   : {
+                                                        'keyup'    : {
+                                                            fn          : function(e) {
+                                                                var search_query = e.getValue();
+                                                                var checkboxgroup = Ext.getCmp('digitalsignage-checkboxgroup-items');
+                                                                for (var i = 0; i < checkboxgroup.items.items.length; i++) {
+                                                                    if (search_query) {
+                                                                        if (-1 == checkboxgroup.items.items[i].boxLabel.toLowerCase().indexOf(search_query.toLowerCase())) {
+                                                                            checkboxgroup.items.items[i].hide();
+                                                                        } else {
+                                                                            checkboxgroup.items.items[i].show();
+                                                                        }
+                                                                    } else {
+                                                                        checkboxgroup.items.items[i].show();
+                                                                    }
+                                                                }
+                                                            },
+                                                            scope       : this
+                                                        },
+                                                        'render'    : {
+                                                            fn          : function(cmp) {
+                                                                new Ext.KeyMap(cmp.getEl(), {
+                                                                    key     : Ext.EventObject.ENTER,
+                                                                    fn      : this.blur,
+                                                                    scope   : cmp
+                                                                });
+                                                            },
+                                                            scope       : this
+                                                        }
+                                                    }
+                                                }, {
+                                                    columns : 1,
+                                                    xtype   : 'panel',
+                                                    cls     : 'digitalsignage-checkboxgroup-fixed x-form-item',
+                                                    style   : {
+                                                        height  : '200px'
+                                                    },
+                                                    items   : [{
+                                                        xtype       : 'checkboxgroup',
+                                                        id          : 'digitalsignage-checkboxgroup-items',
+                                                        hideLabel   : true,
+                                                        columns     : 1,
+                                                        style       : {
+                                                            'max-height': '200px'
+                                                        },
+                                                        items       : results
+                                                    }],
+                                                }]
                                             });
-                                        },scope:this}
+                                        },scope:this},
+                                        'failure':{fn:function(r) {
+                                            console.log('Ajax error');
+                                        },scope:this},
                                     }
                                 });
                             }
@@ -1004,6 +1045,7 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                     var wrapper = this;
 
                     setTimeout(function(){
+                        
                         container.add(Ext.applyIf(record, {
                             xtype       : 'textarea',
                             fieldLabel  : label,
@@ -1023,7 +1065,7 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                         }
                         
                         wrapper.doLayout();
-                    }, 1000);
+                    }, 1300);
                 }, this);
 
                 /*this.doLayout();*/
