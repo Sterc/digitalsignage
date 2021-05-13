@@ -3,6 +3,13 @@ DigitalSignage
 ----------------------
 
 ----------------------
+Version: 1.2.5
+Released: 2021-05-13
+----------------------
+- New field checkboxes for URL source
+- Bug fixes
+
+----------------------
 Version: 1.2.0
 Released: 2019-09-06
 ----------------------

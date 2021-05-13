@@ -257,7 +257,7 @@ Ext.extend(DigitalSignage.grid.Slides, MODx.grid.Grid, {
     },
     renderDate: function(a) {
         if (Ext.isEmpty(a)) {
-            return '—';
+            return 'вЂ”';
         }
 
         return a;
@@ -507,7 +507,8 @@ Ext.extend(DigitalSignage.window.CreateSlide, MODx.Window, {
                             record = Ext.apply(record, {
                                 hideLabel   : true,
                                 boxLabel    : label,
-                                inputValue  : record.default_value || ''
+                                inputValue  : record.default_value || '',
+                                values      : record.values || '',
                             });
 
                             break;
@@ -572,6 +573,12 @@ Ext.extend(DigitalSignage.window.CreateSlide, MODx.Window, {
                                 value   : record.default_value || ''
                             });
 
+                            break;
+                        case 'digitalsignage-checkbox-group':
+                            record = Ext.apply(record, {
+                                xtype       : 'panel',
+                                fieldLabel  : '',
+                            });
                             break;
                         case 'modx-combo-browser':
                             record = Ext.apply(record, {
@@ -924,6 +931,103 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
                             });
 
                             break;
+                        case 'digitalsignage-checkbox-group':
+                            if (this.config.record.data[record.values].length) {
+                                MODx.Ajax.request({
+                                    url: DigitalSignage.config.connector_url,
+                                    params: {
+                                        action: 'mgr/slides/checkboxgroup/getlist',
+                                        url: this.config.record.data[record.values]
+                                    },
+                                    listeners: {
+                                        'success':{fn:function(r) {
+
+                                            var results = new Array();
+                                            if (typeof(this.config.record.data[name]) == 'undefined') {
+                                                this.config.record.data[name] = [];
+                                            }
+                                            var city = '';
+                                            for (var i = 0; i < r.results[0].length; i++) {
+                                                city = r.results[0][i].address_city;
+                                                results.push({
+                                                    boxLabel    : r.results[0][i].pagetitle + (city ? ', ' + city : ''),
+                                                    inputValue  : r.results[0][i].id,
+                                                    name        : 'data_' + name + '[]',
+                                                    xtype       : 'checkbox',
+                                                    checked     : (-1 == this.config.record.data[name].indexOf(parseInt(r.results[0][i].id)))
+                                                });
+                                            }
+                
+                                            record = Ext.apply(record, {
+                                                xtype   : 'panel',
+                                                items: [{
+                                                    xtype       : 'textfield',
+                                                    name        : 'digitalsignage-checkboxgroup-items-search',
+                                                    id          : 'digitalsignage-checkboxgroup-items-search',
+                                                    emptyText   : _('search') + '...',
+                                                    anchor      : '100%',
+                                                    style       : {
+                                                        width           : 'calc(100% - 12px)',
+                                                        'margin-bottom' : '-1px',
+                                                    },
+                                                    enableKeyEvents : true,
+                                                    listeners   : {
+                                                        'keyup'    : {
+                                                            fn          : function(e) {
+                                                                var search_query = e.getValue();
+                                                                var checkboxgroup = Ext.getCmp('digitalsignage-checkboxgroup-items');
+                                                                for (var i = 0; i < checkboxgroup.items.items.length; i++) {
+                                                                    if (search_query) {
+                                                                        if (-1 == checkboxgroup.items.items[i].boxLabel.toLowerCase().indexOf(search_query.toLowerCase())) {
+                                                                            checkboxgroup.items.items[i].hide();
+                                                                        } else {
+                                                                            checkboxgroup.items.items[i].show();
+                                                                        }
+                                                                    } else {
+                                                                        checkboxgroup.items.items[i].show();
+                                                                    }
+                                                                }
+                                                            },
+                                                            scope       : this
+                                                        },
+                                                        'render'    : {
+                                                            fn          : function(cmp) {
+                                                                new Ext.KeyMap(cmp.getEl(), {
+                                                                    key     : Ext.EventObject.ENTER,
+                                                                    fn      : this.blur,
+                                                                    scope   : cmp
+                                                                });
+                                                            },
+                                                            scope       : this
+                                                        }
+                                                    }
+                                                }, {
+                                                    columns : 1,
+                                                    xtype   : 'panel',
+                                                    cls     : 'digitalsignage-checkboxgroup-fixed x-form-item',
+                                                    style   : {
+                                                        height  : '200px'
+                                                    },
+                                                    items   : [{
+                                                        xtype       : 'checkboxgroup',
+                                                        id          : 'digitalsignage-checkboxgroup-items',
+                                                        hideLabel   : true,
+                                                        columns     : 1,
+                                                        style       : {
+                                                            'max-height': '200px'
+                                                        },
+                                                        items       : results
+                                                    }],
+                                                }]
+                                            });
+                                        },scope:this},
+                                        'failure':{fn:function(r) {
+                                            console.log('Ajax error');
+                                        },scope:this},
+                                    }
+                                });
+                            }
+                            break;
                         case 'modx-combo-browser':
                             record = Ext.apply(record, {
                                 source  :  MODx.config['digitalsignage.media_source'] || MODx.config.default_media_source
@@ -937,27 +1041,34 @@ Ext.extend(DigitalSignage.window.UpdateSlide, MODx.Window, {
 
                             break;
                     }
+                    
+                    var wrapper = this;
 
-                    container.add(Ext.applyIf(record, {
-                        xtype       : 'textarea',
-                        fieldLabel  : label,
-                        description : MODx.expandHelp ? '' : name,
-                        name        : 'data_' + name,
-                        anchor      : '100%',
-                        allowBlank  : !(record.required && parseInt(record.required)),
-                        value       : this.config.record.data[name] || ''
-                    }));
-
-                    if (record.xtype !== 'hidden') {
-                        container.add({
-                            xtype       : MODx.expandHelp ? 'label' : 'hidden',
-                            html        :  desc,
-                            cls         : 'desc-under'
-                        });
-                    }
+                    setTimeout(function(){
+                        
+                        container.add(Ext.applyIf(record, {
+                            xtype       : 'textarea',
+                            fieldLabel  : label,
+                            description : MODx.expandHelp ? '' : name,
+                            name        : 'data_' + name,
+                            anchor      : '100%',
+                            allowBlank  : !(record.required && parseInt(record.required)),
+                            value       : wrapper.config.record.data[name] || ''
+                        }));
+    
+                        if (record.xtype !== 'hidden') {
+                            container.add({
+                                xtype       : MODx.expandHelp ? 'label' : 'hidden',
+                                html        :  desc,
+                                cls         : 'desc-under'
+                            });
+                        }
+                        
+                        wrapper.doLayout();
+                    }, 1300);
                 }, this);
 
-                this.doLayout();
+                /*this.doLayout();*/
             }
         }
     }

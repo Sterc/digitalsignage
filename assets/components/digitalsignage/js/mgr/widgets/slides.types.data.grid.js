@@ -238,6 +238,7 @@ Ext.extend(DigitalSignage.grid.SlideTypesData, MODx.grid.Grid, {
             'combo'                 : 'Select',
             'checkbox'              : 'Checkbox',
             'checkboxgroup'         : 'Checkboxgroup',
+            'digitalsignage-checkbox-group' : 'SearchCheckboxgroup',
             'radio'                 : 'Radio',
             'radiogroup'            : 'Radiogroup'
         };
@@ -370,7 +371,7 @@ DigitalSignage.window.CreateSlideTypeData = function(config) {
 
 Ext.extend(DigitalSignage.window.CreateSlideTypeData, MODx.Window, {
     onUpdateXType: function(tf) {
-        if (-1 === ['combo', 'checkboxgroup', 'radiogroup'].indexOf(tf.getValue())) {
+        if (-1 === ['combo', 'checkboxgroup', 'radiogroup', 'digitalsignage-checkbox-group'].indexOf(tf.getValue())) {
             Ext.getCmp('digitalsignage-slide-type-values-create').hide();
         } else {
             Ext.getCmp('digitalsignage-slide-type-values-create').show();
@@ -492,7 +493,7 @@ DigitalSignage.window.UpdateSlideTypeData = function(config) {
 
 Ext.extend(DigitalSignage.window.UpdateSlideTypeData, MODx.Window, {
     onUpdateXType: function(tf) {
-        if (-1 === ['combo', 'checkboxgroup', 'radiogroup'].indexOf(tf.getValue())) {
+        if (-1 === ['combo', 'checkboxgroup', 'radiogroup', 'digitalsignage-checkbox-group'].indexOf(tf.getValue())) {
             Ext.getCmp('digitalsignage-slide-type-values-update').hide();
         } else {
             Ext.getCmp('digitalsignage-slide-type-values-update').show();
@@ -523,6 +524,7 @@ DigitalSignage.combo.FieldXType = function(config) {
                 ['combo', 'Select'],
                 ['checkbox', 'Checkbox'],
                 ['checkboxgroup', 'Checkboxgroup'],
+                ['digitalsignage-checkbox-group', 'SearchCheckboxgroup'],
                 ['radio', 'Radio'],
                 ['radiogroup', 'Radiogroup']
             ]
