@@ -287,6 +287,17 @@ DigitalSignage.window.CreateSlide = function(config) {
             items       : [{
                 columnWidth : .4,
                 items       : [{
+                    xtype       : 'textfield',
+                    fieldLabel  : _('digitalsignage.label_slide_name'),
+                    description : MODx.expandHelp ? '' : _('digitalsignage.label_slide_name_desc'),
+                    name        : 'name',
+                    anchor      : '100%',
+                    allowBlank  : false
+                }, {
+                    xtype       : MODx.expandHelp ? 'label' : 'hidden',
+                    html        : _('digitalsignage.label_slide_name_desc'),
+                    cls         : 'desc-under'
+                }, {
                     layout      : 'column',
                     border      : false,
                     defaults    : {
@@ -334,16 +345,19 @@ DigitalSignage.window.CreateSlide = function(config) {
                     html        : _('digitalsignage.label_slide_type_desc'),
                     cls         : 'desc-under'
                 }, {
-                    xtype       : 'textfield',
-                    fieldLabel  : _('digitalsignage.label_slide_name'),
-                    description : MODx.expandHelp ? '' : _('digitalsignage.label_slide_name_desc'),
-                    name        : 'name',
+                    xtype       : 'xdatetime',
+                    fieldLabel  : _('digitalsignage.label_pub_date'),
+                    description : MODx.expandHelp ? '' : _('digitalsignage.label_pub_date_desc'),
+                    name        : 'pub_date',
                     anchor      : '100%',
-                    allowBlank  : false
+                    allowBlank  : true
                 }, {
-                    xtype       : MODx.expandHelp ? 'label' : 'hidden',
-                    html        : _('digitalsignage.label_slide_name_desc'),
-                    cls         : 'desc-under'
+                    xtype       : 'xdatetime',
+                    fieldLabel  : _('digitalsignage.label_unpub_date'),
+                    description : MODx.expandHelp ? '' : _('digitalsignage.label_unpub_date_desc'),
+                    name        : 'unpub_date',
+                    anchor      : '100%',
+                    allowBlank  : true
                 }, {
                     xtype       : 'textfield',
                     fieldLabel  : _('digitalsignage.label_slide_time'),
@@ -644,6 +658,17 @@ DigitalSignage.window.UpdateSlide = function(config) {
             items       : [{
                 columnWidth : .4,
                 items       : [{
+                    xtype       : 'textfield',
+                    fieldLabel  : _('digitalsignage.label_slide_name'),
+                    description : MODx.expandHelp ? '' : _('digitalsignage.label_slide_name_desc'),
+                    name        : 'name',
+                    anchor      : '100%',
+                    allowBlank  : false
+                }, {
+                    xtype       : MODx.expandHelp ? 'label' : 'hidden',
+                    html        : _('digitalsignage.label_slide_name_desc'),
+                    cls         : 'desc-under'
+                }, {
                     layout      : 'column',
                     border      : false,
                     defaults    : {
@@ -690,16 +715,19 @@ DigitalSignage.window.UpdateSlide = function(config) {
                     html        : _('digitalsignage.label_slide_type_desc'),
                     cls         : 'desc-under'
                 }, {
-                    xtype       : 'textfield',
-                    fieldLabel  : _('digitalsignage.label_slide_name'),
-                    description : MODx.expandHelp ? '' : _('digitalsignage.label_slide_name_desc'),
-                    name        : 'name',
+                    xtype       : 'xdatetime',
+                    fieldLabel  : _('digitalsignage.label_pub_date'),
+                    description : MODx.expandHelp ? '' : _('digitalsignage.label_pub_date_desc'),
+                    name        : 'pub_date',
                     anchor      : '100%',
-                    allowBlank  : false
+                    allowBlank  : true
                 }, {
-                    xtype       : MODx.expandHelp ? 'label' : 'hidden',
-                    html        : _('digitalsignage.label_slide_name_desc'),
-                    cls         : 'desc-under'
+                    xtype       : 'xdatetime',
+                    fieldLabel  : _('digitalsignage.label_unpub_date'),
+                    description : MODx.expandHelp ? '' : _('digitalsignage.label_unpub_date_desc'),
+                    name        : 'unpub_date',
+                    anchor      : '100%',
+                    allowBlank  : true
                 }, {
                     xtype       : 'textfield',
                     fieldLabel  : _('digitalsignage.label_slide_time'),

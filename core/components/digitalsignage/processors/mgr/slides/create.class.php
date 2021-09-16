@@ -30,6 +30,22 @@
                 $this->setProperty('published', 0);
             }
 
+            /* publish and unpublish dates */
+            $now = time();
+            if (empty($this->getProperty('pub_date'))) {
+                $this->setProperty('pub_date', 0);
+            } else {
+                $pub_date = strtotime($this->getProperty('pub_date'));
+                if ($pub_date <= $now) $this->setProperty('published', 1);
+                if ($pub_date  > $now) $this->setProperty('published', 0);
+            }
+            if (empty($this->getProperty('unpub_date'))) {
+                $this->setProperty('unpub_date', 0);
+            } else {
+                $unpub_date = strtotime($this->getProperty('unpub_date'));
+                if ($unpub_date < $now) $this->setProperty('published', 0);
+            }
+
             if ($this->modx->hasPermission('digitalsignage_settings')) {
                 if ($this->getProperty('protected', null) === null) {
                     $this->setProperty('protected', 0);

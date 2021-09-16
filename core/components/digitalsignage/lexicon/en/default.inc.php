@@ -120,6 +120,10 @@ $_lang['digitalsignage.label_slide_published']                  = 'Published';
 $_lang['digitalsignage.label_slide_published_desc']             = '';
 $_lang['digitalsignage.label_slide_broadcasts']                 = 'Broadcasts';
 $_lang['digitalsignage.label_slide_broadcasts_desc']            = 'The broadcasts of the slide.';
+$_lang['digitalsignage.label_pub_date']                         = 'Publish date';
+$_lang['digitalsignage.label_pub_date_desc']                    = 'Slide will be published after this date.';
+$_lang['digitalsignage.label_unpub_date']                       = 'Unpublish date';
+$_lang['digitalsignage.label_unpub_date_desc']                  = 'Slide will be unpublished after this date.';
 
 $_lang['digitalsignage.player']                                 = 'Player';
 $_lang['digitalsignage.players']                                = 'Players';

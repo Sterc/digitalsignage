@@ -126,6 +126,10 @@ $_lang['digitalsignage.label_slide_published']                  = 'Gepubliceerd'
 $_lang['digitalsignage.label_slide_published_desc']             = '';
 $_lang['digitalsignage.label_slide_broadcasts']                 = 'Uitzendingen';
 $_lang['digitalsignage.label_slide_broadcasts_desc']            = 'De uitzendingen van de slide.';
+$_lang['digitalsignage.label_pub_date']                         = 'Publicatie datum';
+$_lang['digitalsignage.label_pub_date_desc']                    = 'Indien je een publicatie datum instelt, dan zal de slide zichtbaar worden zodra deze datum bereikt is.';
+$_lang['digitalsignage.label_unpub_date']                       = 'De-publicatie datum';
+$_lang['digitalsignage.label_unpub_date_desc']                  = 'Wanneer je een de-publicatie datum instelt, dan zal de slide publicatie ongedaan gemaakt worden zodra deze datum bereikt is.';
 
 $_lang['digitalsignage.player']                                 = 'Mediaspeler';
 $_lang['digitalsignage.players']                                = 'Mediaspelers';

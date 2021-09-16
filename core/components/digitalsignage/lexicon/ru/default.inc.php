@@ -126,6 +126,10 @@ $_lang['digitalsignage.label_slide_published']                  = 'Опубли�
 $_lang['digitalsignage.label_slide_published_desc']             = '';
 $_lang['digitalsignage.label_slide_broadcasts']                 = 'Трансляции';
 $_lang['digitalsignage.label_slide_broadcasts_desc']            = 'Трансляции слайда.';
+$_lang['digitalsignage.label_pub_date']                         = 'Дата публикации';
+$_lang['digitalsignage.label_pub_date_desc']                    = 'Слайд будет опубликован после этой даты.';
+$_lang['digitalsignage.label_unpub_date']                       = 'Дата отмены публикации';
+$_lang['digitalsignage.label_unpub_date_desc']                  = 'Слайд будет снят с публикации после этой даты.';
 
 $_lang['digitalsignage.player']                                 = 'Проигрыватель';
 $_lang['digitalsignage.players']                                = 'Проигрыватели';

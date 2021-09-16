@@ -22,7 +22,9 @@ $xpdo_meta_map['DigitalSignageSlides'] = [
         'protected'     => null,
         'data'          => null,
         'published'     => null,
-        'editedon'      => null
+        'editedon'      => null,
+        'pub_date'      => null,
+        'unpub_date'    => null,
     ],
     'fieldMeta'     => [
         'id'            => [
@@ -73,7 +75,17 @@ $xpdo_meta_map['DigitalSignageSlides'] = [
             'phptype'       => 'timestamp',
             'attributes'    => 'ON UPDATE CURRENT_TIMESTAMP',
             'null'          => false
-        ]
+        ],
+        'pub_date'          => [
+            'dbtype'        => 'timestamp',
+            'precision'     => '11',
+            'phptype'       => 'timestamp'
+        ],
+        'unpub_date'        => [
+            'dbtype'        => 'timestamp',
+            'precision'     => '11',
+            'phptype'       => 'timestamp'
+        ],
     ],
     'indexes'       => [
         'PRIMARY'       => [
