@@ -36,14 +36,26 @@
                 $this->setProperty('pub_date', 0);
             } else {
                 $pub_date = strtotime($this->getProperty('pub_date'));
-                if ($pub_date <= $now) $this->setProperty('published', 1);
+                if ($pub_date <= $now) {
+                    $this->setProperty('published', 1);
+                    $this->setProperty('pub_date', 0);
+                }
                 if ($pub_date  > $now) $this->setProperty('published', 0);
             }
             if (empty($this->getProperty('unpub_date'))) {
                 $this->setProperty('unpub_date', 0);
             } else {
                 $unpub_date = strtotime($this->getProperty('unpub_date'));
-                if ($unpub_date < $now) $this->setProperty('published', 0);
+                if ($unpub_date < $now) {
+                    $this->setProperty('published', 0);
+                    $this->setProperty('unpub_date', 0);
+                }
+            }
+            if (!empty($this->getProperty('pub_date')) || !empty($this->getProperty('unpub_date'))) {
+                $cache_key     = 'auto_publish';
+                $cache_options = [xPDO::OPT_CACHE_KEY => 'digitalsignage'];
+                $nextevent     = 0;
+                $this->modx->cacheManager->set($cache_key, $nextevent, 0, $cache_options);
             }
 
             if ($this->modx->hasPermission('digitalsignage_settings')) {

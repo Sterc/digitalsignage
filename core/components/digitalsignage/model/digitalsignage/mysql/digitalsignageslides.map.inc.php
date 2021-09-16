@@ -76,15 +76,15 @@ $xpdo_meta_map['DigitalSignageSlides'] = [
             'attributes'    => 'ON UPDATE CURRENT_TIMESTAMP',
             'null'          => false
         ],
-        'pub_date'          => [
-            'dbtype'        => 'timestamp',
-            'precision'     => '11',
-            'phptype'       => 'timestamp'
+        'pub_date'      => [
+            'dbtype'        => 'int',
+            'precision'     => '20',
+            'phptype'       => 'timestamp',
         ],
-        'unpub_date'        => [
-            'dbtype'        => 'timestamp',
-            'precision'     => '11',
-            'phptype'       => 'timestamp'
+        'unpub_date'    => [
+            'dbtype'        => 'int',
+            'precision'     => '20',
+            'phptype'       => 'timestamp',
         ],
     ],
     'indexes'       => [

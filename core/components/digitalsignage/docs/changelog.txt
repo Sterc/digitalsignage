@@ -3,6 +3,12 @@ DigitalSignage
 ----------------------
 
 ----------------------
+Version: 1.2.6
+Released: 2021-09-16
+----------------------
+- Add pub_date and unpub_date for slides
+
+----------------------
 Version: 1.2.5
 Released: 2021-05-13
 ----------------------

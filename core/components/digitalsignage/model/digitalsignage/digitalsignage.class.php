@@ -186,6 +186,7 @@ class DigitalSignage
     public function initializeContext()
     {
         if ($this->modx->event->name === 'OnHandleRequest') {
+            $this->autoPublish();
             if ($this->modx->context->get('key') !== 'mgr') {
                 $base       = '/ds/';
                 $context    = $this->getOption('context', [], 'ds');
@@ -494,5 +495,65 @@ class DigitalSignage
         }
 
         return '/';
+    }
+
+    /**
+     * Check for and process Slides with pub_date or unpub_date set to now or in past.
+     */
+    public function autoPublish() {
+        $now           = time();
+        $table         = $this->modx->getTableName('DigitalSignageSlides');
+        $cache_key     = 'auto_publish';
+        $cache_options = [xPDO::OPT_CACHE_KEY => 'digitalsignage'];
+
+        if ($nextevent = $this->modx->cacheManager->get($cache_key, $cache_options) && $nextevent > $now) {
+            return;
+        }
+
+        /* publish and unpublish slides using pub_date and unpub_date checks */
+        $this->modx->exec("UPDATE {$table} SET published=1, pub_date=0 WHERE pub_date IS NOT NULL AND pub_date < {$now} AND pub_date > 0");
+        $this->modx->exec("UPDATE {$table} SET published=0, pub_date=0, unpub_date=0 WHERE unpub_date IS NOT NULL AND unpub_date < {$now} AND unpub_date > 0");
+
+        /* update publish time file */
+        $times = [];
+
+        $sql  = "SELECT MIN(pub_date) FROM {$table} WHERE published = 0 AND pub_date > ?";
+        $stmt = $this->modx->prepare($sql);
+        if ($stmt) {
+            $stmt->bindValue(1, 0);
+            if ($stmt->execute()) {
+                foreach ($stmt->fetchAll(PDO::FETCH_NUM) as $value) {
+                    if ($value[0]) {
+                        $times[] = $value[0];
+                        unset($value);
+                        break;
+                    }
+                }
+            }
+        }
+
+        $sql  = "SELECT MIN(unpub_date) FROM {$table} WHERE published = 1 AND unpub_date > ?";
+        $stmt = $this->modx->prepare($sql);
+        if ($stmt) {
+            $stmt->bindValue(1, 0);
+            if ($stmt->execute()) {
+                foreach ($stmt->fetchAll(PDO::FETCH_NUM) as $value) {
+                    if ($value[0]) {
+                        $times[] = $value[0];
+                        unset($value);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (count($times) > 0) {
+            $nextevent = min($times);
+        } else {
+            $nextevent = 0;
+        }
+
+        /* cache the time of the next auto_publish event */
+        $this->modx->cacheManager->set($cache_key, $nextevent, 0, $cache_options);
     }
 }

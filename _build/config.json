@@ -3,7 +3,7 @@
     "lowCaseName": "digitalsignage",
     "description": "The most powerful and easiest Digital Signage solution for MODX.",
     "author": "Sterc",
-    "version": "1.2.5-pl",
+    "version": "1.2.6-pl",
     "package":{
         "menus": [{
             "text": "digitalsignage",

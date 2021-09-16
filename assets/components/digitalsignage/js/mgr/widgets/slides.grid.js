@@ -99,7 +99,7 @@ DigitalSignage.grid.Slides = function(config) {
         baseParams  : {
             action      : 'mgr/slides/getlist'
         },
-        fields      : ['id', 'type', 'name', 'icon', 'time', 'protected', 'data', 'published', 'editedon', 'type_formatted', 'broadcasts'],
+        fields      : ['id', 'type', 'name', 'icon', 'time', 'protected', 'data', 'published', 'editedon', 'type_formatted', 'broadcasts', 'pub_date', 'unpub_date'],
         paging      : true,
         pageSize    : MODx.config.default_per_page > 30 ? MODx.config.default_per_page : 30,
         sortBy      : 'id',
