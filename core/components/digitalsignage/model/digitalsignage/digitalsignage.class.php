@@ -380,7 +380,6 @@ class DigitalSignage
                 }
 
                 if (count($slides) === 0) {
-                    
                     if (!empty($parameters['slide'])) {
                         $id = (int)$parameters['slide'];
                         if ($slide = $this->modx->getObject('DigitalSignageSlides', $id)) {
