@@ -1,5 +1,5 @@
 <?php
-
+@ini_set('display_errors', 1);
 /**
  * Digital Signage
  *
@@ -34,8 +34,15 @@ class DigitalSignageBroadcastsUpdateProcessor extends modObjectGetProcessor
     {
         $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
+        $broadcast_id = (int)$this->getProperty('broadcast_id');
+        if (!empty($broadcast_id)) {
+            $this->setProperty('slide', $this->getProperty('id'));
+            $this->setProperty($this->primaryKeyField, $broadcast_id);
+        }
+
         return parent::initialize();
     }
+
 
     /**
      * @access public.
@@ -44,6 +51,7 @@ class DigitalSignageBroadcastsUpdateProcessor extends modObjectGetProcessor
     public function process()
     {
         $resource = $this->object->getResource();
+        $slide    = (int)$this->getProperty('slide');
 
         if ($resource) {
             $player = $this->modx->getObject('DigitalSignagePlayers', [
@@ -57,7 +65,8 @@ class DigitalSignageBroadcastsUpdateProcessor extends modObjectGetProcessor
                     'url'       => $this->modx->makeUrl($resource->get('id'), $resource->get('context_key'), [
                         'pl'        => $player->key,
                         'bc'        => $this->object->get('id'),
-                        'preview'   => true
+                        'preview'   => true,
+                        'slide'     => $slide
                     ], 'full'),
                     'width'     => $width,
                     'height'    => $height

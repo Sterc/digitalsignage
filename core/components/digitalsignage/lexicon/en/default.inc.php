@@ -85,6 +85,8 @@ $_lang['digitalsignage.label_broadcast_last_sync']              = 'Last synchron
 $_lang['digitalsignage.label_broadcast_last_sync_desc']         = '';
 $_lang['digitalsignage.label_broadcast_preview_player']         = 'Player';
 $_lang['digitalsignage.label_broadcast_preview_player_desc']    = 'Select the player to show the broadcast preview.';
+$_lang['digitalsignage.label_broadcast_preview_broadcast']      = 'Broadcast';
+$_lang['digitalsignage.label_broadcast_preview_broadcast_desc'] = 'Select the broadcast to preview.';
 
 $_lang['digitalsignage.label_feed_key']                         = 'Key';
 $_lang['digitalsignage.label_feed_key_desc']                    = 'The key of the feed.';
@@ -104,6 +106,7 @@ $_lang['digitalsignage.slides']                                 = 'Slides';
 $_lang['digitalsignage.slides_desc']                            = 'Here you can manage all the slides for your digital signage.';
 $_lang['digitalsignage.slide_create']                           = 'Create new slide';
 $_lang['digitalsignage.slide_update']                           = 'Update slide';
+$_lang['digitalsignage.slide_preview']                          = 'Preview slide';
 $_lang['digitalsignage.slide_duplicate']                        = 'Duplicate slide';
 $_lang['digitalsignage.slide_remove']                           = 'Delete slide';
 $_lang['digitalsignage.slide_remove_confirm']                   = 'Are you sure you want to delete this slide?';

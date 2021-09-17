@@ -136,6 +136,10 @@ Ext.extend(DigitalSignage.grid.Slides, MODx.grid.Grid, {
             handler : this.updateSlide,
             scope   : this
         }, {
+            text    : '<i class="x-menu-item-icon icon icon-eye"></i>' + _('digitalsignage.slide_preview'),
+            handler : this.previewSlide,
+            scope   : this
+        }, {
             text    : '<i class="x-menu-item-icon icon icon-copy"></i>' + _('digitalsignage.slide_duplicate'),
             handler : this.duplicateSlide,
             scope   : this
@@ -197,6 +201,45 @@ Ext.extend(DigitalSignage.grid.Slides, MODx.grid.Grid, {
 
         this.updateSlideWindow.setValues(this.menu.record);
         this.updateSlideWindow.show(e.target);
+    },
+    previewSlide: function(btn, e) {
+        if (this.previewBroadcastWindow) {
+            this.previewBroadcastWindow.destroy();
+        }
+
+        this.previewBroadcastWindow = MODx.load({
+            xtype       : 'digitalsignage-window-broadcast-preview',
+            record      : this.menu.record,
+            closeAction : 'close',
+            saveBtnText : _('digitalsignage.show_broadcast_preview'),
+            listeners   : {
+                'success'   : {
+                    fn          : function(data) {
+                    this.getSelectionModel().clearSelections(true);
+
+                    this.showPreviewBroadcast(data.a.result.object);
+                    },
+                    scope       : this
+                }
+            }
+        });
+
+        this.previewBroadcastWindow.setValues(this.menu.record);
+        this.previewBroadcastWindow.show(e.target);
+    },
+    showPreviewBroadcast: function(record) {
+        if (this.showPreviewBroadcastWindow) {
+            this.showPreviewBroadcastWindow.destroy();
+        }
+
+        this.showPreviewBroadcastWindow = MODx.load({
+            modal       : true,
+            xtype       : 'digitalsignage-window-broadcast-preview-show',
+            record      : record,
+            closeAction : 'close'
+        });
+
+        this.showPreviewBroadcastWindow.show();
     },
     duplicateSlide: function(btn, e) {
         if (this.duplicateSlideWindow) {

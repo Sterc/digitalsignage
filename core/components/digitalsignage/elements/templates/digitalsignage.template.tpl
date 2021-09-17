@@ -254,7 +254,8 @@
             'feed'      : '[[!+digitalsignage.broadcast.feed]]'
         },
         'callback'  : '[[!+digitalsignage.callback.feed]]',
-        'preview'   : [[!+digitalsignage.preview]]
+        'preview'   : [[!+digitalsignage.preview]],
+        'slide'     : [[!+digitalsignage.slide]]
     };
 </script>
 

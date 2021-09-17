@@ -23,6 +23,7 @@ public_html/core/export/
 public_html/core/import/
 core/export/
 core/import/
+core/components/digitalsignage/export/
 
 webroot/assets/components/modxminify/cache/
 webroot/assets/components/minifyx/cache/
@@ -45,3 +46,5 @@ public_html/assets/components/discuss/attachments/
 
 # Ignore environment config
 private/core/config/config.environment.inc.php
+config.core.php
+

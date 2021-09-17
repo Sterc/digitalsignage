@@ -667,6 +667,39 @@ Ext.reg('digitalsignage-window-broadcast-duplicate', DigitalSignage.window.Dupli
 DigitalSignage.window.PreviewBroadcast = function(config) {
     config = config || {};
     
+    fields = [{
+        xtype       : 'hidden',
+        name        : 'id'
+    }];
+
+    if (typeof(config.record.players) == 'undefined') {
+        fields.push({
+            xtype       : 'digitalsignage-combo-broadcasts',
+            fieldLabel  : _('digitalsignage.label_broadcast_preview_broadcast'),
+            description : MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_preview_broadcast_desc'),
+            name        : 'broadcast',
+            anchor      : '100%',
+            allowBlank  : false
+        }, {
+            xtype       : MODx.expandHelp ? 'label' : 'hidden',
+            html        : _('digitalsignage.label_broadcast_preview_broadcast_desc'),
+            cls         : 'desc-under'
+        });
+    }
+
+    fields.push({
+        xtype       : 'digitalsignage-combo-players',
+        fieldLabel  : _('digitalsignage.label_broadcast_preview_player'),
+        description : MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_preview_player_desc'),
+        name        : 'player',
+        anchor      : '100%',
+        allowBlank  : false
+    }, {
+        xtype       : MODx.expandHelp ? 'label' : 'hidden',
+        html        : _('digitalsignage.label_broadcast_preview_player_desc'),
+        cls         : 'desc-under'
+    });
+
     Ext.applyIf(config, {
         autoHeight  : true,
         title       : _('digitalsignage.broadcast_preview'),
@@ -674,21 +707,7 @@ DigitalSignage.window.PreviewBroadcast = function(config) {
         baseParams  : {
             action      : 'mgr/broadcasts/preview'
         },
-        fields      : [{
-            xtype       : 'hidden',
-            name        : 'id'
-        }, {
-            xtype       : 'digitalsignage-combo-players',
-            fieldLabel  : _('digitalsignage.label_broadcast_preview_player'),
-            description : MODx.expandHelp ? '' : _('digitalsignage.label_broadcast_preview_player_desc'),
-            name        : 'player',
-            anchor      : '100%',
-            allowBlank  : false
-        }, {
-            xtype       : MODx.expandHelp ? 'label' : 'hidden',
-            html        : _('digitalsignage.label_broadcast_preview_player_desc'),
-            cls         : 'desc-under'
-        }]
+        fields      : fields
     });
     
     DigitalSignage.window.PreviewBroadcast.superclass.constructor.call(this, config);

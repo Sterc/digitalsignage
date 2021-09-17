@@ -249,7 +249,8 @@ class DigitalSignage
                         'feed'          => [
                             'feed'          => $this->getOption('export_feed_url')
                         ],
-                        'preview'       => isset($parameters['preview']) ? 1 : 0
+                        'preview'       => isset($parameters['preview']) ? 1 : 0,
+                        'slide'         => !empty($parameters['slide']) ? (int)$parameters['slide'] : 0
                     ], 'digitalsignage');
                 }
             }
@@ -379,19 +380,36 @@ class DigitalSignage
                 }
 
                 if (count($slides) === 0) {
-                    foreach ((array) $broadcast->getSlides() as $key => $slide) {
-                        $slides[] = array_merge([
-                            'id'        => $slide->get('id'),
-                            'time'      => $slide->get('time'),
-                            'slide'     => $slide->getOne('getSlideType')->get('key'),
-                            'source'    => 'intern',
-                            'title'     => $slide->get('name'),
-                            'image'     => null
-                        ], unserialize($slide->get('data')));
-                    }
-
-                    if ((bool) $this->getOption('auto_create_sync', [], false)) {
-                        $broadcast->toExport($slides);
+                    
+                    if (!empty($parameters['slide'])) {
+                        $id = (int)$parameters['slide'];
+                        if ($slide = $this->modx->getObject('DigitalSignageSlides', $id)) {
+                            if ($slide->getOne('getSlideType')) {
+                                $slides[] = array_merge([
+                                    'id'        => $slide->get('id'),
+                                    'time'      => $slide->get('time'),
+                                    'slide'     => $slide->getOne('getSlideType')->get('key'),
+                                    'source'    => 'intern',
+                                    'title'     => $slide->get('name'),
+                                    'image'     => null
+                                ], unserialize($slide->get('data')));
+                            }
+                        }
+                    } else {
+                        foreach ((array) $broadcast->getSlides() as $key => $slide) {
+                            $slides[] = array_merge([
+                                'id'        => $slide->get('id'),
+                                'time'      => $slide->get('time'),
+                                'slide'     => $slide->getOne('getSlideType')->get('key'),
+                                'source'    => 'intern',
+                                'title'     => $slide->get('name'),
+                                'image'     => null
+                            ], unserialize($slide->get('data')));
+                        }
+    
+                        if ((bool) $this->getOption('auto_create_sync', [], false)) {
+                            $broadcast->toExport($slides);
+                        }
                     }
                 }
 

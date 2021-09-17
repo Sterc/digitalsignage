@@ -91,6 +91,8 @@ $_lang['digitalsignage.label_broadcast_last_sync']              = 'Laatste data 
 $_lang['digitalsignage.label_broadcast_last_sync_desc']         = '';
 $_lang['digitalsignage.label_broadcast_preview_player']         = 'Mediaspeler';
 $_lang['digitalsignage.label_broadcast_preview_player_desc']    = 'Selecteer een mediaspeler om een voorbeeld van de uitzending uit te zenden.';
+$_lang['digitalsignage.label_broadcast_preview_broadcast']      = 'Uitzending';
+$_lang['digitalsignage.label_broadcast_preview_broadcast_desc'] = 'Selecteer de te bekijken uitzending.';
 
 $_lang['digitalsignage.label_feed_key']                         = 'Sleutel';
 $_lang['digitalsignage.label_feed_key_desc']                    = 'De sleutel van de feed.';
@@ -110,6 +112,7 @@ $_lang['digitalsignage.slides']                                 = 'Slides';
 $_lang['digitalsignage.slides_desc']                            = 'Hier kun je alle slides van je digital signage beheren.';
 $_lang['digitalsignage.slide_create']                           = 'Nieuwe slide';
 $_lang['digitalsignage.slide_update']                           = 'Slide wijzigen';
+$_lang['digitalsignage.slide_preview']                          = 'Preview';
 $_lang['digitalsignage.slide_duplicate']                        = 'Slide dupliceren';
 $_lang['digitalsignage.slide_remove']                           = 'Slide verwijderen';
 $_lang['digitalsignage.slide_remove_confirm']                   = 'Weet je zeker dat je deze slide wilt verwijderen?';

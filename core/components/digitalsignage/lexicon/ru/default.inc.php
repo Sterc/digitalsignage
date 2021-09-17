@@ -91,6 +91,8 @@ $_lang['digitalsignage.label_broadcast_last_sync']              = 'Синхро�
 $_lang['digitalsignage.label_broadcast_last_sync_desc']         = '';
 $_lang['digitalsignage.label_broadcast_preview_player']         = 'Проигрыватель';
 $_lang['digitalsignage.label_broadcast_preview_player_desc']    = 'Выберите проигрыватель для показа предпросмотра.';
+$_lang['digitalsignage.label_broadcast_preview_broadcast']      = 'Шаблон';
+$_lang['digitalsignage.label_broadcast_preview_broadcast_desc'] = 'Выберите шаблон для предпросмотра.';
 
 $_lang['digitalsignage.label_feed_key']                         = 'Ключ';
 $_lang['digitalsignage.label_feed_key_desc']                    = 'Ключ ленты.';
@@ -110,6 +112,7 @@ $_lang['digitalsignage.slides']                                 = 'Слайды'
 $_lang['digitalsignage.slides_desc']                            = 'Здесь вы управляете всеми слайдами digital signage.';
 $_lang['digitalsignage.slide_create']                           = 'Создать новый слайд';
 $_lang['digitalsignage.slide_update']                           = 'Изменить';
+$_lang['digitalsignage.slide_preview']                          = 'Предпросмотр';
 $_lang['digitalsignage.slide_duplicate']                        = 'Скопировать';
 $_lang['digitalsignage.slide_remove']                           = 'Удалить';
 $_lang['digitalsignage.slide_remove_confirm']                   = 'Вы уверены, что хотите удалить этот слайд?';

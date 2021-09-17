@@ -10,7 +10,8 @@ $(document).ready(function() {
         vars        : {
             player      : settings.player,
             broadcast   : settings.broadcast.id,
-            preview     : settings.preview
+            preview     : settings.preview,
+            slide       : settings.slide
         },
         domain      : document.location.origin
     }));
@@ -409,6 +410,10 @@ $(document).ready(function() {
                     break;
                 case 'broadcast':
                     parameters.push('bc=' + value);
+
+                    break;
+                case 'slide':
+                    parameters.push('slide=' + value);
 
                     break;
                 case 'preview':
