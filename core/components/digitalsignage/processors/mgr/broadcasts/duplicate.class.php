@@ -59,7 +59,7 @@ class DigitalSignageBroadcastsDuplicateProcessor extends modObjectDuplicateProce
             $resource = $resourceResponse->getObject();
 
             if ($resource) {
-                if (isset($object['id'])) {
+                if (isset($resource['id'])) {
                     $this->newObject->set('resource_id', $resource['id']);
                 } else {
                     $this->addFieldError('name', $this->modx->lexicon('error_resource_object'));
