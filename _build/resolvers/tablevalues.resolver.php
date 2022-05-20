@@ -61,7 +61,7 @@ $slidetypes = [[
     'key'           => 'media',
     'icon'          => 'picture-o',
     'time'          => '10',
-    'data'          => 'a:4:{s:5:"image";a:5:{s:5:"xtype";s:18:"modx-combo-browser";s:13:"default_value";s:0:"";s:5:"label";s:0:"";s:11:"description";s:0:"";s:9:"menuindex";i:0;}s:10:"fullscreen";a:5:{s:5:"xtype";s:8:"checkbox";s:13:"default_value";s:1:"1";s:5:"label";s:0:"";s:11:"description";s:0:"";s:9:"menuindex";i:4;}s:6:"ticker";a:5:{s:5:"xtype";s:8:"checkbox";s:13:"default_value";s:1:"1";s:5:"label";s:0:"";s:11:"description";s:0:"";s:9:"menuindex";i:3;}s:12:"video_extern";a:7:{s:5:"xtype";s:9:"textfield";s:8:"required";N;s:6:"values";s:0:"";s:13:"default_value";s:0:"";s:5:"label";s:0:"";s:11:"description";s:0:"";s:9:"menuindex";i:1;}}'
+    'data'          => 'a:5:{s:5:"image";a:5:{s:5:"xtype";s:18:"modx-combo-browser";s:13:"default_value";s:0:"";s:5:"label";s:0:"";s:11:"description";s:0:"";s:9:"menuindex";i:0;}s:10:"fullscreen";a:5:{s:5:"xtype";s:8:"checkbox";s:13:"default_value";s:1:"1";s:5:"label";s:0:"";s:11:"description";s:0:"";s:9:"menuindex";i:4;}s:6:"ticker";a:5:{s:5:"xtype";s:8:"checkbox";s:13:"default_value";s:1:"1";s:5:"label";s:0:"";s:11:"description";s:0:"";s:9:"menuindex";i:3;}s:12:"video_extern";a:7:{s:5:"xtype";s:9:"textfield";s:8:"required";N;s:6:"values";s:0:"";s:13:"default_value";s:0:"";s:5:"label";s:0:"";s:11:"description";s:0:"";s:9:"menuindex";i:1;}s:12:"video_intern";a:5:{s:5:"xtype";s:18:"modx-combo-browser";s:13:"default_value";s:0:"";s:5:"label";s:0:"";s:11:"description";s:0:"";s:9:"menuindex";i:2;}}'
 ], [
     'key'           => 'buienradar',
     'icon'          => 'cloud',

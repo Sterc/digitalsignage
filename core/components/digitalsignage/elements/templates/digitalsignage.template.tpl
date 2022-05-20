@@ -82,6 +82,7 @@
                         <h1 data-placeholder="title" data-placeholder-renders="striptags,ellipsis:150"></h1>
                         <img src="" data-placeholder="image" data-placeholder-wrapper="image" />
                         <iframe src="" data-placeholder="video_extern" data-placeholder-renders="video" class="video" frameborder="0" allowfullscreen></iframe>
+                        <video width="800" height="600" autoplay="autoplay" class="video"><source src="" data-placeholder="video_intern"></video>
                     </div>
                 </div>
             </div>
