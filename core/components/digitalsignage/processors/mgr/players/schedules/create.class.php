@@ -32,6 +32,30 @@
         public function initialize() {
             $this->digitalsignage = $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path').'components/digitalsignage/').'model/digitalsignage/');
 
+            $dateFormat = $this->modx->getOption('manager_date_format', null, 'Y-m-d', true);
+            $timeFormat = $this->modx->getOption('manager_time_format', null, 'g:i a', true);
+
+            // Format dates
+            foreach (['start_date', 'end_date'] as $key) {
+                if (!empty($this->getProperty($key))) {
+                    $formatter = DateTime::createFromFormat($dateFormat, $this->getProperty($key));
+                    $this->setProperty($key, $formatter->format('Y-m-d'));
+                }
+            }
+
+            // Format times
+            foreach (['start_time', 'end_time'] as $key) {
+                if (!empty($this->getProperty($key))) {
+                    $formatter = DateTime::createFromFormat($timeFormat, $this->getProperty($key));
+                    $this->setProperty($key, $formatter->format('H:i:s'));
+                }
+            }
+
+            if (!empty($this->getProperty('entire_day'))) {
+                $this->setProperty('start_time', '00:00:00');
+                $this->setProperty('end_time',   '00:00:00');
+            }
+
             if ('' === $this->getProperty('start_time')) {
                 $this->setProperty('start_time', '00:00:00');
             }

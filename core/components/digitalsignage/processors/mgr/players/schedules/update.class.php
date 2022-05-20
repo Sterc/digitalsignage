@@ -51,6 +51,11 @@
                 }
             }
 
+            if (!empty($this->getProperty('entire_day'))) {
+                $this->setProperty('start_time', '00:00:00');
+                $this->setProperty('end_time',   '00:00:00');
+            }
+
             if ('' === $this->getProperty('start_time')) {
                 $this->setProperty('start_time', '00:00:00');
             }
