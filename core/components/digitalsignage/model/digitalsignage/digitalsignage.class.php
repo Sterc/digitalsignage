@@ -499,7 +499,7 @@ class DigitalSignage
      */
     protected function getMediaSourceUrl()
     {
-        $mediaSource = $this->modx->getObject('modMediaSource', [
+        $mediaSource = $this->modx->getObject('MODX\Revolution\Sources\modMediaSource', [
             'id' => $this->modx->getOption('digitalsignage.media_source')
         ]);
 
