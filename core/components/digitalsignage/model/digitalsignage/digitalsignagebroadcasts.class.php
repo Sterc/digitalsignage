@@ -195,12 +195,13 @@ class DigitalSignageBroadcasts extends xPDOSimpleObject {
             $data = (array) unserialize($slide->get('data'));
 
             $slides[] = array_merge([
-                'id'        => $slide->get('id'),
-                'time'      => $slide->get('time'),
-                'slide'     => $slide->getOne('getSlideType')->get('key'),
-                'source'    => 'intern',
-                'title'     => $slide->get('name'),
-                'image'     => null
+                'id'            => $slide->get('id'),
+                'time'          => $slide->get('time'),
+                'slide'         => $slide->getOne('getSlideType')->get('key'),
+                'slideTypeId'   => $slide->getOne('getSlideType')->get('id'),
+                'source'        => 'intern',
+                'title'         => $slide->get('name'),
+                'image'         => null
             ], $data);
         }
 

@@ -182,6 +182,18 @@ class DigitalSignage
 
     /**
      * @access public.
+     * @param Integer $id.
+     * @return Object|Null.
+     */
+    public function getSlideType($id)
+    {
+        return $this->modx->getObject('DigitalSignageSlidesTypes', [
+            'id' => $id
+        ]);
+    }
+
+    /**
+     * @access public.
      */
     public function initializeContext()
     {
@@ -413,13 +425,16 @@ class DigitalSignage
                 }
 
                 foreach ($slides as $key => $value) {
+                    $slideType = $this->getSlideType($value['slideTypeId']);
+                    $fieldData = unserialize($slideType->get('data'));
+
                     foreach ((array) $value as $subKey => $subValue) {
-                        if (!empty($subValue) && stripos($subKey, 'extern') === false) {
-                            if (stripos($subKey, 'image') !== false || stripos($subKey, 'logo') !== false) {
-                                $slides[$key][$subKey] = $mediaSourceUrl . $subValue;
-                            } else if (stripos($subKey, 'video') !== false) {
-                                $slides[$key][$subKey] = $mediaSourceUrl . $subValue;
-                            }
+                        if (
+                            array_key_exists($subKey, $fieldData) &&
+                            $fieldData[$subKey]['xtype'] === 'modx-combo-browser' &&
+                            stripos($subKey, 'extern') === false
+                        ) {
+                            $slides[$key][$subKey] = $mediaSourceUrl . $subValue;
                         }
                     }
                 }
@@ -499,7 +514,7 @@ class DigitalSignage
      */
     protected function getMediaSourceUrl()
     {
-        $mediaSource = $this->modx->getObject('modMediaSource', [
+        $mediaSource = $this->modx->getObject('MODX\Revolution\Sources\modMediaSource', [
             'id' => $this->modx->getOption('digitalsignage.media_source')
         ]);
 

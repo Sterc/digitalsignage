@@ -34,7 +34,7 @@ class DigitalSignageBroadcastsCreateProcessor extends modObjectCreateProcessor
     {
         $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
-        if ($this->modx->hasPermission('digitalsignage_settings')) {
+        if ($this->modx->hasPermission('digitalsignage_admin')) {
             if ($this->getProperty('protected') === null) {
                 $this->setProperty('protected', 0);
             } else {

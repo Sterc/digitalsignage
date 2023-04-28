@@ -123,7 +123,7 @@ class DigitalSignageSlidesGetListProcessor extends modObjectGetListProcessor
             $array['editedon'] = date($this->getProperty('dateFormat'), strtotime($object->get('editedon')));
         }
 
-        if ($this->modx->hasPermission('digitalsignage_settings') || (int) $object->get('protected') === 0) {
+        if ($this->modx->hasPermission('digitalsignage_admin') || (int) $object->get('protected') === 0) {
             return $array;
         }
 

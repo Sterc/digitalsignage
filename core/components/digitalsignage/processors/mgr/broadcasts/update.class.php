@@ -34,7 +34,7 @@ class DigitalSignageBroadcastsUpdateProcessor extends modObjectUpdateProcessor
     {
         $this->modx->getService('digitalsignage', 'DigitalSignage', $this->modx->getOption('digitalsignage.core_path', null, $this->modx->getOption('core_path') . 'components/digitalsignage/') . 'model/digitalsignage/');
 
-        if ($this->modx->hasPermission('digitalsignage_settings')) {
+        if ($this->modx->hasPermission('digitalsignage_admin')) {
             if ($this->getProperty('protected') === null) {
                 $this->setProperty('protected', 0);
             } else {
@@ -72,7 +72,8 @@ class DigitalSignageBroadcastsUpdateProcessor extends modObjectUpdateProcessor
                 'context_key'   => $this->modx->getOption('digitalsignage.context'),
                 'template'      => $this->getProperty('template'),
                 'show_in_tree'  => 0,
-                'published'     => 1
+                'published'     => 1,
+                'class_key'     => 'modDocument'
             ]);
 
             if ($resourceResponse->isError()) {

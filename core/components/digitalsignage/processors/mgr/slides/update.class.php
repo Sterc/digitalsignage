@@ -58,7 +58,7 @@
                 $this->modx->cacheManager->set($cache_key, $nextevent, 0, $cache_options);
             }
 
-            if ($this->modx->hasPermission('digitalsignage_settings')) {
+            if ($this->modx->hasPermission('digitalsignage_admin')) {
                 if ($this->getProperty('protected', null) === null) {
                     $this->setProperty('protected', 0);
                 } else {
