@@ -55,7 +55,7 @@
 
         location        : null,
 
-        forecast        : '//api.buienradar.nl/data/forecast/1.1/daily/{location}',
+        forecast        : '//forecast.buienradar.nl/2.0/forecast/{location}',
         forecastType    : 'JSON',
 
         radar           : '//api.buienradar.nl/image/1.0/radarmapnl/',
