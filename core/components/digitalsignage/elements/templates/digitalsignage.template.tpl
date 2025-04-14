@@ -261,7 +261,7 @@
 </script>
 
 <!-- Digital Signage -->
-<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script type="text/javascript" src="/digitalsignage/assets/interface/javascript/digitalsignage.js?hash=[[!+digitalsignage.hash]]"></script>
 
 <!-- Feed slide -->
@@ -271,7 +271,7 @@
 <script type="text/javascript" src="/digitalsignage/assets/interface/javascript/slides/buienradar.slide.js?hash=[[!+digitalsignage.hash]]"></script>
 
 <!-- Countdown Slide -->
-<script type="text/javascript" src="/digitalsignage/assets/interface/libs/lodash.js/2.4.1/lodash.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
 <script type="text/javascript" src="/digitalsignage/assets/interface/libs/jquery-countdown/jquery.countdown.min.js"></script>
 <script type="text/javascript" src="/digitalsignage/assets/interface/javascript/slides/countdown.slide.js?hash=[[!+digitalsignage.hash]]"></script>
 
