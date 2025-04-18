@@ -523,7 +523,8 @@ class DigitalSignage
         $cache_key     = 'auto_publish';
         $cache_options = [xPDO::OPT_CACHE_KEY => 'digitalsignage'];
 
-        if ($nextevent = $this->modx->cacheManager->get($cache_key, $cache_options) && $nextevent > $now) {
+        $nextevent = $this->modx->cacheManager->get($cache_key, $cache_options);
+        if ($nextevent && $nextevent > $now) {
             return;
         }
 
