@@ -74,7 +74,7 @@ class DigitalSignageSlidesGetTreeProcessor extends modObjectGetListProcessor
             $classes[] = 'unpublished';
         }
 
-        if ($this->modx->hasPermission('digitalsignage_settings') || (int) $object->get('protected') === 0) {
+        if ($this->modx->hasPermission('digitalsignage_admin') || (int) $object->get('protected') === 0) {
             return [
                 'id'        => 'create:' . $object->get('id'),
                 'text'      => $object->get('name'),
