@@ -19,12 +19,27 @@ class DigitalSignageCheckboxgroupGetListProcessor extends modObjectGetListProces
     }
 
     /**
-     * Prepare the row for iteration
-     * @param xPDOObject $object
+     * Iterate across the data
+     *
+     * @param array $data
      * @return array
      */
-    public function prepareRow(array $object) {
-        return $object;
+    public function iterate(array $data) {
+        $list = array();
+        $list = $this->beforeIteration($list);
+        $this->currentIndex = 0;
+        /** @var xPDOObject|modAccessibleObject $object */
+        foreach ($data['results'] as $object) {
+            if ($this->checkListPermission && $object instanceof modAccessibleObject && !$object->checkPolicy('list')) continue;
+            //$objectArray = $this->prepareRow($object);
+            $objectArray = $object;
+            if (!empty($objectArray) && is_array($objectArray)) {
+                $list[] = $objectArray;
+                $this->currentIndex++;
+            }
+        }
+        $list = $this->afterIteration($list);
+        return $list;
     }
 }
 
