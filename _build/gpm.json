@@ -1,0 +1,125 @@
+{
+    "name": "Digital Signage",
+    "lowCaseName": "digitalsignage",
+    "description": "The most powerful and easiest Digital Signage solution for MODX.",
+    "author": "Sterc",
+    "version": "1.2.9-pl",
+    "package":{
+        "menus": [{
+            "text": "digitalsignage",
+            "description": "digitalsignage.desc",
+            "parent": "topnav",
+            "action": "home",
+            "permissions": "digitalsignage"
+        }],
+        "elements": {
+            "snippets": [{
+                "name": "DigitalSignage",
+                "file": "digitalsignage.snippet.php"
+            },{
+                "name": "DigitalSignageFeedExport",
+                "file": "digitalsignagefeedexport.snippet.php"
+            }],
+            "plugins": [{
+                "name": "DigitalSignage",
+                "file": "digitalsignage.plugin.php",
+                "events": [
+                    "OnHandleRequest",
+                    "OnLoadWebDocument",
+                    "OnWebPagePrerender"
+                ]
+            }],
+            "templates": [{
+                "name": "Digital Signage (1.2.0-pl original)",
+                "file": "digitalsignage.template.tpl",
+                "icon": "icon-play-circle"
+            }]
+        },
+        "systemSettings": [{
+            "key": "branding_url",
+            "value": "https://www.sterc.nl/modx/extras/digital-signage-voor-modx",
+            "area": "digitalsignage"
+        },{
+            "key": "branding_url_help",
+            "value": "https://docs.modmore.com/en/DigitalSignage/v1/index.html",
+            "area": "digitalsignage"
+        },{
+            "type": "combo-boolean",
+            "key": "auto_create_sync",
+            "value": 1,
+            "area": "digitalsignage"
+        },{
+            "type": "modx-combo-context",
+            "key": "context",
+            "value": "",
+            "area": "digitalsignage"
+        },{
+            "key": "export_feed_resource",
+            "value": "",
+            "area": "digitalsignage"
+        },{
+            "key": "export_resource",
+            "value": "",
+            "area": "digitalsignage"
+        },{
+            "type": "modx-combo-source",
+            "key": "media_source",
+            "value": 1,
+            "area": "digitalsignage"
+        },{
+            "key": "request_param_broadcast",
+            "value": "bc",
+            "area": "digitalsignage"
+        },{
+            "key": "request_param_player",
+            "value": "pl",
+            "area": "digitalsignage"
+        },{
+            "key": "request_resource",
+            "value": "",
+            "area": "digitalsignage"
+        },{
+            "key": "templates",
+            "value": "",
+            "area": "digitalsignage"
+        },{
+            "key": "editor_menubar",
+            "area": "digitalsignage_editor"
+        },{
+            "key": "editor_plugins",
+            "value": "advlist autolink code link lists paste visualblocks",
+            "area": "digitalsignage_editor"
+        },{
+            "type": "combo-boolean",
+            "key": "editor_statusbar",
+            "value": 0,
+            "area": "digitalsignage_editor"
+        },{
+            "key": "editor_toolbar1",
+            "value": "undo redo | bold italic | alignleft aligncenter alignright alignjustify | link unlink | visualblocks pastetext removeformat",
+            "area": "digitalsignage_editor"
+        },{
+            "key": "editor_toolbar2",
+            "area": "digitalsignage_editor"
+        },{
+            "key": "editor_toolbar3",
+            "area": "digitalsignage_editor"
+        }]
+    },
+    "build":{
+        "resolver": {
+            "after": [
+                "tables.resolver.php",
+                "tablevalues.resolver.php",
+                "permissions.resolver.php",
+                "setupoptions.resolver.php",
+                "stercextra.resolver.php"
+            ],
+            "files": [{
+                "source": "[[+packagePath]]/digitalsignage/",
+                "target": "return MODX_BASE_PATH;"
+            }]
+        },
+        "setupOptions": "setup.options.php"
+    }
+}
