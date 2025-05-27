@@ -177,7 +177,7 @@ if (!function_exists('migrateSlideTypes')) {
                 }
             }
         } else if ($type === 'after') {
-            if (count($migrate) >= 1) {
+            if (is_array($migrate) && count($migrate) >= 1) {
                 foreach ($modx->getCollection($table) as $slide) {
                     if (isset($migrate[(int) $slide->get('id')])) {
                         $type = $modx->getObject('DigitalSignageSlidesTypes', [
