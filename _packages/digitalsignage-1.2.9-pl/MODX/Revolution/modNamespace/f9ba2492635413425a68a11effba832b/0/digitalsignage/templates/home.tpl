@@ -1,1 +1,0 @@
-<div id="digitalsignage-panel-home-div"></div>
