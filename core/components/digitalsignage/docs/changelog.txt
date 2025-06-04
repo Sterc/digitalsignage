@@ -3,6 +3,13 @@ DigitalSignage
 ----------------------
 
 ----------------------
+Version: 1.2.10
+Released: 2025-06-04
+----------------------
+- Fix migrating issue in installer
+- Fix getting data for slideType
+
+----------------------
 Version: 1.2.9
 Released: 2025-04-23
 ----------------------

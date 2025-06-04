@@ -425,16 +425,17 @@ class DigitalSignage
                 }
 
                 foreach ($slides as $key => $value) {
-                    $slideType = $this->getSlideType($value['slideTypeId']);
-                    $fieldData = unserialize($slideType->get('data'));
-
-                    foreach ((array) $value as $subKey => $subValue) {
-                        if (
-                            array_key_exists($subKey, $fieldData) &&
-                            $fieldData[$subKey]['xtype'] === 'modx-combo-browser' &&
-                            stripos($subKey, 'extern') === false
-                        ) {
-                            $slides[$key][$subKey] = $mediaSourceUrl . $subValue;
+                    if ($slideType = $this->getSlideType($value['slideTypeId'])) {
+                        $fieldData = unserialize($slideType->get('data'));
+    
+                        foreach ((array) $value as $subKey => $subValue) {
+                            if (
+                                array_key_exists($subKey, $fieldData) &&
+                                $fieldData[$subKey]['xtype'] === 'modx-combo-browser' &&
+                                stripos($subKey, 'extern') === false
+                            ) {
+                                $slides[$key][$subKey] = $mediaSourceUrl . $subValue;
+                            }
                         }
                     }
                 }
