@@ -436,7 +436,9 @@ class DigitalSignage
                                 $fieldData[$subKey]['xtype'] === 'modx-combo-browser' &&
                                 stripos($subKey, 'extern') === false
                             ) {
-                                $slides[$key][$subKey] = $mediaSourceUrl . $subValue;
+                                if($subValue){
+                                    $slides[$key][$subKey] = $mediaSourceUrl . $subValue;
+                                }
                             }
                         }
                     }
