@@ -517,7 +517,7 @@ class DigitalSignage
     {
 
         $mediaSourceId = (int)$this->modx->getOption('digitalsignage.media_source');
-        $version = $this->modx->getVersionData()['version'];
+        $version = $this->modx->getVersionData()['full_version'];
 
         if (version_compare($version, '3.0.0', '>=')) {
             // MODX 3+
