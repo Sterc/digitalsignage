@@ -515,9 +515,21 @@ class DigitalSignage
      */
     protected function getMediaSourceUrl()
     {
-        $mediaSource = $this->modx->getObject('MODX\Revolution\Sources\modMediaSource', [
-            'id' => $this->modx->getOption('digitalsignage.media_source')
-        ]);
+
+        $mediaSourceId = (int)$this->modx->getOption('digitalsignage.media_source');
+        $version = $this->modx->getVersionData()['version'];
+
+        if (version_compare($version, '3.0.0', '>=')) {
+            // MODX 3+
+            $mediaSource = $this->modx->getObject(\MODX\Revolution\Sources\modMediaSource::class, [
+                'id' => $mediaSourceId
+            ]);
+        } else {
+            // MODX 2.x
+            $mediaSource = $this->modx->getObject('sources.modMediaSource', [
+                'id' => $mediaSourceId
+            ]);
+        }
 
         if ($mediaSource) {
             $mediaSource = $mediaSource->get('properties');
