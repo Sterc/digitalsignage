@@ -402,7 +402,8 @@ class DigitalSignage
                                     'slide'     => $slide->getOne('getSlideType')->get('key'),
                                     'source'    => 'intern',
                                     'title'     => $slide->get('name'),
-                                    'image'     => null
+                                    'image'     => null,
+                                    'slideTypeId' => $slide->get('type'),
                                 ], unserialize($slide->get('data')));
                             }
                         }
@@ -414,7 +415,8 @@ class DigitalSignage
                                 'slide'     => $slide->getOne('getSlideType')->get('key'),
                                 'source'    => 'intern',
                                 'title'     => $slide->get('name'),
-                                'image'     => null
+                                'image'     => null,
+                                'slideTypeId' => $slide->get('type'),
                             ], unserialize($slide->get('data')));
                         }
     
