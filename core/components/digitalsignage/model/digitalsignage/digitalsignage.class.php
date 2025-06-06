@@ -402,7 +402,8 @@ class DigitalSignage
                                     'slide'     => $slide->getOne('getSlideType')->get('key'),
                                     'source'    => 'intern',
                                     'title'     => $slide->get('name'),
-                                    'image'     => null
+                                    'image'     => null,
+                                    'slideTypeId' => $slide->get('type'),
                                 ], unserialize($slide->get('data')));
                             }
                         }
@@ -414,7 +415,8 @@ class DigitalSignage
                                 'slide'     => $slide->getOne('getSlideType')->get('key'),
                                 'source'    => 'intern',
                                 'title'     => $slide->get('name'),
-                                'image'     => null
+                                'image'     => null,
+                                'slideTypeId' => $slide->get('type'),
                             ], unserialize($slide->get('data')));
                         }
     
@@ -434,7 +436,9 @@ class DigitalSignage
                                 $fieldData[$subKey]['xtype'] === 'modx-combo-browser' &&
                                 stripos($subKey, 'extern') === false
                             ) {
-                                $slides[$key][$subKey] = $mediaSourceUrl . $subValue;
+                                if($subValue){
+                                    $slides[$key][$subKey] = $mediaSourceUrl . $subValue;
+                                }
                             }
                         }
                     }
@@ -515,9 +519,21 @@ class DigitalSignage
      */
     protected function getMediaSourceUrl()
     {
-        $mediaSource = $this->modx->getObject('MODX\Revolution\Sources\modMediaSource', [
-            'id' => $this->modx->getOption('digitalsignage.media_source')
-        ]);
+
+        $mediaSourceId = (int)$this->modx->getOption('digitalsignage.media_source');
+        $version = $this->modx->getVersionData()['full_version'];
+
+        if (version_compare($version, '3.0.0', '>=')) {
+            // MODX 3+
+            $mediaSource = $this->modx->getObject(\MODX\Revolution\Sources\modMediaSource::class, [
+                'id' => $mediaSourceId
+            ]);
+        } else {
+            // MODX 2.x
+            $mediaSource = $this->modx->getObject('sources.modMediaSource', [
+                'id' => $mediaSourceId
+            ]);
+        }
 
         if ($mediaSource) {
             $mediaSource = $mediaSource->get('properties');
