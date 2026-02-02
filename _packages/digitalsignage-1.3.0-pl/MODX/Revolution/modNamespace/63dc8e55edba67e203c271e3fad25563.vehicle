@@ -1,0 +1,35 @@
+<?php return array (
+  'unique_key' => 'name',
+  'preserve_keys' => true,
+  'update_object' => true,
+  'resolve' => 
+  array (
+    0 => 
+    array (
+      'type' => 'file',
+      'body' => '{"source":"digitalsignage-1.3.0-pl\\/MODX\\/Revolution\\/modNamespace\\/63dc8e55edba67e203c271e3fad25563\\/0\\/","target":"return MODX_CORE_PATH . \'components\\/\';","name":"digitalsignage"}',
+    ),
+    1 => 
+    array (
+      'type' => 'file',
+      'body' => '{"source":"digitalsignage-1.3.0-pl\\/MODX\\/Revolution\\/modNamespace\\/63dc8e55edba67e203c271e3fad25563\\/1\\/","target":"return MODX_ASSETS_PATH . \'components\\/\';","name":"digitalsignage"}',
+    ),
+    2 => 
+    array (
+      'type' => 'php',
+      'body' => '{"type":"php","source":"digitalsignage-1.3.0-pl\\/MODX\\/Revolution\\/modNamespace\\/63dc8e55edba67e203c271e3fad25563.gpm.resolve.bootstrap.resolver","name":"gpm.resolve.bootstrap"}',
+    ),
+    3 => 
+    array (
+      'type' => 'file',
+      'body' => '{"source":"digitalsignage-1.3.0-pl\\/MODX\\/Revolution\\/modNamespace\\/63dc8e55edba67e203c271e3fad25563\\/3\\/","target":"return MODX_CORE_PATH . \'components\\/digitalsignage\\/docs\\/\';","name":"README.md"}',
+    ),
+  ),
+  'vehicle_class' => 'xPDO\\Transport\\xPDOObjectVehicle',
+  'guid' => '0150674548efc522f19823fb3683a529',
+  'package' => '',
+  'class' => 'MODX\\Revolution\\modNamespace',
+  'signature' => '63dc8e55edba67e203c271e3fad25563',
+  'native_key' => 'digitalsignage',
+  'object' => '{"name":"digitalsignage","path":"{core_path}components\\/digitalsignage\\/","assets_path":"{assets_path}components\\/digitalsignage\\/"}',
+);

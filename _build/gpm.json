@@ -3,7 +3,7 @@
     "lowCaseName": "digitalsignage",
     "description": "The most powerful and easiest Digital Signage solution for MODX.",
     "author": "Sterc",
-    "version": "1.2.10-pl",
+    "version": "1.3.0-pl",
     "package":{
         "menus": [{
             "text": "digitalsignage",
@@ -30,7 +30,7 @@
                 ]
             }],
             "templates": [{
-                "name": "Digital Signage (1.2.0-pl original)",
+                "name": "Digital Signage (1.3.0-pl original)",
                 "file": "digitalsignage.template.tpl",
                 "icon": "icon-play-circle"
             }]
