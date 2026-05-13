@@ -1,0 +1,13 @@
+<?php return array (
+  'class' => 'xPDO\\Transport\\xPDOScriptVehicle',
+  'object' => 
+  array (
+    'type' => 'php',
+    'source' => 'digitalsignage-1.3.1-pl/xPDO/Transport/xPDOScriptVehicle/6278f5bdd6ec25c90d15438d7e65dfc8.gpm.script.reload_system_settings.script',
+  ),
+  'vehicle_class' => 'xPDO\\Transport\\xPDOScriptVehicle',
+  'guid' => '581ca493537b82d207f799b860e5d42b',
+  'package' => '',
+  'signature' => '6278f5bdd6ec25c90d15438d7e65dfc8',
+  'native_key' => '581ca493537b82d207f799b860e5d42b',
+);
