@@ -3,6 +3,14 @@ DigitalSignage
 ----------------------
 
 ----------------------
+Version: 2.0.0
+Released: 2026-10-23
+----------------------
+- Moved to MODX 3 only
+- Added an API
+- Fixed broken media URLs ('test' in the path)
+
+----------------------
 Version: 1.3.1
 Released: 2026-05-13
 ----------------------

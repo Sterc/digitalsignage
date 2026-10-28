@@ -1,7 +1,7 @@
 ----------------------
 DigitalSignage
 ----------------------
-Version: 1.2.0
+Version: 2.0.0
 Author: Sterc
 Contact: modx@sterc.nl
 ----------------------
