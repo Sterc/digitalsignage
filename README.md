@@ -1,6 +1,6 @@
 # MODX Digital Signage
 
-![Poi version](https://img.shields.io/badge/version-1.2.0-red.svg) ![MODX Extra by Sterc](https://img.shields.io/badge/checked%20by-Oetzie-blue.svg) ![MODX version requirements](https://img.shields.io/badge/modx%20version%20requirement-2.4%2B-brightgreen.svg)
+![Poi version](https://img.shields.io/badge/version-2.0.0-red.svg) ![MODX Extra by Sterc](https://img.shields.io/badge/checked%20by-Oetzie-blue.svg) ![MODX version requirements](https://img.shields.io/badge/modx%20version%20requirement-3.0%2B-brightgreen.svg)
 
 ## System settings
 
@@ -22,6 +22,20 @@
 |----------------------------|------------------------------------------------------------------------------|
 | `digitalsignage`             | De algemene Digital Signage permission, zonder deze permission kan de gebruker het component niet gebruiken. |
 | `digitalsignage_admin`       | De permission om bij de Digital Signage admin gedeelte te komen. In deze admin gedeelte kunnen de slide types ingesteld worden voor de slides. |
+
+## Development (GPM)
+
+The package is built with [Git Package Management](https://github.com/theboxer/Git-Package-Management) (3.x, MODX 3 only); the configuration lives in `_build/gpm.yml`.
+
+```sh
+gpm package:install digitalsignage   # first install
+gpm digitalsignage:update            # after changes
+gpm digitalsignage:build             # creates _packages/digitalsignage-<version>-pl.transport.zip
+```
+
+The database model is the legacy (non-namespaced) xPDO model in `core/components/digitalsignage/model/digitalsignage/`. Tables, the `ds` context, its resources, the slide types and the permissions are created by the scripts in `_build/scripts/` (`tables`, `tablevalues`, `permissions`), which run on install, update and in the transport package. They are idempotent: existing tables are altered, existing seed data is never overwritten.
+
+The front-end player files live in the `digitalsignage/` folder of this repository and have to be available as `/digitalsignage/` in the web root. A transport package copies the folder there on install (`build.files`); with a GPM development install copy or symlink it manually (`ln -s <package>/digitalsignage <webroot>/digitalsignage`).
 
 ## Installatie
 

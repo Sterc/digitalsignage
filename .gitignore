@@ -48,3 +48,9 @@ public_html/assets/components/discuss/attachments/
 private/core/config/config.environment.inc.php
 config.core.php
 
+
+# Add only ZIP transport packages
+_packages/*
+!_packages/*.transport.zip
+_build/gpm_resolvers/
+_build/gpm_scripts/

@@ -50,7 +50,7 @@ class DigitalSignage
             'css_url'                   => $assetsUrl . 'css/',
             'assets_url'                => $assetsUrl,
             'connector_url'             => $assetsUrl . 'connector.php',
-            'version'                   => '1.2.0',
+            'version'                   => '2.0.0',
             'branding_url'              => $this->modx->getOption('digitalsignage.branding_url', null, ''),
             'branding_help_url'         => $this->modx->getOption('digitalsignage.branding_url_help', null, ''),
             'permissions'               => [
@@ -438,14 +438,12 @@ class DigitalSignage
                             ) {
                                 $image = json_decode($subValue, true);
                                 
-                                if (!$image) {
-                                    $slides[$key][$subKey] = $mediaSourceUrl . 'test' . $subValue;
+                                if (!is_array($image)) {
+                                    $slides[$key][$subKey] = $this->getMediaUrl($mediaSourceUrl, $subValue);
+                                } else if (isset($image['sizes']['crop']['image'])) {
+                                    $slides[$key][$subKey] = $image['sizes']['crop']['image'];
                                 } else {
-                                    if (isset($image['sizes']['crop']['image'])) {
-                                        $slides[$key][$subKey] = $image['sizes']['crop']['image'];
-                                    } else {
-                                        $slides[$key][$subKey] = $mediaSourceUrl . str_replace('/uploads/', '', $image['image']);
-                                    }
+                                    $slides[$key][$subKey] = $this->getMediaUrl($mediaSourceUrl, $image['image'] ?? '');
                                 }
                             }
                         }
@@ -552,6 +550,29 @@ class DigitalSignage
         }
 
         return '/';
+    }
+
+    /**
+     * @access protected
+     * @param String $mediaSourceUrl.
+     * @param String $path.
+     * @return String.
+     */
+    protected function getMediaUrl($mediaSourceUrl, $path)
+    {
+        $path = trim((string) $path);
+
+        if ($path === '' || preg_match('#^(https?:)?//#i', $path)) {
+            return $path;
+        }
+
+        $path = ltrim($path, '/');
+
+        if (strpos($path, ltrim($mediaSourceUrl, '/')) === 0) {
+            return '/' . $path;
+        }
+
+        return $mediaSourceUrl . preg_replace('#^uploads/#', '', $path);
     }
 
     /**
